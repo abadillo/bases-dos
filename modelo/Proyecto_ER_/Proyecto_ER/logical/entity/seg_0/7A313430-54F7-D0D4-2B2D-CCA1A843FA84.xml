@@ -1,0 +1,68 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="7A313430-54F7-D0D4-2B2D-CCA1A843FA84" name="LICENCIA_MANEJO">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:27:17 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="numero" id="C72E91FA-47CE-FDAB-4AAB-AA055DA41DA1">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:27:29 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id" id="6CA62CCC-4102-D2AE-BF67-BB87B56DEC55">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:28:16 UTC</createdTime>
+<generatorID>EB1A08AB-F0A0-7F4A-BE6A-08206C19F523</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>61D6CE70-5FCD-73CF-4C33-BFE59C2184AF</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id1" id="7C525A04-BC52-411B-FA97-A77E02E6F721">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:28:36 UTC</createdTime>
+<generatorID>0274034A-CD29-7069-F854-E70946E559E6</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>E81D224E-C617-C1E9-B535-580E8DB338BE</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="027DACC7-5C07-71E2-6E48-ED70614B800B" name="LICENCIA_MANEJO PK">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:28:25 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>6CA62CCC-4102-D2AE-BF67-BB87B56DEC55</attributeRef>
+<attributeRef>7C525A04-BC52-411B-FA97-A77E02E6F721</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

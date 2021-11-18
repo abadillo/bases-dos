@@ -1,0 +1,131 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="647E7A9B-D795-C1D9-F1CE-662A9FDDEC18" name="CRUDO">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 22:32:20 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="A5402871-E83E-730A-B28B-F10AE8E18BB5">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 22:32:27 UTC</createdTime>
+<generatorID>9CD246B4-65B8-EAA8-44B4-295FB42586A3</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>E81D224E-C617-C1E9-B535-580E8DB338BE</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id1" id="6A249977-954B-441C-9E4C-A1CDD98F5900">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 22:32:34 UTC</createdTime>
+<generatorID>8169F248-313A-BC0C-EA9E-662EE0F9E66B</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>E81D224E-C617-C1E9-B535-580E8DB338BE</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id2" id="92DBC78E-97F2-A596-0E00-537F033CFD8C">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 22:32:49 UTC</createdTime>
+<generatorID>1539028B-26F0-AC43-51F6-0360C7BB64E4</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>E81D224E-C617-C1E9-B535-580E8DB338BE</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="nivel_confiabilidad" id="AE920C23-6050-FD94-2C2F-BB2BA582A3EC">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 22:34:19 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="fecha_obtencion" id="3CE569C7-EC01-4600-90AC-22BD9394C134">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 22:41:17 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="fecha_verificacion" id="96FDC23D-A363-A420-206A-411869D10028">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 22:42:00 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="fecha_pago" id="7DE77661-6C01-98EB-0E44-E385C457F1DE">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 22:43:12 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="monto_pago" id="A35EC2EB-DDFF-5773-BE6E-3962567F48A5">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 22:43:15 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="fuente" id="1F23CC0E-8670-B3CA-E9E1-8914C382C7CA">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 23:01:13 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="resumen" id="C08312E6-8014-A8D0-4138-E9A60F98D47A">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 23:01:23 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+</Entity>

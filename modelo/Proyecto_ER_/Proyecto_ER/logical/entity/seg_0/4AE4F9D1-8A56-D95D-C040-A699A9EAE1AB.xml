@@ -1,0 +1,95 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="4AE4F9D1-8A56-D95D-C040-A699A9EAE1AB" name="ALIAS">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 22:56:45 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="nombre" id="97B461D8-DD7C-BDA8-6A22-F72D20A25671">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 22:57:16 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="foto" id="EB142730-ABB3-8277-4086-A31C3E7B6334">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 22:57:16 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="documen_iden" id="C5F01D75-D97B-F05E-C3E6-C5144DFB9EAE">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 22:57:16 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="color_ojos" id="56400881-3F81-3610-894C-F5F3E95C8FDF">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 22:57:16 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ultima_fecha_uso" id="B8F53141-C46A-7FB7-437A-8D310EC4A22D">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 22:57:16 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id" id="C61F7983-C90F-D676-103F-26A38B4DC1A6">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 22:57:22 UTC</createdTime>
+<generatorID>5CFEBA8C-E1C7-CABB-085A-D1D16044BF65</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>E81D224E-C617-C1E9-B535-580E8DB338BE</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="930C14A8-2629-068F-8E06-2E8AF792160F" name="ALIAS PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 22:57:22 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>C61F7983-C90F-D676-103F-26A38B4DC1A6</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
