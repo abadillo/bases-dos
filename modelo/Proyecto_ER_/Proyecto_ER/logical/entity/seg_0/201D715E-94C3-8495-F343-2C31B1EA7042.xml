@@ -37,17 +37,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="alias" id="4BF820F0-0F76-3F56-B0E5-218E9D0CECA6">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-18 22:28:31 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<nullsAllowed>true</nullsAllowed>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="id1" id="F2549F20-A1FF-6986-757C-12FF798F8B9F">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-18 22:40:27 UTC</createdTime>

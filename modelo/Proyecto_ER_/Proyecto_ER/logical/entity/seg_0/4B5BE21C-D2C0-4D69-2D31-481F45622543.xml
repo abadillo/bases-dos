@@ -15,6 +15,17 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="fecha_venta" id="B7D07324-F226-E214-D291-3D3EE3F8C6D1">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 03:54:07 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 <Attribute name="id" id="3FB09EBD-E2DC-06D9-B0F5-AE71FDED9CBA">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-18 22:52:28 UTC</createdTime>
@@ -36,6 +47,28 @@
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <referedAttribute>F630845C-43C5-61F2-39FA-454D01CFB96E</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="precio_vendido" id="56014CE4-851E-4292-CB7A-9E78CC676DBA">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 03:53:51 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="exclusivo" id="3B6D93D9-940D-333C-6DA5-EF7F3877F56C">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 03:54:14 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>

@@ -26,5 +26,31 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
+<Attribute name="id1" id="34408DD2-7CD2-1AA4-3164-C3D878DB8C1F">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 03:40:34 UTC</createdTime>
+<generatorID>4F91AB83-BC2B-094D-15C2-9FD303148DB2</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>C8DECDFF-9892-EFD8-7E53-E790C21BEDFC</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 </attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="187AB4B9-79EB-A1A4-D1AA-AE2CB1E16328" name="INFORMACION PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 03:40:34 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>34408DD2-7CD2-1AA4-3164-C3D878DB8C1F</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
 </Entity>

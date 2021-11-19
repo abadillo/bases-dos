@@ -15,6 +15,16 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="documento_identidad" id="C5F01D75-D97B-F05E-C3E6-C5144DFB9EAE">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 22:57:16 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 <Attribute name="nombre" id="97B461D8-DD7C-BDA8-6A22-F72D20A25671">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-18 22:57:16 UTC</createdTime>
@@ -26,16 +36,6 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 <Attribute name="foto" id="EB142730-ABB3-8277-4086-A31C3E7B6334">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-18 22:57:16 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="documen_iden" id="C5F01D75-D97B-F05E-C3E6-C5144DFB9EAE">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-18 22:57:16 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>

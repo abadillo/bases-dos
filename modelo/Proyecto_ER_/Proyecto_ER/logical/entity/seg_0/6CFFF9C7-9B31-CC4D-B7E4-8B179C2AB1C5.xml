@@ -36,7 +36,7 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="principal" id="4E0A2049-3863-5B09-9E84-1D3E97629732">
+<Attribute name="central" id="4E0A2049-3863-5B09-9E84-1D3E97629732">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-18 23:06:50 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>

@@ -16,10 +16,10 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="id" id="EE7C7EF7-CB8B-FCF8-A6FB-922C77A45F36">
-<createdBy>Gabriel</createdBy>
-<createdTime>2021-11-14 18:35:03 UTC</createdTime>
-<generatorID>EA1C1A1B-0657-DF8C-FB01-E9720A8EFF0E</generatorID>
+<Attribute name="id" id="0D4419D3-9978-86C7-4A19-767877E7A9F5">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 03:13:14 UTC</createdTime>
+<generatorID>60E91A12-2794-D17F-73D5-80BC5F4106C4</generatorID>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>

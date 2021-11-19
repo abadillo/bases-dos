@@ -15,27 +15,13 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="id" id="A5402871-E83E-730A-B28B-F10AE8E18BB5">
+<Attribute name="id" id="C8DECDFF-9892-EFD8-7E53-E790C21BEDFC">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-18 22:32:27 UTC</createdTime>
-<generatorID>9CD246B4-65B8-EAA8-44B4-295FB42586A3</generatorID>
+<createdTime>2021-11-19 03:40:29 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<referedAttribute>E81D224E-C617-C1E9-B535-580E8DB338BE</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="id1" id="6A249977-954B-441C-9E4C-A1CDD98F5900">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-18 22:32:34 UTC</createdTime>
-<generatorID>8169F248-313A-BC0C-EA9E-662EE0F9E66B</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>E81D224E-C617-C1E9-B535-580E8DB338BE</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
@@ -128,4 +114,18 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="F031AD65-7E53-D695-7E08-8E67EAB8B890" name="CRUDO PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 03:40:34 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>C8DECDFF-9892-EFD8-7E53-E790C21BEDFC</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
 </Entity>
