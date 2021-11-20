@@ -35,18 +35,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id_2" id="0243C0B2-DF29-4220-46C8-7661DF78F99F">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-18 23:10:59 UTC</createdTime>
-<generatorID>001EC059-ACA3-11B5-7D7E-C13D03280039</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>61D6CE70-5FCD-73CF-4C33-BFE59C2184AF</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="gastos_totales" id="9211855C-A73A-8BE1-794F-34A0BBA4F5A6">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-19 21:55:52 UTC</createdTime>
@@ -70,6 +58,16 @@
 <Attribute name="balance" id="5DD7B4C7-7CF3-25D5-3CFE-418C9164E093">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-19 22:29:48 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="direccion ( -&gt; lugar_ty )" id="6004C653-FCB6-615B-A53A-2BF7D7636D12">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-20 20:52:17 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>

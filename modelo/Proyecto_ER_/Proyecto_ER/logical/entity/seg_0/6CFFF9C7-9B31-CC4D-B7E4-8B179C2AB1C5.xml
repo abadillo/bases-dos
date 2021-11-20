@@ -35,15 +35,13 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id1" id="56DD6C04-90FC-E463-367B-3B75BAF64602">
+<Attribute name="direccion ( -&gt; lugar_ty )" id="AF57C94E-434C-926E-12C1-E2221533F93D">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-18 23:09:48 UTC</createdTime>
-<generatorID>C36B59E3-7720-BE9D-5065-73EA5D29CAB2</generatorID>
+<createdTime>2021-11-20 20:52:28 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<referedAttribute>61D6CE70-5FCD-73CF-4C33-BFE59C2184AF</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>

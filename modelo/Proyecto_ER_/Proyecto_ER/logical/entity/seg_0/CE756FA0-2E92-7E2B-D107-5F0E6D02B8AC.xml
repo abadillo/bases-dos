@@ -25,9 +25,9 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="primer_nombre" id="5D625637-C630-061F-0846-FA88C5D879B4">
-<createdBy>Gabriel</createdBy>
-<createdTime>2021-11-14 18:04:47 UTC</createdTime>
+<Attribute name="clasificacion" id="B6889995-5D09-2DB6-62F5-CAF8A9158EDB">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 03:12:24 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -35,20 +35,9 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="segundo_nombre" id="E84059C2-A02E-A804-6226-277AEF7E242D">
-<createdBy>Gabriel</createdBy>
-<createdTime>2021-11-14 18:04:57 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<nullsAllowed>true</nullsAllowed>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="primer_apellido" id="818CC978-FE1D-9D3D-8FC9-36FB658DA798">
-<createdBy>Gabriel</createdBy>
-<createdTime>2021-11-14 18:05:02 UTC</createdTime>
+<Attribute name="nombre (-&gt; nombre_ty)" id="0B2362C7-2954-2661-87D1-92BA13043EA4">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-20 20:28:40 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -56,19 +45,9 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="segundo_apellido" id="49F30EB0-824E-5350-E839-509028EFDA8B">
+<Attribute name="telefono ( --&gt;telefono_ty )" id="1F4F451B-4F9D-6B1E-0450-A88F426780A8">
 <createdBy>Gabriel</createdBy>
-<createdTime>2021-11-14 18:05:07 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="fecha_nacimiento" id="A7057E16-2982-D1CB-C75B-0678B62CAF9E">
-<createdBy>Gabriel</createdBy>
-<createdTime>2021-11-14 18:05:21 UTC</createdTime>
+<createdTime>2021-11-14 18:08:08 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -146,50 +125,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="telefono ( --&gt; type )" id="1F4F451B-4F9D-6B1E-0450-A88F426780A8">
-<createdBy>Gabriel</createdBy>
-<createdTime>2021-11-14 18:08:08 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="id1" id="081D615B-F915-0A88-573D-A085F0A80FB1">
-<createdBy>Gabriel</createdBy>
-<createdTime>2021-11-14 18:15:33 UTC</createdTime>
-<generatorID>270B6C96-0435-309C-ABE1-F3CDCA72634A</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>61D6CE70-5FCD-73CF-4C33-BFE59C2184AF</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="id2" id="5F6D33F2-994B-E2B1-C28A-FADB9AD90435">
-<createdBy>Gabriel</createdBy>
-<createdTime>2021-11-14 18:31:55 UTC</createdTime>
-<generatorID>B6BB4D33-3E0A-AF09-301B-3761C5D3A3BD</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>61D6CE70-5FCD-73CF-4C33-BFE59C2184AF</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="idiomas ( -&gt; varray )" id="C3EC77BE-7AB1-CDF9-4DDE-72C5E44B0198">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-18 21:45:40 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="nivel_educativo" id="261CE9F2-C570-63B1-B0E7-2AFD8107CE74">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-18 22:25:01 UTC</createdTime>
@@ -200,9 +135,29 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="clasificacion" id="B6889995-5D09-2DB6-62F5-CAF8A9158EDB">
+<Attribute name="idiomas ( -&gt; idiomas_va )" id="C3EC77BE-7AB1-CDF9-4DDE-72C5E44B0198">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 03:12:24 UTC</createdTime>
+<createdTime>2021-11-18 21:45:40 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="familiares ( --&gt; familiar_va )" id="C49B31C6-F782-C50F-6FCD-8190EDC8539D">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-20 20:21:59 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="aliases ( --&gt; alias_nt )" id="AA5F2FAF-7760-FCAF-3997-1E048CBAF453">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-20 20:27:10 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -231,6 +186,37 @@
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <referedAttribute>360F977A-3B0A-BF27-B519-25E1ACE25AC5</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="direccion ( -&gt; lugar_ty )" id="A78377C9-C761-8A6B-0A50-FB0F61F750DE">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-20 20:47:41 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="lugar_nacimiento ( -&gt; lugar_ty )" id="A43CC782-C17B-9933-F09C-CC48E641A4BF">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-20 20:47:53 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="licencia_manejo ( -&gt; licencia_ty )" id="65ECCBB9-2446-BD94-4511-2FEBDAA5F2E5">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-20 20:54:14 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>

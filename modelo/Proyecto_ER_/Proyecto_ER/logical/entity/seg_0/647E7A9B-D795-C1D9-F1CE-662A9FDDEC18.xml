@@ -47,6 +47,37 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
+<Attribute name="resumen" id="C08312E6-8014-A8D0-4138-E9A60F98D47A">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 23:01:23 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="fuente" id="1F23CC0E-8670-B3CA-E9E1-8914C382C7CA">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 23:01:13 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="valor_apreciacion" id="81691B38-0078-3260-FB11-423869001978">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 22:20:33 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 <Attribute name="nivel_confiabilidad" id="AE920C23-6050-FD94-2C2F-BB2BA582A3EC">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-18 22:34:19 UTC</createdTime>
@@ -78,29 +109,9 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="fuente" id="1F23CC0E-8670-B3CA-E9E1-8914C382C7CA">
+<Attribute name="fecha_verificacion_final" id="2BB271F5-AA3D-82F3-1481-AE46BF75A7D2">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-18 23:01:13 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="resumen" id="C08312E6-8014-A8D0-4138-E9A60F98D47A">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-18 23:01:23 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="valor_apreciacion" id="81691B38-0078-3260-FB11-423869001978">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:20:33 UTC</createdTime>
+<createdTime>2021-11-19 23:19:38 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -118,17 +129,6 @@
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <referedAttribute>9FAF4655-6FEE-577E-D3C4-04AC6DA86F99</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="fecha_verificacion_final" id="2BB271F5-AA3D-82F3-1481-AE46BF75A7D2">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-19 23:19:38 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<nullsAllowed>true</nullsAllowed>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>

@@ -46,30 +46,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id1" id="28DE8FF4-36B3-467B-23D6-FF44769073EB">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:52:07 UTC</createdTime>
-<generatorID>C6E3D8FC-FCE1-32ED-345D-DFA6A44CEE38</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>C8DECDFF-9892-EFD8-7E53-E790C21BEDFC</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="id2" id="80AC8DE2-1C27-7477-4A0A-6E894F82369B">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:52:10 UTC</createdTime>
-<generatorID>5C192193-EB44-C6A7-7024-390A3A378DEF</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>E81D224E-C617-C1E9-B535-580E8DB338BE</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
 <identifier id="A6C89782-EDD3-1810-6BB8-F8EE882C8F14" name="LOG_INFORMANTE_AGENTE PK">
@@ -81,8 +57,6 @@
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>28DE8FF4-36B3-467B-23D6-FF44769073EB</attributeRef>
-<attributeRef>80AC8DE2-1C27-7477-4A0A-6E894F82369B</attributeRef>
 <attributeRef>ED35D3E2-AE95-7413-03FF-F5B38730501F</attributeRef>
 </usedAttributes>
 </identifier>

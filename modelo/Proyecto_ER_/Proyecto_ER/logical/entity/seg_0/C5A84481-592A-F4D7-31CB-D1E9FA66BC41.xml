@@ -55,21 +55,29 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id1" id="AD9A26BE-8BA9-7DBD-022E-556A9585C637">
+<Attribute name="telefono ( --&gt; telefono_va )" id="11060722-3D30-5A90-FF64-BE918BBCAF04">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-18 23:03:32 UTC</createdTime>
-<generatorID>BBC71EDF-E806-9BA0-9D5A-1EA6D6833E66</generatorID>
+<createdTime>2021-11-20 02:40:33 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<referedAttribute>61D6CE70-5FCD-73CF-4C33-BFE59C2184AF</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="telefono ( --&gt; varray )" id="11060722-3D30-5A90-FF64-BE918BBCAF04">
+<Attribute name="contacto ( --&gt; contacto_va )" id="85945792-5AA2-F695-7047-F3C6AA1CA152">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-20 02:40:33 UTC</createdTime>
+<createdTime>2021-11-20 20:33:53 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="pais_registro ( -&gt; lugar_ty )" id="EB2890C4-6397-F466-2603-B1DE70FE1934">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-20 20:46:42 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
