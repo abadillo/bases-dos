@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="E24D6373-955B-74D7-EF1B-D6967F34B4E3" name="dependencia">
-<createdBy>Gabriel</createdBy>
-<createdTime>2021-11-14 17:51:27 UTC</createdTime>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="5144FD7C-AFEE-B864-BDFB-137B477C7FA5" name="TOPICO">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 22:45:48 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -15,43 +15,39 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="id" id="E9D5D4C1-2D19-A054-7ADE-9B86467F7BF9">
+<Attribute name="id" id="9FAF4655-6FEE-577E-D3C4-04AC6DA86F99">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-18 23:08:44 UTC</createdTime>
-<generatorID>B44E3F91-E876-E5DD-89AE-709B6E572C1B</generatorID>
+<createdTime>2021-11-19 22:45:56 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<referedAttribute>4DCDBC70-FB0C-A63A-6501-B39F80161D48</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id1" id="DEAC63AF-E9EE-B2F3-688D-CE4E5186F3E3">
+<Attribute name="nombre" id="4D15CBB9-3F1E-6D66-B5CF-F21774130CBF">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 21:55:06 UTC</createdTime>
-<generatorID>A3623D26-402A-A1F7-68CD-DB0C4CE6E7D7</generatorID>
+<createdTime>2021-11-19 22:45:59 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<referedAttribute>047FBDD0-697C-5B0B-0DD3-D6029B0F7812</referedAttribute>
+<nullsAllowed>true</nullsAllowed>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
-<identifier id="0ADD05FE-A95B-B063-AE2F-0A0E78762C55" name="relacion PK">
+<identifier id="31B0E8E2-F8DA-BF90-E893-C80AC49E5C3A" name="TOPICO PK">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-18 23:08:44 UTC</createdTime>
+<createdTime>2021-11-19 22:45:58 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>E9D5D4C1-2D19-A054-7ADE-9B86467F7BF9</attributeRef>
-<attributeRef>DEAC63AF-E9EE-B2F3-688D-CE4E5186F3E3</attributeRef>
+<attributeRef>9FAF4655-6FEE-577E-D3C4-04AC6DA86F99</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>

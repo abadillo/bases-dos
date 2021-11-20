@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="9FF9AF8E-F6E7-4773-E974-022B09DF5F0B" name="JEFE">
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="FA211E4E-87E4-0737-3D80-58BA95E5B2C8" name="CUENTA MADRE">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-18 23:08:18 UTC</createdTime>
+<createdTime>2021-11-19 22:29:05 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -15,15 +15,13 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="id" id="E8AD28CC-DE79-CA8D-0101-1E4D2E67F267">
+<Attribute name="balance" id="8F4445AC-5174-4581-7211-91D319D885D4">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 21:55:06 UTC</createdTime>
-<generatorID>8409984C-C618-757A-D0F1-202E5270723A</generatorID>
+<createdTime>2021-11-19 22:29:36 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<referedAttribute>047FBDD0-697C-5B0B-0DD3-D6029B0F7812</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>

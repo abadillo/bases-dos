@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="6E5FD704-24EF-6027-7B61-72A13CF84770" name="Entity_30">
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="DDD06B9C-7704-DADF-C414-4BBD49EB5D8D" name="LOG_ACCESO">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-18 22:59:16 UTC</createdTime>
+<createdTime>2021-11-19 23:43:37 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -15,10 +15,30 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="id" id="E2DE4605-8B49-ED52-5177-7CDC134A9DFE">
+<Attribute name="fecha" id="68F78646-C98D-14CA-07B4-7DE5503EAC2F">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-18 22:59:53 UTC</createdTime>
-<generatorID>B91C3CF9-0211-EEBB-ECB2-C19F909E5B76</generatorID>
+<createdTime>2021-11-19 23:43:57 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="autorizado" id="2D8B1123-C164-C458-5B8C-83F754D0A37D">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 23:44:01 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id" id="4764E4A5-43BD-4733-A5FA-9985BD70A9F0">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 23:44:35 UTC</createdTime>
+<generatorID>1D9BF69F-0608-85EA-4765-6E1F1D24281A</generatorID>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -27,44 +47,32 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id1" id="C4CCCA72-C46E-FDB7-5856-62BEC86DA24B">
+<Attribute name="id1" id="6E0DE3FA-7C38-113B-E13E-22498E3C7BDF">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-18 22:59:58 UTC</createdTime>
-<generatorID>268382CD-2474-C2B1-F1BD-7FDD12D123B8</generatorID>
+<createdTime>2021-11-19 23:44:47 UTC</createdTime>
+<generatorID>0D7BA392-53B9-F263-2D84-87111DECFEF8</generatorID>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<referedAttribute>3F6F8BEE-71AF-4CE1-F6AE-FFF2168C4E2B</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="id11" id="362C8905-99DC-0D0B-7A91-D822391A2887">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:48:51 UTC</createdTime>
-<generatorID>268382CD-2474-C2B1-F1BD-7FDD12D123B8</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>3B99EDD6-226F-669A-CA67-3421E3A59CDF</referedAttribute>
+<referedAttribute>F630845C-43C5-61F2-39FA-454D01CFB96E</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
-<identifier id="03C3B398-3278-A029-03C3-565B2AAFE6D5" name="Entity_30 PK">
+<identifier id="0532BEBB-533A-962A-83CA-4D99B16233EE" name="LOG_ACCESO PK">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-18 22:59:53 UTC</createdTime>
+<createdTime>2021-11-19 23:44:24 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>E2DE4605-8B49-ED52-5177-7CDC134A9DFE</attributeRef>
-<attributeRef>C4CCCA72-C46E-FDB7-5856-62BEC86DA24B</attributeRef>
-<attributeRef>362C8905-99DC-0D0B-7A91-D822391A2887</attributeRef>
+<attributeRef>68F78646-C98D-14CA-07B4-7DE5503EAC2F</attributeRef>
+<attributeRef>4764E4A5-43BD-4733-A5FA-9985BD70A9F0</attributeRef>
+<attributeRef>6E0DE3FA-7C38-113B-E13E-22498E3C7BDF</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>

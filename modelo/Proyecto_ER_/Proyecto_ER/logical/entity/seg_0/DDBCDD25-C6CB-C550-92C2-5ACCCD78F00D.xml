@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="1BEACDA9-03FB-1853-AC67-292B0081AFCE" name="INFORMACION">
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="DDBCDD25-C6CB-C550-92C2-5ACCCD78F00D" name="APORTE">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-18 23:02:22 UTC</createdTime>
+<createdTime>2021-11-19 22:29:19 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -15,41 +15,51 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="id" id="95DFD918-3A80-B0B6-56D8-2EF7BB823625">
+<Attribute name="fecha" id="52A8FEE4-9438-3418-AFB5-C52AF213AFE8">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-18 23:02:30 UTC</createdTime>
+<createdTime>2021-11-19 22:31:42 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<nullsAllowed>true</nullsAllowed>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id1" id="34408DD2-7CD2-1AA4-3164-C3D878DB8C1F">
+<Attribute name="id" id="A1F8ACE1-4A21-231B-5FBC-A720C5F7D090">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 03:40:34 UTC</createdTime>
-<generatorID>4F91AB83-BC2B-094D-15C2-9FD303148DB2</generatorID>
+<createdTime>2021-11-19 22:29:28 UTC</createdTime>
+<generatorID>49AB1F60-0C0A-4C66-37E2-EF1F8A1190CA</generatorID>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<referedAttribute>C8DECDFF-9892-EFD8-7E53-E790C21BEDFC</referedAttribute>
+<referedAttribute>047FBDD0-697C-5B0B-0DD3-D6029B0F7812</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="monto" id="2A1FFE28-23A3-FC8D-CB23-440B68100C03">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 22:29:33 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
-<identifier id="187AB4B9-79EB-A1A4-D1AA-AE2CB1E16328" name="INFORMACION PK">
+<identifier id="79F12E32-67FE-3BB9-FD87-EFCDC7F86395" name="APORTE PK">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 03:40:34 UTC</createdTime>
+<createdTime>2021-11-19 22:29:28 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>34408DD2-7CD2-1AA4-3164-C3D878DB8C1F</attributeRef>
+<attributeRef>A1F8ACE1-4A21-231B-5FBC-A720C5F7D090</attributeRef>
+<attributeRef>52A8FEE4-9438-3418-AFB5-C52AF213AFE8</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>

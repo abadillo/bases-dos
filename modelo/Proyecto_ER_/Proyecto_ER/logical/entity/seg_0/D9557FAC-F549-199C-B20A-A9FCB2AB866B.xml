@@ -25,18 +25,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="nombre" id="D0D11346-0FC7-4075-1992-DF4CB1A904C7">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-18 22:53:25 UTC</createdTime>
-<generatorID>1E6A760D-3DD1-D2F7-3F85-1E0FCC1697B3</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>5354D76C-AA24-31A5-C217-AC3A52860AFE</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="fecha_creacion" id="4DF4A2DF-EB70-9652-B2B2-5BDB98E797DB">
 <createdBy>Gabriel</createdBy>
 <createdTime>2021-11-14 18:42:31 UTC</createdTime>
@@ -58,31 +46,19 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
+<Attribute name="precio_exacto" id="E5FAE243-38AE-4B0C-00F2-1F5364CBF5C3">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 23:13:54 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 <Attribute name="precio_final" id="30128C05-837E-D3C8-17F7-45E5C5675998">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-18 22:38:07 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<nullsAllowed>true</nullsAllowed>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="precio_vendido" id="36A6EA22-31AC-E0BE-4041-BE8B3A4966AF">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-18 22:39:01 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<nullsAllowed>true</nullsAllowed>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="fecha_venta" id="C3C7BF71-0DFD-87A8-2E9F-9353C63CBFF0">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-18 22:43:25 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -99,6 +75,40 @@
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="informacion" id="8223D30D-1092-C164-36DA-EDEEDB7C44CA">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 23:32:26 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id1" id="C819BD4B-D1FC-3D3F-4614-981146AF0E97">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 23:48:49 UTC</createdTime>
+<generatorID>A62A097E-705A-339E-D2A6-5C2B8624FAB9</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>047FBDD0-697C-5B0B-0DD3-D6029B0F7812</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id2" id="D370DBEE-D636-3A73-3DBA-6F2C283785FC">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-20 00:00:09 UTC</createdTime>
+<generatorID>1E6A760D-3DD1-D2F7-3F85-1E0FCC1697B3</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>360F977A-3B0A-BF27-B519-25E1ACE25AC5</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>

@@ -8,24 +8,22 @@ En la sede central:
     Recursos Humanos
     Finanzas
 
-    Agente de Campo -> monitoreado por: Asuntos Internos
-    Analista -> monitoreado por: Asuntos Internos
-    Personal Administrativo -> monitoreado por: Asuntos Internos
-
 
 En las sedes secundarias ( Oficina ) :
 
     Director Supervisor ( Ejecutivo? )
 
 
+
 En las estaciones:
 
     Jefe ( reporta al Director Supervisor )
 
-    Agente de campo (intercambia rol con Analista)
-    Analista (intercambia rol con Agente de campo)
+    Agente de campo (intercambia rol con Analista) -> monitoreado por: Asuntos Internos
+    Analista (intercambia rol con Agente de campo) -> monitoreado por: Asuntos Internos
     Informante (NO EMPLEADO)
 
+    Personal Administrativo -> monitoreado por: Asuntos Internos
 
 
 
@@ -37,3 +35,18 @@ América del Norte (Washington)
 América del Sur (Buenos Aires)
 África (El Cairo)
 Oceanía (Sydney)
+
+
+REQUERIMIENTOS FUNCIONALES
+
+
+( funcion global ) - recolectar información y venderla a quién esté interesado en pagar
+
+
+Agente de campo: recolectar informacion
+Analista: revisar y clasificar documentos
+Informante (NO EMPLEADO)
+
+
+
+
