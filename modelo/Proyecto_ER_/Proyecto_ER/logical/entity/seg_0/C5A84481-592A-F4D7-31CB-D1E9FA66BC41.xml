@@ -85,6 +85,16 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
+<Attribute name="temas ( --&gt; tema_va )" id="648B8816-BE98-867F-2DDB-2B199936A59E">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-20 22:26:56 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
 <identifier id="B7B18A60-B022-01E1-8FF9-6B4517B2406B" name="CLIENTE PK">

@@ -177,18 +177,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id4" id="5B002550-B84F-8C84-82FE-2F049EBEE179">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-20 00:00:09 UTC</createdTime>
-<generatorID>E9FA3DD8-21B5-D3D6-F7F9-22A5D129CAB1</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>360F977A-3B0A-BF27-B519-25E1ACE25AC5</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="direccion ( -&gt; lugar_ty )" id="A78377C9-C761-8A6B-0A50-FB0F61F750DE">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-20 20:47:41 UTC</createdTime>
@@ -217,6 +205,16 @@
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="class ( -&gt; class_seguridad_ty )" id="90679555-FCCD-7008-B07D-54CEB7974F02">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-20 22:31:34 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>

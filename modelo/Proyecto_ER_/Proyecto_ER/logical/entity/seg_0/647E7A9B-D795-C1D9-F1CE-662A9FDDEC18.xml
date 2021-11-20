@@ -120,18 +120,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id1" id="477C7343-88F4-DB66-A3B9-B34B087007A3">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:46:05 UTC</createdTime>
-<generatorID>EEC22484-48EF-61CE-80F1-06EE12197967</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>9FAF4655-6FEE-577E-D3C4-04AC6DA86F99</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="id3" id="11C471CA-CA64-6AF0-2FA4-D29808986B36">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-19 23:48:35 UTC</createdTime>
@@ -141,6 +129,16 @@
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <referedAttribute>047FBDD0-697C-5B0B-0DD3-D6029B0F7812</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="tema ( -&gt; tema_ty )" id="CDC672C1-3C30-2F83-7F56-D91689B78419">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-20 22:13:28 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>

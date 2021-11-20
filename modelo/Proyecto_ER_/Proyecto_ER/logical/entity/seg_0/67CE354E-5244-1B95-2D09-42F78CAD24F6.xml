@@ -35,18 +35,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id1" id="3B99EDD6-226F-669A-CA67-3421E3A59CDF">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:48:51 UTC</createdTime>
-<generatorID>056B38F9-BD43-558A-FF77-DA28A628DCBF</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>9FAF4655-6FEE-577E-D3C4-04AC6DA86F99</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
 <identifier id="CBA4925D-12B1-52C2-A0D0-BAF794E0C442" name="TEMA PK">
@@ -59,7 +47,6 @@
 <pk>true</pk>
 <usedAttributes>
 <attributeRef>3F6F8BEE-71AF-4CE1-F6AE-FFF2168C4E2B</attributeRef>
-<attributeRef>3B99EDD6-226F-669A-CA67-3421E3A59CDF</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>
