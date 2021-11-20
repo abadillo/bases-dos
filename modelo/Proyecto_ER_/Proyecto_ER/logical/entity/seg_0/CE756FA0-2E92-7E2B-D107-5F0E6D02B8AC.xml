@@ -146,7 +146,7 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="telefono" id="1F4F451B-4F9D-6B1E-0450-A88F426780A8">
+<Attribute name="telefono ( --&gt; type )" id="1F4F451B-4F9D-6B1E-0450-A88F426780A8">
 <createdBy>Gabriel</createdBy>
 <createdTime>2021-11-14 18:08:08 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>

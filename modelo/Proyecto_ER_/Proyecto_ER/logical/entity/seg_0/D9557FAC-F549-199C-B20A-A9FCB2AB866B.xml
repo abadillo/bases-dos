@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="D9557FAC-F549-199C-B20A-A9FCB2AB866B" name="INFORMACION_INTELIGENCIA (PIEZA)">
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="D9557FAC-F549-199C-B20A-A9FCB2AB866B" name="PIEZA_INTELIGENCIA">
 <createdBy>Gabriel</createdBy>
 <createdTime>2021-11-14 18:40:04 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
@@ -25,6 +25,16 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
+<Attribute name="informacion" id="8223D30D-1092-C164-36DA-EDEEDB7C44CA">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 23:32:26 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 <Attribute name="fecha_creacion" id="4DF4A2DF-EB70-9652-B2B2-5BDB98E797DB">
 <createdBy>Gabriel</createdBy>
 <createdTime>2021-11-14 18:42:31 UTC</createdTime>
@@ -42,21 +52,10 @@
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<nullsAllowed>true</nullsAllowed>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="precio_exacto" id="E5FAE243-38AE-4B0C-00F2-1F5364CBF5C3">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-19 23:13:54 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="precio_final" id="30128C05-837E-D3C8-17F7-45E5C5675998">
+<Attribute name="precio_final ( base? )" id="30128C05-837E-D3C8-17F7-45E5C5675998">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-18 22:38:07 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
@@ -64,27 +63,6 @@
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="exclusivo" id="DB59B9B1-9A55-AF74-0AD8-A725C705A923">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-18 22:51:15 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<nullsAllowed>true</nullsAllowed>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="informacion" id="8223D30D-1092-C164-36DA-EDEEDB7C44CA">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-19 23:32:26 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>

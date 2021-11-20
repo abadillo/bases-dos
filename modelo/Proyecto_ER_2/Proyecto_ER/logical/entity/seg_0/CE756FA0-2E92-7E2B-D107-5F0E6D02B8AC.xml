@@ -1,0 +1,252 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="CE756FA0-2E92-7E2B-D107-5F0E6D02B8AC" name="PERSONAL">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:03:51 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="E81D224E-C617-C1E9-B535-580E8DB338BE">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:04:41 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="primer_nombre" id="5D625637-C630-061F-0846-FA88C5D879B4">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:04:47 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="segundo_nombre" id="E84059C2-A02E-A804-6226-277AEF7E242D">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:04:57 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="primer_apellido" id="818CC978-FE1D-9D3D-8FC9-36FB658DA798">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:05:02 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="segundo_apellido" id="49F30EB0-824E-5350-E839-509028EFDA8B">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:05:07 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="fecha_nacimiento" id="A7057E16-2982-D1CB-C75B-0678B62CAF9E">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:05:21 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="identificacion_pais" id="985BB5AE-5BF9-6010-9987-A444EA699D94">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:05:28 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="fotografia" id="9B9E9BAF-AA44-D751-86CD-D21AD804ECCE">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:06:42 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="huella_retina" id="28004F34-8530-67B3-A805-79D80E6DAE2E">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:07:22 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="altura" id="E3B2AFA8-DFF1-62CF-B0C6-4A070E0C9B3A">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:07:41 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="peso" id="642E1CBC-B114-C23D-2602-E6AF551D0237">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:07:48 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="color_ojos" id="584569BD-1AA5-3F29-E72D-55C0CD819690">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:07:54 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="vision" id="8A6F765B-BBB5-3182-1606-BD5361632A7B">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:08:00 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="telefono" id="1F4F451B-4F9D-6B1E-0450-A88F426780A8">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:08:08 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id1" id="081D615B-F915-0A88-573D-A085F0A80FB1">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:15:33 UTC</createdTime>
+<generatorID>270B6C96-0435-309C-ABE1-F3CDCA72634A</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>61D6CE70-5FCD-73CF-4C33-BFE59C2184AF</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id2" id="5F6D33F2-994B-E2B1-C28A-FADB9AD90435">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:31:55 UTC</createdTime>
+<generatorID>B6BB4D33-3E0A-AF09-301B-3761C5D3A3BD</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>61D6CE70-5FCD-73CF-4C33-BFE59C2184AF</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="idiomas ( -&gt; varray )" id="C3EC77BE-7AB1-CDF9-4DDE-72C5E44B0198">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 21:45:40 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="nivel_educativo" id="261CE9F2-C570-63B1-B0E7-2AFD8107CE74">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 22:25:01 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="clasificacion" id="B6889995-5D09-2DB6-62F5-CAF8A9158EDB">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 03:12:24 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id3" id="88AAD154-058A-354C-9B18-7016906066A8">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 21:55:06 UTC</createdTime>
+<generatorID>981D1310-9412-ACEF-68A0-EC7B44F1CB9F</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>047FBDD0-697C-5B0B-0DD3-D6029B0F7812</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id4" id="5B002550-B84F-8C84-82FE-2F049EBEE179">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-20 00:00:09 UTC</createdTime>
+<generatorID>E9FA3DD8-21B5-D3D6-F7F9-22A5D129CAB1</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>360F977A-3B0A-BF27-B519-25E1ACE25AC5</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="DF0AABA5-7F43-722D-CB1D-90848B67F08B" name="PERSONAL PK">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:04:45 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>E81D224E-C617-C1E9-B535-580E8DB338BE</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

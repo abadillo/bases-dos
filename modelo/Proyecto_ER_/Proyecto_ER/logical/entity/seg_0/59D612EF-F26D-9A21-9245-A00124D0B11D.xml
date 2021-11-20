@@ -68,7 +68,7 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="fecha_naci" id="1C06AE34-4B7A-80BD-82E4-D5A59CC860E0">
+<Attribute name="fecha_nacimiento" id="1C06AE34-4B7A-80BD-82E4-D5A59CC860E0">
 <createdBy>Gabriel</createdBy>
 <createdTime>2021-11-14 18:54:51 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
