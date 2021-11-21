@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="FFA02A51-E3B1-6382-5D53-26BF455DFD1E" name="LOG_INFORMANTE_AGENTE">
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="D7F61E49-9684-52CE-90AD-FDBA1FAE0B59" name="CUENTA">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:50:27 UTC</createdTime>
+<createdTime>2021-11-21 21:22:59 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -15,9 +15,9 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="id" id="ED35D3E2-AE95-7413-03FF-F5B38730501F">
+<Attribute name="año" id="13664601-9D3F-2A11-63E2-D96FED7FC0EB">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:50:58 UTC</createdTime>
+<createdTime>2021-11-21 21:23:16 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -25,9 +25,9 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="asunto" id="EB432B02-8FB0-1083-DEEE-DB67100D38B1">
+<Attribute name="presupuesto" id="8E699855-1AC4-1D46-DE45-126A86A4461A">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:51:04 UTC</createdTime>
+<createdTime>2021-11-21 21:23:07 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -35,9 +35,21 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="descripcion" id="759B041D-D772-C38E-FB57-4750942FE2D3">
+<Attribute name="id" id="A8DD4EED-1318-0E45-0C2A-14B8FA481AB2">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:51:18 UTC</createdTime>
+<createdTime>2021-11-21 21:23:37 UTC</createdTime>
+<generatorID>76C1D599-1AAE-9D13-7416-CD133012532D</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>047FBDD0-697C-5B0B-0DD3-D6029B0F7812</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="fecha_actualizacion" id="4081EBCE-F86E-4F58-2CB9-443C115E1CB0">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 21:27:08 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -48,16 +60,17 @@
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
-<identifier id="A6C89782-EDD3-1810-6BB8-F8EE882C8F14" name="LOG_INFORMANTE_AGENTE PK">
+<identifier id="B8081A6C-858B-E1A5-A6EA-0C682D3C385B" name="PRESUPUESTO PK">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:52:07 UTC</createdTime>
+<createdTime>2021-11-21 21:23:37 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>ED35D3E2-AE95-7413-03FF-F5B38730501F</attributeRef>
+<attributeRef>A8DD4EED-1318-0E45-0C2A-14B8FA481AB2</attributeRef>
+<attributeRef>13664601-9D3F-2A11-63E2-D96FED7FC0EB</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>

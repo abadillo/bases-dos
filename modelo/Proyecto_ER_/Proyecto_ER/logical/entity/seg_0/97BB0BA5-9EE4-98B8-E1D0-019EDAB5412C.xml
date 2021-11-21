@@ -15,16 +15,6 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="id" id="A9FAC242-9BCD-1536-5152-793092338E30">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-20 21:18:37 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="fecha" id="3DB6190A-28C8-6D6A-7462-A22E143DE93D">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-19 22:18:26 UTC</createdTime>

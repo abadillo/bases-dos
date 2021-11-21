@@ -15,6 +15,26 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="fecha" id="878025C1-7A2D-353A-FC9B-DEDA18928188">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 23:19:48 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="rol  ( check (&quot;verificador&quot;, &quot;designado&quot;) )" id="EBE7747E-8EE2-C11A-9DA9-119B98A4ADE5">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-19 23:08:38 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 <Attribute name="id" id="84CDD508-7C4D-9C5F-888F-3BE7A5EA0914">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-19 03:35:27 UTC</createdTime>
@@ -36,26 +56,6 @@
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <referedAttribute>C8DECDFF-9892-EFD8-7E53-E790C21BEDFC</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="rol ( verificador o designado )" id="EBE7747E-8EE2-C11A-9DA9-119B98A4ADE5">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-19 23:08:38 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="fecha" id="878025C1-7A2D-353A-FC9B-DEDA18928188">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-19 23:19:48 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
