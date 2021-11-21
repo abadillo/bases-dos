@@ -208,6 +208,26 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
+<Attribute name="aliases ( --&gt; alias_nt )" id="EA32AF6C-EFC3-39D7-0893-C492B3119098">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 22:04:52 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="temas ( --&gt; tema_va )" id="082A3653-183F-F28B-3BC5-0CAD4A2E0B70">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 22:04:59 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
 <identifier id="DF0AABA5-7F43-722D-CB1D-90848B67F08B" name="PERSONAL PK">

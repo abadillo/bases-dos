@@ -35,18 +35,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id" id="84CDD508-7C4D-9C5F-888F-3BE7A5EA0914">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-19 03:35:27 UTC</createdTime>
-<generatorID>AF82C527-A294-3A47-9914-5EB98EBE9DE8</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>E81D224E-C617-C1E9-B535-580E8DB338BE</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="id1" id="319156F8-FD80-C1FB-C4DD-90893F87F026">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-19 03:40:34 UTC</createdTime>
@@ -56,6 +44,18 @@
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <referedAttribute>C8DECDFF-9892-EFD8-7E53-E790C21BEDFC</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id" id="6CE94212-ACC8-18D3-16A9-B68F01A93E84">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 22:05:47 UTC</createdTime>
+<generatorID>73E1F216-A777-BCF6-0322-4AA07AF302E0</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>E81D224E-C617-C1E9-B535-580E8DB338BE</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
@@ -70,8 +70,8 @@
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>84CDD508-7C4D-9C5F-888F-3BE7A5EA0914</attributeRef>
 <attributeRef>319156F8-FD80-C1FB-C4DD-90893F87F026</attributeRef>
+<attributeRef>6CE94212-ACC8-18D3-16A9-B68F01A93E84</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>
