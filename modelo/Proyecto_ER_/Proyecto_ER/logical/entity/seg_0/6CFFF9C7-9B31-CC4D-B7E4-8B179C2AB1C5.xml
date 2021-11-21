@@ -25,6 +25,16 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
+<Attribute name="nombre" id="B1B2C61D-9D1D-1873-7726-F02AC9D333A3">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 01:13:51 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 <Attribute name="central" id="4E0A2049-3863-5B09-9E84-1D3E97629732">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-18 23:06:50 UTC</createdTime>
