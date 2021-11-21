@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jdbcDataAdapter class="net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl"><name>postgresql_ucab_adapter</name><driver>org.postgresql.Driver</driver><username>grupo4bd1</username><password>bases_&gt;*=_pass</password><savePassword>true</savePassword><url>jdbc:postgresql://labs-dbservices01.ucab.edu.ve:5432/ProyDB2</url><database></database><serverAddress></serverAddress></jdbcDataAdapter>
