@@ -1,0 +1,113 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="C5A84481-592A-F4D7-31CB-D1E9FA66BC41" name="CLIENTE">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:44:30 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="2F91E8A4-0B36-EE64-D49D-F4164F82FA4B">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:44:46 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="nombre_empresa" id="77202F04-4989-9EFE-0792-4D22B75BCE13">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:44:54 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="pagina_web" id="EFC6834D-046A-C985-CC29-B9D5585376DD">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:46:28 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="exclusivo" id="C1C98997-BDBC-4B14-99F6-75BA586D91AF">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-18 22:51:08 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="telefonos ( --&gt; telefono_va )" id="11060722-3D30-5A90-FF64-BE918BBCAF04">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-20 02:40:33 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="contacto ( --&gt; contacto_va )" id="85945792-5AA2-F695-7047-F3C6AA1CA152">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-20 20:33:53 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="pais_registro ( -&gt; lugar_ty )" id="EB2890C4-6397-F466-2603-B1DE70FE1934">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-20 20:46:42 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="temas ( --&gt; tema_va )" id="648B8816-BE98-867F-2DDB-2B199936A59E">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-20 22:26:56 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="B7B18A60-B022-01E1-8FF9-6B4517B2406B" name="CLIENTE PK">
+<createdBy>Gabriel</createdBy>
+<createdTime>2021-11-14 18:44:49 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>2F91E8A4-0B36-EE64-D49D-F4164F82FA4B</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

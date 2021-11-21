@@ -1,0 +1,54 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="6D0CCAF5-6D35-0393-CC62-F40809C81587" name="LOG_INFORMANTE_AGENTE">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>FFA02A51-E3B1-6382-5D53-26BF455DFD1E</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="914439B7-AA45-436D-8892-73555FC78E0C">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>ED35D3E2-AE95-7413-03FF-F5B38730501F</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="asunto" id="63593288-F059-6EF3-114C-586D6FCC328B">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>EB432B02-8FB0-1083-DEEE-DB67100D38B1</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="descripcion" id="506F00A2-9803-8F38-C0EB-1DFC8C56786C">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>759B041D-D772-C38E-FB57-4750942FE2D3</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="C9FA5EFD-9537-1513-3599-64557F1F8C25" name="LOG_INFORMANTE_AGENTE_PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>A6C89782-EDD3-1810-6BB8-F8EE882C8F14</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="914439B7-AA45-436D-8892-73555FC78E0C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

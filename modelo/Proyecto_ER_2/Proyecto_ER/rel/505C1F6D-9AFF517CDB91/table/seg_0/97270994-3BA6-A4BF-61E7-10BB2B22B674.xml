@@ -1,0 +1,75 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="97270994-3BA6-A4BF-61E7-10BB2B22B674" name="ESTACION_OFICINA">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>E24D6373-955B-74D7-EF1B-D6967F34B4E3</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="OFICINA_id" id="4A57933F-0492-3204-6F5B-4995157226A2">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>E9D5D4C1-2D19-A054-7ADE-9B86467F7BF9</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="81DB26FC-0115-82C0-1005-9F5BC1B3410F" referredColumn="989C558D-5926-CC8F-87CA-04D023E7789A"/>
+</associations>
+</Column>
+<Column name="ESTACION_id" id="3990D233-18DF-7802-5192-B0571EA66310">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>DEAC63AF-E9EE-B2F3-688D-CE4E5186F3E3</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="1955BF94-EF51-F22B-E874-22B936DDC6B0" referredColumn="459C3C42-41BC-6422-11A0-DFDB6C91AA7A"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="FC39F351-56EA-4D02-D612-9A3D1B5EFF7F" name="ESTACION_OFICINA_PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>0ADD05FE-A95B-B063-AE2F-0A0E78762C55</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4A57933F-0492-3204-6F5B-4995157226A2"/>
+<colUsage columnID="3990D233-18DF-7802-5192-B0571EA66310"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3CE43324-97FA-343E-B12D-9A1D887C9E68" name="ESTACION_OFICINA_ESTACION_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>A3623D26-402A-A1F7-68CD-DB0C4CE6E7D7</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="3990D233-18DF-7802-5192-B0571EA66310"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="CE3E54A4-72EF-859C-AD28-C334DDAECD5B" name="ESTACION_OFICINA_OFICINA_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>B44E3F91-E876-E5DD-89AE-709B6E572C1B</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4A57933F-0492-3204-6F5B-4995157226A2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

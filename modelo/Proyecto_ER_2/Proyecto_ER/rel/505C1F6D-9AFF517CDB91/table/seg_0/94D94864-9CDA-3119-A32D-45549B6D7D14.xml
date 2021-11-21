@@ -1,0 +1,69 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="94D94864-9CDA-3119-A32D-45549B6D7D14" name="CUENTA_MADRE">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>DDBCDD25-C6CB-C550-92C2-5ACCCD78F00D</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="fecha" id="06A77474-8784-3389-D242-D52C9CB71C9B">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>52A8FEE4-9438-3418-AFB5-C52AF213AFE8</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ESTACION_id" id="ACC6DFD4-8D4A-5612-1188-731AEE1BC201">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>A1F8ACE1-4A21-231B-5FBC-A720C5F7D090</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="72E24F90-411D-6890-B806-7A6C0D894676" referredColumn="459C3C42-41BC-6422-11A0-DFDB6C91AA7A"/>
+</associations>
+</Column>
+<Column name="aporte" id="A595F265-4342-C879-8A12-4278DE6D84BF">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>2A1FFE28-23A3-FC8D-CB23-440B68100C03</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="9C47F43B-6D88-39E1-B0EB-873C3CD09E07" name="CUENTA_MADRE_PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>79F12E32-67FE-3BB9-FD87-EFCDC7F86395</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="ACC6DFD4-8D4A-5612-1188-731AEE1BC201"/>
+<colUsage columnID="06A77474-8784-3389-D242-D52C9CB71C9B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="53B4B9FB-CB49-FFE3-9270-0958DEEF35DF" name="CUENTA_MADRE_ESTACION_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>49AB1F60-0C0A-4C66-37E2-EF1F8A1190CA</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="ACC6DFD4-8D4A-5612-1188-731AEE1BC201"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
