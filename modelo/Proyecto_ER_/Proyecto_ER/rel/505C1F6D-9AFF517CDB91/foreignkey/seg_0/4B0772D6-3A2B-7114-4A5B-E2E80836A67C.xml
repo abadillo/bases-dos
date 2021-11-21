@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="4B0772D6-3A2B-7114-4A5B-E2E80836A67C" containerWithKeyObject="6A781CB6-907C-8F64-32EB-CACD5AD2E2DF" localFKIndex="7AD25075-AA09-F101-F657-7BE35175F95D" name="CRUDO_PIEZA_PIEZA_INTELIGENCIA_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>2FD75FE2-CEE9-71A7-A193-B9362C14628E</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<referredTableLongName>PIEZA_INTELIGENCIA</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>E8A1158A-2CDC-68B8-D28D-510611AD99D9</referredTableID>
+<keyObject>DAE09D79-DA49-994B-844C-1F9682CAC9C3</keyObject>
+<referredKeyID>DAE09D79-DA49-994B-844C-1F9682CAC9C3</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

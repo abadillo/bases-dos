@@ -1,0 +1,58 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="D282BB23-7168-5DF3-D2EE-F94522695DB0" name="ANALISTA">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>DA358FE1-895F-78C2-BE5B-D566EAE7E46F</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="5738A6B0-7170-DED6-D694-5EAC2ADD8F6A">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>E81D224E-C617-C1E9-B535-580E8DB338BE</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="50C7FA44-CE8D-814B-AF0D-1B09D75BE107" referredColumn="78F349E5-E6D5-A9CD-7029-55D1F093656D"/>
+</associations>
+</Column>
+<Column name="temas_(_--&gt;_tema_va_)" id="D7F84B48-983D-15AB-FFDA-B1E4268264A7">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>203B081F-A314-0030-31C9-D456415667CC</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="E7797526-6DDF-9853-F1F6-2CC7C8370070" name="ANALISTA_PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>DF0AABA5-7F43-722D-CB1D-90848B67F08B</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5738A6B0-7170-DED6-D694-5EAC2ADD8F6A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="938FB85B-6934-B3F7-303D-CE5FFBE84701" name="ANALISTA_PERSONAL_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>63496B89-F2E7-C291-DF4B-C0FBC2B77BFF</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5738A6B0-7170-DED6-D694-5EAC2ADD8F6A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,94 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="2519F463-DD59-5485-72F6-B7FA48041C2D" name="LOG_ACCESO">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>DDD06B9C-7704-DADF-C414-4BBD49EB5D8D</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="fecha" id="63E30EBA-A0CF-EE25-31E7-DF346C1F1547">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>68F78646-C98D-14CA-07B4-7DE5503EAC2F</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="autorizado" id="CF286DA0-3DC2-7928-0A45-E9F3CDA92BC7">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>2D8B1123-C164-C458-5B8C-83F754D0A37D</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="PERSONAL_id" id="0166C9F0-176E-00EF-F640-111AD8ABBF0D">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>4764E4A5-43BD-4733-A5FA-9985BD70A9F0</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="370EF827-D910-074B-FD64-5A4A61A3AE36" referredColumn="78F349E5-E6D5-A9CD-7029-55D1F093656D"/>
+</associations>
+</Column>
+<Column name="PIEZA_INTELIGENCIA_id" id="F4ACF9F0-E8FB-3197-C9F7-43E7DC9918E2">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>6E0DE3FA-7C38-113B-E13E-22498E3C7BDF</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="2E0CC640-A574-2DA7-C41C-EFF9620C1191" referredColumn="FF5FA66B-0420-EA46-8133-0162F5E2185A"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="D70816BE-FA1E-B124-A042-D3B808C68D24" name="LOG_ACCESO_PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>0532BEBB-533A-962A-83CA-4D99B16233EE</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="63E30EBA-A0CF-EE25-31E7-DF346C1F1547"/>
+<colUsage columnID="0166C9F0-176E-00EF-F640-111AD8ABBF0D"/>
+<colUsage columnID="F4ACF9F0-E8FB-3197-C9F7-43E7DC9918E2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F3BC70D5-02ED-E4F4-7037-73F30ADACDB6" name="LOG_ACCESO_PERSONAL_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>1D9BF69F-0608-85EA-4765-6E1F1D24281A</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="0166C9F0-176E-00EF-F640-111AD8ABBF0D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E9966D0C-A9FD-E3D8-B2FB-5EEA4C9083F3" name="LOG_ACCESO_PIEZA_INTELIGENCIA_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>0D7BA392-53B9-F263-2D84-87111DECFEF8</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F4ACF9F0-E8FB-3197-C9F7-43E7DC9918E2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

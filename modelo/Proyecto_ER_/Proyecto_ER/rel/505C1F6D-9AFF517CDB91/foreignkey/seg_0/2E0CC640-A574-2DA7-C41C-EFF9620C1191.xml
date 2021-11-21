@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="2E0CC640-A574-2DA7-C41C-EFF9620C1191" containerWithKeyObject="2519F463-DD59-5485-72F6-B7FA48041C2D" localFKIndex="E9966D0C-A9FD-E3D8-B2FB-5EEA4C9083F3" name="LOG_ACCESO_PIEZA_INTELIGENCIA_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>0D7BA392-53B9-F263-2D84-87111DECFEF8</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<referredTableLongName>PIEZA_INTELIGENCIA</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>E8A1158A-2CDC-68B8-D28D-510611AD99D9</referredTableID>
+<keyObject>DAE09D79-DA49-994B-844C-1F9682CAC9C3</keyObject>
+<referredKeyID>DAE09D79-DA49-994B-844C-1F9682CAC9C3</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

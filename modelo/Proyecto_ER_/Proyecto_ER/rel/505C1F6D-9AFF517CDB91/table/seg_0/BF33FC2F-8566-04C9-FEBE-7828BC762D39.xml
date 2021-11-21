@@ -1,0 +1,92 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="BF33FC2F-8566-04C9-FEBE-7828BC762D39" name="INFORMANTE">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>201D715E-94C3-8495-F343-2C31B1EA7042</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="B92004C8-1D1B-08DD-0D3C-E8FF37DA554C">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>079466D3-3061-51B5-FB4D-EED1FDC5BCC7</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nombre_clave" id="90DAD20C-ECB1-26DE-B953-754D2CAFF81E">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>FAE6E313-111D-9B35-DB73-C90C635976AF</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="PERSONAL_id" id="8B7CE82A-276E-502C-B348-927A9756C25E">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>F2549F20-A1FF-6986-757C-12FF798F8B9F</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="3A16CC0B-F1A6-2DEF-A2C4-4A43D86AC5A8" referredColumn="78F349E5-E6D5-A9CD-7029-55D1F093656D"/>
+</associations>
+</Column>
+<Column name="AGENTE_CAMPO_id" id="A09C19E8-0145-6B4D-8EC6-B93074A1EF67">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>75FD0DAB-9947-C592-C39E-05E26D6E789D</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="2693752D-C427-CFAF-C446-D24B2146A4B3" referredColumn="0E0B9286-74C1-4BE1-A721-D207FE084163"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="9328A9DE-EC6F-D368-34CB-CD36FA8DA0FA" name="INFORMANTE_PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>FE9B4269-CC25-31C8-F375-CD33F2613801</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B92004C8-1D1B-08DD-0D3C-E8FF37DA554C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="FEA61328-7BBA-4436-1482-AD7F77933565" name="INFORMANTE_AGENTE_CAMPO_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>9A0D3ADB-3FA6-A323-D842-640D00CF09F5</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A09C19E8-0145-6B4D-8EC6-B93074A1EF67"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F3D8EAB7-AC53-4712-720B-0825757C420F" name="INFORMANTE_PERSONAL_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-21 00:00:13 UTC</createdTime>
+<generatorID>FEFF1EB5-95D8-9A09-C315-BA37F363E54B</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8B7CE82A-276E-502C-B348-927A9756C25E"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
