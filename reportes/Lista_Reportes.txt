@@ -1,0 +1,94 @@
+Reportes
+
+Desempeño de empleado(s) (pag 2, último párrafo). 
+Frecuencia: Ninguna. 
+Cargo encargado: Ninguno ( o Asuntos Internos )
+
+Productividad de los analistas y agentes de campo. Especificada por año, por país y/o por oficina. La medida debe ser calculada de manera directa para el empleado y promedio para oficinas y países. Ejemplos:
+
+Ejemplos --- Especificando año y empleado: 
+
+Año 2020  
+Analista Ana Pérez – Productividad 100%
+...
+
+ Especificando año y oficina: 
+
+Año 2020 – Oficina Ginebra
+Analistas –  Productividad 75% 
+Agentes de Campo –  Productividad 100%
+
+ Especificando año y país: 
+ 
+Año 2020 – Francia
+Analistas –  Productividad 80%
+Agentes de Campo – Productividad 45%
+
+	Toda media de productividad menor a 65% anual es resaltado en rojo
+	
+La productividad es un porcentaje que representa la efectividad de las piezas de inteligencia que construyen los analistas, si se lograra la venta de todas las piezas de un analista particular su productividad sería del 100%. En el caso de los agentes si todo hecho crudo que obtienen hace parte de una pieza de inteligencia vendida tendrán 100% de productividad.
+
+Informe de balance (pag 3, 1er párrafo). Frecuencia: Anual. 
+Cargo encargado: Jefe y Director Supervisor. 
+
+-debe generar un informe con su balance
+-pago otorgado, fecha, hecho crudo recolectado,
+-pieza de inteligencia que lo utiliza (si aplica),
+-valor de la pieza, ganancia ó pérdida alcanzada,
+-los totales generales:
+-(total pagado, total obtenido por ventas de
+-las piezas de inteligencia logradas por esos hechos crudos aportados por informantes).
+
+Fondos de la AII (pag 3, 2do párrafo) ( Reporte? )
+Frecuencia: Cualquier momento. 
+Cargo encargado: Director Ejecutivo.
+
+-En cualquier momento de cuántos fondos dispone la AII.
+-Los pagos son recibidos por la estación que haga la venta, pero todos los fondos.
+-Son depositados en una única cuenta centralizada en Ginebra.
+
+ Aporte de estación (pág 3, 2do párrafo) Frecuencia: Cualquier momento. 
+Cargo encargado: Jefe de estación.
+
+- Cuánto fue el aporte de su estación a los fondos generales.
+- También se debe poder saber a tiempo las ganancias netas anuales 4 de cada estación.
+
+Información de sus informantes. Un agente tiene acceso a la consulta (pag 3, penúltimo párrafo) ( Reporte?) Frecuencia: Negocio en las que esté involucrado
+Cargo encargado: Agente de campo
+
+-Su propia lista de informantes.
+-Nombre claves de informantes y trazabilidad (pagos y hechos crudos)
+
+Hecho crudo (pag 4, 2do párrafo y pag 5, 3er párrafo)  Frecuencia: Ningún
+      Cargo encargado: Analista.
+
+-Fecha
+-Verificación
+-Pago a informante construcción de la pieza de inteligencia
+-Venta.
+-La obtención del hecho crudo
+-Resumen del hecho crudo
+-Información propiamente dicha
+-Nivel de confiabilidad
+
+Piezas de inteligencia (pag 4, 3er párrafo)
+ Frecuencia: Semestral o anual
+Cargo encargado: Cliente.
+
+-Tema de la pieza de inteligencia
+-Verificación de áreas correspondiente:
+Áreas de Interés para el cliente,
+temas sobre los cuales un cliente desea ser notificado cuando exista algo disponible.
+Áreas sobre las que un cliente ya ha adquirido piezas de inteligencia.
+
+Reporte de intentos no autorizados al acceder a una pieza de inteligencia. (pag 4, penúltimo párrafo) Frecuencia: Semanal
+Cargo encargado: Jefe de la estación
+
+	-Nombre, apellido del empleado.
+-Pieza de inteligencia.
+
+Control sobre la eficacia (pag 4, 1er párrafo) Frecuencia: Semestral
+Cargo encargado: AII
+
+-El % de eficacia en la proporción de los hechos crudos aportados por el informante que se han convertido en piezas de inteligencia.
+-Productividad de los agentes: es un porcentaje que representa la efectividad de las piezas de inteligencia que construyen los analistas
