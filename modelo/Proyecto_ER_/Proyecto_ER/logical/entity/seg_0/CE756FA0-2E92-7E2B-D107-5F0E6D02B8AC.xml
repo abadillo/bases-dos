@@ -167,19 +167,9 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="direccion ( -&gt; lugar_ty )" id="A78377C9-C761-8A6B-0A50-FB0F61F750DE">
+<Attribute name="direccion ( -&gt; direccion_ty )" id="A78377C9-C761-8A6B-0A50-FB0F61F750DE">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-20 20:47:41 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="lugar_nacimiento ( -&gt; lugar_ty )" id="A43CC782-C17B-9933-F09C-CC48E641A4BF">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-20 20:47:53 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>

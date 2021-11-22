@@ -35,7 +35,7 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="direccion ( -&gt; lugar_ty )" id="6004C653-FCB6-615B-A53A-2BF7D7636D12">
+<Attribute name="pais ( -&gt; lugar_ty)" id="6004C653-FCB6-615B-A53A-2BF7D7636D12">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-20 20:52:17 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>

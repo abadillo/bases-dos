@@ -65,7 +65,7 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="precio_final ( base? )" id="30128C05-837E-D3C8-17F7-45E5C5675998">
+<Attribute name="precio_base" id="30128C05-837E-D3C8-17F7-45E5C5675998">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-18 22:38:07 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>

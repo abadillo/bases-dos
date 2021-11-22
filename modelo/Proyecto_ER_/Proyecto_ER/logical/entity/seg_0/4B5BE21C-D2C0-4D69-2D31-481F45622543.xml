@@ -15,6 +15,16 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="3F8CCD72-5B8C-B57B-EE91-8B7E428C49DB">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-22 20:27:10 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 <Attribute name="fecha_venta" id="B7D07324-F226-E214-D291-3D3EE3F8C6D1">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-19 03:54:07 UTC</createdTime>
@@ -25,7 +35,7 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id" id="3FB09EBD-E2DC-06D9-B0F5-AE71FDED9CBA">
+<Attribute name="id2" id="3FB09EBD-E2DC-06D9-B0F5-AE71FDED9CBA">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-18 22:52:28 UTC</createdTime>
 <generatorID>FE4A0EFF-817F-502F-6ECC-0E9A9AF7AA1E</generatorID>
@@ -82,6 +92,7 @@
 <usedAttributes>
 <attributeRef>3FB09EBD-E2DC-06D9-B0F5-AE71FDED9CBA</attributeRef>
 <attributeRef>EA4E0A19-4043-C868-9C3E-6F36F4F2BAD7</attributeRef>
+<attributeRef>3F8CCD72-5B8C-B57B-EE91-8B7E428C49DB</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>
