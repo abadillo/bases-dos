@@ -47,10 +47,10 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id2" id="94211D49-70FD-FC01-BB7E-5BE4A29753FF">
+<Attribute name="id2" id="B0AA3E78-7C3A-A389-EE7F-646FE6ED5D9F">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-21 22:05:11 UTC</createdTime>
-<generatorID>1AA64704-AC37-613C-F687-756EE4AA0CDC</generatorID>
+<createdTime>2021-11-22 19:31:29 UTC</createdTime>
+<generatorID>275B7B21-0704-3EE6-DE3D-DDA6B46F9457</generatorID>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>

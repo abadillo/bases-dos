@@ -142,6 +142,18 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
+<Attribute name="id2" id="18B50925-88F3-A41A-DCCD-E922D9352592">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-22 19:31:32 UTC</createdTime>
+<generatorID>5D976B2A-03C3-FEA7-14FF-91FEBFAE0C6B</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>E81D224E-C617-C1E9-B535-580E8DB338BE</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
 <identifier id="F031AD65-7E53-D695-7E08-8E67EAB8B890" name="CRUDO PK">

@@ -208,23 +208,25 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="aliases ( --&gt; alias_nt )" id="EA32AF6C-EFC3-39D7-0893-C492B3119098">
+<Attribute name="aliases ( --&gt; alias_nt )" id="AF5E1B30-2C9E-364D-6741-3C73E9B480C1">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-21 22:04:52 UTC</createdTime>
+<createdTime>2021-11-22 19:30:46 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
+<nullsAllowed>true</nullsAllowed>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="temas ( --&gt; tema_va )" id="082A3653-183F-F28B-3BC5-0CAD4A2E0B70">
+<Attribute name="temas ( --&gt; tema_va )" id="AC04DBAB-CD46-ECEB-E12E-0EA083758572">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-21 22:04:59 UTC</createdTime>
+<createdTime>2021-11-22 19:30:55 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
+<nullsAllowed>true</nullsAllowed>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
