@@ -25,18 +25,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id2" id="92DBC78E-97F2-A596-0E00-537F033CFD8C">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-18 22:32:49 UTC</createdTime>
-<generatorID>1539028B-26F0-AC43-51F6-0360C7BB64E4</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>E81D224E-C617-C1E9-B535-580E8DB338BE</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="informacion" id="D352AFAF-4BA3-582C-315D-87B41F1EE86A">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-19 23:17:04 UTC</createdTime>
