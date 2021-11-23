@@ -25,9 +25,10 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="clasificacion ( check (&quot;Agente de campo&quot;, &quot;Analista&quot;) )" id="B6889995-5D09-2DB6-62F5-CAF8A9158EDB">
+<Attribute name="clasificacion" id="B6889995-5D09-2DB6-62F5-CAF8A9158EDB">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-19 03:12:24 UTC</createdTime>
+<commentInRDBMS><![CDATA[check ("Agente de campo", "Analista")]]></commentInRDBMS>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -188,9 +189,10 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="class_seguridad ( check (&quot;Top secret&quot; , &quot;Confidencial&quot;, &quot;No clasificado&quot;) )" id="90679555-FCCD-7008-B07D-54CEB7974F02">
+<Attribute name="class_seguridad" id="90679555-FCCD-7008-B07D-54CEB7974F02">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-20 22:31:34 UTC</createdTime>
+<commentInRDBMS><![CDATA[check ("Top secret" , "Confidencial", "No clasificado")]]></commentInRDBMS>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>

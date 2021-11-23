@@ -25,9 +25,10 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="rol  ( check (&quot;verificador&quot;, &quot;designado&quot;) )" id="EBE7747E-8EE2-C11A-9DA9-119B98A4ADE5">
+<Attribute name="rol" id="EBE7747E-8EE2-C11A-9DA9-119B98A4ADE5">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-19 23:08:38 UTC</createdTime>
+<commentInRDBMS><![CDATA[check ("verificador", "designado") ]]></commentInRDBMS>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>

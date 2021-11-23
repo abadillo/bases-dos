@@ -98,9 +98,10 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="class_seguridad ( check (&quot;Top secret&quot; , &quot;Confidencial&quot;, &quot;No clasificado&quot;) )" id="4DC3BB87-BA93-6D66-56B8-DC8489A74260">
+<Attribute name="class_seguridad" id="4DC3BB87-BA93-6D66-56B8-DC8489A74260">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-20 22:30:54 UTC</createdTime>
+<commentInRDBMS><![CDATA[ check ("Top secret" , "Confidencial", "No clasificado")]]></commentInRDBMS>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
