@@ -9,12 +9,11 @@
 <sourcePk>5B42D3EC-D4C9-8190-65BD-AE6B6B8A6E11</sourcePk>
 <identifying>false</identifying>
 <nameOnSource> </nameOnSource>
-<nameOnTarget> director ( supervisor o ejecutivo )</nameOnTarget>
 <optionalSource>true</optionalSource>
 <optionalTarget>false</optionalTarget>
 <sourceCardinality>1</sourceCardinality>
 <sourceEntity>C21F3C31-7AF6-AE2B-BCAD-984F1AAF4D0B</sourceEntity>
-<targetCardinalityString>*</targetCardinalityString>
+<targetCardinalityString>1</targetCardinalityString>
 <targetEntity>6CFFF9C7-9B31-CC4D-B7E4-8B179C2AB1C5</targetEntity>
 <transferable>true</transferable>
 <deleteRule>NO ACTION</deleteRule>

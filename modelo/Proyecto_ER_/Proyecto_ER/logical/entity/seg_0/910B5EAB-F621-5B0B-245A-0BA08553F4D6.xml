@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="C21F3C31-7AF6-AE2B-BCAD-984F1AAF4D0B" name="EMPLEADO_JEFE">
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="910B5EAB-F621-5B0B-245A-0BA08553F4D6" name="HIST_CARGO">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-21 20:46:12 UTC</createdTime>
+<createdTime>2021-12-13 23:25:02 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -15,10 +15,9 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="id" id="3D3E80BA-4C89-1AC4-58B1-2E966894FB15">
+<Attribute name="fecha_inicio" id="C70C7168-BE91-F3D8-C2E1-D5134FD089EA">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-21 20:46:12 UTC</createdTime>
-<generatorID>49AB1F60-0C0A-4C66-37E2-EF1F8A1190CA</generatorID>
+<createdTime>2021-12-13 23:25:10 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -26,19 +25,9 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="primer_nombre" id="6755EE61-D6AD-1676-6167-4A795CB7D700">
+<Attribute name="fecha_fin" id="73709570-2835-E04D-9C54-DBC873E5060B">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-21 20:46:24 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="segundo_nombre" id="D705510B-119D-332F-5890-374EAA6C614B">
-<createdBy>alex</createdBy>
-<createdTime>2021-12-13 22:39:49 UTC</createdTime>
+<createdTime>2021-12-13 23:25:21 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -47,9 +36,11 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="primer_apellido" id="DE1D3224-4DAB-66A2-B70E-D8BEC8A4E429">
+<Attribute name="cargo" id="77D7A0D4-DFF7-9124-F177-550E006CECF3">
 <createdBy>alex</createdBy>
-<createdTime>2021-12-13 22:39:54 UTC</createdTime>
+<createdTime>2021-12-13 23:25:29 UTC</createdTime>
+<commentInRDBMS><![CDATA[analista
+agente]]></commentInRDBMS>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -57,63 +48,57 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="segundo_apellido" id="AD1AD6AF-D997-6356-7A12-7629FE8A7839">
+<Attribute name="id" id="003C079E-28BD-C49B-BA9C-EECE09CC7F38">
 <createdBy>alex</createdBy>
-<createdTime>2021-12-13 22:39:59 UTC</createdTime>
+<createdTime>2021-12-13 23:26:10 UTC</createdTime>
+<generatorID>645618FF-2566-E642-9D67-97D5480FF0EA</generatorID>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
+<referedAttribute>E81D224E-C617-C1E9-B535-580E8DB338BE</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="telefono ( -&gt; telefono_ty )" id="B3004049-AF83-6EE3-336A-9F693F4406E0">
+<Attribute name="id1" id="0A160FF4-5223-F51F-3D08-114D3EAD0733">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-21 20:46:44 UTC</createdTime>
+<createdTime>2021-12-13 23:26:21 UTC</createdTime>
+<generatorID>1E2AC558-EDBB-62F5-1449-BCBCDDD83236</generatorID>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<nullsAllowed>true</nullsAllowed>
+<referedAttribute>047FBDD0-697C-5B0B-0DD3-D6029B0F7812</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id1" id="7B813AA3-1861-D068-D010-C4E98BD9D156">
+<Attribute name="id11" id="3F58AFC9-0AFA-6FF4-E21D-A1EB7B9B4E0C">
 <createdBy>alex</createdBy>
-<createdTime>2021-12-13 22:36:11 UTC</createdTime>
-<generatorID>BCA4D029-F55B-D94A-DD47-B96F89BD9CE1</generatorID>
+<createdTime>2021-12-13 23:26:21 UTC</createdTime>
+<generatorID>1E2AC558-EDBB-62F5-1449-BCBCDDD83236</generatorID>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<nullsAllowed>true</nullsAllowed>
-<referedAttribute>3D3E80BA-4C89-1AC4-58B1-2E966894FB15</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="tipo" id="66580119-4D16-C543-2540-387A4F3A7B29">
-<createdBy>alex</createdBy>
-<createdTime>2021-12-13 22:37:34 UTC</createdTime>
-<commentInRDBMS><![CDATA[director_area, jefe, director_ejecutivo]]></commentInRDBMS>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
+<referedAttribute>05FBA917-453C-B231-F618-8326E70C53F4</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
-<identifier id="5B42D3EC-D4C9-8190-65BD-AE6B6B8A6E11" name="APORTE PK">
+<identifier id="7B035417-0D4B-348B-4200-31565BF63B7F" name="HIST_CARGO PK">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-21 20:46:12 UTC</createdTime>
+<createdTime>2021-12-13 23:25:28 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>3D3E80BA-4C89-1AC4-58B1-2E966894FB15</attributeRef>
+<attributeRef>C70C7168-BE91-F3D8-C2E1-D5134FD089EA</attributeRef>
+<attributeRef>003C079E-28BD-C49B-BA9C-EECE09CC7F38</attributeRef>
+<attributeRef>0A160FF4-5223-F51F-3D08-114D3EAD0733</attributeRef>
+<attributeRef>3F58AFC9-0AFA-6FF4-E21D-A1EB7B9B4E0C</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>

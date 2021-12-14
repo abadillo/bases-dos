@@ -47,14 +47,15 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="fecha_actualizacion" id="4081EBCE-F86E-4F58-2CB9-443C115E1CB0">
+<Attribute name="id1" id="2520E4EA-CF3A-D31E-7C2A-CA2038A7CAC5">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-21 21:27:08 UTC</createdTime>
+<createdTime>2021-12-13 22:54:59 UTC</createdTime>
+<generatorID>76C1D599-1AAE-9D13-7416-CD133012532D</generatorID>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<nullsAllowed>true</nullsAllowed>
+<referedAttribute>05FBA917-453C-B231-F618-8326E70C53F4</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
@@ -70,6 +71,7 @@
 <pk>true</pk>
 <usedAttributes>
 <attributeRef>A8DD4EED-1318-0E45-0C2A-14B8FA481AB2</attributeRef>
+<attributeRef>2520E4EA-CF3A-D31E-7C2A-CA2038A7CAC5</attributeRef>
 <attributeRef>13664601-9D3F-2A11-63E2-D96FED7FC0EB</attributeRef>
 </usedAttributes>
 </identifier>

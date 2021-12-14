@@ -15,6 +15,16 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="F66CA020-DAD2-1BD3-4A26-3BEE270E84C3">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-13 23:32:11 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 <Attribute name="fecha" id="878025C1-7A2D-353A-FC9B-DEDA18928188">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-19 23:19:48 UTC</createdTime>
@@ -25,10 +35,9 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="rol" id="EBE7747E-8EE2-C11A-9DA9-119B98A4ADE5">
+<Attribute name="nivel_confiabilidad" id="EBE7747E-8EE2-C11A-9DA9-119B98A4ADE5">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-19 23:08:38 UTC</createdTime>
-<commentInRDBMS><![CDATA[check ("verificador", "designado") ]]></commentInRDBMS>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -48,15 +57,51 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id" id="558E3554-BDA3-720D-533B-C08147220AF7">
+<Attribute name="fecha_inicio" id="51E435B0-775F-3358-9C0D-1DFDC20893B2">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-22 19:31:47 UTC</createdTime>
-<generatorID>9DF04255-4AE9-2BDE-B053-BCE99EFCDD06</generatorID>
+<createdTime>2021-12-13 23:32:03 UTC</createdTime>
+<generatorID>C7353449-0658-6663-2B5C-4D9973075328</generatorID>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<referedAttribute>E81D224E-C617-C1E9-B535-580E8DB338BE</referedAttribute>
+<referedAttribute>C70C7168-BE91-F3D8-C2E1-D5134FD089EA</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id2" id="0ACD222B-B0D8-EFD5-6180-A974D4687A20">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-13 23:32:03 UTC</createdTime>
+<generatorID>C7353449-0658-6663-2B5C-4D9973075328</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>003C079E-28BD-C49B-BA9C-EECE09CC7F38</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id11" id="1A260755-F607-E960-38AE-94530594AC49">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-13 23:32:03 UTC</createdTime>
+<generatorID>C7353449-0658-6663-2B5C-4D9973075328</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>0A160FF4-5223-F51F-3D08-114D3EAD0733</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id111" id="38D5956F-8064-CD80-4B02-719EBA6735F3">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-13 23:32:03 UTC</createdTime>
+<generatorID>C7353449-0658-6663-2B5C-4D9973075328</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>3F58AFC9-0AFA-6FF4-E21D-A1EB7B9B4E0C</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
@@ -72,7 +117,11 @@
 <pk>true</pk>
 <usedAttributes>
 <attributeRef>319156F8-FD80-C1FB-C4DD-90893F87F026</attributeRef>
-<attributeRef>558E3554-BDA3-720D-533B-C08147220AF7</attributeRef>
+<attributeRef>F66CA020-DAD2-1BD3-4A26-3BEE270E84C3</attributeRef>
+<attributeRef>51E435B0-775F-3358-9C0D-1DFDC20893B2</attributeRef>
+<attributeRef>0ACD222B-B0D8-EFD5-6180-A974D4687A20</attributeRef>
+<attributeRef>1A260755-F607-E960-38AE-94530594AC49</attributeRef>
+<attributeRef>38D5956F-8064-CD80-4B02-719EBA6735F3</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>

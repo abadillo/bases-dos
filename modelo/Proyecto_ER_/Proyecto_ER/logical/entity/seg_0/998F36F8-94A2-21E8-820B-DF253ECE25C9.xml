@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="DDBCDD25-C6CB-C550-92C2-5ACCCD78F00D" name="CUENTA_MADRE">
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="998F36F8-94A2-21E8-820B-DF253ECE25C9" name="TEMAS_ESP">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:29:19 UTC</createdTime>
+<createdTime>2021-12-13 23:06:20 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -15,51 +15,43 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="fecha" id="52A8FEE4-9438-3418-AFB5-C52AF213AFE8">
+<Attribute name="id" id="2DE13EFD-742E-D1B0-17E5-103394594981">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:31:42 UTC</createdTime>
+<createdTime>2021-12-13 23:06:34 UTC</createdTime>
+<generatorID>22929B4E-32C6-561A-82D4-41AEBA7B424B</generatorID>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
+<referedAttribute>E81D224E-C617-C1E9-B535-580E8DB338BE</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id" id="A1F8ACE1-4A21-231B-5FBC-A720C5F7D090">
+<Attribute name="id1" id="D6A658FD-3817-5F79-CAE7-88A33726ECB7">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:29:28 UTC</createdTime>
-<generatorID>49AB1F60-0C0A-4C66-37E2-EF1F8A1190CA</generatorID>
+<createdTime>2021-12-13 23:06:48 UTC</createdTime>
+<generatorID>450AE739-298D-E942-793A-AD99032760D7</generatorID>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<referedAttribute>047FBDD0-697C-5B0B-0DD3-D6029B0F7812</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="aporte" id="2A1FFE28-23A3-FC8D-CB23-440B68100C03">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:29:33 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
+<referedAttribute>B6FD1291-CDFB-7E68-2F67-1453D8E2B8FA</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
-<identifier id="79F12E32-67FE-3BB9-FD87-EFCDC7F86395" name="APORTE PK">
+<identifier id="50CE87CA-94A5-FD3A-1C49-0D2FB243DBDD" name="TEMAS_ESP PK">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:29:28 UTC</createdTime>
+<createdTime>2021-12-13 23:06:37 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>A1F8ACE1-4A21-231B-5FBC-A720C5F7D090</attributeRef>
-<attributeRef>52A8FEE4-9438-3418-AFB5-C52AF213AFE8</attributeRef>
+<attributeRef>2DE13EFD-742E-D1B0-17E5-103394594981</attributeRef>
+<attributeRef>D6A658FD-3817-5F79-CAE7-88A33726ECB7</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>

@@ -75,23 +75,15 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="pais_registro ( -&gt; lugar_ty )" id="EB2890C4-6397-F466-2603-B1DE70FE1934">
+<Attribute name="id1" id="251F81BB-0AED-90F2-EAC1-DD3DF804FA2B">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-20 20:46:42 UTC</createdTime>
+<createdTime>2021-12-13 23:35:07 UTC</createdTime>
+<generatorID>6A4F2797-688F-D4E4-5AE8-05038DE24AEC</generatorID>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="temas ( --&gt; tema_va )" id="648B8816-BE98-867F-2DDB-2B199936A59E">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-20 22:26:56 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
+<referedAttribute>F6BE2A79-C3FB-081C-F394-02BC91EBD8C0</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>

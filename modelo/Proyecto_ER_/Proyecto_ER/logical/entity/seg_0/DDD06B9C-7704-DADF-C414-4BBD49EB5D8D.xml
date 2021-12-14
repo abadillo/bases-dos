@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="DDD06B9C-7704-DADF-C414-4BBD49EB5D8D" name="LOG_ACCESO">
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="DDD06B9C-7704-DADF-C414-4BBD49EB5D8D" name="INTENTO_NO_AUTORIZADO">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-19 23:43:37 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
@@ -15,6 +15,16 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="F37B9377-1C93-9257-386F-E494F1E052D7">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-13 23:21:40 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 <Attribute name="fecha" id="68F78646-C98D-14CA-07B4-7DE5503EAC2F">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-19 23:43:57 UTC</createdTime>
@@ -25,9 +35,9 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="autorizado" id="2D8B1123-C164-C458-5B8C-83F754D0A37D">
+<Attribute name="id_pieza" id="7BCF5220-BBFD-A497-1BB8-0AB8E9F90688">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 23:44:01 UTC</createdTime>
+<createdTime>2021-12-13 23:21:23 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -35,7 +45,17 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id" id="4764E4A5-43BD-4733-A5FA-9985BD70A9F0">
+<Attribute name="id_empleado" id="7A57A177-5A42-61F7-8F99-1C4F07D1C64A">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-13 23:21:28 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id2" id="4764E4A5-43BD-4733-A5FA-9985BD70A9F0">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-19 23:44:35 UTC</createdTime>
 <generatorID>1D9BF69F-0608-85EA-4765-6E1F1D24281A</generatorID>
@@ -44,18 +64,6 @@
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <referedAttribute>E81D224E-C617-C1E9-B535-580E8DB338BE</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="id1" id="6E0DE3FA-7C38-113B-E13E-22498E3C7BDF">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-19 23:44:47 UTC</createdTime>
-<generatorID>0D7BA392-53B9-F263-2D84-87111DECFEF8</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>F630845C-43C5-61F2-39FA-454D01CFB96E</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
@@ -72,7 +80,7 @@
 <usedAttributes>
 <attributeRef>68F78646-C98D-14CA-07B4-7DE5503EAC2F</attributeRef>
 <attributeRef>4764E4A5-43BD-4733-A5FA-9985BD70A9F0</attributeRef>
-<attributeRef>6E0DE3FA-7C38-113B-E13E-22498E3C7BDF</attributeRef>
+<attributeRef>F37B9377-1C93-9257-386F-E494F1E052D7</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>

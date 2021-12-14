@@ -69,16 +69,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="exclusivo" id="3B6D93D9-940D-333C-6DA5-EF7F3877F56C">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-19 03:54:14 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
 <identifier id="27055C96-7AD0-F29E-41E0-87727699439B" name="COMPRA / ADQUISICION PK">

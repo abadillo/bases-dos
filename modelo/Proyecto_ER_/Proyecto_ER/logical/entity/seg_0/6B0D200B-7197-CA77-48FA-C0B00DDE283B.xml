@@ -35,16 +35,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="pais ( -&gt; lugar_ty)" id="6004C653-FCB6-615B-A53A-2BF7D7636D12">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-20 20:52:17 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="id1" id="05FBA917-453C-B231-F618-8326E70C53F4">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-21 00:56:19 UTC</createdTime>
@@ -69,6 +59,18 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
+<Attribute name="id3" id="01E5B80F-D3DF-A6C1-3699-EE8B2484A50E">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-13 23:34:46 UTC</createdTime>
+<generatorID>D48D0136-73E1-E810-BE95-5BAB77406783</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>F6BE2A79-C3FB-081C-F394-02BC91EBD8C0</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
 <identifier id="A78DDB1C-0158-AEE7-A5EF-1A625CEA2648" name="ESTACION PK">
@@ -81,6 +83,7 @@
 <pk>true</pk>
 <usedAttributes>
 <attributeRef>047FBDD0-697C-5B0B-0DD3-D6029B0F7812</attributeRef>
+<attributeRef>05FBA917-453C-B231-F618-8326E70C53F4</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>

@@ -1,19 +1,19 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Relation_73" directorySegmentName="seg_0" id="1546D1C6-9500-9020-5EE1-1EE480AFE03B">
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Relation_31" directorySegmentName="seg_0" id="BCA4D029-F55B-D94A-DD47-B96F89BD9CE1">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-21 00:56:19 UTC</createdTime>
+<createdTime>2021-12-13 22:36:11 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<sourcePk>F726D8B7-10F6-00B9-1332-8533BEFDAC9A</sourcePk>
-<identifying>true</identifying>
+<targetPk>5B42D3EC-D4C9-8190-65BD-AE6B6B8A6E11</targetPk>
+<identifying>false</identifying>
 <optionalSource>true</optionalSource>
 <optionalTarget>false</optionalTarget>
 <sourceCardinality>1</sourceCardinality>
-<sourceEntity>6CFFF9C7-9B31-CC4D-B7E4-8B179C2AB1C5</sourceEntity>
+<sourceEntity>C21F3C31-7AF6-AE2B-BCAD-984F1AAF4D0B</sourceEntity>
 <targetCardinalityString>*</targetCardinalityString>
-<targetEntity>6B0D200B-7197-CA77-48FA-C0B00DDE283B</targetEntity>
+<targetEntity>C21F3C31-7AF6-AE2B-BCAD-984F1AAF4D0B</targetEntity>
 <transferable>true</transferable>
 <deleteRule>NO ACTION</deleteRule>
 </Relation>

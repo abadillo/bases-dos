@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="97BB0BA5-9EE4-98B8-E1D0-019EDAB5412C" name="TRANSACCION_VENTA">
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="D33E8C5B-646B-0454-6770-E12799EE7496" name="CLAS_TEMA">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:16:27 UTC</createdTime>
+<createdTime>2021-12-13 22:25:30 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -15,9 +15,9 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="fecha" id="3DB6190A-28C8-6D6A-7462-A22E143DE93D">
+<Attribute name="id" id="B6FD1291-CDFB-7E68-2F67-1453D8E2B8FA">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:18:26 UTC</createdTime>
+<createdTime>2021-12-13 22:26:02 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -25,9 +25,9 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="monto" id="5630F596-E0E1-35A5-1165-0F4E149C059C">
+<Attribute name="nombre" id="465C8C37-D134-A87B-CCD7-B76137B40147">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:16:27 UTC</createdTime>
+<createdTime>2021-12-13 22:26:13 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -35,9 +35,9 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="razon" id="22BCBD93-88D8-BF10-958E-B123938939E3">
+<Attribute name="descripcion" id="30912189-F29A-3677-F374-DB5F705511FB">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:16:27 UTC</createdTime>
+<createdTime>2021-12-13 22:26:17 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -45,43 +45,42 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id4" id="A40DEA87-5A33-8EBD-081A-A4851FFB4D41">
+<Attribute name="tipo" id="0F8E8A34-92A2-4444-3681-26184024A6BF">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:17:07 UTC</createdTime>
-<generatorID>7EB560CF-23C0-D67C-A9D9-87E3CAA8BD61</generatorID>
+<createdTime>2021-12-13 22:26:22 UTC</createdTime>
+<commentInRDBMS><![CDATA[topico,tema]]></commentInRDBMS>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<referedAttribute>F630845C-43C5-61F2-39FA-454D01CFB96E</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id3" id="D565D470-02F8-DCE9-7CEB-EB304AE075C7">
+<Attribute name="id1" id="5E74034A-5C19-6565-A069-A25B270D46C7">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:17:28 UTC</createdTime>
-<generatorID>04180408-65C9-BECC-1147-C57F202CF4B4</generatorID>
+<createdTime>2021-12-13 22:46:34 UTC</createdTime>
+<generatorID>11921E15-198A-D2A0-CD8A-D2733FDFB0AD</generatorID>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<referedAttribute>047FBDD0-697C-5B0B-0DD3-D6029B0F7812</referedAttribute>
+<nullsAllowed>true</nullsAllowed>
+<referedAttribute>B6FD1291-CDFB-7E68-2F67-1453D8E2B8FA</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
-<identifier id="270B7192-D1F0-1302-80DD-1A3210BF2B49" name="TRANSACCION / PAGO  PK">
+<identifier id="2085A542-C0D4-7D18-84F5-080C7790CDA8" name="CLAS_TEMA PK">
 <createdBy>alex</createdBy>
-<createdTime>2021-11-19 22:16:27 UTC</createdTime>
+<createdTime>2021-12-13 22:26:12 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>A40DEA87-5A33-8EBD-081A-A4851FFB4D41</attributeRef>
-<attributeRef>D565D470-02F8-DCE9-7CEB-EB304AE075C7</attributeRef>
+<attributeRef>B6FD1291-CDFB-7E68-2F67-1453D8E2B8FA</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>
