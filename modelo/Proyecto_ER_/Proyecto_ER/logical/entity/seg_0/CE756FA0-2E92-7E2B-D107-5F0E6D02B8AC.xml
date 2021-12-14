@@ -199,16 +199,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="direccion ( -&gt; direccion_ty )" id="A78377C9-C761-8A6B-0A50-FB0F61F750DE">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-20 20:47:41 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="licencia_manejo ( -&gt; licencia_ty )" id="65ECCBB9-2446-BD94-4511-2FEBDAA5F2E5">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-20 20:54:14 UTC</createdTime>
@@ -251,6 +241,18 @@
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <referedAttribute>05FBA917-453C-B231-F618-8326E70C53F4</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id2" id="E20C371A-5115-1FE7-C0AC-993EED727BFA">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-14 17:16:41 UTC</createdTime>
+<generatorID>D202CF3A-EA23-3225-F91A-7D0D2EEAECDD</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>F6BE2A79-C3FB-081C-F394-02BC91EBD8C0</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>

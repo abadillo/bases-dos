@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="D33E8C5B-646B-0454-6770-E12799EE7496" name="CLAS_TEMA">
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="0135F23A-D4E0-5D01-7247-A7B6D01E6102" name="ALT_ADQUISICION">
 <createdBy>alex</createdBy>
-<createdTime>2021-12-13 22:25:30 UTC</createdTime>
+<createdTime>2021-12-14 17:22:05 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -15,9 +15,9 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="id" id="B6FD1291-CDFB-7E68-2F67-1453D8E2B8FA">
+<Attribute name="id" id="EEE2A995-A093-615F-0A8A-A7A911AC0F47">
 <createdBy>alex</createdBy>
-<createdTime>2021-12-13 22:26:02 UTC</createdTime>
+<createdTime>2021-12-14 17:22:05 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -25,9 +25,9 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="nombre" id="465C8C37-D134-A87B-CCD7-B76137B40147">
+<Attribute name="fecha_venta" id="4687639E-18F9-F780-3B04-9C6901E36B9F">
 <createdBy>alex</createdBy>
-<createdTime>2021-12-13 22:26:13 UTC</createdTime>
+<createdTime>2021-12-14 17:22:05 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -35,9 +35,9 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="descripcion" id="30912189-F29A-3677-F374-DB5F705511FB">
+<Attribute name="precio_vendido" id="D5A712C5-C289-8110-03F3-E20A175E4F73">
 <createdBy>alex</createdBy>
-<createdTime>2021-12-13 22:26:17 UTC</createdTime>
+<createdTime>2021-12-14 17:22:05 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -45,32 +45,41 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="topico" id="0F8E8A34-92A2-4444-3681-26184024A6BF">
+<Attribute name="id_cliente" id="46E09235-D056-1297-8F29-77D8D3140FBE">
 <createdBy>alex</createdBy>
-<createdTime>2021-12-13 22:26:22 UTC</createdTime>
-<commentInRDBMS><![CDATA[paises
-individuos
-eventos
-empresas]]></commentInRDBMS>
+<createdTime>2021-12-14 17:28:25 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id1" id="25C362CA-0CF3-031A-80C2-0F7E7AEAAF9C">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-14 17:37:39 UTC</createdTime>
+<generatorID>3A378258-B33D-DB3E-9AEB-4EC83F81A250</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>4D08AE55-2B23-952B-B4F0-F8AD9AEA3CFD</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
-<identifier id="2085A542-C0D4-7D18-84F5-080C7790CDA8" name="CLAS_TEMA PK">
+<identifier id="F6DBE89D-5E77-6275-BE70-4119DF44EF1C" name="COMPRA / ADQUISICION PK">
 <createdBy>alex</createdBy>
-<createdTime>2021-12-13 22:26:12 UTC</createdTime>
+<createdTime>2021-12-14 17:22:05 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>B6FD1291-CDFB-7E68-2F67-1453D8E2B8FA</attributeRef>
+<attributeRef>25C362CA-0CF3-031A-80C2-0F7E7AEAAF9C</attributeRef>
+<attributeRef>EEE2A995-A093-615F-0A8A-A7A911AC0F47</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>
