@@ -1,0 +1,166 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="AC59B031-3ADC-7049-CC3B-796802CB92AB" name="PIEZA_INTELIGENCIA">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>D9557FAC-F549-199C-B20A-A9FCB2AB866B</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<useDDLTransformationScript>true</useDDLTransformationScript>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="012D7D11-4613-1177-AE9F-828CF35EFB04">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>F630845C-43C5-61F2-39FA-454D01CFB96E</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fecha_creacion" id="B18F66FF-97C3-6CFC-F925-50F9AB6722E6">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>4DF4A2DF-EB70-9652-B2B2-5BDB98E797DB</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nivel_confiabilidad" id="B203DCE4-7029-87DD-4371-AF44DD04FC63">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>65B8D9DE-1FE4-9927-37E5-31E91ED23745</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="precio_base" id="5F84312D-92F5-394E-3796-F36DA3899152">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>30128C05-837E-D3C8-17F7-45E5C5675998</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="class_seguridad" id="2F4466BC-21FA-0BB9-B3E0-0D0D0323AF91">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<commentInRDBMS><![CDATA[ check ("Top secret" , "Confidencial", "No clasificado")]]></commentInRDBMS>
+<generatorID>4DC3BB87-BA93-6D66-56B8-DC8489A74260</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="CLAS_TEMA_id" id="FEC49627-A484-5711-4036-28A2D7D93BBE">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>099E07E0-E1F7-53D4-13C8-5523F2648C39</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="066E7900-E8D0-E912-4CAF-3C3ED0EA5956" referredColumn="37EF1A2F-29BA-22AC-4891-E6F0528B7264"/>
+</associations>
+</Column>
+<Column name="HIST_CARGO_fecha_inicio" id="014AB8F7-C92B-DE2F-1433-029B15ECFF66">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>A97435DF-6D94-7DA6-733A-6BC9DA6B5A0F</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="575A2AA0-4CBC-7B7A-CF43-3242E66D344A" referredColumn="F847C237-D624-62C5-D7D0-876DE0CB6EE2"/>
+</associations>
+</Column>
+<Column name="HIST_CARGO_PERSONAL_INTELIGENCIA_id" id="55FC004B-2C36-CCFB-31DA-603A03D66875">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>1C400FEF-19A6-6495-C48B-C6906827F6C5</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="575A2AA0-4CBC-7B7A-CF43-3242E66D344A" referredColumn="DDB3FA8C-342C-A6CB-547B-03ACBE5EA999"/>
+</associations>
+</Column>
+<Column name="HIST_CARGO_ESTACION_id" id="FCE12C13-3A9D-A624-AEB8-B80E86D8D315">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>2054E6E0-C8B6-BD27-E12D-7DD3423B3A09</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="575A2AA0-4CBC-7B7A-CF43-3242E66D344A" referredColumn="D3FC7A98-4F65-FDC1-6B6A-872203BB1AF2"/>
+</associations>
+</Column>
+<Column name="HIST_CARGO_ESTACION_id1" id="7DDA4FED-5447-9362-A09B-AF7A7C37172F">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>C223B902-3C67-7AC8-F68F-2B8AEB01DCA7</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="575A2AA0-4CBC-7B7A-CF43-3242E66D344A" referredColumn="BE310BF1-F2F2-34A3-C25C-947A6851721A"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="181816C4-0D7B-7252-717A-263CE2D35FBB" name="PIEZA_INTELIGENCIA_PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>39DC1684-D96B-0E6D-4056-CA091D108C14</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="012D7D11-4613-1177-AE9F-828CF35EFB04"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="A062FB30-B510-D504-8BAC-838CEA3AB7B5" name="PIEZA_INTELIGENCIA_CLAS_TEMA_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>BD8BAA83-4D74-4E6F-A3EE-B511A8FB5F8E</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FEC49627-A484-5711-4036-28A2D7D93BBE"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E07929EF-D275-6328-B107-02A1D12C7712" name="PIEZA_INTELIGENCIA_HIST_CARGO_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>BDB3A1BA-439A-8456-196A-D022501816D9</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="014AB8F7-C92B-DE2F-1433-029B15ECFF66"/>
+<colUsage columnID="55FC004B-2C36-CCFB-31DA-603A03D66875"/>
+<colUsage columnID="FCE12C13-3A9D-A624-AEB8-B80E86D8D315"/>
+<colUsage columnID="7DDA4FED-5447-9362-A09B-AF7A7C37172F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

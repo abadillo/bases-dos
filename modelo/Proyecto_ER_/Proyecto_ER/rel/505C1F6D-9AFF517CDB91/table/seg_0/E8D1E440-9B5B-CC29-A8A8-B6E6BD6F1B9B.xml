@@ -1,0 +1,66 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="E8D1E440-9B5B-CC29-A8A8-B6E6BD6F1B9B" name="CLAS_TEMA">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>D33E8C5B-646B-0454-6770-E12799EE7496</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="37EF1A2F-29BA-22AC-4891-E6F0528B7264">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>B6FD1291-CDFB-7E68-2F67-1453D8E2B8FA</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nombre" id="020AF0B4-28CE-9253-8339-DFFF5AA7EE1F">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>465C8C37-D134-A87B-CCD7-B76137B40147</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="descripcion" id="DAFFD323-92B2-ADB4-736D-39951AD04214">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>30912189-F29A-3677-F374-DB5F705511FB</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="topico" id="9BE7AE1F-67F8-BB67-4ACE-A01376D8BDB6">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<commentInRDBMS><![CDATA[paises
+individuos
+eventos
+empresas]]></commentInRDBMS>
+<generatorID>0F8E8A34-92A2-4444-3681-26184024A6BF</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="15023E35-4188-AEA5-615E-6B220661008F" name="CLAS_TEMA_PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>2085A542-C0D4-7D18-84F5-080C7790CDA8</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="37EF1A2F-29BA-22AC-4891-E6F0528B7264"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

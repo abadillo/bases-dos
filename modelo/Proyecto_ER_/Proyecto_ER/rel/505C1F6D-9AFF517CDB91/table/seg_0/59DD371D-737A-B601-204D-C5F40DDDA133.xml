@@ -1,0 +1,85 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="59DD371D-737A-B601-204D-C5F40DDDA133" name="CUENTA">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>D7F61E49-9684-52CE-90AD-FDBA1FAE0B59</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<useDDLTransformationScript>true</useDDLTransformationScript>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="año" id="A007EB23-EFE0-3A93-89CB-7986197BD4B5">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>13664601-9D3F-2A11-63E2-D96FED7FC0EB</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="presupuesto" id="0FC05440-F235-DD35-9977-0D305DB0D101">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>8E699855-1AC4-1D46-DE45-126A86A4461A</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ESTACION_id" id="9A1F8635-2A62-04A1-E393-1A6ECE3E8729">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>A8DD4EED-1318-0E45-0C2A-14B8FA481AB2</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="7E663732-F3B8-CF8B-5BCE-BC206DBBDF8A" referredColumn="DA598FAC-1EB1-3BCD-EFF8-D719842396E2"/>
+</associations>
+</Column>
+<Column name="ESTACION_id1" id="C117AE9E-7D6D-6FEA-3C7F-95472B75BBDA">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>2520E4EA-CF3A-D31E-7C2A-CA2038A7CAC5</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="7E663732-F3B8-CF8B-5BCE-BC206DBBDF8A" referredColumn="27256642-F4A4-714A-2E3E-2C1B7B093E1F"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="698FCA8D-3488-39BE-51E0-996C6F11EEB3" name="CUENTA_PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>B8081A6C-858B-E1A5-A6EA-0C682D3C385B</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9A1F8635-2A62-04A1-E393-1A6ECE3E8729"/>
+<colUsage columnID="C117AE9E-7D6D-6FEA-3C7F-95472B75BBDA"/>
+<colUsage columnID="A007EB23-EFE0-3A93-89CB-7986197BD4B5"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="879C289F-1565-A884-387F-2B7F613E9FE5" name="CUENTA_ESTACION_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>76C1D599-1AAE-9D13-7416-CD133012532D</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9A1F8635-2A62-04A1-E393-1A6ECE3E8729"/>
+<colUsage columnID="C117AE9E-7D6D-6FEA-3C7F-95472B75BBDA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

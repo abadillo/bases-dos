@@ -1,0 +1,60 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="C4BA9871-B151-7777-F284-53FE37261739" name="ALT_PIEZA_INTELIGENCIA">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>5122ED84-E63B-045E-6D59-A9CF7D8B7D8B</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<useDDLTransformationScript>true</useDDLTransformationScript>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ALT_HIST_CARGO_fecha_inicio" id="A183B9D3-9501-808A-C19C-884F37BF6877">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>6E3FEE96-235B-4CDE-37B3-CBC4E72A1643</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="304EE9EE-3D1B-C2A3-E948-A0AA89DC7008" referredColumn="D4166BAF-D3F0-EE52-0253-5C03EFBDE58E"/>
+</associations>
+</Column>
+<Column name="id" id="C1A771B3-1EFB-3AEE-59BA-5857CCF949C9">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>4D08AE55-2B23-952B-B4F0-F8AD9AEA3CFD</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="E445EDE0-3E46-D65C-C378-E10D6F4C50F2" name="ALT_PIEZA_INTELIGENCIA_PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>8D9B83A9-4387-430A-1E2A-F6611C534034</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C1A771B3-1EFB-3AEE-59BA-5857CCF949C9"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="DFCC6AF6-8D12-0E3C-12FC-D8F1966A245D" name="ALT_PIEZA_INTELIGENCIA_ALT_HIST_CARGO_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>502E0033-5661-25E6-1518-55B5A442655F</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A183B9D3-9501-808A-C19C-884F37BF6877"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

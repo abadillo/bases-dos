@@ -1,0 +1,104 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="F77B77D6-3309-497A-98D8-D969D8BF9969" name="ALT_ANALISTA_CRUDO">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>5AB5408B-CE64-A9AB-BFD2-21DFC048FEFE</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<useDDLTransformationScript>true</useDDLTransformationScript>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="BB87D253-9F7B-6F93-175D-C170A11E880A">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>34DD28D2-0B43-DB77-B1B9-385582F4FDEC</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fecha" id="4283D6C7-BA44-6E8C-6C0B-BDC9073DA6F4">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>3A209BC3-65E0-3907-DC44-271F8126C565</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nivel_confiabilidad" id="90BFDC60-0A4F-7E51-6ED6-19B92739E7F8">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>AF2BD7DC-C724-30EE-2418-18710A2C52FC</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ALT_HIST_CARGO_fecha_inicio" id="03617987-9475-87E4-5C0D-6572DC39BD84">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>CE2562AE-ACB1-C946-AB69-ED893C2A0B92</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="3ACC95CB-8E02-BAD5-DF15-2A8489F29113" referredColumn="D4166BAF-D3F0-EE52-0253-5C03EFBDE58E"/>
+</associations>
+</Column>
+<Column name="ALT_CRUDO_id" id="5B5EE1B7-AD8B-E918-3C5B-F942E6856411">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>B517A907-2CAC-8306-A848-DC8DD934FBAF</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="9AEAABBA-A2BF-0704-F001-80F8E31D6BBE" referredColumn="0FBA35BC-19AC-B4D4-3255-26CFADEF2017"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="DCFB59E3-7C4F-AAD0-C5DF-45FD757321AB" name="ALT_ANALISTA_CRUDO_PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>0F4460B0-079A-F5F8-F591-721DB62B94FB</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BB87D253-9F7B-6F93-175D-C170A11E880A"/>
+<colUsage columnID="03617987-9475-87E4-5C0D-6572DC39BD84"/>
+<colUsage columnID="5B5EE1B7-AD8B-E918-3C5B-F942E6856411"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="7955AB87-0D4E-7A74-26B3-A4ADA002DAB3" name="ALT_ANALISTA_CRUDO_ALT_HIST_CARGO_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>03063D6E-168E-DDB1-525C-411A0DDDBE10</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="03617987-9475-87E4-5C0D-6572DC39BD84"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="6126B916-62D4-DF0C-34C3-0A4846117897" name="ALT_ANALISTA_CRUDO_ALT_CRUDO_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>3537C840-C86A-1A7B-0A19-3A8915D7AAB2</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5B5EE1B7-AD8B-E918-3C5B-F942E6856411"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

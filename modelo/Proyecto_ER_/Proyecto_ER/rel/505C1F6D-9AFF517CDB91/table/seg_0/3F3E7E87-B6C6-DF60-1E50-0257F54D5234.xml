@@ -1,0 +1,284 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="3F3E7E87-B6C6-DF60-1E50-0257F54D5234" name="PERSONAL_INTELIGENCIA">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>CE756FA0-2E92-7E2B-D107-5F0E6D02B8AC</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<useDDLTransformationScript>true</useDDLTransformationScript>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="97578260-9E16-2C89-E381-436B857C8AA6">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>E81D224E-C617-C1E9-B535-580E8DB338BE</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="primer_nombre" id="538D1AA9-8BC0-24B8-9937-08B5184ED7E7">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>359C0120-C246-1B41-6496-BA8A8D7CFF1D</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="segundo_nombre" id="C99B386D-4590-A244-9DFB-DC863C7A9EF2">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>CFBCBFC6-5C03-EF2B-E2FC-E9BADDF29A78</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="primer_apellido" id="FB8B1792-FB92-F2D5-7ADB-F8FEAC082D1C">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>AC29A63D-7D8D-2F79-DAED-A8A1A6211BF7</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="segundo_apellido" id="2AB168FE-2612-A4AD-D5B8-1276A4652E87">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>356AE220-F881-A12C-6AE0-1A8187B4E80C</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="clasificacion" id="72DB1663-2F1E-A59D-A00D-5119825937A2">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<commentInRDBMS><![CDATA[check ("Agente de campo", "Analista")]]></commentInRDBMS>
+<generatorID>B6889995-5D09-2DB6-62F5-CAF8A9158EDB</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="telefono_(_--&gt;telefono_ty_)" id="09C38E96-13ED-2FAA-B746-7838FAD3EE22">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>1F4F451B-4F9D-6B1E-0450-A88F426780A8</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="identificaciones_(_--&gt;_identificacion_va_)" id="43B4644D-3A6B-A81E-5B02-80410171BA9F">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>985BB5AE-5BF9-6010-9987-A444EA699D94</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fotografia" id="BB5B3235-A309-D22A-A006-423851BA6C9B">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>9B9E9BAF-AA44-D751-86CD-D21AD804ECCE</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="huella_retina" id="544319D0-ABC8-D4DF-9D5D-636AF79AD3A4">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>28004F34-8530-67B3-A805-79D80E6DAE2E</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="huella_digital" id="D0BAE70B-26C2-D3A2-8D71-4A4F2E291136">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>B9F8FCF0-D9D3-8546-ADDA-89AA9042D7D9</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="altura" id="A0BCFC01-9872-B286-6DFA-A71B4E107A8E">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>E3B2AFA8-DFF1-62CF-B0C6-4A070E0C9B3A</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="peso" id="70411417-661E-5379-7C76-470F38CDB684">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>642E1CBC-B114-C23D-2602-E6AF551D0237</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="color_ojos" id="D2EACCA6-5B60-5F24-D327-5BEC0EC5FA42">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>584569BD-1AA5-3F29-E72D-55C0CD819690</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="vision" id="DC7618E6-2831-E6ED-530C-7706D1D46F3B">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>8A6F765B-BBB5-3182-1606-BD5361632A7B</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nivel_educativo_(_-&gt;_nivel_educativo_va_)" id="7FA1931A-0AA8-878E-02C0-EAC4B6AE57CA">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>261CE9F2-C570-63B1-B0E7-2AFD8107CE74</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="idiomas_(_-&gt;_idiomas_va_)" id="05A69843-727A-A319-8212-2B57723D4DB9">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>C3EC77BE-7AB1-CDF9-4DDE-72C5E44B0198</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="familiares_(_--&gt;_familiar_va_)" id="335F8488-42C0-383A-4966-EE66F34832FE">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>C49B31C6-F782-C50F-6FCD-8190EDC8539D</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ESTACION_id" id="F362B956-2DB0-4E50-7772-839AA7C29227">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>88AAD154-058A-354C-9B18-7016906066A8</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="7B6DB9A9-1EE2-F0AC-279C-D3477E953163" referredColumn="DA598FAC-1EB1-3BCD-EFF8-D719842396E2"/>
+</associations>
+</Column>
+<Column name="licencia_manejo_(_-&gt;_licencia_ty_)" id="500709BB-BAEC-2F8A-AD7F-9137D0B17977">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>65ECCBB9-2446-BD94-4511-2FEBDAA5F2E5</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="class_seguridad" id="3927843D-FA0C-2F35-7023-3795ACB4C568">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<commentInRDBMS><![CDATA[check ("Top secret" , "Confidencial", "No clasificado")]]></commentInRDBMS>
+<generatorID>90679555-FCCD-7008-B07D-54CEB7974F02</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="aliases_(_--&gt;_alias_nt_)" id="00AA39D3-3161-F5D4-C147-156FCF66156A">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>AF5E1B30-2C9E-364D-6741-3C73E9B480C1</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ESTACION_id1" id="6742ECD1-06F1-DAE4-51B9-5FE85FF374E8">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>9F0AB08B-69C8-2350-06DB-FFFD1C7E28BA</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="7B6DB9A9-1EE2-F0AC-279C-D3477E953163" referredColumn="27256642-F4A4-714A-2E3E-2C1B7B093E1F"/>
+</associations>
+</Column>
+<Column name="LUGAR_id" id="B6BA7553-0136-5B1B-A4C4-C9909BC61FE3">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>E20C371A-5115-1FE7-C0AC-993EED727BFA</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="C2DC6F32-84C0-2C1D-FFE0-6DA4B9EF7156" referredColumn="12B43ADC-3C14-B51B-1EE1-323C9D36DEDB"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="6A8C2194-D1C6-B9E0-F723-7D29B3792AB7" name="PERSONAL_INTELIGENCIA_PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>DF0AABA5-7F43-722D-CB1D-90848B67F08B</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="97578260-9E16-2C89-E381-436B857C8AA6"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="7E126B2B-EC1D-A7E6-2492-E55D0DEF27BE" name="PERSONAL_INTELIGENCIA_ESTACION_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>981D1310-9412-ACEF-68A0-EC7B44F1CB9F</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F362B956-2DB0-4E50-7772-839AA7C29227"/>
+<colUsage columnID="6742ECD1-06F1-DAE4-51B9-5FE85FF374E8"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="72B67D4C-CA65-69F0-129E-67AC080CB5F1" name="PERSONAL_INTELIGENCIA_LUGAR_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>D202CF3A-EA23-3225-F91A-7D0D2EEAECDD</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B6BA7553-0136-5B1B-A4C4-C9909BC61FE3"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,76 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="5FA0C2D9-FD4E-06A6-0E40-E7C562AC3B78" name="ALT_CRUDO_PIEZA">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>47CE9562-0CD0-949E-3B2D-D4A056B810DE</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<useDDLTransformationScript>true</useDDLTransformationScript>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ALT_PIEZA_INTELIGENCIA_id" id="98447DCD-7870-E612-2665-B870A09842DF">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>ED4E1E86-7994-C4F3-81D0-85BAEBED16C6</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="E3FB8508-65A2-8931-46E3-093F89BA568A" referredColumn="C1A771B3-1EFB-3AEE-59BA-5857CCF949C9"/>
+</associations>
+</Column>
+<Column name="ALT_CRUDO_id" id="A3B1AC7D-3D1A-2657-513A-C0DA8A85D9CB">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>AD7C65BE-38AD-33C6-3B78-54E2BFAE5E76</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="0832E034-C458-20DF-471B-EDCD0BB60C10" referredColumn="0FBA35BC-19AC-B4D4-3255-26CFADEF2017"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="AF70A5AF-2EFE-8FE8-5DB6-77659DD0AC07" name="ALT_CRUDO_PIEZA_PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>5B9089F0-8CB0-DE39-63F0-737621AF7230</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="98447DCD-7870-E612-2665-B870A09842DF"/>
+<colUsage columnID="A3B1AC7D-3D1A-2657-513A-C0DA8A85D9CB"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="2BCFD1A8-3C74-BE5B-E9F5-6342FBD4E530" name="ALT_CRUDO_PIEZA_ALT_PIEZA_INTELIGENCIA_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>179467F4-DAC2-15B7-8E9C-40D94C041330</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="98447DCD-7870-E612-2665-B870A09842DF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="2DB65BFC-AAF0-F9FF-B4B6-4330323E7825" name="ALT_CRUDO_PIEZA_ALT_CRUDO_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>87D87BAB-9296-3A8F-BF6B-1F5EBFC7A68B</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A3B1AC7D-3D1A-2657-513A-C0DA8A85D9CB"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

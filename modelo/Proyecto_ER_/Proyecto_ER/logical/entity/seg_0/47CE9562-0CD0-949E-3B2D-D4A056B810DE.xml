@@ -15,18 +15,6 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="id1" id="CC18DF5A-D608-EDCF-431F-46A9ED3F99D0">
-<createdBy>alex</createdBy>
-<createdTime>2021-12-14 17:22:05 UTC</createdTime>
-<generatorID>87D87BAB-9296-3A8F-BF6B-1F5EBFC7A68B</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>3130F1E2-204C-724D-3761-E73831145BC0</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="id" id="ED4E1E86-7994-C4F3-81D0-85BAEBED16C6">
 <createdBy>alex</createdBy>
 <createdTime>2021-12-14 17:37:39 UTC</createdTime>
@@ -39,19 +27,32 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
+<Attribute name="id1" id="AD7C65BE-38AD-33C6-3B78-54E2BFAE5E76">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:10:52 UTC</createdTime>
+<generatorID>87D87BAB-9296-3A8F-BF6B-1F5EBFC7A68B</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>3130F1E2-204C-724D-3761-E73831145BC0</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
 <identifier id="5B9089F0-8CB0-DE39-63F0-737621AF7230" name="sd PK">
 <createdBy>alex</createdBy>
 <createdTime>2021-12-14 17:22:05 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
 <engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="false"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
 <attributeRef>ED4E1E86-7994-C4F3-81D0-85BAEBED16C6</attributeRef>
-<attributeRef>CC18DF5A-D608-EDCF-431F-46A9ED3F99D0</attributeRef>
+<attributeRef>AD7C65BE-38AD-33C6-3B78-54E2BFAE5E76</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>

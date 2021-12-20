@@ -117,6 +117,17 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
+<Attribute name="huella_digital" id="B9F8FCF0-D9D3-8546-ADDA-89AA9042D7D9">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 00:58:04 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 <Attribute name="altura" id="E3B2AFA8-DFF1-62CF-B0C6-4A070E0C9B3A">
 <createdBy>Gabriel</createdBy>
 <createdTime>2021-11-14 18:07:41 UTC</createdTime>
@@ -157,7 +168,7 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="nivel_educativo ( -&gt; nivel_educativo_ty )" id="261CE9F2-C570-63B1-B0E7-2AFD8107CE74">
+<Attribute name="nivel_educativo ( -&gt; nivel_educativo_va )" id="261CE9F2-C570-63B1-B0E7-2AFD8107CE74">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-18 22:25:01 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
@@ -262,8 +273,9 @@
 <createdBy>Gabriel</createdBy>
 <createdTime>2021-11-14 18:04:45 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
 <engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="false"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>

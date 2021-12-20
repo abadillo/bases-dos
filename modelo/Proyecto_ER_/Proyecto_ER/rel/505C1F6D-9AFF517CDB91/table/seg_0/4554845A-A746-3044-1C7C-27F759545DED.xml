@@ -1,0 +1,88 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="4554845A-A746-3044-1C7C-27F759545DED" name="ALT_ADQUISICION">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>0135F23A-D4E0-5D01-7247-A7B6D01E6102</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<useDDLTransformationScript>true</useDDLTransformationScript>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="6CACEE8C-8552-78EC-3E3B-7789F7ADA751">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>EEE2A995-A093-615F-0A8A-A7A911AC0F47</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fecha_venta" id="D1EDAEDD-E4A7-1201-2A02-15B11AF9DCC5">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>4687639E-18F9-F780-3B04-9C6901E36B9F</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="precio_vendido" id="7F1A244A-E904-F3DC-6A91-9A9A8D6AE05E">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>D5A712C5-C289-8110-03F3-E20A175E4F73</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="id_cliente" id="57837BCF-D8B9-3F31-0D10-3E2DDDA13819">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>46E09235-D056-1297-8F29-77D8D3140FBE</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ALT_PIEZA_INTELIGENCIA_id" id="15E0A9CD-BA42-3B91-5BCA-8FE4371A4FF8">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>25C362CA-0CF3-031A-80C2-0F7E7AEAAF9C</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="A92B5544-95B9-81EF-ACC3-C0DF9F5B549A" referredColumn="C1A771B3-1EFB-3AEE-59BA-5857CCF949C9"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="DC89DCCA-5D52-89E2-D7EB-333F9DD3BB32" name="ALT_ADQUISICION_PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>F6DBE89D-5E77-6275-BE70-4119DF44EF1C</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="15E0A9CD-BA42-3B91-5BCA-8FE4371A4FF8"/>
+<colUsage columnID="6CACEE8C-8552-78EC-3E3B-7789F7ADA751"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="2FC4A88B-72D8-6E3F-C8F0-34F1637E31E0" name="ALT_ADQUISICION_ALT_PIEZA_INTELIGENCIA_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>3A378258-B33D-DB3E-9AEB-4EC83F81A250</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="15E0A9CD-BA42-3B91-5BCA-8FE4371A4FF8"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

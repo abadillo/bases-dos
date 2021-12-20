@@ -1,0 +1,115 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="08F8ADC1-D164-7658-4D46-32E59482F651" name="TRANSACCION_PAGO">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>8A2E8CC1-F26A-7E24-DB63-6E3857BDE91D</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<useDDLTransformationScript>true</useDDLTransformationScript>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="22B1E37A-E142-73F2-2449-64C4414FF283">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>259709C2-2140-D8E8-91AA-76DF65F056BF</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fecha" id="AF8D0D70-AA52-06EF-F524-909802C785A1">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>2A349063-D656-9E6B-506A-9FA8D215CCE0</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="monto_pago" id="AA4619BF-61BA-7431-A577-65C3C1250165">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>5FF66B4F-9957-850A-73C9-5D8D29F35835</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="CRUDO_id" id="9FEBE83A-3B13-C5EF-830C-D084EB255BB3">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>8FDF5C22-28DE-7C3F-AD5D-18394918565C</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="58C5BEB5-D2BF-C141-3D89-5FBC281306AA" referredColumn="8D024343-927E-C647-BDD0-65071BEED05E"/>
+</associations>
+</Column>
+<Column name="INFORMANTE_id" id="7619A5E4-A86E-D0E0-CCE7-0D65C642210D">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>D55A5B94-7D32-2BBF-FCE3-8B27FE23AB1B</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B1F186FD-5877-7C43-29A3-6BC447A0E4E3" referredColumn="ADB03FF3-DB3B-143F-DBFD-604C6AE97209"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="90A04CA0-CCC1-E0D7-2684-8F6F8124D57C" name="TRANSACCION_PAGO_PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>9515B6FE-9572-90E8-7BD9-9BC2091B33A9</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7619A5E4-A86E-D0E0-CCE7-0D65C642210D"/>
+<colUsage columnID="22B1E37A-E142-73F2-2449-64C4414FF283"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C37F8434-45D3-5105-FB33-4A4E09B54F62" name="TRANSACCION_PAGO__IDX">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<relationGeneratorID>DA746FFE-CDA8-1358-D909-674208A46E3E</relationGeneratorID>
+<indexColumnUsage>
+<colUsage columnID="9FEBE83A-3B13-C5EF-830C-D084EB255BB3"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="4D493BF9-9866-7D56-8437-393F58BFFB04" name="TRANSACCION_PAGO_CRUDO_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>DA746FFE-CDA8-1358-D909-674208A46E3E</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9FEBE83A-3B13-C5EF-830C-D084EB255BB3"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="174060C2-997F-0D6B-7B93-320289F67D49" name="TRANSACCION_PAGO_INFORMANTE_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>143F2DFE-4568-423A-B24A-1A99775C28CE</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7619A5E4-A86E-D0E0-CCE7-0D65C642210D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

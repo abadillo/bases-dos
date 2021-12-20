@@ -1,0 +1,104 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="FAB3065B-E5A5-5CBE-96EB-B6C07DFF6F63" name="ADQUISICION">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>4B5BE21C-D2C0-4D69-2D31-481F45622543</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<useDDLTransformationScript>true</useDDLTransformationScript>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="A9296B9B-8913-A0FE-F322-B8C07060F97D">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>3F8CCD72-5B8C-B57B-EE91-8B7E428C49DB</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fecha_venta" id="E31B6DF5-487D-4FE3-2128-026A5C0ACCCD">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>B7D07324-F226-E214-D291-3D3EE3F8C6D1</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="CLIENTE_id" id="6F8D4D24-1899-BF82-E551-88BB797E5EFB">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>3FB09EBD-E2DC-06D9-B0F5-AE71FDED9CBA</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="58337831-788C-9C22-880D-A418E9CEF6DF" referredColumn="33C9CB1A-ADEE-DA2A-3B28-64A4FF7DEEC8"/>
+</associations>
+</Column>
+<Column name="PIEZA_INTELIGENCIA_id" id="5D8AA856-8BCE-99A0-6663-E4E020670C15">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>EA4E0A19-4043-C868-9C3E-6F36F4F2BAD7</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="6988DF08-BD4E-6D7E-BD0C-0A8E795011D5" referredColumn="012D7D11-4613-1177-AE9F-828CF35EFB04"/>
+</associations>
+</Column>
+<Column name="precio_vendido" id="CE605C80-0C53-1BF0-DE6E-85CDEFF77A4E">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>56014CE4-851E-4292-CB7A-9E78CC676DBA</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="585EA2ED-293D-8535-026F-FE9044833662" name="ADQUISICION_PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>27055C96-7AD0-F29E-41E0-87727699439B</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6F8D4D24-1899-BF82-E551-88BB797E5EFB"/>
+<colUsage columnID="5D8AA856-8BCE-99A0-6663-E4E020670C15"/>
+<colUsage columnID="A9296B9B-8913-A0FE-F322-B8C07060F97D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="620C35E5-2CFD-E910-8B46-8609A3C7E351" name="ADQUISICION_CLIENTE_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>FE4A0EFF-817F-502F-6ECC-0E9A9AF7AA1E</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6F8D4D24-1899-BF82-E551-88BB797E5EFB"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E8C7247E-5636-4E26-CDDA-5CC651C2CC2E" name="ADQUISICION_PIEZA_INTELIGENCIA_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>DF29AD6F-F146-4B77-D732-0236164E0355</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5D8AA856-8BCE-99A0-6663-E4E020670C15"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

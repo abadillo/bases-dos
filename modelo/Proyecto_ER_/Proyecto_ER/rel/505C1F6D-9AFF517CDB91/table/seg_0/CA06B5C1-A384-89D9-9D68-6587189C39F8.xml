@@ -1,0 +1,129 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="CA06B5C1-A384-89D9-9D68-6587189C39F8" name="ESTACION">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>6B0D200B-7197-CA77-48FA-C0B00DDE283B</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<useDDLTransformationScript>true</useDDLTransformationScript>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="DA598FAC-1EB1-3BCD-EFF8-D719842396E2">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>047FBDD0-697C-5B0B-0DD3-D6029B0F7812</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nombre" id="04651E68-FF3B-B080-523C-1985FE5ABA90">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>74CDBC8A-8609-24BF-A2B6-6CF463BA8A11</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OFICINA_PRINCIPAL_id" id="27256642-F4A4-714A-2E3E-2C1B7B093E1F">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>05FBA917-453C-B231-F618-8326E70C53F4</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="EF0520BA-78A3-06CA-6AE3-360DA4ABAE3B" referredColumn="21776318-F00C-50AA-363D-64BB6D17456C"/>
+</associations>
+</Column>
+<Column name="EMPLEADO_JEFE_id" id="0B8D33AD-CD4D-FD7C-1B08-73B9157D8383">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>3FF228CC-1AA8-22AE-EC2B-6CC3A13997AC</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="978B4A38-C896-B2E2-9C92-270D7B0C4547" referredColumn="B765E0FB-0D4E-E85E-4752-81421A0280DD"/>
+</associations>
+</Column>
+<Column name="LUGAR_id" id="7D33BDE3-BDB4-19EA-9C4A-8AA73DC3BDA8">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>01E5B80F-D3DF-A6C1-3699-EE8B2484A50E</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="3B466F16-A5DB-531B-1432-E3D56BE66FD4" referredColumn="12B43ADC-3C14-B51B-1EE1-323C9D36DEDB"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="A9D9D17E-DB2E-4295-7F1C-B03C4EF23A27" name="ESTACION_PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>A78DDB1C-0158-AEE7-A5EF-1A625CEA2648</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="DA598FAC-1EB1-3BCD-EFF8-D719842396E2"/>
+<colUsage columnID="27256642-F4A4-714A-2E3E-2C1B7B093E1F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="BCE4154B-97AB-5EBA-238A-7FD4AFFA32D4" name="ESTACION__IDX">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<relationGeneratorID>E9119495-6CC0-EDC1-90CD-E05D4B31041A</relationGeneratorID>
+<indexColumnUsage>
+<colUsage columnID="0B8D33AD-CD4D-FD7C-1B08-73B9157D8383"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E609EE74-C9FC-83A8-FC12-3713B93FA922" name="ESTACION_EMPLEADO_JEFE_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>E9119495-6CC0-EDC1-90CD-E05D4B31041A</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="0B8D33AD-CD4D-FD7C-1B08-73B9157D8383"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="22638418-433A-99B2-7BBF-13728190FCD0" name="ESTACION_LUGAR_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>D48D0136-73E1-E810-BE95-5BAB77406783</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7D33BDE3-BDB4-19EA-9C4A-8AA73DC3BDA8"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="31722FFC-332D-F289-237D-D80252DC5F90" name="ESTACION_OFICINA_PRINCIPAL_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>1546D1C6-9500-9020-5EE1-1EE480AFE03B</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="27256642-F4A4-714A-2E3E-2C1B7B093E1F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

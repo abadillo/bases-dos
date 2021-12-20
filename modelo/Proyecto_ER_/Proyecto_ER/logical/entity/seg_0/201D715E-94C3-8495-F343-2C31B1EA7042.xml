@@ -28,6 +28,7 @@
 <Attribute name="nombre_clave" id="FAE6E313-111D-9B35-DB73-C90C635976AF">
 <createdBy>Gabriel</createdBy>
 <createdTime>2021-11-14 18:25:52 UTC</createdTime>
+<commentInRDBMS><![CDATA[unique]]></commentInRDBMS>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -149,8 +150,9 @@
 <createdBy>alex</createdBy>
 <createdTime>2021-11-20 23:55:28 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
 <engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="false"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>

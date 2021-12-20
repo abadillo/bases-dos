@@ -1,0 +1,76 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="86F10D81-8ECF-D0D4-8C3E-28D5A7DE7EF1" name="TEMAS_ESP">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>998F36F8-94A2-21E8-820B-DF253ECE25C9</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<useDDLTransformationScript>true</useDDLTransformationScript>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="PERSONAL_INTELIGENCIA_id" id="9F4F4E62-876C-5129-A181-43D2394B2515">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>2DE13EFD-742E-D1B0-17E5-103394594981</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="7EB5634F-529F-589A-31F1-C63DD5CFAD4F" referredColumn="97578260-9E16-2C89-E381-436B857C8AA6"/>
+</associations>
+</Column>
+<Column name="CLAS_TEMA_id" id="ECE4E418-2DBE-A33E-B15F-0F259125440F">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>D6A658FD-3817-5F79-CAE7-88A33726ECB7</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="BBB4A059-1D82-3809-EAF3-910CFCA20B98" referredColumn="37EF1A2F-29BA-22AC-4891-E6F0528B7264"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="704D0B93-98BF-F276-9343-F87DD79EA9BC" name="TEMAS_ESP_PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>50CE87CA-94A5-FD3A-1C49-0D2FB243DBDD</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9F4F4E62-876C-5129-A181-43D2394B2515"/>
+<colUsage columnID="ECE4E418-2DBE-A33E-B15F-0F259125440F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="672E7011-1555-97CB-AF00-8E1C54CC6923" name="TEMAS_ESP_PERSONAL_INTELIGENCIA_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>22929B4E-32C6-561A-82D4-41AEBA7B424B</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9F4F4E62-876C-5129-A181-43D2394B2515"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C74FC825-A298-8E2F-FC17-B582154E7735" name="TEMAS_ESP_CLAS_TEMA_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>450AE739-298D-E942-793A-AD99032760D7</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="ECE4E418-2DBE-A33E-B15F-0F259125440F"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="9AEAABBA-A2BF-0704-F001-80F8E31D6BBE" containerWithKeyObject="F77B77D6-3309-497A-98D8-D969D8BF9969" localFKIndex="6126B916-62D4-DF0C-34C3-0A4846117897" name="ALT_ANALISTA_CRUDO_ALT_CRUDO_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>3537C840-C86A-1A7B-0A19-3A8915D7AAB2</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<referredTableLongName>ALT_CRUDO</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>E60FDD71-2010-2000-DA68-C2BDD536EC36</referredTableID>
+<keyObject>17712FE0-8285-6101-86DA-BAE04AD3A48A</keyObject>
+<referredKeyID>17712FE0-8285-6101-86DA-BAE04AD3A48A</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

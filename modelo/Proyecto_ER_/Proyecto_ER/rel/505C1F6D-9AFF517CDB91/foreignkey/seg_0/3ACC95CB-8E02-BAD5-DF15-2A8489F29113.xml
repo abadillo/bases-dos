@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="3ACC95CB-8E02-BAD5-DF15-2A8489F29113" containerWithKeyObject="F77B77D6-3309-497A-98D8-D969D8BF9969" localFKIndex="7955AB87-0D4E-7A74-26B3-A4ADA002DAB3" name="ALT_ANALISTA_CRUDO_ALT_HIST_CARGO_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>03063D6E-168E-DDB1-525C-411A0DDDBE10</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<referredTableLongName>ALT_HIST_CARGO</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>091DEA70-3A3E-673C-A6C0-2B0AD5A689C0</referredTableID>
+<keyObject>EFF40C42-8FB9-79D5-3C7C-E884E16626E5</keyObject>
+<referredKeyID>EFF40C42-8FB9-79D5-3C7C-E884E16626E5</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>fecha_inicio</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

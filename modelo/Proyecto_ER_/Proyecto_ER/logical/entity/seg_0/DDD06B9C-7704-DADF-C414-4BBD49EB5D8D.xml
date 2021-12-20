@@ -73,12 +73,12 @@
 <createdBy>alex</createdBy>
 <createdTime>2021-11-19 23:44:24 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
 <engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="false"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>68F78646-C98D-14CA-07B4-7DE5503EAC2F</attributeRef>
 <attributeRef>4764E4A5-43BD-4733-A5FA-9985BD70A9F0</attributeRef>
 <attributeRef>F37B9377-1C93-9257-386F-E494F1E052D7</attributeRef>
 </usedAttributes>

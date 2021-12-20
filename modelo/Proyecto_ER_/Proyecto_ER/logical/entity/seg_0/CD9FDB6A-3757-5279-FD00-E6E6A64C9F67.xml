@@ -46,7 +46,7 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="region varchar(20)[]" id="956CE985-A14D-5249-0080-AC1C953588E3">
+<Attribute name="region" id="956CE985-A14D-5249-0080-AC1C953588E3">
 <createdBy>alex</createdBy>
 <createdTime>2021-12-13 22:29:30 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
@@ -76,8 +76,9 @@
 <createdBy>alex</createdBy>
 <createdTime>2021-12-13 22:29:18 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
 <engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="false"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>

@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_1" id="B20E27F0-9CFE-11FA-553A-A59C534E80C3" containerWithKeyObject="210D9DC4-C5DB-187E-6288-A2DDAF228022" localFKIndex="7D378052-B437-64F5-56D5-9E7664F84EDB" name="CRUDO_TRANSACCION_PAGO_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>DA746FFE-CDA8-1358-D909-674208A46E3E</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<referredTableLongName>TRANSACCION_PAGO</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>08F8ADC1-D164-7658-4D46-32E59482F651</referredTableID>
+<keyObject>90A04CA0-CCC1-E0D7-2684-8F6F8124D57C</keyObject>
+<referredKeyID>90A04CA0-CCC1-E0D7-2684-8F6F8124D57C</referredKeyID>
+<mandatory>false</mandatory>
+<refColNames>INFORMANTE_id,id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

@@ -35,6 +35,17 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
+<Attribute name="tipo" id="18247DC6-2F4C-C766-30E9-8836AAA8A5F9">
+<createdBy>alex</createdBy>
+<createdTime>2021-11-22 20:21:03 UTC</createdTime>
+<commentInRDBMS><![CDATA[sede si, no]]></commentInRDBMS>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 <Attribute name="id1" id="C0AB46BE-4450-497D-5E98-3FCD920B1FB4">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-21 20:47:19 UTC</createdTime>
@@ -44,17 +55,6 @@
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <referedAttribute>3D3E80BA-4C89-1AC4-58B1-2E966894FB15</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="tipo" id="18247DC6-2F4C-C766-30E9-8836AAA8A5F9">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-22 20:21:03 UTC</createdTime>
-<commentInRDBMS><![CDATA[sede si, no]]></commentInRDBMS>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
@@ -88,8 +88,9 @@
 <createdBy>alex</createdBy>
 <createdTime>2021-11-18 23:08:07 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
 <engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="false"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>

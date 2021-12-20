@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_1" id="7EB5634F-529F-589A-31F1-C63DD5CFAD4F" containerWithKeyObject="86F10D81-8ECF-D0D4-8C3E-28D5A7DE7EF1" localFKIndex="672E7011-1555-97CB-AF00-8E1C54CC6923" name="TEMAS_ESP_PERSONAL_INTELIGENCIA_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>22929B4E-32C6-561A-82D4-41AEBA7B424B</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<referredTableLongName>PERSONAL_INTELIGENCIA</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>3F3E7E87-B6C6-DF60-1E50-0257F54D5234</referredTableID>
+<keyObject>6A8C2194-D1C6-B9E0-F723-7D29B3792AB7</keyObject>
+<referredKeyID>6A8C2194-D1C6-B9E0-F723-7D29B3792AB7</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

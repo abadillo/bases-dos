@@ -1,0 +1,88 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="D6F128A1-5981-B82E-1EB6-6DB8427E1B5B" name="INTENTO_NO_AUTORIZADO">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>DDD06B9C-7704-DADF-C414-4BBD49EB5D8D</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<useDDLTransformationScript>true</useDDLTransformationScript>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="9CFFF8FE-9D1E-F365-D94F-82D4FE2964CE">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>F37B9377-1C93-9257-386F-E494F1E052D7</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fecha" id="7B583244-E7CB-CBE2-7E56-A7711D3E3C04">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>68F78646-C98D-14CA-07B4-7DE5503EAC2F</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="id_pieza" id="9DB66CBB-E204-BFFB-B6F7-9039F2D8CD5B">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>7BCF5220-BBFD-A497-1BB8-0AB8E9F90688</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="id_empleado" id="77047BF5-A595-60D5-D3C3-1D622F10EDCB">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>7A57A177-5A42-61F7-8F99-1C4F07D1C64A</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="PERSONAL_INTELIGENCIA_id" id="52EAC436-24B6-C596-3BA4-42205CEB9786">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>4764E4A5-43BD-4733-A5FA-9985BD70A9F0</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="115EACCF-D1C3-6B3C-1434-79D8BA447AED" referredColumn="97578260-9E16-2C89-E381-436B857C8AA6"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="0C4557AE-EF8C-B836-F806-675277BA2526" name="INTENTO_NO_AUTORIZADO_PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>0532BEBB-533A-962A-83CA-4D99B16233EE</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="52EAC436-24B6-C596-3BA4-42205CEB9786"/>
+<colUsage columnID="9CFFF8FE-9D1E-F365-D94F-82D4FE2964CE"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E8B1D7E7-08DA-DA07-6DD8-CCAB9E659C7A" name="INTENTO_NO_AUTORIZADO_PERSONAL_INTELIGENCIA_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>1D9BF69F-0608-85EA-4765-6E1F1D24281A</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="52EAC436-24B6-C596-3BA4-42205CEB9786"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

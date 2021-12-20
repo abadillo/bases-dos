@@ -1,0 +1,109 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="E60FDD71-2010-2000-DA68-C2BDD536EC36" name="ALT_CRUDO">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>F3F7BCC0-B919-2B9C-4AEC-757135E824C1</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<useDDLTransformationScript>true</useDDLTransformationScript>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="0FBA35BC-19AC-B4D4-3255-26CFADEF2017">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>3130F1E2-204C-724D-3761-E73831145BC0</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ALT_HIST_CARGO_fecha_inicio" id="40339151-A055-3896-E1F4-ADA5B486D4EC">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>3987854C-4C1D-5048-2ECD-BDD650649C51</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="BD282B77-E9B6-47EF-2C16-648AE6C214F7" referredColumn="D4166BAF-D3F0-EE52-0253-5C03EFBDE58E"/>
+</associations>
+</Column>
+<Column name="fuente" id="88CC0161-972C-367C-F23F-D0DF2E03FFBE">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<commentInRDBMS><![CDATA[abierta, secreta, tecnica]]></commentInRDBMS>
+<generatorID>DEF77147-3F4E-1E83-E156-4F3064CB9014</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="id_informante" id="4757A10C-BCFD-A324-800A-7FD2B4EA98F6">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>45A3C679-FC03-1D98-C857-77F7C0B7FFC1</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="monto_pago_informante" id="0E5EBBFA-0AFE-39D0-BFCA-176DA857D31C">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>2758DE83-DB22-DFB6-F0E0-C8186BE21D4B</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fecha_pago_informante" id="79288B98-A416-E9BF-0758-47F532308670">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>A6C29951-CD61-A762-B718-F57C588D4438</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="id_estacion" id="2BBA0CA7-E7BF-08F4-7BE1-C3B1EAEA8206">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>0C79D42D-EF2A-1EC2-C687-2F1B2C63E112</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="17712FE0-8285-6101-86DA-BAE04AD3A48A" name="ALT_CRUDO_PK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:12:04 UTC</createdTime>
+<generatorID>C0F80BE5-330E-70FA-7C62-86FEAC569859</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="0FBA35BC-19AC-B4D4-3255-26CFADEF2017"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="DCD88567-808B-7250-E0AC-A4D83730D69B" name="ALT_CRUDO_ALT_HIST_CARGO_FK">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:17:06 UTC</createdTime>
+<generatorID>4230185A-32BF-09CC-784A-90F4CC548E3A</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="40339151-A055-3896-E1F4-ADA5B486D4EC"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

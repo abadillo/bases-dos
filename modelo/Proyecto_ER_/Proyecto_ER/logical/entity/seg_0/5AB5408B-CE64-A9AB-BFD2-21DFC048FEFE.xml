@@ -45,18 +45,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id1" id="E22A3A5D-9099-D78C-6305-042C5BBBC754">
-<createdBy>alex</createdBy>
-<createdTime>2021-12-14 17:22:05 UTC</createdTime>
-<generatorID>3537C840-C86A-1A7B-0A19-3A8915D7AAB2</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>3130F1E2-204C-724D-3761-E73831145BC0</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="fecha_inicio" id="CE2562AE-ACB1-C946-AB69-ED893C2A0B92">
 <createdBy>alex</createdBy>
 <createdTime>2021-12-14 17:22:05 UTC</createdTime>
@@ -69,20 +57,33 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
+<Attribute name="id1" id="B517A907-2CAC-8306-A848-DC8DD934FBAF">
+<createdBy>alex</createdBy>
+<createdTime>2021-12-20 01:10:52 UTC</createdTime>
+<generatorID>3537C840-C86A-1A7B-0A19-3A8915D7AAB2</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>3130F1E2-204C-724D-3761-E73831145BC0</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
 <identifier id="0F4460B0-079A-F5F8-F591-721DB62B94FB" name="Entity_33 PK">
 <createdBy>alex</createdBy>
 <createdTime>2021-12-14 17:22:05 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
 <engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="false"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>E22A3A5D-9099-D78C-6305-042C5BBBC754</attributeRef>
 <attributeRef>34DD28D2-0B43-DB77-B1B9-385582F4FDEC</attributeRef>
 <attributeRef>CE2562AE-ACB1-C946-AB69-ED893C2A0B92</attributeRef>
+<attributeRef>B517A907-2CAC-8306-A848-DC8DD934FBAF</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>
