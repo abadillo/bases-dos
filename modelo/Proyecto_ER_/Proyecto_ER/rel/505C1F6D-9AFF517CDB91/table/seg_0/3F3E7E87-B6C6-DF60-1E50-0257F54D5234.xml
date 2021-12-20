@@ -217,7 +217,7 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="ESTACION_id1" id="6742ECD1-06F1-DAE4-51B9-5FE85FF374E8">
+<Column name="ESTACION_OFICINA_PRINCIPAL_id" id="6742ECD1-06F1-DAE4-51B9-5FE85FF374E8">
 <createdBy>alex</createdBy>
 <createdTime>2021-12-20 01:12:04 UTC</createdTime>
 <generatorID>9F0AB08B-69C8-2350-06DB-FFFD1C7E28BA</generatorID>

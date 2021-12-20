@@ -28,7 +28,7 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="HIST_CARGO_fecha_inicio" id="75B8F9D1-B3BA-7E48-8F18-0F0F37FBF62C">
+<Column name="fecha_inicio" id="75B8F9D1-B3BA-7E48-8F18-0F0F37FBF62C">
 <createdBy>alex</createdBy>
 <createdTime>2021-12-20 01:12:04 UTC</createdTime>
 <generatorID>7B8984F8-5915-C9A1-FF3C-DA4727D2CCB8</generatorID>
@@ -42,7 +42,7 @@
 <colAssociation fkAssociation="772D2A20-1621-0436-53D5-911665D7538F" referredColumn="F847C237-D624-62C5-D7D0-876DE0CB6EE2"/>
 </associations>
 </Column>
-<Column name="HIST_CARGO_PERSONAL_INTELIGENCIA_id" id="41D93974-3B0E-DEB1-F941-ECA2ED1AFC2C">
+<Column name="id1" id="41D93974-3B0E-DEB1-F941-ECA2ED1AFC2C">
 <createdBy>alex</createdBy>
 <createdTime>2021-12-20 01:12:04 UTC</createdTime>
 <generatorID>75CC9E5A-D979-A958-D7A0-69D297938E84</generatorID>
@@ -56,7 +56,7 @@
 <colAssociation fkAssociation="772D2A20-1621-0436-53D5-911665D7538F" referredColumn="DDB3FA8C-342C-A6CB-547B-03ACBE5EA999"/>
 </associations>
 </Column>
-<Column name="HIST_CARGO_ESTACION_id" id="92618293-07D0-D808-772F-C7C906C10EE5">
+<Column name="id11" id="92618293-07D0-D808-772F-C7C906C10EE5">
 <createdBy>alex</createdBy>
 <createdTime>2021-12-20 01:12:04 UTC</createdTime>
 <generatorID>C75D2630-CEBA-0B60-BFAB-AC130C6ECBAB</generatorID>
@@ -70,7 +70,7 @@
 <colAssociation fkAssociation="772D2A20-1621-0436-53D5-911665D7538F" referredColumn="D3FC7A98-4F65-FDC1-6B6A-872203BB1AF2"/>
 </associations>
 </Column>
-<Column name="HIST_CARGO_ESTACION_id1" id="6B2EB093-7FA4-CE15-0945-9AF2D1A517D8">
+<Column name="id111" id="6B2EB093-7FA4-CE15-0945-9AF2D1A517D8">
 <createdBy>alex</createdBy>
 <createdTime>2021-12-20 01:12:04 UTC</createdTime>
 <generatorID>5BB11572-029B-7499-E54D-23CFDBCE66F2</generatorID>
@@ -126,7 +126,7 @@
 <colUsage columnID="6B2EB093-7FA4-CE15-0945-9AF2D1A517D8"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK id="7B38F5A9-D565-58C4-CE26-C113247908A4" name="INFORMANTE_HIST_CARGO_FKv2">
+<ind_PK_UK id="7B38F5A9-D565-58C4-CE26-C113247908A4" name="INFORMANTE_HIST_CARGO_FKv1">
 <createdBy>alex</createdBy>
 <createdTime>2021-12-20 01:17:06 UTC</createdTime>
 <generatorID>F452C870-AE4F-73B8-1A01-411F842932C7</generatorID>

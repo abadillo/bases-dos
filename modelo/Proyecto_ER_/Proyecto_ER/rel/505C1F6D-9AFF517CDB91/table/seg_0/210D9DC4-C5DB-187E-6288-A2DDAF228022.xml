@@ -113,7 +113,7 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column name="INFORMANTE_id" id="FE30A1F6-FE8B-0FBF-183A-D8BDFC60C0E4">
+<Column name="id1" id="FE30A1F6-FE8B-0FBF-183A-D8BDFC60C0E4">
 <createdBy>alex</createdBy>
 <createdTime>2021-12-20 01:12:04 UTC</createdTime>
 <generatorID>B525515B-68B2-B882-7B7E-7B56B8FA9B9A</generatorID>
@@ -123,11 +123,10 @@
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
-<colAssociation fkAssociation="B20E27F0-9CFE-11FA-553A-A59C534E80C3" referredColumn="7619A5E4-A86E-D0E0-CCE7-0D65C642210D"/>
 <colAssociation fkAssociation="E84798B2-CA30-572A-B28D-0A6610E9DA00" referredColumn="ADB03FF3-DB3B-143F-DBFD-604C6AE97209"/>
 </associations>
 </Column>
-<Column name="ESTACION_OFICINA_PRINCIPAL_id" id="1B4097C6-8470-9899-AF14-71841406E466">
+<Column name="id11" id="1B4097C6-8470-9899-AF14-71841406E466">
 <createdBy>alex</createdBy>
 <createdTime>2021-12-20 01:12:04 UTC</createdTime>
 <generatorID>F54F2852-8819-06FA-B234-E38C5F27BE6C</generatorID>
@@ -151,9 +150,6 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
-<associations>
-<colAssociation fkAssociation="B20E27F0-9CFE-11FA-553A-A59C534E80C3" referredColumn="22B1E37A-E142-73F2-2449-64C4414FF283"/>
-</associations>
 </Column>
 <Column name="CLAS_TEMA_id" id="503122D7-BED9-D818-944F-A1BDF07308FB">
 <createdBy>alex</createdBy>
@@ -194,7 +190,7 @@
 <colAssociation fkAssociation="FEAEFF63-35AA-F816-722F-5DEBB622E582" referredColumn="DDB3FA8C-342C-A6CB-547B-03ACBE5EA999"/>
 </associations>
 </Column>
-<Column name="ESTACION_id" id="28DF02CF-667B-6E5D-6BB8-18DE628D067B">
+<Column name="id13" id="28DF02CF-667B-6E5D-6BB8-18DE628D067B">
 <createdBy>alex</createdBy>
 <createdTime>2021-12-20 01:12:04 UTC</createdTime>
 <generatorID>95322292-C7E7-1325-E5DF-865AB8D94777</generatorID>
@@ -229,18 +225,6 @@
 <indexState>Unique Plain Index</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <relationGeneratorID>DA746FFE-CDA8-1358-D909-674208A46E3E</relationGeneratorID>
-<indexColumnUsage>
-<colUsage columnID="FE30A1F6-FE8B-0FBF-183A-D8BDFC60C0E4"/>
-<colUsage columnID="89EE39DC-7B9E-8C30-BBA7-0B673D7D2FD7"/>
-</indexColumnUsage>
-</ind_PK_UK>
-<ind_PK_UK id="7D378052-B437-64F5-56D5-9E7664F84EDB" name="CRUDO_TRANSACCION_PAGO_FK">
-<createdBy>alex</createdBy>
-<createdTime>2021-12-20 01:17:06 UTC</createdTime>
-<generatorID>DA746FFE-CDA8-1358-D909-674208A46E3E</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<indexState>Foreign Key</indexState>
-<isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
 <colUsage columnID="FE30A1F6-FE8B-0FBF-183A-D8BDFC60C0E4"/>
 <colUsage columnID="89EE39DC-7B9E-8C30-BBA7-0B673D7D2FD7"/>

@@ -65,7 +65,7 @@ agente]]></commentInRDBMS>
 <colAssociation fkAssociation="0D2AF376-0362-BE99-EDA2-5E9A2651D4A0" referredColumn="DA598FAC-1EB1-3BCD-EFF8-D719842396E2"/>
 </associations>
 </Column>
-<Column name="ESTACION_id1" id="BE310BF1-F2F2-34A3-C25C-947A6851721A">
+<Column name="ESTACION_OFICINA_PRINCIPAL_id" id="BE310BF1-F2F2-34A3-C25C-947A6851721A">
 <createdBy>alex</createdBy>
 <createdTime>2021-12-20 01:12:04 UTC</createdTime>
 <generatorID>3F58AFC9-0AFA-6FF4-E21D-A1EB7B9B4E0C</generatorID>

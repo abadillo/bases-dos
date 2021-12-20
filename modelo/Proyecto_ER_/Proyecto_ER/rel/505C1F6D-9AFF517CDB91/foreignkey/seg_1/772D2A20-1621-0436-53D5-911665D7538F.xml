@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_1" id="772D2A20-1621-0436-53D5-911665D7538F" containerWithKeyObject="741547CE-0E38-1A32-1A5E-04BB03BAF2DF" localFKIndex="7B38F5A9-D565-58C4-CE26-C113247908A4" name="INFORMANTE_HIST_CARGO_FKv2">
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_1" id="772D2A20-1621-0436-53D5-911665D7538F" containerWithKeyObject="741547CE-0E38-1A32-1A5E-04BB03BAF2DF" localFKIndex="7B38F5A9-D565-58C4-CE26-C113247908A4" name="INFORMANTE_HIST_CARGO_FKv1">
 <createdBy>alex</createdBy>
 <createdTime>2021-12-20 01:17:06 UTC</createdTime>
 <generatorID>F452C870-AE4F-73B8-1A01-411F842932C7</generatorID>
@@ -11,7 +11,7 @@
 <keyObject>6031EE8B-5A3B-34A0-AD67-90076D4D3BE9</keyObject>
 <referredKeyID>6031EE8B-5A3B-34A0-AD67-90076D4D3BE9</referredKeyID>
 <mandatory>false</mandatory>
-<refColNames>fecha_inicio,PERSONAL_INTELIGENCIA_id,ESTACION_id,ESTACION_id1</refColNames>
+<refColNames>fecha_inicio,PERSONAL_INTELIGENCIA_id,ESTACION_id,ESTACION_OFICINA_PRINCIPAL_id</refColNames>
 <transferable>true</transferable>
 <rely>false</rely>
 <columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>

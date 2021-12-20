@@ -46,9 +46,6 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <previousColumn>false</previousColumn>
 <autoIncrementCycle>false</autoIncrementCycle>
-<associations>
-<colAssociation fkAssociation="58C5BEB5-D2BF-C141-3D89-5FBC281306AA" referredColumn="8D024343-927E-C647-BDD0-65071BEED05E"/>
-</associations>
 </Column>
 <Column name="INFORMANTE_id" id="7619A5E4-A86E-D0E0-CCE7-0D65C642210D">
 <createdBy>alex</createdBy>
@@ -85,17 +82,6 @@
 <indexState>Unique Plain Index</indexState>
 <isSurrogateKey>false</isSurrogateKey>
 <relationGeneratorID>DA746FFE-CDA8-1358-D909-674208A46E3E</relationGeneratorID>
-<indexColumnUsage>
-<colUsage columnID="9FEBE83A-3B13-C5EF-830C-D084EB255BB3"/>
-</indexColumnUsage>
-</ind_PK_UK>
-<ind_PK_UK id="4D493BF9-9866-7D56-8437-393F58BFFB04" name="TRANSACCION_PAGO_CRUDO_FK">
-<createdBy>alex</createdBy>
-<createdTime>2021-12-20 01:17:06 UTC</createdTime>
-<generatorID>DA746FFE-CDA8-1358-D909-674208A46E3E</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<indexState>Foreign Key</indexState>
-<isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
 <colUsage columnID="9FEBE83A-3B13-C5EF-830C-D084EB255BB3"/>
 </indexColumnUsage>

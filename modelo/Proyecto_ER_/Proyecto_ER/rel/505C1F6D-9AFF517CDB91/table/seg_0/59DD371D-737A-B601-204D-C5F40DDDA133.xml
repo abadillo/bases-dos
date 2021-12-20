@@ -40,7 +40,7 @@
 <colAssociation fkAssociation="7E663732-F3B8-CF8B-5BCE-BC206DBBDF8A" referredColumn="DA598FAC-1EB1-3BCD-EFF8-D719842396E2"/>
 </associations>
 </Column>
-<Column name="ESTACION_id1" id="C117AE9E-7D6D-6FEA-3C7F-95472B75BBDA">
+<Column name="ESTACION_OFICINA_PRINCIPAL_id" id="C117AE9E-7D6D-6FEA-3C7F-95472B75BBDA">
 <createdBy>alex</createdBy>
 <createdTime>2021-12-20 01:12:04 UTC</createdTime>
 <generatorID>2520E4EA-CF3A-D31E-7C2A-CA2038A7CAC5</generatorID>
