@@ -1,92 +1,94 @@
 
 CREATE TABLE LUGAR (
-    id NOT NULL,
-    nombre NOT NULL,
-    tipo NOT NULL, -- 'pais, ciudad'
-    region,
-    LUGAR_id NOT NULL ,
+    id serial NOT NULL,
+    nombre varchar(50) NOT NULL,
+    tipo varchar(50) NOT NULL, -- 'pais, ciudad'
+    region varchar(50),
+    fk_lugar NOT NULL ,
 
     CONSTRAINT LUGAR_PK PRIMARY KEY (id),
-    CONSTRAINT LUGAR_LUGAR_FK FOREIGN KEY (LUGAR_id) REFERENCES LUGAR (id)
+    CONSTRAINT LUGAR_LUGAR_FK FOREIGN KEY (fk_lugar) REFERENCES LUGAR (id),
+    CONSTRAINT LUGAR_CH_tipo CHECK ( tipo IN ('Ciudad', 'Pais') ),
+    CONSTRAINT LUGAR_CH_region CHECK ( region IN ('Europa', 'Africa', 'America del Sur', 'America del Norte', 'Asia', 'Oceania') )
 );
 
 
 CREATE TABLE CLIENTE (
-    id NOT NULL,
-    nombre_empresa NOT NULL,
-    pagina_web NOT NULL,
-    exclusivo NOT NULL,
-    "telefonos_(_-->_telefono_va_)" NOT NULL,
-    "contacto_(_-->_contacto_va_)" NOT NULL,
-    LUGAR_id NOT NULL,
+    id serial NOT NULL,
+    nombre_empresa varchar(100) NOT NULL,
+    pagina_web varchar(100) NOT NULL,
+    exclusivo boolean NOT NULL,
+    telefonos telefono_ty[3] NOT NULL,
+    contactos contacto_ty[3] NOT NULL,
+    fk_lugar_pais integer NOT NULL,
     
     CONSTRAINT CLIENTE_PK PRIMARY KEY (id),
-    CONSTRAINT CLIENTE_LUGAR_FK FOREIGN KEY (LUGAR_id) REFERENCES LUGAR (id)
+    CONSTRAINT CLIENTE_LUGAR_FK FOREIGN KEY (fk_lugar_pais) REFERENCES LUGAR (id)
 );
 
 
 
 CREATE TABLE EMPLEADO_JEFE (
-    id NOT NULL,
-    primer_nombre NOT NULL,
-    segundo_nombre,
-    primer_apellido NOT NULL,
-    segundo_apellido NOT NULL,
-    "telefono_(_->_telefono_ty_)",
-    EMPLEADO_JEFE_id NOT NULL,
-    tipo NOT NULL, -- 'director_area, jefe, director_ejecutivo'
+    id serial NOT NULL,
+    primer_nombre varchar(50) NOT NULL,
+    segundo_nombre varchar(50) ,
+    primer_apellido varchar(50) NOT NULL,
+    segundo_apellido varchar(50) NOT NULL,
+    telefono telefono_ty,
+    tipo varchar(50) NOT NULL, -- 'director_area, jefe, director_ejecutivo'
+    fk_empleado_jefe integer NOT NULL,
 
     CONSTRAINT EMPLEADO_JEFE_PK PRIMARY KEY (id),
-    CONSTRAINT EMPLEADO_JEFE_EMPLEADO_JEFE_FK FOREIGN KEY (EMPLEADO_JEFE_id) REFERENCES EMPLEADO_JEFE (id)
+    CONSTRAINT EMPLEADO_JEFE_FK FOREIGN KEY (fk_empleado_jefe) REFERENCES EMPLEADO_JEFE (id),
+    CONSTRAINT EMPLEADO_JEFE_CH_tipo CHECK ( tipo IN ('director_area', 'jefe', 'director_ejecutivo') )
 );
 
 CREATE TABLE OFICINA_PRINCIPAL (
-    id NOT NULL,
-    nombre NOT NULL,
-    id1 NOT NULL,
+    id serial NOT NULL,
+    nombre varchar(50) NOT NULL,
     sede boolean NOT NULL,
-    LUGAR_id NOT NULL ,
+    fk_director_area integer NOT NULL,
+    fk_director_ejecutivo integer NOT NULL,
+    fk_lugar_ciudad integer NOT NULL ,
 
     CONSTRAINT OFICINA_PRINCIPAL_PK PRIMARY KEY (id),
-
-    CONSTRAINT OFICINA_PRINCIPAL_EMPLEADO_JEFE_FK FOREIGN KEY (id1) REFERENCES EMPLEADO_JEFE (id),
-    CONSTRAINT OFICINA_PRINCIPAL_EMPLEADO_JEFE_FKv1 FOREIGN KEY (id1) REFERENCES EMPLEADO_JEFE (id),
-    CONSTRAINT OFICINA_PRINCIPAL_LUGAR_FK FOREIGN KEY (LUGAR_id) REFERENCES LUGAR (id)
+    CONSTRAINT OFICINA_PRINCIPAL_fk_empleado_jefe FOREIGN KEY (fk_director_area) REFERENCES EMPLEADO_JEFE (id),
+    CONSTRAINT OFICINA_PRINCIPAL_fk_empleado_jefe_2 FOREIGN KEY (fk_director_ejecutivo) REFERENCES EMPLEADO_JEFE (id),
+    CONSTRAINT OFICINA_PRINCIPAL_LUGAR_FK FOREIGN KEY (fk_lugar_ciudad) REFERENCES LUGAR (id)
 );
 
 
 
 CREATE TABLE ESTACION (
-    id NOT NULL,
-    nombre NOT NULL,
-    OFICINA_PRINCIPAL_id NOT NULL,
-    EMPLEADO_JEFE_id NOT NULL,
-    LUGAR_id NOT NULL ,
+    id serial NOT NULL,
+    nombre varchar(50) NOT NULL,
+    fk_oficina_principal integer NOT NULL,
+    fk_empleado_jefe integer NOT NULL,
+    fk_lugar_ciudad integer NOT NULL,
 
-    CONSTRAINT ESTACION_PK PRIMARY KEY (id, OFICINA_PRINCIPAL_id),
-    CONSTRAINT ESTACION_EMPLEADO_JEFE_FK FOREIGN KEY (EMPLEADO_JEFE_id) REFERENCES EMPLEADO_JEFE (id),
-    CONSTRAINT ESTACION_LUGAR_FK FOREIGN KEY (LUGAR_id) REFERENCES LUGAR (id),
-    CONSTRAINT ESTACION_OFICINA_PRINCIPAL_FK FOREIGN KEY (OFICINA_PRINCIPAL_id) REFERENCES OFICINA_PRINCIPAL (id);
+    CONSTRAINT ESTACION_PK PRIMARY KEY (id, fk_oficina_principal),
+    CONSTRAINT ESTACION_OFICINA_PRINCIPAL_FK FOREIGN KEY (fk_oficina_principal) REFERENCES OFICINA_PRINCIPAL (id),
+    CONSTRAINT ESTACION_fk_empleado_jefe FOREIGN KEY (fk_empleado_jefe) REFERENCES EMPLEADO_JEFE (id),
+    CONSTRAINT ESTACION_LUGAR_FK FOREIGN KEY (fk_lugar_ciudad) REFERENCES LUGAR (id)
+    
 );
 
 CREATE TABLE CUENTA (
-    año NOT NULL,
-    presupuesto NOT NULL,
-    ESTACION_id NOT NULL,
-    ESTACION_OFICINA_PRINCIPAL_id NOT NULL,
+    año datetime NOT NULL,
+    presupuesto numeric(20) NOT NULL,
+    fk_estacion integer NOT NULL,
+    fk_oficina_principal integer NOT NULL,
 
-    CONSTRAINT CUENTA_PK PRIMARY KEY (ESTACION_id, ESTACION_OFICINA_PRINCIPAL_id, año) ,
-    CONSTRAINT CUENTA_ESTACION_FK FOREIGN KEY (ESTACION_id,
-    ESTACION_OFICINA_PRINCIPAL_id) REFERENCES ESTACION (id,
-    OFICINA_PRINCIPAL_id)
+    CONSTRAINT CUENTA_PK PRIMARY KEY (fk_estacion, fk_oficina_principal, año),
+    CONSTRAINT CUENTA_ESTACION_FK FOREIGN KEY (fk_estacion, fk_oficina_principal) REFERENCES ESTACION (id, fk_oficina_principal)
 );
 
 CREATE TABLE PERSONAL_INTELIGENCIA (
-    id NOT NULL,
-    primer_nombre NOT NULL,
-    segundo_nombre,
-    primer_apellido NOT NULL,
-    segundo_apellido NOT NULL,
+    id serial NOT NULL,
+    primer_nombre varchar(50) NOT NULL,
+    segundo_nombre varchar(50) ,
+    primer_apellido varchar(50) NOT NULL,
+    segundo_apellido varchar(50) NOT NULL,
     clasificacion NOT NULL,
     "telefono_(_-->telefono_ty_)" NOT NULL,
     "identificaciones_(_-->_identificacion_va_)" NOT NULL,
@@ -100,19 +102,19 @@ CREATE TABLE PERSONAL_INTELIGENCIA (
     "nivel_educativo_(_->_nivel_educativo_va_)" NOT NULL,
     "idiomas_(_->_idiomas_va_)" NOT NULL,
     "familiares_(_-->_familiar_va_)" NOT NULL,
-    ESTACION_id NOT NULL,
+    ESTACION_id integer NOT NULL,
     "licencia_manejo_(_->_licencia_ty_)",
     class_seguridad NOT NULL,
     "aliases_(_-->_alias_nt_)",
-    ESTACION_OFICINA_PRINCIPAL_id NOT NULL,
-    LUGAR_id NOT NULL 
+    fk_estacion_oficina_principal integer NOT NULL,
+    fk_lugar NOT NULL 
 
     CONSTRAINT PERSONAL_INTELIGENCIA_PK PRIMARY KEY (id),
 
     CONSTRAINT PERSONAL_INTELIGENCIA_ESTACION_FK FOREIGN KEY (ESTACION_id,
-    ESTACION_OFICINA_PRINCIPAL_id) REFERENCES ESTACION (id,
-    OFICINA_PRINCIPAL_id),
-    CONSTRAINT PERSONAL_INTELIGENCIA_LUGAR_FK FOREIGN KEY (LUGAR_id) REFERENCES LUGAR (id);
+    fk_estacion_oficina_principal) REFERENCES ESTACION (id,
+    fk_oficina_principal),
+    CONSTRAINT PERSONAL_INTELIGENCIA_LUGAR_FK FOREIGN KEY (fk_lugar) REFERENCES LUGAR (id);
 
 
 
@@ -123,7 +125,7 @@ CREATE TABLE PERSONAL_INTELIGENCIA (
 
 
 CREATE TABLE INTENTO_NO_AUTORIZADO (
-    id NOT NULL,
+    id serial NOT NULL,
     fecha NOT NULL,
     id_pieza NOT NULL,
     id_empleado NOT NULL,
@@ -135,7 +137,7 @@ CREATE TABLE INTENTO_NO_AUTORIZADO (
 
 
 CREATE TABLE CLAS_TEMA (
-    id NOT NULL,
+    id serial NOT NULL,
     nombre NOT NULL,
     descripcion NOT NULL,
     topico NOT NULL, -- 'paises, individuos, eventos, empresas' 
@@ -145,8 +147,8 @@ CREATE TABLE CLAS_TEMA (
 );
 
 CREATE TABLE AREA_INTERES (
-    CLAS_TEMA_id NOT NULL,
-    CLIENTE_id NOT NULL,
+    CLAS_TEMA_id integer NOT NULL,
+    CLIENTE_id integer NOT NULL,
 
 
     CONSTRAINT AREA_INTERES_CLAS_TEMA_FK FOREIGN KEY (CLAS_TEMA_id) REFERENCES CLAS_TEMA (id),
@@ -155,8 +157,8 @@ CREATE TABLE AREA_INTERES (
 );
 
 CREATE TABLE TEMAS_ESP (
-    PERSONAL_INTELIGENCIA_id NOT NULL,
-    CLAS_TEMA_id NOT NULL,
+    PERSONAL_INTELIGENCIA_id integer NOT NULL,
+    CLAS_TEMA_id integer NOT NULL,
 
     CONSTRAINT TEMAS_ESP_PK PRIMARY KEY (PERSONAL_INTELIGENCIA_id, CLAS_TEMA_id),
 
@@ -171,27 +173,27 @@ CREATE TABLE HIST_CARGO (
     fecha_inicio NOT NULL,
     fecha_fin,
     cargo NOT NULL, -- 'analista agente'
-    PERSONAL_INTELIGENCIA_id NOT NULL,
-    ESTACION_id NOT NULL,
-    ESTACION_OFICINA_PRINCIPAL_id NOT NULL ,
+    PERSONAL_INTELIGENCIA_id integer NOT NULL,
+    ESTACION_id integer NOT NULL,
+    fk_estacion_oficina_principal NOT NULL ,
 
-    CONSTRAINT HIST_CARGO_PK PRIMARY KEY (fecha_inicio, PERSONAL_INTELIGENCIA_id, ESTACION_id, ESTACION_OFICINA_PRINCIPAL_id),
+    CONSTRAINT HIST_CARGO_PK PRIMARY KEY (fecha_inicio, PERSONAL_INTELIGENCIA_id, ESTACION_id, fk_estacion_oficina_principal),
 
     CONSTRAINT HIST_CARGO_ESTACION_FK FOREIGN KEY (ESTACION_id,
-    ESTACION_OFICINA_PRINCIPAL_id) REFERENCES ESTACION (id,
-    OFICINA_PRINCIPAL_id),
+    fk_estacion_oficina_principal) REFERENCES ESTACION (id,
+    fk_oficina_principal),
     CONSTRAINT HIST_CARGO_PERSONAL_INTELIGENCIA_FK FOREIGN KEY (PERSONAL_INTELIGENCIA_id) REFERENCES PERSONAL_INTELIGENCIA (id)
 );
 
 
 CREATE TABLE INFORMANTE (
-    id NOT NULL,
+    id serial NOT NULL,
     nombre_clave unique NOT NULL,
     fecha_inicio NOT NULL,
     id1 NOT NULL,
     id11 NOT NULL,
     id111 NOT NULL,
-    EMPLEADO_JEFE_id,
+    fk_empleado_jefe,
 
     CONSTRAINT INFORMANTE_PK PRIMARY KEY (id)
 
@@ -199,33 +201,33 @@ CREATE TABLE INFORMANTE (
         (id1 IS NOT NULL) AND 
         (id11 IS NOT NULL) AND 
         (id111 IS NOT NULL) AND 
-        (EMPLEADO_JEFE_id IS NULL) ) OR 
-       (  (EMPLEADO_JEFE_id IS NOT NULL) AND 
+        (fk_empleado_jefe IS NULL) ) OR 
+       (  (fk_empleado_jefe IS NOT NULL) AND 
         (fecha_inicio IS NULL)  AND 
         (id1 IS NULL)  AND 
         (id11 IS NULL)  AND 
         (id111 IS NULL) )  ) 
 
-    CONSTRAINT INFORMANTE_EMPLEADO_JEFE_FK FOREIGN KEY (EMPLEADO_JEFE_id) REFERENCES EMPLEADO_JEFE (id),
+    CONSTRAINT INFORMANTE_fk_empleado_jefe FOREIGN KEY (fk_empleado_jefe) REFERENCES EMPLEADO_JEFE (id),
     CONSTRAINT INFORMANTE_HIST_CARGO_FK FOREIGN KEY (fecha_inicio,
     id1,
     id11,
     id111) REFERENCES HIST_CARGO (fecha_inicio,
     PERSONAL_INTELIGENCIA_id,
     ESTACION_id,
-    ESTACION_OFICINA_PRINCIPAL_id),
+    fk_estacion_oficina_principal),
     CONSTRAINT INFORMANTE_HIST_CARGO_FKv1 FOREIGN KEY (fecha_inicio,
     id1,
     id11,
     id111) REFERENCES HIST_CARGO (fecha_inicio,
     PERSONAL_INTELIGENCIA_id,
     ESTACION_id,
-    ESTACION_OFICINA_PRINCIPAL_id)
+    fk_estacion_oficina_principal)
 
 );
 
 CREATE TABLE TRANSACCION_PAGO (
-    id NOT NULL,
+    id serial NOT NULL,
     fecha NOT NULL,
     monto_pago NOT NULL,
     CRUDO_id,
@@ -236,7 +238,7 @@ CREATE TABLE TRANSACCION_PAGO (
 );
 
 CREATE TABLE CRUDO (
-    id NOT NULL,
+    id serial NOT NULL,
     contenido NOT NULL, -- 'text, imagen, sonido, video' 
     tipo_contenido NOT NULL,
     resumen NOT NULL,
@@ -250,9 +252,9 @@ CREATE TABLE CRUDO (
     id1 NOT NULL,
     id11 NOT NULL,
     TRANSACCION_PAGO_id,
-    CLAS_TEMA_id NOT NULL,
+    CLAS_TEMA_id integer NOT NULL,
     HIST_CARGO_fecha_inicio NOT NULL,
-    HIST_CARGO_PERSONAL_INTELIGENCIA_id NOT NULL,
+    HIST_CARGO_PERSONAL_INTELIGENCIA_id integer NOT NULL,
     id13 NOT NULL,
 
     CONSTRAINT CRUDO_PK PRIMARY KEY (id),
@@ -260,27 +262,27 @@ CREATE TABLE CRUDO (
     CONSTRAINT CRUDO_CLAS_TEMA_FK FOREIGN KEY (CLAS_TEMA_id) REFERENCES CLAS_TEMA (id),
     CONSTRAINT CRUDO_ESTACION_FK FOREIGN KEY (id13,
     id11) REFERENCES ESTACION (id,
-    OFICINA_PRINCIPAL_id),
+    fk_oficina_principal),
     CONSTRAINT CRUDO_HIST_CARGO_FK FOREIGN KEY (HIST_CARGO_fecha_inicio,
     HIST_CARGO_PERSONAL_INTELIGENCIA_id,
     id13,
     id11) REFERENCES HIST_CARGO (fecha_inicio,
     PERSONAL_INTELIGENCIA_id,
     ESTACION_id,
-    ESTACION_OFICINA_PRINCIPAL_id),
+    fk_estacion_oficina_principal),
     CONSTRAINT CRUDO_INFORMANTE_FK FOREIGN KEY (id1) REFERENCES INFORMANTE (id)
 
 
 );
 
 CREATE TABLE ANALISTA_CRUDO (
-    id NOT NULL,
+    id serial NOT NULL,
     fecha NOT NULL,
     nivel_confiabilidad NOT NULL,
-    CRUDO_id NOT NULL,
+    CRUDO_id integer NOT NULL,
     HIST_CARGO_fecha_inicio NOT NULL,
-    HIST_CARGO_PERSONAL_INTELIGENCIA_id NOT NULL,
-    HIST_CARGO_ESTACION_id NOT NULL,
+    HIST_CARGO_PERSONAL_INTELIGENCIA_id integer NOT NULL,
+    HIST_CARGO_ESTACION_id integer NOT NULL,
     HIST_CARGO_ESTACION_id1 NOT NULL ,
 
     CONSTRAINT ANALISTA_CRUDO_CRUDO_FK FOREIGN KEY (CRUDO_id) REFERENCES CRUDO (id),
@@ -291,22 +293,22 @@ CREATE TABLE ANALISTA_CRUDO (
     HIST_CARGO_ESTACION_id1) REFERENCES HIST_CARGO (fecha_inicio,
     PERSONAL_INTELIGENCIA_id,
     ESTACION_id,
-    ESTACION_OFICINA_PRINCIPAL_id),
+    fk_estacion_oficina_principal),
 
     CONSTRAINT ANALISTA_CRUDO_PK PRIMARY KEY (CRUDO_id, id, HIST_CARGO_fecha_inicio, HIST_CARGO_PERSONAL_INTELIGENCIA_id, HIST_CARGO_ESTACION_id, HIST_CARGO_ESTACION_id1)
 );
 
 
 CREATE TABLE PIEZA_INTELIGENCIA (
-    id NOT NULL,
+    id serial NOT NULL,
     fecha_creacion,
     nivel_confiabilidad,
     precio_base,
     class_seguridad NOT NULL,
-    CLAS_TEMA_id NOT NULL,
+    CLAS_TEMA_id integer NOT NULL,
     HIST_CARGO_fecha_inicio NOT NULL,
-    HIST_CARGO_PERSONAL_INTELIGENCIA_id NOT NULL,
-    HIST_CARGO_ESTACION_id NOT NULL,
+    HIST_CARGO_PERSONAL_INTELIGENCIA_id integer NOT NULL,
+    HIST_CARGO_ESTACION_id integer NOT NULL,
     HIST_CARGO_ESTACION_id1 NOT NULL ,
 
     CONSTRAINT PIEZA_INTELIGENCIA_PK PRIMARY KEY (id),
@@ -318,14 +320,14 @@ CREATE TABLE PIEZA_INTELIGENCIA (
     HIST_CARGO_ESTACION_id1) REFERENCES HIST_CARGO (fecha_inicio,
     PERSONAL_INTELIGENCIA_id,
     ESTACION_id,
-    ESTACION_OFICINA_PRINCIPAL_id)
+    fk_estacion_oficina_principal)
 
     -- PIEZA_INTELIGENCIA.class_seguridad IS ' check ("Top secret","Confidencial", "No clasificado")'
 );
 
 
 CREATE TABLE CRUDO_PIEZA (
-    PIEZA_INTELIGENCIA_id NOT NULL,
+    PIEZA_INTELIGENCIA_id integer NOT NULL,
     CRUDO_id NOT NULL ,
 
     CONSTRAINT CRUDO_PIEZA_PK PRIMARY KEY (PIEZA_INTELIGENCIA_id, CRUDO_id),
@@ -336,10 +338,10 @@ CREATE TABLE CRUDO_PIEZA (
 
 
 CREATE TABLE ADQUISICION (
-    id NOT NULL,
+    id serial NOT NULL,
     fecha_venta NOT NULL,
-    CLIENTE_id NOT NULL,
-    PIEZA_INTELIGENCIA_id NOT NULL,
+    CLIENTE_id integer NOT NULL,
+    PIEZA_INTELIGENCIA_id integer NOT NULL,
     precio_vendido NOT NULL,
 
     CONSTRAINT ADQUISICION_PK PRIMARY KEY (CLIENTE_id, PIEZA_INTELIGENCIA_id, id),
@@ -426,7 +428,7 @@ CREATE TABLE ADQUISICION (
 
 
 CREATE TABLE ALT_ADQUISICION (
-    id NOT NULL,
+    id serial NOT NULL,
     fecha_venta NOT NULL,
     precio_vendido NOT NULL,
     id_cliente NOT NULL,
@@ -436,7 +438,7 @@ CREATE TABLE ALT_ADQUISICION (
 ALTER TABLE ALT_ADQUISICION ADD       CONSTRAINT ALT_ADQUISICION_PK PRIMARY KEY (ALT_PIEZA_INTELIGENCIA_id, id);
 
 CREATE TABLE ALT_ANALISTA_CRUDO (
-    id NOT NULL,
+    id serial NOT NULL,
     fecha NOT NULL,
     nivel_confiabilidad NOT NULL,
     ALT_HIST_CARGO_fecha_inicio NOT NULL,
@@ -446,7 +448,7 @@ CREATE TABLE ALT_ANALISTA_CRUDO (
 ALTER TABLE ALT_ANALISTA_CRUDO ADD       CONSTRAINT ALT_ANALISTA_CRUDO_PK PRIMARY KEY (id, ALT_HIST_CARGO_fecha_inicio, ALT_CRUDO_id);
 
 CREATE TABLE ALT_CRUDO (
-    id NOT NULL,
+    id serial NOT NULL,
     ALT_HIST_CARGO_fecha_inicio NOT NULL,
     fuente NOT NULL,
     id_informante,
@@ -460,7 +462,7 @@ COMMENT ON COLUMN ALT_CRUDO.fuente IS 'abierta, secreta, tecnica' ;
 ALTER TABLE ALT_CRUDO ADD       CONSTRAINT ALT_CRUDO_PK PRIMARY KEY (id);
 
 CREATE TABLE ALT_CRUDO_PIEZA (
-    ALT_PIEZA_INTELIGENCIA_id NOT NULL,
+    ALT_PIEZA_INTELIGENCIA_id integer NOT NULL,
     ALT_CRUDO_id NOT NULL 
 );
 
