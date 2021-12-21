@@ -21,13 +21,14 @@ CREATE TYPE alias_ty as (
     primer_apellido varchar(50),
     segundo_apellido varchar(50),
     foto bytea,
-    fecha_nacimiento datetime,
+    fecha_nacimiento timestamp,
     pais varchar(50),
     documento_identidad numeric(10),    
     color_ojos varchar(50),
     direccion varchar(255),
-    ultimo_uso datetime
+    ultimo_uso timestamp
 );
+
 
 CREATE TYPE identificacion_ty as (
 
@@ -53,7 +54,7 @@ CREATE TYPE familiar_ty as (
     segundo_nombre varchar(50),
     primer_apellido varchar(50),
     segundo_apellido varchar(50),
-    fecha_nacimiento datetime,
+    fecha_nacimiento timestamp,
     parentesco varchar(50),
     telefono telefono_ty
 );
@@ -66,5 +67,5 @@ CREATE TYPE contacto_ty as (
 	segundo_apellido varchar(50),	
     direccion varchar(255),
 
-    telefono telefono_ty,
+    telefono telefono_ty
 );

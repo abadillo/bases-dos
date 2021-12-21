@@ -29,7 +29,7 @@ CREATE TABLE LUGAR (
     nombre varchar(50) NOT NULL,
     tipo varchar(50) NOT NULL, -- 'pais, ciudad'
     region varchar(50),
-    fk_lugar NOT NULL ,
+    fk_lugar integer NOT NULL ,
 
     CONSTRAINT LUGAR_PK PRIMARY KEY (id),
     CONSTRAINT LUGAR_LUGAR_FK FOREIGN KEY (fk_lugar) REFERENCES LUGAR (id),
@@ -107,7 +107,7 @@ CREATE TABLE ESTACION (
 );
 
 CREATE TABLE CUENTA (
-    año datetime NOT NULL,
+    año date NOT NULL,
     presupuesto numeric(20) NOT NULL,
     fk_estacion integer NOT NULL,
     fk_oficina_principal integer NOT NULL,
@@ -124,7 +124,7 @@ CREATE TABLE PERSONAL_INTELIGENCIA (
     segundo_nombre varchar(50) ,
     primer_apellido varchar(50) NOT NULL,
     segundo_apellido varchar(50) NOT NULL,
-    fecha_nacimiento datetime NOT NULL,
+    fecha_nacimiento date NOT NULL,
     altura_cm numeric(5) NOT NULL,
     peso_kg numeric(5) NOT NULL,
     color_ojos varchar(20) NOT NULL,
@@ -148,12 +148,12 @@ CREATE TABLE PERSONAL_INTELIGENCIA (
     
     --nested tables
     nivel_educativo nivel_educativo_ty[] NOT NULL,
-    aliases aliases_ty[],
+    aliases alias_ty[],
     
     --foreign keys 
     fk_estacion integer NOT NULL,
     fk_oficina_principal integer NOT NULL,
-    fk_lugar_ciudad NOT NULL,
+    fk_lugar_ciudad integer NOT NULL,
 
 
     CONSTRAINT PERSONAL_INTELIGENCIA_PK PRIMARY KEY (id),
@@ -170,7 +170,7 @@ CREATE TABLE INTENTO_NO_AUTORIZADO (
 
     id serial NOT NULL,
 
-    fecha_hora datetime NOT NULL,
+    fecha_hora timestamp NOT NULL,
     
     id_pieza integer NOT NULL,
     id_empleado integer NOT NULL,
@@ -218,12 +218,12 @@ CREATE TABLE TEMAS_ESP (
 
 CREATE TABLE HIST_CARGO (
     
-    fecha_inicio datetime NOT NULL,
-    fecha_fin datetime,
+    fecha_inicio timestamp NOT NULL,
+    fecha_fin timestamp,
     cargo varchar(20) NOT NULL, -- 'analista agente'
     fk_personal_inteligencia integer NOT NULL,
     fk_estacion integer NOT NULL,
-    fk_oficina_principal NOT NULL,
+    fk_oficina_principal integer NOT NULL,
 
     CONSTRAINT HIST_CARGO_PK PRIMARY KEY (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal),
 
@@ -243,7 +243,7 @@ CREATE TABLE INFORMANTE (
 
     -- agente de campo encargado del informante
     fk_personal_inteligencia_encargado integer NOT NULL,    
-    fk_fecha_inicio_encargado datetime NOT NULL,
+    fk_fecha_inicio_encargado timestamp NOT NULL,
     fk_estacion_encargado integer NOT NULL,
     fk_oficina_principal_encargado integer NOT NULL,
 
@@ -252,7 +252,7 @@ CREATE TABLE INFORMANTE (
     fk_empleado_jefe_confidente integer,
     
     fk_personal_inteligencia_confidente integer,
-    fk_fecha_inicio_confidente datetime,
+    fk_fecha_inicio_confidente timestamp,
     fk_estacion_confidente integer,
     fk_oficina_principal_confidente integer,
 
@@ -275,20 +275,6 @@ CREATE TABLE INFORMANTE (
 
 );
 
-CREATE TABLE TRANSACCION_PAGO (
-
-    id serial NOT NULL,
-
-    fecha_hora datetime NOT NULL,
-    monto_pago numeric(20) NOT NULL,
-    
-    fk_crudo integer,
-    fk_informante integer NOT NULL,
-
-    CONSTRAINT TRANSACCION_PAGO_PK PRIMARY KEY (id, fk_informante),
-    CONSTRAINT TRANSACCION_PAGO_CRUDO_FK FOREIGN KEY (fk_crudo) REFERENCES CRUDO (id),
-    CONSTRAINT TRANSACCION_PAGO_INFORMANTE_FK FOREIGN KEY (fk_informante) REFERENCES INFORMANTE (id)
-);
 
 CREATE TABLE CRUDO (
 
@@ -299,10 +285,10 @@ CREATE TABLE CRUDO (
     resumen varchar(1000) NOT NULL,
     fuente varchar(20) NOT NULL, -- 'abierta, secreta, tecnica'
     valor_apreciacion numeric(20),
-    nivel_confiabilidad_inicial datetime NOT NULL,
-    nivel_confiabilidad_final datetime,
-    fecha_obtencion datetime NOT NULL,
-    fecha_verificacion_final datetime,
+    nivel_confiabilidad_inicial numeric(5) NOT NULL,
+    nivel_confiabilidad_final numeric(5),
+    fecha_obtencion timestamp NOT NULL,
+    fecha_verificacion_final timestamp,
     cant_analistas_verifican numeric(5) NOT NULL,
 
     fk_clas_tema integer NOT NULL,
@@ -315,7 +301,7 @@ CREATE TABLE CRUDO (
     --agente encargado
     fk_estacion_agente integer NOT NULL,
     fk_oficina_principal_agente integer NOT NULL,
-    fk_fecha_inicio_agente datetime NOT NULL,
+    fk_fecha_inicio_agente timestamp NOT NULL,
     fk_personal_inteligencia_agente integer NOT NULL,
 
     CONSTRAINT CRUDO_PK PRIMARY KEY (id),
@@ -328,21 +314,40 @@ CREATE TABLE CRUDO (
     CONSTRAINT CRUDO_CLAS_TEMA_FK FOREIGN KEY (fk_clas_tema) REFERENCES CLAS_TEMA (id),
 
     CONSTRAINT CRUDO_CH_tipo_contenido CHECK ( tipo_contenido IN ('texto', 'imagen', 'sonido', 'video') ),
-    CONSTRAINT CRUDO_CH_fuente CHECK ( fuente IN ('abierta', 'secreta', 'tecnica') )    
+    CONSTRAINT CRUDO_CH_fuente CHECK ( fuente IN ('abierta', 'secreta', 'tecnica') )  ,
+    
+    CONSTRAINT CRUDO_CH_nivel_confiabilidad_inicial CHECK ( nivel_confiabilidad_inicial >= 0 AND nivel_confiabilidad_inicial <= 100 ),
+    CONSTRAINT CRUDO_CH_nivel_confiabilidad_final CHECK ( nivel_confiabilidad_final >= 0 AND nivel_confiabilidad_final <= 100 )    
 
+);
+
+
+CREATE TABLE TRANSACCION_PAGO (
+
+    id serial NOT NULL,
+
+    fecha_hora timestamp NOT NULL,
+    monto_pago numeric(20) NOT NULL,
+    
+    fk_crudo integer,
+    fk_informante integer NOT NULL,
+
+    CONSTRAINT TRANSACCION_PAGO_PK PRIMARY KEY (id, fk_informante),
+    CONSTRAINT TRANSACCION_PAGO_CRUDO_FK FOREIGN KEY (fk_crudo) REFERENCES CRUDO (id),
+    CONSTRAINT TRANSACCION_PAGO_INFORMANTE_FK FOREIGN KEY (fk_informante) REFERENCES INFORMANTE (id)
 );
 
 CREATE TABLE ANALISTA_CRUDO (
 
     id serial NOT NULL,
 
-    fecha_hora datetime NOT NULL,
+    fecha_hora timestamp NOT NULL,
     nivel_confiabilidad numeric(5) NOT NULL,
 
     fk_crudo integer NOT NULL,
 
     -- fks de hist_cargo
-    fk_fecha_inicio_analista datetime NOT NULL,
+    fk_fecha_inicio_analista timestamp NOT NULL,
     fk_personal_inteligencia_analista integer NOT NULL,
     fk_estacion_analista integer NOT NULL,
     fk_oficina_principal_analista integer NOT NULL ,
@@ -361,13 +366,13 @@ CREATE TABLE PIEZA_INTELIGENCIA (
 
     id serial NOT NULL,
 
-    fecha_creacion datetime,
+    fecha_creacion timestamp,
     nivel_confiabilidad numeric(5), 
     precio_base numeric(20),
     class_seguridad varchar(50) NOT NULL,
     
     --fks hist_cargo
-    fk_fecha_inicio_analista datetime NOT NULL,
+    fk_fecha_inicio_analista timestamp NOT NULL,
     fk_personal_inteligencia_analista integer NOT NULL,
     fk_estacion_analista integer NOT NULL,
     fk_oficina_principal_analista integer NOT NULL,
@@ -376,7 +381,7 @@ CREATE TABLE PIEZA_INTELIGENCIA (
 
     CONSTRAINT PIEZA_INTELIGENCIA_PK PRIMARY KEY (id),
     
-    CONSTRAINT PIEZA_INTELIGENCIA_HIST_CARGO_FK FOREIGN KEY (fk_fecha_inicio_analista, fk_personal_inteligencia_analista, fk_estacion, fk_oficina_principal) REFERENCES HIST_CARGO (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal)
+    CONSTRAINT PIEZA_INTELIGENCIA_HIST_CARGO_FK FOREIGN KEY (fk_fecha_inicio_analista, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista) REFERENCES HIST_CARGO (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal),
 
     CONSTRAINT PIEZA_INTELIGENCIA_CLAS_TEMA_FK FOREIGN KEY (fk_clas_tema) REFERENCES CLAS_TEMA (id),
     
@@ -400,7 +405,7 @@ CREATE TABLE ADQUISICION (
 
     id serial NOT NULL,
 
-    fecha_hora_venta datetime NOT NULL,
+    fecha_hora_venta timestamp NOT NULL,
     precio_vendido numeric(20) NOT NULL,
 
     fk_cliente integer NOT NULL,
@@ -483,7 +488,7 @@ CREATE TABLE ADQUISICION (
 
 
 
-----------------------------------------
+----------------------------------------///////////////////--------------------------------------
 
 
 
