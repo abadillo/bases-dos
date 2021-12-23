@@ -162,8 +162,8 @@ INSERT INTO estacion (nombre, fk_oficina_principal, fk_empleado_jefe, fk_lugar_c
 --CUENTA
 
 INSERT INTO cuenta (año, presupuesto, fk_estacion, fk_oficina_principal) VALUES
-('2034-31-12',  10000, 1, 1),
-('2035-31-12',  10500, 1, 1),
+('2034-01-01',  10000, 1, 1),
+('2035-01-01',  10500, 1, 1),
 ('2036-31-12',  11000, 1, 1),
 ('2034-31-12',  12000, 2, 1),
 ('2035-31-12',  13000, 2, 1),
