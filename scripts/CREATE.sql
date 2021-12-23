@@ -105,7 +105,7 @@ CREATE TABLE LUGAR (
     nombre varchar(50) NOT NULL,
     tipo varchar(50) NOT NULL, -- 'pais, ciudad'
     region varchar(50),
-    fk_lugar integer NOT NULL ,
+    fk_lugar integer ,
 
     CONSTRAINT LUGAR_PK PRIMARY KEY (id),
     CONSTRAINT LUGAR_LUGAR_FK FOREIGN KEY (fk_lugar) REFERENCES LUGAR (id),
@@ -141,7 +141,7 @@ CREATE TABLE EMPLEADO_JEFE (
     segundo_apellido varchar(50) NOT NULL,
     telefono telefono_ty,
     tipo varchar(50) NOT NULL, -- 'director_area, jefe, director_ejecutivo'
-    fk_empleado_jefe integer NOT NULL,
+    fk_empleado_jefe integer,
 
     CONSTRAINT EMPLEADO_JEFE_PK PRIMARY KEY (id),
     CONSTRAINT EMPLEADO_JEFE_FK FOREIGN KEY (fk_empleado_jefe) REFERENCES EMPLEADO_JEFE (id),
@@ -154,8 +154,8 @@ CREATE TABLE OFICINA_PRINCIPAL (
 
     nombre varchar(50) NOT NULL,
     sede boolean NOT NULL,
-    fk_director_area integer NOT NULL,
-    fk_director_ejecutivo integer NOT NULL,
+    fk_director_area integer ,
+    fk_director_ejecutivo integer ,
     fk_lugar_ciudad integer NOT NULL ,
 
     CONSTRAINT OFICINA_PRINCIPAL_PK PRIMARY KEY (id),
