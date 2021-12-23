@@ -109,8 +109,8 @@ CREATE TABLE LUGAR (
 
     CONSTRAINT LUGAR_PK PRIMARY KEY (id),
     CONSTRAINT LUGAR_LUGAR_FK FOREIGN KEY (fk_lugar) REFERENCES LUGAR (id),
-    CONSTRAINT LUGAR_CH_tipo CHECK ( tipo IN ('Ciudad', 'Pais') ),
-    CONSTRAINT LUGAR_CH_region CHECK ( region IN ('Europa', 'Africa', 'America del Sur', 'America del Norte', 'Asia', 'Oceania') )
+    CONSTRAINT LUGAR_CH_tipo CHECK ( tipo IN ('ciudad', 'pais') ),
+    CONSTRAINT LUGAR_CH_region CHECK ( region IN ('europa', 'africa', 'america_sur', 'america_norte', 'asia', 'oceania') )
 );
 
 
@@ -227,14 +227,14 @@ CREATE TABLE PERSONAL_INTELIGENCIA (
     aliases alias_ty[],
     
     --foreign keys 
-    fk_estacion integer NOT NULL,
-    fk_oficina_principal integer NOT NULL,
+    --fk_estacion integer NOT NULL,
+    --fk_oficina_principal integer NOT NULL,
     fk_lugar_ciudad integer NOT NULL,
 
 
     CONSTRAINT PERSONAL_INTELIGENCIA_PK PRIMARY KEY (id),
 
-    CONSTRAINT PERSONAL_INTELIGENCIA_ESTACION_FK FOREIGN KEY (fk_estacion, fk_oficina_principal ) REFERENCES ESTACION (id, fk_oficina_principal),
+    --CONSTRAINT PERSONAL_INTELIGENCIA_ESTACION_FK FOREIGN KEY (fk_estacion, fk_oficina_principal ) REFERENCES ESTACION (id, fk_oficina_principal),
     CONSTRAINT PERSONAL_INTELIGENCIA_LUGAR_FK FOREIGN KEY (fk_lugar_ciudad) REFERENCES LUGAR (id),
 
     CONSTRAINT PERSONAL_INTELIGENCIA_CH_class_seguridad CHECK ( class_seguridad IN ('top_secret', 'confidencial', 'no_clasificado') )
@@ -415,7 +415,6 @@ CREATE TABLE TRANSACCION_PAGO (
 
 CREATE TABLE ANALISTA_CRUDO (
 
-    id serial NOT NULL,
 
     fecha_hora timestamp NOT NULL,
     nivel_confiabilidad numeric(5) NOT NULL,
@@ -428,7 +427,7 @@ CREATE TABLE ANALISTA_CRUDO (
     fk_estacion_analista integer NOT NULL,
     fk_oficina_principal_analista integer NOT NULL ,
 
-    CONSTRAINT ANALISTA_CRUDO_PK PRIMARY KEY (id, fk_crudo, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista),
+    CONSTRAINT ANALISTA_CRUDO_PK PRIMARY KEY (fk_crudo, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista),
 
     CONSTRAINT ANALISTA_CRUDO_CRUDO_FK FOREIGN KEY (fk_crudo) REFERENCES CRUDO (id),
     CONSTRAINT ANALISTA_CRUDO_HIST_CARGO_FK FOREIGN KEY (fk_fecha_inicio_analista, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista) REFERENCES HIST_CARGO (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal),

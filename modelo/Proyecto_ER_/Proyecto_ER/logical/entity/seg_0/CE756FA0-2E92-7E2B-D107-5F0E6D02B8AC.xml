@@ -198,18 +198,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id3" id="88AAD154-058A-354C-9B18-7016906066A8">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-19 21:55:06 UTC</createdTime>
-<generatorID>981D1310-9412-ACEF-68A0-EC7B44F1CB9F</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>047FBDD0-697C-5B0B-0DD3-D6029B0F7812</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="licencia_manejo ( -&gt; licencia_ty )" id="65ECCBB9-2446-BD94-4511-2FEBDAA5F2E5">
 <createdBy>alex</createdBy>
 <createdTime>2021-11-20 20:54:14 UTC</createdTime>
@@ -240,18 +228,6 @@
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="id1" id="9F0AB08B-69C8-2350-06DB-FFFD1C7E28BA">
-<createdBy>alex</createdBy>
-<createdTime>2021-12-13 22:54:59 UTC</createdTime>
-<generatorID>981D1310-9412-ACEF-68A0-EC7B44F1CB9F</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>05FBA917-453C-B231-F618-8326E70C53F4</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
