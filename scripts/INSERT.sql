@@ -72,7 +72,7 @@ INSERT INTO lugar (nombre, tipo, region, fk_lugar) VALUES
 
 -- EMPLEADO_JEFE
 
-INSERT INTO empleado_jefe (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, telefono, tipo, fk_empleado_jefe) VALUES 
+INSERT INTO empleado_jefe (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, telefono, tipo,fk_empleado_jefe) VALUES 
 ('Brandon', 'Constantino', 'Razo', 'Casillas', ROW(412,2390021), 'director_ejecutivo', null),
 ('Elian', 'Maximo', 'Carter', 'Silva', ROW(412,6699623), 'director_area', 1),
 ('Fabiano', 'Tarsicio', 'Santamaria', 'Jaquez', ROW(412,3948307), 'director_area', 1),
@@ -80,11 +80,11 @@ INSERT INTO empleado_jefe (primer_nombre, segundo_nombre, primer_apellido, segun
 ('Octavia', 'Eduviges', 'Mena', 'Alcantara', ROW(412,3974651), 'director_area', 1),
 ('Anthony', 'Amilcar', 'Tafoya', 'Buenrostro', ROW(414,1319978), 'director_area', 1),
 ('Fidel', 'Juan', 'Regalado', 'Machuca', ROW(416,7319514), 'director_area', 1),
-('Luna', null, 'Castrejon', 'Narvaez', ROW(412,6345573), 'director_area', 1),
+('Luna', 'Judith', 'Castrejon', 'Narvaez', ROW(412,6345573), 'director_area', 1),
 ('Klement', null, 'Montiel', 'Salguero', ROW(414,3977631), 'director_area', 1),
 ('Daniel', null, 'Price', 'Gallardo', ROW(414,3609837), 'director_area', 1),
 ('Silvester', null, 'Morris', 'Serrato', ROW(412,5343364), 'jefe', 2),
-('Pamela', 'Irma', 'Guevara', 'Zapata', ROW(424,2908908), 'jefe', 2),
+('Pamela', null, 'Guevara', 'Zapata', ROW(424,2908908), 'jefe', 2),
 ('Feliciano', 'Jaime', 'Hurtado', 'Baca', ROW(424,2109538), 'jefe', 2),
 ('Eloisa', 'Petronila', 'Nolasco', 'White', ROW(414,6830298), 'jefe', 3),
 ('Cayetano', 'Paulo', 'Guillen', 'Miramontes', ROW(412,4866865), 'jefe', 3),
@@ -93,23 +93,25 @@ INSERT INTO empleado_jefe (primer_nombre, segundo_nombre, primer_apellido, segun
 ('Dulcinea', 'Consuelo', 'Pizarro', 'Santiago', ROW(416,7676921), 'jefe', 4),
 ('Marsello', 'Alan', 'Carpio', 'Thomas', ROW(414,7291221), 'jefe', 4),
 ('Antonio', 'Diego', 'Recinos', 'Santacruz', ROW(414,4392478), 'jefe', 5),
-('Greta', 'Rosaura', 'Valdivia', 'Cruz', ROW(416,1080469), 'jefe', 5),
-('Marcela', 'Amelia', 'Galdamez', 'Rogers', ROW(412,6909353), 'jefe', 5),
+('Greta', null, 'Valdivia', 'Cruz', ROW(416,1080469), 'jefe', 5),
+('Marcela', null, 'Galdamez', 'Rogers', ROW(412,6909353), 'jefe', 5),
 ('Pamela', 'Veronica', 'Torres', 'Diaz', ROW(414,1416359), 'jefe', 6),
 ('Cayetano', 'Fulgencio', 'Marquez', 'Infante', ROW(424,9630352), 'jefe', 6),
 ('Jhoan', 'Dante', 'Lucero', 'Orona', ROW(424,6170815), 'jefe', 6),
 ('Elidio', 'Jonathan', 'Puentes', 'Ozuna', ROW(416,7058298), 'jefe', 7),
-('Gloria', null, 'Duque', 'Uribe', ROW(412,4224557), 'jefe', 7),
-('Jennifer', null, 'Vigil', 'Aviles', ROW(424,9270841), 'jefe', 7),
+('Gloria', 'Eneida', 'Duque', 'Uribe', ROW(412,4224557), 'jefe', 7),
+('Jennifer', 'Valentina', 'Vigil', 'Aviles', ROW(424,9270841), 'jefe', 7),
 ('Celeste', 'Soledad', 'Chacon', 'Machado', ROW(412,1229016), 'jefe', 8),
-('Vivaldo', 'Tarsicio', 'Rosas', 'Jackson', ROW(412,5018092), 'jefe', 8),
-('Mirella', 'Zamira', 'Machuca', 'Magallon', ROW(416,3371835), 'jefe', 8),
+('Vivaldo', null, 'Rosas', 'Jackson', ROW(412,5018092), 'jefe', 8),
+('Mirella', null, 'Machuca', 'Magallon', ROW(416,3371835), 'jefe', 8),
 ('Calixtrato', null, 'Quintanilla', 'Estrada', ROW(414,3049959), 'jefe', 9),
-('Libertad', null, 'Garces', 'Casanova', ROW(414,8123924), 'jefe', 9),
+('Libertad', 'Eliana', 'Garces', 'Casanova', ROW(414,8123924), 'jefe', 9),
 ('Emperatriz', 'Myriam', 'Angulo', 'Valdivia', ROW(4148,999846), 'jefe', 9),
 ('Hugo', 'Adan', 'Serrato', 'Barrios', ROW(416,1450123), 'jefe', 10),
 ('Rosalia', 'Pilar', 'Valles', 'Montes', ROW(414,1292334), 'jefe', 10),
-('Claudio', 'Lincoln', 'Sullivan', 'Tafoya', ROW(412,1948734), 'jefe', 10);
+('Claudio', 'Lincoln', 'Sullivan', 'Tafoya', ROW(412,1948734), 'jefe', 10),
+('Nicolas', 'Abelardo', 'Tafoya', 'Peralta', ROW(414,1277631), 'director_area', 1);
+
 
 
 -- OFICINA_PRINCIPAL
@@ -125,7 +127,8 @@ INSERT INTO oficina_principal (nombre, sede, fk_director_area, fk_director_ejecu
 ('Ofi. Kampala', false, 8, null, 28),
 ('Ofi. Harare', false, 9, null, 31),
 ('Ofi. Sidney', false, 10, null, 34),
-('Ofi. Ginebra', true, null, 1, 38);
+('Ofi. Ginebra', true, 38, 1, 38);
+
 
 
 --ESTACION
