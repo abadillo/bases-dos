@@ -246,6 +246,17 @@ INSERT INTO cuenta (año, presupuesto, fk_estacion, fk_oficina_principal) VALUES
 ('2035/01/01',  11000, 27, 9),
 ('2036/01/01',  11500, 27, 9);
 
+----CLASIFICACIÓN_TEMA
 
+INSERT INTO clas_tema(nombre, descripcion, topico) VALUES
+('Armamento', 'El conjunto de armas de cualquier tipo, que esta a disposicion de grupos militares', 'paises'),
+('Antecedente Penal', 'El registro oficial de las sanciones impuestas a una persona en virtud de sentencia firme', 'individuos'),
+('Estrategia de Marketing', 'Proceso que puede ayudar a utilizar todos los recursos disponibles para incrementar las ventas', 'eventos'),
+('Formulas Quimicas', 'Estas son las formulas secretas para crear los productos y tener un punto clave en la empresa', 'empresas'),
+('Software', 'Conjuntos de programas en pleno desarrollo para la mejora de la empresa ', 'empresas'),
+('Estrategia de Ventas', 'Los planes que puede llevar a cabo una empresa para vender sus productos o servicios con la intención de obtener un beneficio', 'paises'),
+('Estrategia Salud', 'Son actuaciones sobre problemas de salud que requieren un abordaje integral, que tenga en cuenta todos los aspectos relacionados con la asistencia sanitaria', 'paises'),
+('Estrategia Económica', 'Estrategia para impulsar la economia prosperidad y el desempeño del pais.', 'paises'),
+('Politica Exterior', 'El conjunto de decisiones, politicas y acciones que confomar un pais, para poder representar los intereses nacionales de este', 'paises'),
 
 
