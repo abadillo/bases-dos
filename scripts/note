@@ -1,4 +1,33 @@
  
+fecha del 2034 a 2036
+
+LUGAR
+EMPLEADO_JEFE
+OFICINA_PRINCIPAL
+ESTACION
+CUENTA
+
+
+CLIENTE
+PERSONAL_INTELIGENCIA
+INTENTO_NO_AUTORIZADO
+CLAS_TEMA
+AREA_INTERES
+TEMAS_ESP
+HIST_CARGO
+INFORMANTE
+TRANSACCION_PAGO
+CRUDO
+ANALISTA_CRUDO
+PIEZA_INTELIGENCIA
+CRUDO_PIEZA
+ADQUISICION
+
+
+
+-- COMO INSERTAR BYTEA (CON FUNCION)
+
+
 CREATE TABLE images (
 --  owner_id uuid references users(user_id),
   image_id uuid primary key,
@@ -35,6 +64,8 @@ $$ language plpgsql
 
 select img_import('/home/alex/Documents/Git/bases-dos/scripts/imagenes/foto.png');
 
+
+-- MENSAJES DE ERROR LUEGO DE PROBAR
 
 -- SQL Error [42501]: ERROR: permission denied for function pg_read_file
 -- SQL Error [42501]: ERROR: could not open server file "/home/alex/Documents/Git/bases-dos/scripts/imagenes/foto.png": Permission denied

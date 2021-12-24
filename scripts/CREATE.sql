@@ -22,7 +22,7 @@ CREATE TYPE alias_ty as (
     segundo_nombre varchar(50),
     primer_apellido varchar(50),
     segundo_apellido varchar(50),
-    foto bytea,
+    foto varchar(1000),
     fecha_nacimiento timestamp,
     pais varchar(50),
     documento_identidad numeric(10),

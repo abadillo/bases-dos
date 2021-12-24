@@ -394,6 +394,113 @@ INSERT INTO personal_inteligencia (primer_nombre, segundo_nombre, primer_apellid
 
 --select * from personal_inteligencia ;
 
+-- PERSONAL_INTELIGENCIA.aliases[]
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Bertrudis','Viviana','Sanchez','Serna','personal_inteligencia_data/foto.png','1993-09-21','Argentina',39319239,'marrón oscuro','Tucson, AZ 85718','2035-12-08' )::alias_ty)	 WHERE id = 1;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Bienvenido','Vivaldo','Salmeron','Sarmiento','personal_inteligencia_data/foto.png','2002-05-06','Taiwán',39326745,'azul oscuro','Kennesaw, GA 30144','2036-04-24' )::alias_ty)	 WHERE id = 3;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Adrian','Vitalicio','Ward','Zambrano','personal_inteligencia_data/foto.png','1982-05-28','Argentina',41335920,'azul oscuro','93 Sunbeam Drive ','2035-09-16' )::alias_ty)	 WHERE id = 5;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Anastasia','Victor','Toro','Valentin','personal_inteligencia_data/foto.png','2000-09-18','Malasia',60044134,'verde oscuro','Nashville, TN 37205','2036-07-05' )::alias_ty)	 WHERE id = 7;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Brandon','Vicente','Salguero','Santiago','personal_inteligencia_data/foto.png','2007-01-29','Malasia',76503165,'marrón claro','Germantown, MD 20874','2036-08-08' )::alias_ty)	 WHERE id = 9;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Adolfo','Vicente','Zaragoza','Zaragoza','personal_inteligencia_data/foto.png','1973-02-07','Holanda',18191017,'azul claro','586 Bear Hill Court ','2034-10-01' )::alias_ty)	 WHERE id = 11;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Alba','Veronica','Vidal','Villa','personal_inteligencia_data/foto.png','2006-08-18','Zimbabue',64811456,'verde claro','Stroudsburg, PA 18360','2036-07-24' )::alias_ty)	 WHERE id = 13;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Alma','Vanesa','Valles','Velazquez','personal_inteligencia_data/foto.png','1975-07-14','Holanda',98674051,'verde oscuro','West Bloomfield, MI 48322','2034-10-30' )::alias_ty)	 WHERE id = 15;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Benedicto','Valentina','Serrano','Stewart','personal_inteligencia_data/foto.png','1965-06-03','Uganda',84080814,'azul claro','Madison Heights, MI 48071','2036-11-05' )::alias_ty)	 WHERE id = 17;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Aidana','Tulio','Villareal','Villatoro','personal_inteligencia_data/foto.png','1995-05-19','Malasia',29091320,'verde oscuro','Richardson, TX 75080','2035-12-06' )::alias_ty)	 WHERE id = 19;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Andres','Tulio','Terrazas','Valdivia','personal_inteligencia_data/foto.png','2004-03-15','Uganda',17674898,'azul claro','West Haven, CT 06516','2036-08-27' )::alias_ty)	 WHERE id = 21;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Abelardo','Trinidad','Zuniga','Zuniga','personal_inteligencia_data/foto.png','1964-12-31','Irlanda',26416657,'marrón oscuro','9161 Court Street ','2034-02-12' )::alias_ty)	 WHERE id = 23;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Bella','Tarsicio','Serrato','Sullivan','personal_inteligencia_data/foto.png','2011-02-15','Uganda',79343958,'verde oscuro','Bedford, OH 44146','2036-08-10' )::alias_ty)	 WHERE id = 25;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Atenea','Tarsicio','Stevens','Teran','personal_inteligencia_data/foto.png','1985-08-22','Groenlandia',47794602,'marrón oscuro','Elkridge, MD 21075','2035-07-20' )::alias_ty)	 WHERE id = 27;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Berta','Soledad','Sandoval','Serrato','personal_inteligencia_data/foto.png','1990-12-04','Groenlandia',88039373,'azul claro','Longview, TX 75604','2035-10-06' )::alias_ty)	 WHERE id = 29;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Alana','Santiago','Vidal','Villalobos','personal_inteligencia_data/foto.png','2000-06-05','Uganda',23535899,'marrón oscuro','Milledgeville, GA 31061','2036-06-06' )::alias_ty)	 WHERE id = 31;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Aurelio','Saida','Soliz','Tejeda','personal_inteligencia_data/foto.png','1996-08-09','Taiwán',22243411,'azul oscuro','Casselberry, FL 32707','2035-12-13' )::alias_ty)	 WHERE id = 33;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Berenice','Rosaura','Santiago','Sifuentes','personal_inteligencia_data/foto.png','1982-09-23','Holanda',28278390,'marrón oscuro','Thibodaux, LA 70301','2035-04-24' )::alias_ty)	 WHERE id = 35;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Alan','Renato','Villa','Villarreal','personal_inteligencia_data/foto.png','1999-03-19','Uganda',71350090,'azul claro','Maplewood, NJ 07040','2036-01-21' )::alias_ty)	 WHERE id = 37;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Benedicto','Ramona','Segura','Solorzano','personal_inteligencia_data/foto.png','1971-12-24','Australia',51867726,'verde claro','Tupelo, MS 38801','2034-08-05' )::alias_ty)	 WHERE id = 39;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Breno','Pilar','Saldana','Santiago','personal_inteligencia_data/foto.png','2011-09-15','Malasia',39370553,'marrón oscuro','Glen Allen, VA 23059','2036-09-28' )::alias_ty)	 WHERE id = 41;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Anastasia','Petronila','Torrez','Valerio','personal_inteligencia_data/foto.png','1999-02-16','Malasia',64493113,'marrón oscuro','Meadville, PA 16335','2036-04-09' )::alias_ty)	 WHERE id = 43;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Alejandro','Paulo','Verdugo','Vicente','personal_inteligencia_data/foto.png','2011-08-18','Australia',78769512,'azul oscuro','Round Lake, IL 60073','2036-12-11' )::alias_ty)	 WHERE id = 45;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Alfredo','Orosio','Vargas','Vera','personal_inteligencia_data/foto.png','1973-12-12','Irlanda',80570754,'marrón oscuro','Shakopee, MN 55379','2034-06-20' )::alias_ty)	 WHERE id = 47;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Angel','Orosio','Tello','Valadez','personal_inteligencia_data/foto.png','2005-05-04','Zimbabue',54158477,'marrón oscuro','East Brunswick, NJ 08816','2036-11-07' )::alias_ty)	 WHERE id = 49;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Ayala','Ophelia','Solis','Tamez','personal_inteligencia_data/foto.png','2007-03-05','Malasia',50374339,'marrón oscuro','Miami Gardens, FL 33056','2036-04-22' )::alias_ty)	 WHERE id = 51;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Antonio','Nathaly','Tavarez','Urena','personal_inteligencia_data/foto.png','1968-01-12','Australia',54480958,'azul oscuro','Orchard Park, NY 14127','2034-02-12' )::alias_ty)	 WHERE id = 53;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Arturo','Myriam','Sullivan','Tolentino','personal_inteligencia_data/foto.png','1975-07-31','Holanda',13771273,'verde oscuro','Lorton, VA 22079','2035-02-23' )::alias_ty)	 WHERE id = 55;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Ana','Michael','Ulloa','Valle','personal_inteligencia_data/foto.png','1996-09-25','Taiwán',22025457,'marrón claro','Woodbridge, VA 22191','2036-03-20' )::alias_ty)	 WHERE id = 57;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Bibiana','Melina','Samaniego','Scott','personal_inteligencia_data/foto.png','1996-01-26','Argentina',82461455,'verde claro','Lake Mary, FL 32746','2036-01-10' )::alias_ty)	 WHERE id = 59;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Caligula','Melchor','Saavedra','Santacruz','personal_inteligencia_data/foto.png','1969-09-17','Uganda',36631636,'verde oscuro','Arlington, MA 02474','2034-01-27' )::alias_ty)	 WHERE id = 61;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Abigail','Maximo','Zelaya','Zayas','personal_inteligencia_data/foto.png','1970-03-20','Irlanda',10925053,'verde oscuro','7399 Brickyard St. ','2034-05-22' )::alias_ty)	 WHERE id = 63;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Bernarda','Maximo','Santana','Sierra','personal_inteligencia_data/foto.png','1986-10-17','Holanda',78530242,'verde oscuro','Mason, OH 45040','2035-08-13' )::alias_ty)	 WHERE id = 65;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Amelia','Maximo','Valdivia','Valverde','personal_inteligencia_data/foto.png','1990-05-03','Argentina',27065668,'verde claro','Venice, FL 34293','2035-10-24' )::alias_ty)	 WHERE id = 67;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Aleyda','Maximiliano','Velasco','Verdugo','personal_inteligencia_data/foto.png','1967-02-15','Australia',97612690,'marrón claro','West Springfield, MA 01089','2034-06-02' )::alias_ty)	 WHERE id = 69;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Amanda','Mariluz','Valerio','Velarde','personal_inteligencia_data/foto.png','1983-06-07','Groenlandia',61565682,'marrón oscuro','Zionsville, IN 46077','2035-07-27' )::alias_ty)	 WHERE id = 71;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Agnes','Mariana','Villeda','Walker','personal_inteligencia_data/foto.png','1989-03-16','Taiwán',74994172,'marrón oscuro','Chillicothe, OH 45601','2035-10-22' )::alias_ty)	 WHERE id = 73;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Benigno','Mariam','Sauceda','Simon','personal_inteligencia_data/foto.png','1975-06-12','Australia',16566274,'azul oscuro','Palm Harbor, FL 34683','2035-02-09' )::alias_ty)	 WHERE id = 75;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Antonio','Margarita','Tamez','Trejo','personal_inteligencia_data/foto.png','1971-06-15','Irlanda',96917314,'marrón claro','Cheshire, CT 06410','2034-06-10' )::alias_ty)	 WHERE id = 77;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Araceli','Marcial','Tafoya','Torrez','personal_inteligencia_data/foto.png','1972-08-11','Irlanda',99331479,'marrón oscuro','Georgetown, SC 29440','2034-09-21' )::alias_ty)	 WHERE id = 79;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Benjamin','Marcela','Santillan','Silva','personal_inteligencia_data/foto.png','1979-03-29','Irlanda',58640535,'marrón claro','Maumee, OH 43537','2035-03-28' )::alias_ty)	 WHERE id = 81;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Adolfo','Mabel','Yepez','Zapata','personal_inteligencia_data/foto.png','1974-12-30','Groenlandia',95615338,'marrón oscuro','29 Golf St. ','2035-02-23' )::alias_ty)	 WHERE id = 83;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Benedicto','Lucrecia','Serna','Soria','personal_inteligencia_data/foto.png','1968-08-05','Zimbabue',97255832,'marrón oscuro','Winston Salem, NC 27103','2034-02-08' )::alias_ty)	 WHERE id = 85;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Aurelio','Lorena','Soriano','Tejeda','personal_inteligencia_data/foto.png','1994-08-02','Argentina',85336552,'verde claro','New York, NY 10002','2035-08-09' )::alias_ty)	 WHERE id = 87;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Adriana','Lincoln','Viramontes','Watson','personal_inteligencia_data/foto.png','1987-06-01','Taiwán',88022795,'marrón claro','8417 South Brandywine Rd. ','2035-09-27' )::alias_ty)	 WHERE id = 89;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Amparo','Liliana','Valadez','Vallejo','personal_inteligencia_data/foto.png','1994-03-07','Argentina',22389586,'azul oscuro','Nottingham, MD 21236','2036-01-28' )::alias_ty)	 WHERE id = 91;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Ashley','Leopoldo','Suarez','Thompson','personal_inteligencia_data/foto.png','1980-06-12','Groenlandia',13693019,'azul claro','Lake Villa, IL 60046','2035-05-28' )::alias_ty)	 WHERE id = 93;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Adria','Leopoldo','Wilson','Zamora','personal_inteligencia_data/foto.png','1980-03-31','Groenlandia',35891345,'verde claro','9638 Greenrose Road ','2035-05-16' )::alias_ty)	 WHERE id = 95;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Ava','Leonardo','Solis','Tavarez','personal_inteligencia_data/foto.png','2004-05-20','Taiwán',30214397,'marrón claro','Lawrenceville, GA 30043','2036-02-18' )::alias_ty)	 WHERE id = 97;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Amada','Leon','Vallejo','Velasquez','personal_inteligencia_data/foto.png','1975-12-30','Holanda',10660447,'azul claro','Adrian, MI 49221','2035-06-10' )::alias_ty)	 WHERE id = 99;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Anthony','Klement','Tellez','Uribe','personal_inteligencia_data/foto.png','1966-06-15','Zimbabue',10041664,'verde claro','New Berlin, WI 53151','2034-01-16' )::alias_ty)	 WHERE id = 101;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Arturo','Guadalupe','Sullivan','Tobar','personal_inteligencia_data/foto.png','1980-04-16','Holanda',96644399,'azul oscuro','1 Baker Court ','2035-03-06' )::alias_ty)	 WHERE id = 1;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Betsabe','Liliana','Sanabria','Segovia','personal_inteligencia_data/foto.png','1995-05-17','Argentina',84722249,'marrón oscuro','1 Shirley Drive ','2035-12-12' )::alias_ty)	 WHERE id = 3;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Alan','Adan','Vigil','Villalpando','personal_inteligencia_data/foto.png','2000-01-03','Uganda',65989538,'marrón claro','121 Lincoln Lane ','2036-02-13' )::alias_ty)	 WHERE id = 5;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Antonella','Consuelo','Tejeda','Urias','personal_inteligencia_data/foto.png','1966-08-26','Australia',61774798,'verde oscuro','14 N. Southampton Dr. ','2034-02-03' )::alias_ty)	 WHERE id = 7;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Ayala','Gloria','Solis','Tapia','personal_inteligencia_data/foto.png','2005-10-25','Malasia',47460460,'marrón oscuro','15 SW. Gates Street ','2036-04-08' )::alias_ty)	 WHERE id = 9;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Bibiana','Celia','Salmeron','Sarmiento','personal_inteligencia_data/foto.png','1999-12-14','Taiwán',76577355,'verde oscuro','235 Orchard Dr. ','2036-01-19' )::alias_ty)	 WHERE id = 11;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Ayala','Eleazar','Smith','Tafoya','personal_inteligencia_data/foto.png','2011-01-03','Malasia',69291171,'verde claro','3 Cedarwood Street ','2036-06-26' )::alias_ty)	 WHERE id = 13;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Antonio','Vivaldo','Tamez','Umana','personal_inteligencia_data/foto.png','1970-09-16','Australia',25879498,'azul claro','34 Cross St. ','2034-05-22' )::alias_ty)	 WHERE id = 15;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Ava','Maximiliano','Soliz','Taveras','personal_inteligencia_data/foto.png','2003-08-08','Taiwán',93172379,'azul claro','367 West Cedarwood Street ','2036-01-27' )::alias_ty)	 WHERE id = 17;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Caligula','Mariana','Saavedra','Santacruz','personal_inteligencia_data/foto.png','1970-10-02','Uganda',85895416,'azul oscuro','4 Division Circle ','2034-02-08' )::alias_ty)	 WHERE id = 19;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Anastasia','Dante','Trejo','Valladares','personal_inteligencia_data/foto.png','1998-02-18','Taiwán',78221639,'marrón oscuro','417 North Cedar St. ','2036-04-06' )::alias_ty)	 WHERE id = 21;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Angela','Esperanza','Tellez','Uribe','personal_inteligencia_data/foto.png','1965-05-26','Zimbabue',11460236,'marrón oscuro','474 Primrose Rd. ','2036-11-08' )::alias_ty)	 WHERE id = 23;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Andres','Aidana','Tenorio','Valdes','personal_inteligencia_data/foto.png','2004-07-13','Uganda',36250466,'marrón claro','567 Brickyard St. ','2036-09-29' )::alias_ty)	 WHERE id = 25;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Benita','Mariluz','Santoyo','Silva','personal_inteligencia_data/foto.png','1977-02-23','Irlanda',28962297,'azul claro','60 Leatherwood Ave. ','2035-03-25' )::alias_ty)	 WHERE id = 27;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Bruno','Vicente','Salcedo','Santamaria','personal_inteligencia_data/foto.png','1968-01-03','Uganda',21689240,'verde claro','637 Elizabeth Dr. ','2036-11-01' )::alias_ty)	 WHERE id = 29;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Alan','Nathaly','Villanueva','Villarreal','personal_inteligencia_data/foto.png','1995-07-06','Malasia',48592755,'azul oscuro','65 Johnson Drive ','2035-12-21' )::alias_ty)	 WHERE id = 31;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Alba','Klement','Vidal','Villa','personal_inteligencia_data/foto.png','2002-04-12','Zimbabue',64142082,'marrón oscuro','666 Princeton Ave. ','2036-06-10' )::alias_ty)	 WHERE id = 33;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Brandon','Angel','Salinas','Sarabia','personal_inteligencia_data/foto.png','2005-04-04','Taiwán',86828406,'azul claro','67 Vermont Street ','2036-05-15' )::alias_ty)	 WHERE id = 35;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Aleyda','Gracia','Velasco','Vera','personal_inteligencia_data/foto.png','1967-11-20','Irlanda',18766855,'marrón oscuro','7049 Bradford Court ','2034-06-14' )::alias_ty)	 WHERE id = 37;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Benicio','Lorena','Sauceda','Solorio','personal_inteligencia_data/foto.png','1974-08-30','Australia',18874142,'verde oscuro','7497 Pheasant Street ','2034-09-18' )::alias_ty)	 WHERE id = 39;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Anunciacion','Caridad','Tafoya','Toscano','personal_inteligencia_data/foto.png','1972-06-09','Irlanda',30459438,'marrón oscuro','7810 Marshall Ave. ','2034-06-26' )::alias_ty)	 WHERE id = 41;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Aleyda','Vitalicio','Ventura','Verduzco','personal_inteligencia_data/foto.png','1965-04-16','Australia',88822694,'azul claro','7965 Academy Street ','2034-04-15' )::alias_ty)	 WHERE id = 43;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Agustin','Juan','Villeda','Villeda','personal_inteligencia_data/foto.png','1993-04-14','Malasia',22895562,'verde claro','8011 Kirkland Road ','2035-11-09' )::alias_ty)	 WHERE id = 45;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Bernarda','Guadalupe','Santana','Sifuentes','personal_inteligencia_data/foto.png','1983-04-26','Holanda',31866633,'verde claro','8201 Old Arrowhead Street ','2035-06-27' )::alias_ty)	 WHERE id = 47;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Benedicto','Maximo','Segura','Solorzano','personal_inteligencia_data/foto.png','1969-07-22','Zimbabue',27525639,'marrón oscuro','8351 E. Young St. ','2034-07-19' )::alias_ty)	 WHERE id = 49;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Arturo','Hercules','Tafoya','Tolentino','personal_inteligencia_data/foto.png','1975-01-17','Holanda',91386920,'verde claro','8466 Lakeview Street ','2034-11-18' )::alias_ty)	 WHERE id = 51;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Brenda','Isabella','Salgado','Santiago','personal_inteligencia_data/foto.png','2010-09-23','Malasia',47999293,'marrón oscuro','8487 W. Foxrun Street ','2036-08-24' )::alias_ty)	 WHERE id = 53;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Aurelia','Calixtrato','Sorto','Tello','personal_inteligencia_data/foto.png','1985-11-11','Argentina',77121232,'marrón oscuro','858 Franklin Drive ','2035-07-26' )::alias_ty)	 WHERE id = 55;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Anastasia','Eneida','Torres','Valerio','personal_inteligencia_data/foto.png','2000-04-03','Malasia',14071763,'verde claro','8794 Old Cobblestone Ave. ','2036-05-01' )::alias_ty)	 WHERE id = 57;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Aurelio','Corania','Solorio','Tejeda','personal_inteligencia_data/foto.png','1996-01-05','Argentina',90838284,'verde oscuro','884 Glenridge Ave. ','2035-08-16' )::alias_ty)	 WHERE id = 59;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'America','Rosaura','Valdez','Valles','personal_inteligencia_data/foto.png','1990-07-24','Argentina',86419030,'verde oscuro','893 South Stonybrook Dr. ','2035-11-17' )::alias_ty)	 WHERE id = 61;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Ana','Veronica','Umana','Vallejo','personal_inteligencia_data/foto.png','1994-09-06','Taiwán',69164685,'azul claro','8966 High Drive ','2036-02-14' )::alias_ty)	 WHERE id = 63;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Amanda','Tulio','Vallejo','Velasquez','personal_inteligencia_data/foto.png','1982-03-05','Groenlandia',22703499,'marrón claro','9036 Harvey Street ','2035-06-26' )::alias_ty)	 WHERE id = 65;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Bernarda','Michael','Santamaria','Servin','personal_inteligencia_data/foto.png','1990-01-26','Groenlandia',11935450,'azul oscuro','917 Ketch Harbour St. ','2035-09-14' )::alias_ty)	 WHERE id = 67;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Bertrudis','Saida','Sandoval','Serrato','personal_inteligencia_data/foto.png','1991-08-22','Groenlandia',44035902,'marrón claro','9205 Carson Street ','2035-10-11' )::alias_ty)	 WHERE id = 69;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Benedicto','Klement','Serna','Sosa','personal_inteligencia_data/foto.png','1965-09-20','Zimbabue',22565539,'marrón claro','922 North Brown Street ','2034-01-27' )::alias_ty)	 WHERE id = 71;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Alicia','Jaime','Valverde','Veliz','personal_inteligencia_data/foto.png','1975-06-03','Irlanda',23497815,'verde claro','9414 Fawn St. ','2034-08-14' )::alias_ty)	 WHERE id = 73;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Altagracia','Paulo','Valles','Velazquez','personal_inteligencia_data/foto.png','1975-10-27','Holanda',57251474,'azul oscuro','944 Shadow Brook Ave. ','2034-12-17' )::alias_ty)	 WHERE id = 75;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Benjamin','Felix','Santillan','Sifuentes','personal_inteligencia_data/foto.png','1981-11-20','Irlanda',88859806,'marrón oscuro','954 Lyme Road ','2035-04-18' )::alias_ty)	 WHERE id = 77;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Andres','Lincoln','Toledo','Valdivia','personal_inteligencia_data/foto.png','2002-05-07','Uganda',51035353,'azul oscuro','9552 Beach Ave. ','2036-07-16' )::alias_ty)	 WHERE id = 79;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Alba','Mabel','Verduzco','Viera','personal_inteligencia_data/foto.png','2010-11-25','Zimbabue',89945163,'verde oscuro','9619 Jennings Rd. ','2036-11-25' )::alias_ty)	 WHERE id = 81;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Amara','Alan','Valerio','Velarde','personal_inteligencia_data/foto.png','1989-03-23','Groenlandia',11514087,'marrón oscuro','962 St Paul St. ','2035-08-06' )::alias_ty)	 WHERE id = 83;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Bella','Orosio','Serrano','Suarez','personal_inteligencia_data/foto.png','2011-05-23','Uganda',49792193,'azul oscuro','9822 High Noon Street ','2036-08-13' )::alias_ty)	 WHERE id = 85;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Atenea','Cesar','Suarez','Thomas','personal_inteligencia_data/foto.png','1984-04-26','Groenlandia',84313709,'marrón claro','9951 Lyme Road ','2035-06-30' )::alias_ty)	 WHERE id = 87;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Adria','Zamira','Wright','Zamora','personal_inteligencia_data/foto.png','1977-10-31','Groenlandia',72541192,'marrón oscuro','Atlantic City, NJ 08401','2035-04-02' )::alias_ty)	 WHERE id = 89;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Adan','Tarsicio','Zavala','Zarate','personal_inteligencia_data/foto.png','1971-04-19','Holanda',94650766,'azul oscuro','Chattanooga, TN 37421','2034-07-03' )::alias_ty)	 WHERE id = 91;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Abigail','Soledad','Zepeda','Zepeda','personal_inteligencia_data/foto.png','1966-05-13','Irlanda',61642861,'verde claro','Leland, NC 28451','2034-03-12' )::alias_ty)	 WHERE id = 93;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Adria','Eduviges','Ward','Zambrano','personal_inteligencia_data/foto.png','1980-05-19','Argentina',13092268,'verde oscuro','Mc Lean, VA 22101','2035-06-07' )::alias_ty)	 WHERE id = 95;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Adrian','Constantino','Walker','White','personal_inteligencia_data/foto.png','1982-10-08','Argentina',32692375,'azul claro','Patchogue, NY 11772','2035-09-25' )::alias_ty)	 WHERE id = 97;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Adolfo','Berenice','Zacarias','Zaragoza','personal_inteligencia_data/foto.png','1974-10-04','Holanda',66506486,'marrón claro','Peachtree City, GA 30269','2034-10-03' )::alias_ty)	 WHERE id = 99;
+UPDATE personal_inteligencia SET aliases = array_append(aliases,  ROW( 'Adriana','Eliana','Villeda','Ward','personal_inteligencia_data/foto.png','1987-10-13','Taiwán',56201490,'marrón oscuro','Unit 7 ','2035-10-11' )::alias_ty)	 WHERE id = 101;
+
+
+
+
 ----AREA INTERES
 INSERT INTO area_interes (fk_clas_tema, fk_cliente) VALUES
 (1, 1),
@@ -416,3 +523,216 @@ INSERT INTO area_interes (fk_clas_tema, fk_cliente) VALUES
 (9, 18),
 (4, 19),
 (5, 20);
+
+
+-- HIST_CARGO
+
+INSERT INTO HIST_CARGO (fecha_inicio, fecha_fin, cargo,  fk_personal_inteligencia, fk_estacion, fk_oficina_principal) VALUES 
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',1,1,1),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',2,1,1),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',3,1,1),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',4,1,1),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',5,2,1),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',6,2,1),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',7,2,1),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',8,2,1),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',9,3,1),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',10,3,1),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',11,3,1),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',12,3,1),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',13,4,2),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',14,4,2),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',15,4,2),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',16,4,2),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',17,5,2),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',18,5,2),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',19,5,2),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',20,5,2),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',21,6,2),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',22,6,2),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',23,6,2),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',24,6,2),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',25,7,3),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',26,7,3),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',27,7,3),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',28,7,3),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',29,8,3),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',30,8,3),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',31,8,3),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',32,8,3),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',33,9,3),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',34,9,3),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',35,9,3),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',36,9,3),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',37,10,4),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',38,10,4),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',39,10,4),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',40,10,4),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',41,11,4),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',42,11,4),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',43,11,4),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',44,11,4),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',45,12,4),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',46,12,4),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',47,12,4),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',48,12,4),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',49,13,5),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',50,13,5),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',51,13,5),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',52,13,5),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',53,14,5),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',54,14,5),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',55,14,5),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',56,14,5),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',57,15,5),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',58,15,5),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',59,15,5),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',60,15,5),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',61,16,6),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',62,16,6),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',63,16,6),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',64,16,6),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',65,17,6),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',66,17,6),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',67,17,6),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',68,17,6),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',69,18,6),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',70,18,6),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',71,18,6),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',72,18,6),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',73,19,7),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',74,19,7),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',75,19,7),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',76,19,7),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',77,20,7),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',78,20,7),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',79,20,7),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',80,20,7),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',81,21,7),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',82,21,7),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',83,21,7),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',84,21,7),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',85,22,8),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',86,22,8),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',87,22,8),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',88,23,8),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',89,23,8),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',90,23,8),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',91,24,8),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',92,24,8),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',93,24,8),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',94,25,9),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',95,25,9),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',96,25,9),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',97,26,9),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',98,26,9),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','agente',99,26,9),
+('2034-01-06 01:00:00','2035-03-12 07:00:00','analista',100,27,9),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','agente',101,27,9),
+('2034-01-05 01:00:00','2035-03-09 07:00:00','analista',102,27,9),
+('2035-03-09 07:00:00',null,'analista',1,1,1),
+('2035-03-09 07:00:00',null,'agente',2,1,1),
+('2035-03-12 07:00:00',null,'analista',3,1,1),
+('2035-03-12 07:00:00',null,'agente',4,1,1),
+('2035-03-09 07:00:00',null,'analista',5,2,1),
+('2035-03-09 07:00:00',null,'agente',6,2,1),
+('2035-03-12 07:00:00',null,'analista',7,2,1),
+('2035-03-12 07:00:00',null,'agente',8,2,1),
+('2035-03-09 07:00:00',null,'analista',9,3,1),
+('2035-03-09 07:00:00',null,'agente',10,3,1),
+('2035-03-12 07:00:00',null,'analista',11,3,1),
+('2035-03-12 07:00:00',null,'agente',12,3,1),
+('2035-03-09 07:00:00',null,'analista',13,4,2),
+('2035-03-09 07:00:00',null,'agente',14,4,2),
+('2035-03-12 07:00:00',null,'analista',15,4,2),
+('2035-03-12 07:00:00',null,'agente',16,4,2),
+('2035-03-09 07:00:00',null,'analista',17,5,2),
+('2035-03-09 07:00:00',null,'agente',18,5,2),
+('2035-03-12 07:00:00',null,'analista',19,5,2),
+('2035-03-12 07:00:00',null,'agente',20,5,2),
+('2035-03-09 07:00:00',null,'analista',21,6,2),
+('2035-03-09 07:00:00',null,'agente',22,6,2),
+('2035-03-12 07:00:00',null,'analista',23,6,2),
+('2035-03-12 07:00:00',null,'agente',24,6,2),
+('2035-03-09 07:00:00',null,'analista',25,7,3),
+('2035-03-09 07:00:00',null,'agente',26,7,3),
+('2035-03-12 07:00:00',null,'analista',27,7,3),
+('2035-03-12 07:00:00',null,'agente',28,7,3),
+('2035-03-09 07:00:00',null,'analista',29,8,3),
+('2035-03-09 07:00:00',null,'agente',30,8,3),
+('2035-03-12 07:00:00',null,'analista',31,8,3),
+('2035-03-12 07:00:00',null,'agente',32,8,3),
+('2035-03-09 07:00:00',null,'analista',33,9,3),
+('2035-03-09 07:00:00',null,'agente',34,9,3),
+('2035-03-12 07:00:00',null,'analista',35,9,3),
+('2035-03-12 07:00:00',null,'agente',36,9,3),
+('2035-03-09 07:00:00',null,'analista',37,10,4),
+('2035-03-09 07:00:00',null,'agente',38,10,4),
+('2035-03-12 07:00:00',null,'analista',39,10,4),
+('2035-03-12 07:00:00',null,'agente',40,10,4),
+('2035-03-09 07:00:00',null,'analista',41,11,4),
+('2035-03-09 07:00:00',null,'agente',42,11,4),
+('2035-03-12 07:00:00',null,'analista',43,11,4),
+('2035-03-12 07:00:00',null,'agente',44,11,4),
+('2035-03-09 07:00:00',null,'analista',45,12,4),
+('2035-03-09 07:00:00',null,'agente',46,12,4),
+('2035-03-12 07:00:00',null,'analista',47,12,4),
+('2035-03-12 07:00:00',null,'agente',48,12,4),
+('2035-03-09 07:00:00',null,'analista',49,13,5),
+('2035-03-09 07:00:00',null,'agente',50,13,5),
+('2035-03-12 07:00:00',null,'analista',51,13,5),
+('2035-03-12 07:00:00',null,'agente',52,13,5),
+('2035-03-09 07:00:00',null,'analista',53,14,5),
+('2035-03-09 07:00:00',null,'agente',54,14,5),
+('2035-03-12 07:00:00',null,'analista',55,14,5),
+('2035-03-12 07:00:00',null,'agente',56,14,5),
+('2035-03-09 07:00:00',null,'analista',57,15,5),
+('2035-03-09 07:00:00',null,'agente',58,15,5),
+('2035-03-12 07:00:00',null,'analista',59,15,5),
+('2035-03-12 07:00:00',null,'agente',60,15,5),
+('2035-03-09 07:00:00',null,'analista',61,16,6),
+('2035-03-09 07:00:00',null,'agente',62,16,6),
+('2035-03-12 07:00:00',null,'analista',63,16,6),
+('2035-03-12 07:00:00',null,'agente',64,16,6),
+('2035-03-09 07:00:00',null,'analista',65,17,6),
+('2035-03-09 07:00:00',null,'agente',66,17,6),
+('2035-03-12 07:00:00',null,'analista',67,17,6),
+('2035-03-12 07:00:00',null,'agente',68,17,6),
+('2035-03-09 07:00:00',null,'analista',69,18,6),
+('2035-03-09 07:00:00',null,'agente',70,18,6),
+('2035-03-12 07:00:00',null,'analista',71,18,6),
+('2035-03-12 07:00:00',null,'agente',72,18,6),
+('2035-03-09 07:00:00',null,'analista',73,19,7),
+('2035-03-09 07:00:00',null,'agente',74,19,7),
+('2035-03-12 07:00:00',null,'analista',75,19,7),
+('2035-03-12 07:00:00',null,'agente',76,19,7),
+('2035-03-09 07:00:00',null,'analista',77,20,7),
+('2035-03-09 07:00:00',null,'agente',78,20,7),
+('2035-03-12 07:00:00',null,'analista',79,20,7),
+('2035-03-12 07:00:00',null,'agente',80,20,7),
+('2035-03-09 07:00:00',null,'analista',81,21,7),
+('2035-03-09 07:00:00',null,'agente',82,21,7),
+('2035-03-12 07:00:00',null,'analista',83,21,7),
+('2035-03-12 07:00:00',null,'agente',84,21,7),
+('2035-03-09 07:00:00',null,'analista',85,22,8),
+('2035-03-09 07:00:00',null,'agente',86,22,8),
+('2035-03-12 07:00:00',null,'analista',87,22,8),
+('2035-03-12 07:00:00',null,'agente',88,23,8),
+('2035-03-09 07:00:00',null,'analista',89,23,8),
+('2035-03-09 07:00:00',null,'agente',90,23,8),
+('2035-03-12 07:00:00',null,'analista',91,24,8),
+('2035-03-12 07:00:00',null,'agente',92,24,8),
+('2035-03-09 07:00:00',null,'analista',93,24,8),
+('2035-03-09 07:00:00',null,'agente',94,25,9),
+('2035-03-12 07:00:00',null,'analista',95,25,9),
+('2035-03-12 07:00:00',null,'agente',96,25,9),
+('2035-03-09 07:00:00',null,'analista',97,26,9),
+('2035-03-09 07:00:00',null,'agente',98,26,9),
+('2035-03-12 07:00:00',null,'analista',99,26,9),
+('2035-03-12 07:00:00',null,'agente',100,27,9),
+('2035-03-09 07:00:00',null,'analista',101,27,9),
+('2035-03-09 07:00:00',null,'agente',102,27,9);
+
+
+
+select aliases from personal_inteligencia pi2 where id = 1;
