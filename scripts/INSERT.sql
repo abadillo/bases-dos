@@ -388,7 +388,29 @@ INSERT INTO personal_inteligencia (primer_nombre, segundo_nombre, primer_apellid
 ('Amara',null,'Saldana','Delao','1990-08-30',161,88,'azul oscuro','20/25','top_secret','personal_inteligencia_data/foto.png','personal_inteligencia_data/huella_digital.png','personal_inteligencia_data/huella_retina.png',ROW(58,4143413069) ,ROW('35655663','Uganda'),ARRAY['español','inglés','hindi','ruso','mandarín','bengalí']::varchar(50)[], ARRAY[ ROW('Jorge',null,'James','Lopez','1937-04-10','abuelo',ROW(58,2344095037) ), ROW('Myriam','Zoe','Serrano','Ochoa','1937-04-10','abuelo',ROW(58,2347115200) )]::familiar_ty[], ARRAY[ ROW('62452902','Uganda') ]::identificacion_ty[], ARRAY[ ROW('Comunicación',null,null)]::nivel_educativo_ty[],null,'21');
 
 
-
 --select ((familiares))::varchar[] from personal_inteligencia ;
 
 select * from personal_inteligencia ;
+
+----AREA INTERES
+INSERT INTO area_interes (fk_clas_tema, fk_cliente) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(1, 10),
+(2, 11),
+(3, 12),
+(4, 13),
+(5, 14),
+(6, 15),
+(7, 16),
+(8, 17),
+(9, 18),
+(4, 19),
+(5, 20);
