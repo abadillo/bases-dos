@@ -196,36 +196,36 @@ CREATE TABLE PERSONAL_INTELIGENCIA (
 
     id serial NOT NULL,
 
---    primer_nombre varchar(50) NOT NULL,
---    segundo_nombre varchar(50) ,
---    primer_apellido varchar(50) NOT NULL,
---    segundo_apellido varchar(50) NOT NULL,
---    fecha_nacimiento date NOT NULL,
---    altura_cm numeric(5) NOT NULL,
---    peso_kg numeric(5) NOT NULL,
---    color_ojos varchar(20) NOT NULL,
---    vision varchar(20) NOT NULL,
+    primer_nombre varchar(50) NOT NULL,
+    segundo_nombre varchar(50) ,
+    primer_apellido varchar(50) NOT NULL,
+    segundo_apellido varchar(50) NOT NULL,
+    fecha_nacimiento date NOT NULL,
+    altura_cm numeric(5) NOT NULL,
+    peso_kg numeric(5) NOT NULL,
+    color_ojos varchar(20) NOT NULL,
+    vision varchar(20) NOT NULL,
     class_seguridad varchar(50) NOT NULL,
 --
 --
 --    --LOBS
-    fotografia bytea NOT NULL,
-    huella_retina bytea NOT NULL,
-    huella_digital bytea NOT NULL,
---       
+    fotografia varchar(1000) NOT NULL,
+    huella_retina varchar(1000) NOT NULL,
+    huella_digital varchar(1000) NOT NULL,
+       
 --    --TDAs
---    telefono telefono_ty NOT NULL,
---    licencia_manejo licencia_ty,
+    telefono telefono_ty NOT NULL,
+    licencia_manejo licencia_ty,
 --    
 --    --varray
---    idiomas varchar(50)[6] NOT NULL,
---    familiares familiar_ty[2] NOT NULL,
---    identificaciones identificacion_ty[5] NOT NULL,
+    idiomas varchar(50)[6] NOT NULL,
+    familiares familiar_ty[2] NOT NULL,
+    identificaciones identificacion_ty[5] NOT NULL,
 --    
 --    --nested tables
---    nivel_educativo nivel_educativo_ty[] NOT NULL,
---    aliases alias_ty[],
---    
+    nivel_educativo nivel_educativo_ty[] NOT NULL,
+    aliases alias_ty[],
+    
 --    --foreign keys 
 --    --fk_estacion integer NOT NULL,
 --    --fk_oficina_principal integer NOT NULL,
