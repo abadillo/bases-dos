@@ -257,6 +257,6 @@ INSERT INTO clas_tema(nombre, descripcion, topico) VALUES
 ('Estrategia de Ventas', 'Los planes que puede llevar a cabo una empresa para vender sus productos o servicios con la intención de obtener un beneficio', 'paises'),
 ('Estrategia Salud', 'Son actuaciones sobre problemas de salud que requieren un abordaje integral, que tenga en cuenta todos los aspectos relacionados con la asistencia sanitaria', 'paises'),
 ('Estrategia Económica', 'Estrategia para impulsar la economia prosperidad y el desempeño del pais.', 'paises'),
-('Politica Exterior', 'El conjunto de decisiones, politicas y acciones que confomar un pais, para poder representar los intereses nacionales de este', 'paises'),
+('Politica Exterior', 'El conjunto de decisiones, politicas y acciones que confomar un pais, para poder representar los intereses nacionales de este', 'paises');
 
 
