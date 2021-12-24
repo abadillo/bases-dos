@@ -732,4 +732,4 @@ INSERT INTO HIST_CARGO (fecha_inicio, fecha_fin, cargo,  fk_personal_inteligenci
 
 
 
-select aliases from personal_inteligencia pi2 where id = 1;
+--select aliases from personal_inteligencia pi2 where id = 1;
