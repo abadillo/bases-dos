@@ -196,39 +196,39 @@ CREATE TABLE PERSONAL_INTELIGENCIA (
 
     id serial NOT NULL,
 
-    primer_nombre varchar(50) NOT NULL,
-    segundo_nombre varchar(50) ,
-    primer_apellido varchar(50) NOT NULL,
-    segundo_apellido varchar(50) NOT NULL,
-    fecha_nacimiento date NOT NULL,
-    altura_cm numeric(5) NOT NULL,
-    peso_kg numeric(5) NOT NULL,
-    color_ojos varchar(20) NOT NULL,
-    vision varchar(20) NOT NULL,
+--    primer_nombre varchar(50) NOT NULL,
+--    segundo_nombre varchar(50) ,
+--    primer_apellido varchar(50) NOT NULL,
+--    segundo_apellido varchar(50) NOT NULL,
+--    fecha_nacimiento date NOT NULL,
+--    altura_cm numeric(5) NOT NULL,
+--    peso_kg numeric(5) NOT NULL,
+--    color_ojos varchar(20) NOT NULL,
+--    vision varchar(20) NOT NULL,
     class_seguridad varchar(50) NOT NULL,
-
-
-    --LOBS
+--
+--
+--    --LOBS
     fotografia bytea NOT NULL,
     huella_retina bytea NOT NULL,
     huella_digital bytea NOT NULL,
-       
-    --TDAs
-    telefono telefono_ty NOT NULL,
-    licencia_manejo licencia_ty,
-    
-    --varray
-    idiomas varchar(50)[6] NOT NULL,
-    familiares familiar_ty[2] NOT NULL,
-    identificaciones identificacion_ty[5] NOT NULL,
-    
-    --nested tables
-    nivel_educativo nivel_educativo_ty[] NOT NULL,
-    aliases alias_ty[],
-    
-    --foreign keys 
-    --fk_estacion integer NOT NULL,
-    --fk_oficina_principal integer NOT NULL,
+--       
+--    --TDAs
+--    telefono telefono_ty NOT NULL,
+--    licencia_manejo licencia_ty,
+--    
+--    --varray
+--    idiomas varchar(50)[6] NOT NULL,
+--    familiares familiar_ty[2] NOT NULL,
+--    identificaciones identificacion_ty[5] NOT NULL,
+--    
+--    --nested tables
+--    nivel_educativo nivel_educativo_ty[] NOT NULL,
+--    aliases alias_ty[],
+--    
+--    --foreign keys 
+--    --fk_estacion integer NOT NULL,
+--    --fk_oficina_principal integer NOT NULL,
     fk_lugar_ciudad integer NOT NULL,
 
 
@@ -523,137 +523,137 @@ CREATE TABLE ADQUISICION (
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-----------------------------------------///////////////////--------------------------------------
-
-
-
-
-
-CREATE TABLE ALT_ADQUISICION (
-
-    id serial NOT NULL,
-
-    fecha_venta NOT NULL,
-    precio_vendido NOT NULL,
-    id_cliente NOT NULL,
-    ALT_fk_pieza_inteligencia NOT NULL 
-);
-
-ALTER TABLE ALT_ADQUISICION ADD       CONSTRAINT ALT_ADQUISICION_PK PRIMARY KEY (ALT_fk_pieza_inteligencia, id);
-
-CREATE TABLE ALT_ANALISTA_CRUDO (
-
-    id serial NOT NULL,
-
-    fecha NOT NULL,
-    nivel_confiabilidad NOT NULL,
-    ALT_HIST_CARGO_fecha_inicio NOT NULL,
-    ALT_ fk_crudo NOT NULL 
-);
-
-ALTER TABLE ALT_ANALISTA_CRUDO ADD       CONSTRAINT ALT_ANALISTA_CRUDO_PK PRIMARY KEY (id, ALT_HIST_CARGO_fecha_inicio, ALT_ fk_crudo);
-
-CREATE TABLE ALT_CRUDO (
-
-    id serial NOT NULL,
-
-    ALT_HIST_CARGO_fecha_inicio NOT NULL,
-    fuente NOT NULL,
-    id_informante,
-    monto_pago_informante NOT NULL,
-    fecha_pago_informante,
-    id_estacion 
-);
-
-COMMENT ON COLUMN ALT_CRUDO.fuente IS 'abierta, secreta, tecnica' ;
-
-ALTER TABLE ALT_CRUDO ADD       CONSTRAINT ALT_CRUDO_PK PRIMARY KEY (id);
-
-CREATE TABLE ALT_CRUDO_PIEZA (
-    ALT_fk_pieza_inteligencia integer NOT NULL,
-    ALT_ fk_crudo NOT NULL 
-);
-
-ALTER TABLE ALT_CRUDO_PIEZA ADD       CONSTRAINT ALT_CRUDO_PIEZA_PK PRIMARY KEY (ALT_fk_pieza_inteligencia, ALT_ fk_crudo);
-
-CREATE TABLE ALT_HIST_CARGO (
-    fecha_inicio NOT NULL,
-    fecha_fin,
-    cargo NOT NULL,
-    id_personal,
-    id_estacion 
-);
-
-COMMENT ON COLUMN ALT_HIST_CARGO.cargo IS 'analista
-agente' ;
-
-ALTER TABLE ALT_HIST_CARGO ADD       CONSTRAINT ALT_HIST_CARGO_PK PRIMARY KEY (fecha_inicio);
-
-CREATE TABLE ALT_PIEZA_INTELIGENCIA (
-    ALT_HIST_CARGO_fecha_inicio NOT NULL,
-    id NOT NULL 
-);
-
-ALTER TABLE ALT_PIEZA_INTELIGENCIA ADD       CONSTRAINT ALT_PIEZA_INTELIGENCIA_PK PRIMARY KEY (id);
-
-
-ALTER TABLE ALT_ADQUISICION 
-    ADD       CONSTRAINT ALT_ADQUISICION_ALT_PIEZA_INTELIGENCIA_FK FOREIGN KEY (ALT_fk_pieza_inteligencia) REFERENCES ALT_PIEZA_INTELIGENCIA (id);
-
-ALTER TABLE ALT_ANALISTA_CRUDO 
-    ADD       CONSTRAINT ALT_ANALISTA_CRUDO_ALT_CRUDO_FK FOREIGN KEY (ALT_ fk_crudo) REFERENCES ALT_CRUDO (id);
-
-ALTER TABLE ALT_ANALISTA_CRUDO 
-    ADD       CONSTRAINT ALT_ANALISTA_CRUDO_ALT_HIST_CARGO_FK FOREIGN KEY (ALT_HIST_CARGO_fecha_inicio) REFERENCES ALT_HIST_CARGO (fecha_inicio);
-
-ALTER TABLE ALT_CRUDO 
-    ADD       CONSTRAINT ALT_CRUDO_ALT_HIST_CARGO_FK FOREIGN KEY (ALT_HIST_CARGO_fecha_inicio) REFERENCES ALT_HIST_CARGO (fecha_inicio);
-
-ALTER TABLE ALT_CRUDO_PIEZA 
-    ADD       CONSTRAINT ALT_CRUDO_PIEZA_ALT_CRUDO_FK FOREIGN KEY (ALT_ fk_crudo) REFERENCES ALT_CRUDO (id);
-
-ALTER TABLE ALT_CRUDO_PIEZA 
-    ADD       CONSTRAINT ALT_CRUDO_PIEZA_ALT_PIEZA_INTELIGENCIA_FK FOREIGN KEY (ALT_fk_pieza_inteligencia) REFERENCES ALT_PIEZA_INTELIGENCIA (id);
-
-ALTER TABLE ALT_PIEZA_INTELIGENCIA 
-    ADD       CONSTRAINT ALT_PIEZA_INTELIGENCIA_ALT_HIST_CARGO_FK FOREIGN KEY (ALT_HIST_CARGO_fecha_inicio) REFERENCES ALT_HIST_CARGO (fecha_inicio);
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+------------------------------------------///////////////////--------------------------------------
+--
+--
+--
+--
+--
+--CREATE TABLE ALT_ADQUISICION (
+--
+--    id serial NOT NULL,
+--
+--    fecha_venta NOT NULL,
+--    precio_vendido NOT NULL,
+--    id_cliente NOT NULL,
+--    ALT_fk_pieza_inteligencia NOT NULL 
+--);
+--
+--ALTER TABLE ALT_ADQUISICION ADD       CONSTRAINT ALT_ADQUISICION_PK PRIMARY KEY (ALT_fk_pieza_inteligencia, id);
+--
+--CREATE TABLE ALT_ANALISTA_CRUDO (
+--
+--    id serial NOT NULL,
+--
+--    fecha NOT NULL,
+--    nivel_confiabilidad NOT NULL,
+--    ALT_HIST_CARGO_fecha_inicio NOT NULL,
+--    ALT_ fk_crudo NOT NULL 
+--);
+--
+--ALTER TABLE ALT_ANALISTA_CRUDO ADD       CONSTRAINT ALT_ANALISTA_CRUDO_PK PRIMARY KEY (id, ALT_HIST_CARGO_fecha_inicio, ALT_ fk_crudo);
+--
+--CREATE TABLE ALT_CRUDO (
+--
+--    id serial NOT NULL,
+--
+--    ALT_HIST_CARGO_fecha_inicio NOT NULL,
+--    fuente NOT NULL,
+--    id_informante,
+--    monto_pago_informante NOT NULL,
+--    fecha_pago_informante,
+--    id_estacion 
+--);
+--
+--COMMENT ON COLUMN ALT_CRUDO.fuente IS 'abierta, secreta, tecnica' ;
+--
+--ALTER TABLE ALT_CRUDO ADD       CONSTRAINT ALT_CRUDO_PK PRIMARY KEY (id);
+--
+--CREATE TABLE ALT_CRUDO_PIEZA (
+--    ALT_fk_pieza_inteligencia integer NOT NULL,
+--    ALT_ fk_crudo NOT NULL 
+--);
+--
+--ALTER TABLE ALT_CRUDO_PIEZA ADD       CONSTRAINT ALT_CRUDO_PIEZA_PK PRIMARY KEY (ALT_fk_pieza_inteligencia, ALT_ fk_crudo);
+--
+--CREATE TABLE ALT_HIST_CARGO (
+--    fecha_inicio NOT NULL,
+--    fecha_fin,
+--    cargo NOT NULL,
+--    id_personal,
+--    id_estacion 
+--);
+--
+--COMMENT ON COLUMN ALT_HIST_CARGO.cargo IS 'analista
+--agente' ;
+--
+--ALTER TABLE ALT_HIST_CARGO ADD       CONSTRAINT ALT_HIST_CARGO_PK PRIMARY KEY (fecha_inicio);
+--
+--CREATE TABLE ALT_PIEZA_INTELIGENCIA (
+--    ALT_HIST_CARGO_fecha_inicio NOT NULL,
+--    id NOT NULL 
+--);
+--
+--ALTER TABLE ALT_PIEZA_INTELIGENCIA ADD       CONSTRAINT ALT_PIEZA_INTELIGENCIA_PK PRIMARY KEY (id);
+--
+--
+--ALTER TABLE ALT_ADQUISICION 
+--    ADD       CONSTRAINT ALT_ADQUISICION_ALT_PIEZA_INTELIGENCIA_FK FOREIGN KEY (ALT_fk_pieza_inteligencia) REFERENCES ALT_PIEZA_INTELIGENCIA (id);
+--
+--ALTER TABLE ALT_ANALISTA_CRUDO 
+--    ADD       CONSTRAINT ALT_ANALISTA_CRUDO_ALT_CRUDO_FK FOREIGN KEY (ALT_ fk_crudo) REFERENCES ALT_CRUDO (id);
+--
+--ALTER TABLE ALT_ANALISTA_CRUDO 
+--    ADD       CONSTRAINT ALT_ANALISTA_CRUDO_ALT_HIST_CARGO_FK FOREIGN KEY (ALT_HIST_CARGO_fecha_inicio) REFERENCES ALT_HIST_CARGO (fecha_inicio);
+--
+--ALTER TABLE ALT_CRUDO 
+--    ADD       CONSTRAINT ALT_CRUDO_ALT_HIST_CARGO_FK FOREIGN KEY (ALT_HIST_CARGO_fecha_inicio) REFERENCES ALT_HIST_CARGO (fecha_inicio);
+--
+--ALTER TABLE ALT_CRUDO_PIEZA 
+--    ADD       CONSTRAINT ALT_CRUDO_PIEZA_ALT_CRUDO_FK FOREIGN KEY (ALT_ fk_crudo) REFERENCES ALT_CRUDO (id);
+--
+--ALTER TABLE ALT_CRUDO_PIEZA 
+--    ADD       CONSTRAINT ALT_CRUDO_PIEZA_ALT_PIEZA_INTELIGENCIA_FK FOREIGN KEY (ALT_fk_pieza_inteligencia) REFERENCES ALT_PIEZA_INTELIGENCIA (id);
+--
+--ALTER TABLE ALT_PIEZA_INTELIGENCIA 
+--    ADD       CONSTRAINT ALT_PIEZA_INTELIGENCIA_ALT_HIST_CARGO_FK FOREIGN KEY (ALT_HIST_CARGO_fecha_inicio) REFERENCES ALT_HIST_CARGO (fecha_inicio);
