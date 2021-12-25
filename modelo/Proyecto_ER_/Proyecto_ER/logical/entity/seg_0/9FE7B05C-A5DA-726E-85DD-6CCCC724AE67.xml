@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="F3F7BCC0-B919-2B9C-4AEC-757135E824C1" name="ALT_CRUDO">
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="9FE7B05C-A5DA-726E-85DD-6CCCC724AE67" name="ADQUISICION_ALT">
 <createdBy>alex</createdBy>
-<createdTime>2021-12-14 17:22:05 UTC</createdTime>
+<createdTime>2021-12-25 17:49:52 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -15,9 +15,9 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="id" id="3130F1E2-204C-724D-3761-E73831145BC0">
+<Attribute name="id" id="01F9E30A-DF3E-2936-8C3E-7CEA3D6E5EAD">
 <createdBy>alex</createdBy>
-<createdTime>2021-12-14 17:22:05 UTC</createdTime>
+<createdTime>2021-12-25 17:49:52 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -25,22 +25,9 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="fecha_inicio" id="3987854C-4C1D-5048-2ECD-BDD650649C51">
+<Attribute name="fecha_venta" id="521AEC3B-32FB-C59D-628B-C569CCB96F47">
 <createdBy>alex</createdBy>
-<createdTime>2021-12-14 17:22:05 UTC</createdTime>
-<generatorID>4230185A-32BF-09CC-784A-90F4CC548E3A</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>8B0C9E33-8AEB-6E29-7C6A-507039CDA91E</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="fuente" id="DEF77147-3F4E-1E83-E156-4F3064CB9014">
-<createdBy>alex</createdBy>
-<createdTime>2021-12-14 17:26:49 UTC</createdTime>
-<commentInRDBMS><![CDATA[abierta, secreta, tecnica]]></commentInRDBMS>
+<createdTime>2021-12-25 17:49:52 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -48,20 +35,21 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id_informante" id="45A3C679-FC03-1D98-C857-77F7C0B7FFC1">
+<Attribute name="id1" id="E85736E9-A8AF-B67D-82D5-C313234E3A1A">
 <createdBy>alex</createdBy>
-<createdTime>2021-12-14 17:29:33 UTC</createdTime>
+<createdTime>2021-12-25 17:49:52 UTC</createdTime>
+<generatorID>EAE4B787-3A99-8CA6-0D6F-00CEBF9B1E30</generatorID>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<nullsAllowed>true</nullsAllowed>
+<referedAttribute>E639C438-0676-50D1-7E2F-ACE13EDCC8E1</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="monto_pago_informante" id="2758DE83-DB22-DFB6-F0E0-C8186BE21D4B">
+<Attribute name="precio_vendido" id="D7DD3E2A-5660-BC34-D44C-0FABE8921ADC">
 <createdBy>alex</createdBy>
-<createdTime>2021-12-14 17:29:50 UTC</createdTime>
+<createdTime>2021-12-25 17:49:52 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -69,33 +57,21 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="fecha_pago_informante" id="A6C29951-CD61-A762-B718-F57C588D4438">
+<Attribute name="fk_cliente" id="318BA73C-E518-44D1-D691-21E8DA49A873">
 <createdBy>alex</createdBy>
-<createdTime>2021-12-14 17:30:08 UTC</createdTime>
+<createdTime>2021-12-25 18:17:41 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<nullsAllowed>true</nullsAllowed>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="id_estacion" id="0C79D42D-EF2A-1EC2-C687-2F1B2C63E112">
-<createdBy>alex</createdBy>
-<createdTime>2021-12-14 17:31:53 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<nullsAllowed>true</nullsAllowed>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
-<identifier id="C0F80BE5-330E-70FA-7C62-86FEAC569859" name="CRUDO PK">
+<identifier id="10F12D49-0B93-2C07-78BA-C4E7F77A5B14" name="COMPRA / ADQUISICION PK">
 <createdBy>alex</createdBy>
-<createdTime>2021-12-14 17:22:05 UTC</createdTime>
+<createdTime>2021-12-25 17:49:52 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <shouldEngineer>false</shouldEngineer>
 <engineerTo>
@@ -103,7 +79,8 @@
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>3130F1E2-204C-724D-3761-E73831145BC0</attributeRef>
+<attributeRef>E85736E9-A8AF-B67D-82D5-C313234E3A1A</attributeRef>
+<attributeRef>01F9E30A-DF3E-2936-8C3E-7CEA3D6E5EAD</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>

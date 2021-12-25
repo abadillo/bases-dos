@@ -66,17 +66,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="clasificacion" id="B6889995-5D09-2DB6-62F5-CAF8A9158EDB">
-<createdBy>alex</createdBy>
-<createdTime>2021-11-19 03:12:24 UTC</createdTime>
-<commentInRDBMS><![CDATA[check ("Agente de campo", "Analista")]]></commentInRDBMS>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="telefono ( --&gt;telefono_ty )" id="1F4F451B-4F9D-6B1E-0450-A88F426780A8">
 <createdBy>Gabriel</createdBy>
 <createdTime>2021-11-14 18:08:08 UTC</createdTime>

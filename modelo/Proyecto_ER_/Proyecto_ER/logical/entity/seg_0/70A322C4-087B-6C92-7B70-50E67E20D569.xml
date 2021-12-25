@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="47CE9562-0CD0-949E-3B2D-D4A056B810DE" name="ALT_CRUDO_PIEZA">
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="70A322C4-087B-6C92-7B70-50E67E20D569" name="CRUDO_PIEZA_ALT">
 <createdBy>alex</createdBy>
-<createdTime>2021-12-14 17:22:05 UTC</createdTime>
+<createdTime>2021-12-25 17:49:52 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
@@ -15,35 +15,35 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="id" id="ED4E1E86-7994-C4F3-81D0-85BAEBED16C6">
+<Attribute name="id" id="0CC1A8D9-31F1-8A49-6FD0-9CC23AEF894C">
 <createdBy>alex</createdBy>
-<createdTime>2021-12-14 17:37:39 UTC</createdTime>
-<generatorID>179467F4-DAC2-15B7-8E9C-40D94C041330</generatorID>
+<createdTime>2021-12-25 17:49:52 UTC</createdTime>
+<generatorID>CA300C63-4562-A8D8-7240-A8889ADD5C6F</generatorID>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<referedAttribute>4D08AE55-2B23-952B-B4F0-F8AD9AEA3CFD</referedAttribute>
+<referedAttribute>E639C438-0676-50D1-7E2F-ACE13EDCC8E1</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="id1" id="AD7C65BE-38AD-33C6-3B78-54E2BFAE5E76">
+<Attribute name="id1" id="B46657E6-42FE-C0F6-D0CE-AB248D65406C">
 <createdBy>alex</createdBy>
-<createdTime>2021-12-20 01:10:52 UTC</createdTime>
-<generatorID>87D87BAB-9296-3A8F-BF6B-1F5EBFC7A68B</generatorID>
+<createdTime>2021-12-25 17:49:52 UTC</createdTime>
+<generatorID>99374A9B-3077-7813-FA32-D1504A826F03</generatorID>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <engineerTo>
 <item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
 </engineerTo>
-<referedAttribute>3130F1E2-204C-724D-3761-E73831145BC0</referedAttribute>
+<referedAttribute>26B2B9D7-A193-ED90-A795-6B55AACED9E4</referedAttribute>
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
-<identifier id="5B9089F0-8CB0-DE39-63F0-737621AF7230" name="sd PK">
+<identifier id="5877CCE8-7555-C126-61FF-3B0DF399838C" name="sd PK">
 <createdBy>alex</createdBy>
-<createdTime>2021-12-14 17:22:05 UTC</createdTime>
+<createdTime>2021-12-25 17:49:52 UTC</createdTime>
 <ownerDesignName>Proyecto_ER</ownerDesignName>
 <shouldEngineer>false</shouldEngineer>
 <engineerTo>
@@ -51,8 +51,8 @@
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>ED4E1E86-7994-C4F3-81D0-85BAEBED16C6</attributeRef>
-<attributeRef>AD7C65BE-38AD-33C6-3B78-54E2BFAE5E76</attributeRef>
+<attributeRef>0CC1A8D9-31F1-8A49-6FD0-9CC23AEF894C</attributeRef>
+<attributeRef>B46657E6-42FE-C0F6-D0CE-AB248D65406C</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>
