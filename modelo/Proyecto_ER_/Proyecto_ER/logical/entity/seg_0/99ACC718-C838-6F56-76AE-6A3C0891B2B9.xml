@@ -36,17 +36,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="nivel_confiabilidad" id="5F9188E8-594F-5B07-F856-022B02A3B54B">
-<createdBy>alex</createdBy>
-<createdTime>2021-12-25 17:49:52 UTC</createdTime>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<nullsAllowed>true</nullsAllowed>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="precio_base" id="33C541C1-A53E-635E-CC8D-5B3C2CF19B00">
 <createdBy>alex</createdBy>
 <createdTime>2021-12-25 17:49:52 UTC</createdTime>
