@@ -733,3 +733,31 @@ INSERT INTO HIST_CARGO (fecha_inicio, fecha_fin, cargo,  fk_personal_inteligenci
 
 
 --select aliases from personal_inteligencia pi2 where id = 1;
+
+---INFORMANTES
+
+INSERT INTO informante (id, nombre_clave, fk_personal_inteligencia_encargado, fk_fecha_inicio_encargado, fk_estacion_encargado, fk_oficina_principal_encargado, fk_empleado_jefe_confidente, fk_personal_inteligencia_confidente, fk_fecha_innicio_confidente, fk_estacion_confidente, fk_oficina_principal_confidente) VALUES
+('Ameamezersali', 1, '2034-03-13', 1, 1, 11, null, null, null, null),
+('Cuente', 1, '2034-03-14', 1, 1, 11, null, null, null, null),
+('Tipini', 3, '2034-04-9', 2, 2, 12, null, null, null, null),
+('Matella', 3, '2034-04-09', 2, 2, 12, null, null, null, null),
+('Criola', 5, '2035-04-09', 3, 3, 13, null, null, null, null),
+('Mentino', 5, '2036-05-21', 3, 3, 13, null, null, null, null),
+('Traccion', 7, '2034-01-06', 4, 4, 14, null, null, null, null),
+('Oversta', 7, '2034-08-21', 4, 4, 14, null, null, null, null),
+('Inforaza', 9, '2034-09-12', 5, 5, null, 1, 2034-09-14, 11, 4),
+('Endora', 9, '2035-06-09', 5, 5, null, 2, 2035-06-10, 7, 3),
+('Chalida', 11, '2035-01-20', 6, 6, null, 3, 2035-01-25, 10, 4),
+('Trustora', 11, '2035-03-02', 6, 6, null, 4, 2035-03-06, 27, 9),
+('Impaza', 13, '2034-10-10', 7, 7, null, 5, 2034-10-17, 25, 9),
+('Clari', 13, '2034-11-11', 7, 7, null, 6, 2034-12-11, 12, 4),
+('Monerte', 15, '2034-12-24', 8, 8, null, 7, 2035-01-06, 13, 5),
+('Accuenti', 15, '2036-08-06', 8, 8, null, 8, 2036-08-15, 14, 5),
+('Advazon', 17, '2036-08-09', 9, 9, null, 9, 2036-08-16, 15, 5),
+('Promante', 17, '2036-10-10', 9, 9, null, 10, 2036-10-15, 1, 1),
+('Evantino', 19, '2034-02-14', 10, 10, null, 11, 2034-02-19, 4, 2),
+('Advinco', 19, '2034-02-01', 10, 10, null, 12, 2034-02-05, 20, 7),
+('Inforwer', 21, '2034-05-27', 11, 11, null, 13, 2034-05-30, 23, 8);
+
+
+
