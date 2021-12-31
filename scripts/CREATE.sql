@@ -357,7 +357,7 @@ CREATE TABLE CRUDO (
     id serial NOT NULL,
 
     contenido bytea NOT NULL, -- 'text, imagen, sonido, video' 
-    tipo_contenido varchar(20) NOT NULL,
+    tipo_contenido varchar(1000) NOT NULL,
     resumen varchar(1000) NOT NULL,
     fuente varchar(20) NOT NULL, -- 'abierta, secreta, tecnica'
     valor_apreciacion numeric(20),
