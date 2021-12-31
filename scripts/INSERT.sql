@@ -760,4 +760,31 @@ INSERT INTO informante (id, nombre_clave, fk_personal_inteligencia_encargado, fk
 ('Inforwer', 21, '2034-05-27', 11, 11, null, 13, 2034-05-30, 23, 8);
 
 
+--CRUDOS
+
+INSERT INTO (contenido, tipo_contenido, resumen, fuente, valor_apreciacion, nivel_confiabilidad_inicial, nivel_confiabilidad_final, fecha_obtencion, fecha_verificacion_final, cant_analistas_verifican, fk_clas_tema, fk_informante, fk_estacion_pertenece, fk_oficina_principal_pertenece, fk_estacion_agente, fk_oficina_principal_agente, fk_fecha_inicio_agente, fk_personal_inteligencia_agente) VALUES
+('crudo_contenido/imagen.jpg', 'imagen', 'Problemas politicos', 'secreta', 500, 85, 85 , '2034-01-06', '2034-01-10', 2, 1, 1, 1, 1, 1, 1, '2034-01-07', 1),
+('crudo_contenido/imagen.jpg', 'imagen', 'Problemas politicos', 'secreta', 550, 30, 10 , '2034-01-09', null, 2, 7, 2, 2, 1, 1, 1, '2034-01-10', 3),
+('crudo_contenido/imagen.jpg', 'imagen', 'Consecuencias de problemas politicos', 'secreta', 560, 85, 90 , '2034-01-20', '2034-01-24', 2, 8, 3, 3, 1, 1, 1, '2034-01-21', 5),
+('crudo_contenido/imagen.jpg', 'imagen', 'Consecuencias de problemas politicos', 'secreta', 570, 50, 85 , '2034-02-14', 'null', 2, 9, 4, 4, 2, 2, 1, '2034-02-15', 7),
+('crudo_contenido/imagen2.jpg', 'imagen', 'Consecuencias de problemas politicos', 'secreta', 580, 60, 90 , '2034-02-09', 'null', 2, 9, 5, 5, 2, 2, 1, '2034-02-10', 9),
+('crudo_contenido/imagen2.jpg', 'imagen', 'Consecuencias de problemas politicos', 'secreta', 590, 85, 60 , '2034-06-09', '2034-06-13', 2, 8, 6, 6, 2, 2, 1, '2034-06-10', 11),
+('crudo_contenido/imagen2.jpg', 'imagen', 'Consecuencias de problemas politicos', 'secreta', 600, 35, 60 , '2035-06-09', 'null', 3, 9, 7, 7, 3, 3, 2, '2035-06-10', 13),
+('crudo_contenido/imagen2.jpg', 'imagen', 'Consecuencias de problemas politicos', 'secreta', 610, 85, 70 , '2036-06-09', '2036-06-13', 3, 9, 8, 8, 3, 3, 2, '2036-06-10', 15),
+('crudo_contenido/texto2.txt', 'texto', 'Conflictos entre paises por poder', 'abierta', 620, 90, 90 , '2035-03-09', null, 2, 1, 9, 9, 3, 3, 2, '2035-03-10', 17),
+('crudo_contenido/texto2.txt', 'texto', 'Conflictos entre paises por poder', 'tecnica', 630, 75, 80 , '2035-10-10', null, 2, 1, 10, 10, 4, 4, 2, '2035-10-11', 19),
+('crudo_contenido/texto2.txt', 'texto', 'Conflictos entre paises por poder', 'secreta', 640, 100, 80 , '2035-11-11', 2035-11-14, 2, 1, 11, 11, 4, 4, 2, '2035-11-12', 21),
+('crudo_contenido/texto2.txt', 'texto', 'Resultados de los conflictos', 'abierta', 650, 85, 85 , '2034-12-24', null, 2, 8, 12, 12, 4, 4, 2, '2034-12-25', 23),
+('crudo_contenido/texto.txt', 'texto', 'Resultados de los conflictos', 'tecnica', 660, 90, 95 , '2034-03-21', '2034-03-24', 2, 8, 13, 13, 5, 5, 3, '2034-03-22', 25),
+('crudo_contenido/texto.txt', 'texto', 'Resultados de los conflictos', 'secreta', 670, 70, 60 , '2036-03-09', null, 2, 1, 14, 14, 5, 5, 3, '2036-03-10', 27),
+('crudo_contenido/texto.txt', 'texto', 'Resultados de los conflictos', 'abierta', 680, 60, 60 , '2036-09-19', null, 3, 8, 15, 15, 5, 5, 3, '2036-09-20', 29),
+('crudo_contenido/audio.mp3', 'audio', 'Conflictos en calle con individuos', 'tecnica', 690, 100, 100 , '2036-08-19', '2036-08-23', 3, 2, 16, 16, 6, 6, 3, '2036-08-20', 31),
+('crudo_contenido/audio.mp3', 'audio', 'Conflictos en calle con individuos', 'secreta', 700, 90, 85 , '2035-11-21', '2035-11-24', 2, 2, 17, 17, 6, 6, 3, '2035-11-22', 33),
+('crudo_contenido/audio.mp3', 'audio', 'Conflictos en calle con individuos', 'abierta', 710, 30, 30 , '2035-05-21', null, 2, 2, 18, 18, 6, 6, 3, '2035-05-22', 35),
+('crudo_contenido/formulas.mp4', 'video', 'Formulas para las empresas', 'tecnica', 720, 40, 35 , '2034-03-02', null, 2, 4, 19, 19, 7, 7, 4, '2034-03-03', 37),
+('crudo_contenido/imagen3.png', 'imagen', 'Planificación de marketing', 'secreta', 730, 50, 66 , '2034-12-01', null, 2, 3, 20, 20, 7, 7, 4, '2034-12-02', 39),
+('crudo_contenido/planos.png', 'imagen', 'Investigacion de planos para construcción', 'abierta', 740, 45, 45 , '2035-08-06', null, 2, 8, 21, 21, 7, 7, 4, '2035-08-07', 41),
+('crudo_contenido/planos.png', 'imagen', 'Planificación de marketing', 'tecnica', 750, 95, 90 , '2034-08-09', '2034-08-13', 2, 3, 2, 22, 8, 8, 4, '2034-08-10', 43),
+('crudo_contenido/imagen3.png', 'imagen', 'Planificación de marketing', 'abierta', 760, 90, 90 , '2036-03-14', '2036-03-17', 3, 3, 7, 23, 8, 8, 4, '2036-03-15', 45),
+('crudo_contenido/planos.png', 'imagen', 'Investigacion de planos para construcción', 'abierta', 770, 85, 80 , '2034-10-24', '2034-10-29', 3, 8, 10, 24, 8, 8, 4, '2034-10-25', 47);
 
