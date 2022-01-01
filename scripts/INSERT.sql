@@ -736,7 +736,7 @@ INSERT INTO HIST_CARGO (fecha_inicio, fecha_fin, cargo,  fk_personal_inteligenci
 
 ---INFORMANTES
 
-INSERT INTO informante (id, nombre_clave, fk_personal_inteligencia_encargado, fk_fecha_inicio_encargado, fk_estacion_encargado, fk_oficina_principal_encargado, fk_empleado_jefe_confidente, fk_personal_inteligencia_confidente, fk_fecha_innicio_confidente, fk_estacion_confidente, fk_oficina_principal_confidente) VALUES
+INSERT INTO informante (id, nombre_clave, fk_personal_inteligencia_encargado, fk_fecha_inicio_encargado, fk_estacion_encargado, fk_oficina_principal_encargado, fk_empleado_jefe_confidente, fk_personal_inteligencia_confidente, fk_fecha_inicio_confidente, fk_estacion_confidente, fk_oficina_principal_confidente) VALUES
 ('Ameamezersali', 1, '2034-03-13', 1, 1, 11, null, null, null, null),
 ('Cuente', 1, '2034-03-14', 1, 1, 11, null, null, null, null),
 ('Tipini', 3, '2034-04-9', 2, 2, 12, null, null, null, null),
