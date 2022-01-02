@@ -736,7 +736,7 @@ INSERT INTO HIST_CARGO (fecha_inicio, fecha_fin, cargo,  fk_personal_inteligenci
 
 ---INFORMANTES
 
-INSERT INTO informante (id, nombre_clave, fk_personal_inteligencia_encargado, fk_fecha_inicio_encargado, fk_estacion_encargado, fk_oficina_principal_encargado, fk_empleado_jefe_confidente, fk_personal_inteligencia_confidente, fk_fecha_inicio_confidente, fk_estacion_confidente, fk_oficina_principal_confidente) VALUES
+INSERT INTO informante (nombre_clave, fk_personal_inteligencia_encargado, fk_fecha_inicio_encargado, fk_estacion_encargado, fk_oficina_principal_encargado, fk_empleado_jefe_confidente, fk_personal_inteligencia_confidente, fk_fecha_inicio_confidente, fk_estacion_confidente, fk_oficina_principal_confidente) VALUES
 ('Ameamezersali', 1, '2034-03-13', 1, 1, 11, null, null, null, null),
 ('Cuente', 1, '2034-03-14', 1, 1, 11, null, null, null, null),
 ('Tipini', 3, '2034-04-9', 2, 2, 12, null, null, null, null),
@@ -762,7 +762,7 @@ INSERT INTO informante (id, nombre_clave, fk_personal_inteligencia_encargado, fk
 
 --CRUDOS
 
-INSERT INTO (contenido, tipo_contenido, resumen, fuente, valor_apreciacion, nivel_confiabilidad_inicial, nivel_confiabilidad_final, fecha_obtencion, fecha_verificacion_final, cant_analistas_verifican, fk_clas_tema, fk_informante, fk_estacion_pertenece, fk_oficina_principal_pertenece, fk_estacion_agente, fk_oficina_principal_agente, fk_fecha_inicio_agente, fk_personal_inteligencia_agente) VALUES
+INSERT INTO crudo(contenido, tipo_contenido, resumen, fuente, valor_apreciacion, nivel_confiabilidad_inicial, nivel_confiabilidad_final, fecha_obtencion, fecha_verificacion_final, cant_analistas_verifican, fk_clas_tema, fk_informante, fk_estacion_pertenece, fk_oficina_principal_pertenece, fk_estacion_agente, fk_oficina_principal_agente, fk_fecha_inicio_agente, fk_personal_inteligencia_agente) VALUES
 ('crudo_contenido/imagen.jpg', 'imagen', 'Problemas politicos', 'secreta', 500, 85, 85 , '2034-01-06', '2034-01-10', 2, 1, 1, 1, 1, 1, 1, '2034-01-07', 1),
 ('crudo_contenido/imagen.jpg', 'imagen', 'Problemas politicos', 'secreta', 550, 30, 10 , '2034-01-09', null, 2, 7, 2, 2, 1, 1, 1, '2034-01-10', 3),
 ('crudo_contenido/imagen.jpg', 'imagen', 'Consecuencias de problemas politicos', 'secreta', 560, 85, 90 , '2034-01-20', '2034-01-24', 2, 8, 3, 3, 1, 1, 1, '2034-01-21', 5),
