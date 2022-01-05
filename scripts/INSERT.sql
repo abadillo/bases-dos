@@ -773,6 +773,35 @@ INSERT INTO informante (nombre_clave, fk_personal_inteligencia_encargado, fk_fec
 ('Inforwer', 17, '2035-03-12 07:00:00', 5, 2, null, 18, '2035-03-12 07:00:00', 5, 2);
 
 
+--CRUDOS
+
+INSERT INTO crudo (contenido, tipo_contenido, resumen, fuente, valor_apreciacion, nivel_confiabilidad_inicial, nivel_confiabilidad_final, fecha_obtencion, fecha_verificacion_final, cant_analistas_verifican, fk_clas_tema, fk_informante, fk_estacion_pertenece, fk_oficina_principal_pertenece, fk_estacion_agente, fk_oficina_principal_agente, fk_fecha_inicio_agente, fk_personal_inteligencia_agente) VALUES
+('crudo_contenido/imagen.jpg', 'imagen', 'Problemas politicos en Vitnam I', 'secreta', 500, 85, 85 , '2034-01-08 01:00:00', '2034-01-06 01:00:00', 2, 1, 1, 1, 1, 1, 1, '2034-01-05 01:00:00', 1),
+('crudo_contenido/imagen.jpg', 'imagen', 'Problemas politicos en Vitnam II', 'secreta', 550, 30, 10 , '2034-01-09 01:00:00', '2034-01-05 01:00:00', 2, 7, 2, 1, 1, 1, 1, '2034-01-06 01:00:00', 3),
+('crudo_contenido/imagen.jpg', 'imagen', 'Consecuencias de problemas politicos por territorio', 'secreta', 560, 85, 90 , '2034-01-08 01:00:00', '2034-01-05 01:00:00', 2, 8, 3, 2, 1, 2, 1, '2034-01-05 01:00:00', 5),
+('crudo_contenido/imagen4.jpg', 'imagen', 'Manifestaciones por cambio de leyes', 'secreta', 570, 50, 85 , '2034-01-09 01:00:00', '2034-01-06 01:00:00', 2, 9, 4, 2, 1, 2, 1, '2034-01-06 01:00:00', 7),
+('crudo_contenido/imagen2.jpg', 'imagen', 'Consecuencias de problemas politicos por petroleo en otros territorios', 'secreta', 580, 60, 90 , '2034-01-10 01:00:00', '2034-01-05 01:00:00', 2, 9, 5, 3, 1, 3, 1, '2034-01-05 01:00:00', 9),
+('crudo_contenido/imagen2.jpg', 'imagen', 'Resultado de guerras entre paises ', 'secreta', 590, 85, 60 , '2034-01-09 01:00:00', '2034-01-05 01:00:00', 2, 8, 6, 3, 1, 3, 1, '2034-01-06 01:00:00', 11),
+('crudo_contenido/imagen2.jpg', 'imagen', 'Consecuencias de problemas politicos ', 'secreta', 600, 35, 60 , '2034-01-11 01:00:00', null, 3, 9, 7, 4, 2, 4, 2, '2034-01-05 01:00:00', 13),
+('crudo_contenido/imagen4.jpg', 'imagen', 'Manifestaciones por digustos de una población por el abuso de poder', 'secreta', 610, 85, 70 , '2034-02-10 01:00:00', '2034-01-05 01:00:00', 3, 9, 8, 4, 2, 4, 2, '2034-01-06 01:00:00', 15),
+('crudo_contenido/texto2.txt', 'texto', 'Conflictos entre paises por poder II', 'abierta', 620, 90, 90 , '2034-03-05 01:00:00', '2034-01-05 01:00:00', 2, 1, null, 5, 2, 5, 2, '2034-01-05 01:00:00', 17),
+('crudo_contenido/texto2.txt', 'texto', 'Conflictos entre paises por poder II', 'tecnica', 630, 75, 80 , '2034-05-06 01:00:00', '2034-01-05 01:00:00', 2, 1, null, 6, 2, 5, 2, '2034-01-06 01:00:00', 19),
+('crudo_contenido/texto2.txt', 'texto', 'Tension entre paises y sus consecuencias', 'secreta', 640, 100, 80 , '2034-06-05 01:00:00', '2034-01-06 01:00:00', 2, 1, 9, 6, 2, 6, 2, '2034-01-05 01:00:00', 21),
+('crudo_contenido/texto2.txt', 'texto', 'Resultados de los conflictos I', 'abierta', 650, 85, 85 , '2034-01-06 01:00:00', '2034-01-06 01:00:00', 2, 8, null, 7, 3, 27, 9, '2034-01-05 01:00:00', 101),
+('crudo_contenido/texto.txt', 'texto', 'Resultados de los conflictos II', 'tecnica', 660, 90, 95 , '2034-01-09 01:00:00', '2034-01-05 01:00:00', 2, 8, null, 8, 3, 1, 1, '2034-01-05 01:00:00', 1),
+('crudo_contenido/texto.txt', 'texto', 'Resultados de conflictos entre grupo de personas', 'secreta', 670, 70, 60 , '2034-01-20 01:00:00', '2034-01-05 01:00:00', 2, 1, 10, 5, 2, 1, 1, '2034-01-06 01:00:00', 3),
+('crudo_contenido/texto.txt', 'texto', 'Resultados de conflictos entre grupo de personas II', 'abierta', 680, 60, 60 , '2034-02-14 01:00:00', '2034-01-06 01:00:00', 3, 8, null, 6, 2, 2, 1, '2034-01-05 01:00:00', 5),
+('crudo_contenido/audio.mp3', 'sonido', 'Agresion de grupo de personas en la via publica', 'tecnica', 690, 100, 100 , '2034-03-19 01:00:00', null, 3, 2, null, 7, 3, 2, 1, '2034-01-06 01:00:00', 7),
+('crudo_contenido/audio.mp3', 'sonido', 'Agresion de grupo de personas en la via publica', 'secreta', 700, 90, 85 , '2034-03-12 01:00:00', '2034-01-06 01:00:00', 2, 2, 11, 6, 2, 3, 1, '2034-01-05 01:00:00', 9),
+('crudo_contenido/audio.mp3', 'sonido', 'Conflictos en calle con individuos', 'abierta', 710, 30, 30 , '2035-01-06 01:00:00', '2034-01-06 01:00:00', 2, 2, null, 7, 3, 3, 1, '2034-01-06 01:00:00', 11),
+('crudo_contenido/formulas.mp4', 'video', 'Formulas para las empresas', 'tecnica', 720, 40, 35 , '2035-02-14 01:00:00', '2034-01-06 01:00:00', 2, 4, null, 8, 3, 4, 2, '2034-01-05 01:00:00', 13),
+('crudo_contenido/imagen3.png', 'imagen', 'Planificacin de marketing', 'secreta', 730, 50, 66 , '2034-03-05 01:00:00', '2034-01-06 01:00:00', 2, 3, 12, 6, 2, 4, 2, '2034-01-06 01:00:00', 15),
+('crudo_contenido/planos.png', 'imagen', 'Investigacion de planos para construcción', 'abierta', 740, 45, 45 , '2035-01-05 01:00:00', '2034-01-06 01:00:00', 2, 8, null, 7, 3, 5, 2, '2034-01-05 01:00:00', 17),
+('crudo_contenido/planos.png', 'imagen', 'Planificacion de marketing', 'tecnica', 750, 95, 90 , '2034-12-24 01:00:00', '2034-01-06 01:00:00', 2, 3, null, 8, 3, 5, 2, '2034-01-06 01:00:00', 19),
+('crudo_contenido/imagen3.png', 'imagen', 'Organizacion de marketing', 'abierta', 760, 90, 90 , '2034-11-11 01:00:00', null, 3, 3, null, 9, 3, 6, 2, '2034-01-05 01:00:00', 21),
+('crudo_contenido/planos.png', 'imagen', 'Investigacion de planos para construcción', 'abierta', 770, 85, 80 , '2035-01-30 01:00:00', '2034-01-05 01:00:00', 3, 8, null, 10, 4, 1, 1, '2034-01-05 01:00:00', 1);
+
+
 -- ANALISTA_CRUDO
 INSERT INTO analista_crudo (fecha_hora, nivel_confiabilidad, fk_crudo, fk_fecha_inicio_analista, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista) VALUES
 ('2034-01-05 01:00:00', 60, 1, '2034-01-05 01:00:00',2,1,1),
@@ -826,33 +855,6 @@ INSERT INTO analista_crudo (fecha_hora, nivel_confiabilidad, fk_crudo, fk_fecha_
 
 
 
---CRUDOS
-
-INSERT INTO (contenido, tipo_contenido, resumen, fuente, valor_apreciacion, nivel_confiabilidad_inicial, nivel_confiabilidad_final, fecha_obtencion, fecha_verificacion_final, cant_analistas_verifican, fk_clas_tema, fk_informante, fk_estacion_pertenece, fk_oficina_principal_pertenece, fk_estacion_agente, fk_oficina_principal_agente, fk_fecha_inicio_agente, fk_personal_inteligencia_agente) VALUES
-('crudo_contenido/imagen.jpg', 'imagen', 'Problemas politicos en Vitnam I', 'secreta', 500, 85, 85 , '2034-01-08 01:00:00', '2034-01-06 01:00:00', 2, 1, 1, 1, 1, 1, 1, '2034-01-05 01:00:00', 1),
-('crudo_contenido/imagen.jpg', 'imagen', 'Problemas politicos en Vitnam II', 'secreta', 550, 30, 10 , '2034-01-09 01:00:00', '2034-01-05 01:00:00', 2, 7, 2, 1, 1, 1, 1, '2034-01-06 01:00:00', 3),
-('crudo_contenido/imagen.jpg', 'imagen', 'Consecuencias de problemas politicos por territorio', 'secreta', 560, 85, 90 , '2034-01-08 01:00:00', '2034-01-05 01:00:00', 2, 8, 3, 2, 1, 2, 1, '2034-01-05 01:00:00', 5),
-('crudo_contenido/imagen4.jpg', 'imagen', 'Manifestaciones por cambio de leyes', 'secreta', 570, 50, 85 , '2034-01-09 01:00:00', '2034-01-06 01:00:00', 2, 9, 4, 2, 1, 2, 1, '2034-01-06 01:00:00', 7),
-('crudo_contenido/imagen2.jpg', 'imagen', 'Consecuencias de problemas politicos por petroleo en otros territorios', 'secreta', 580, 60, 90 , '2034-01-10 01:00:00', '2034-01-05 01:00:00', 2, 9, 5, 3, 1, 3, 1, '2034-01-05 01:00:00', 9),
-('crudo_contenido/imagen2.jpg', 'imagen', 'Resultado de guerras entre paises ', 'secreta', 590, 85, 60 , '2034-01-09 01:00:00', '2034-01-05 01:00:00', 2, 8, 6, 3, 1, 3, 1, '2034-01-06 01:00:00', 11),
-('crudo_contenido/imagen2.jpg', 'imagen', 'Consecuencias de problemas politicos ', 'secreta', 600, 35, 60 , '2034-01-11 01:00:00', null, 3, 9, 7, 4, 2, 4, 2, '2034-01-05 01:00:00', 13),
-('crudo_contenido/imagen4.jpg', 'imagen', 'Manifestaciones por digustos de una población por el abuso de poder', 'secreta', 610, 85, 70 , '2034-02-10 01:00:00', '2034-01-05 01:00:00', 3, 9, 8, 4, 2, 4, 2, '2034-01-06 01:00:00', 15),
-('crudo_contenido/texto2.txt', 'texto', 'Conflictos entre paises por poder II', 'abierta', 620, 90, 90 , '2034-03-05 01:00:00', '2034-01-05 01:00:00', 2, 1, null, 5, 2, 5, 2, '2034-01-05 01:00:00', 17),
-('crudo_contenido/texto2.txt', 'texto', 'Conflictos entre paises por poder II', 'tecnica', 630, 75, 80 , '2034-05-06 01:00:00', '2034-01-05 01:00:00', 2, 1, null, 6, 2, 5, 2, '2034-01-06 01:00:00', 19),
-('crudo_contenido/texto2.txt', 'texto', 'Tension entre paises y sus consecuencias', 'secreta', 640, 100, 80 , '2034-06-05 01:00:00', '2034-01-06 01:00:00', 2, 1, 9, 6, 2, 6, 2, '2034-01-05 01:00:00', 21),
-('crudo_contenido/texto2.txt', 'texto', 'Resultados de los conflictos I', 'abierta', 650, 85, 85 , '2034-01-06 01:00:00', '2034-01-06 01:00:00', 2, 8, null, 7, 3, 27, 9, '2034-01-05 01:00:00', 101),
-('crudo_contenido/texto.txt', 'texto', 'Resultados de los conflictos II', 'tecnica', 660, 90, 95 , '2034-01-09 01:00:00', '2034-01-05 01:00:00', 2, 8, null, 8, 3, 1, 1, '2034-01-05 01:00:00', 1),
-('crudo_contenido/texto.txt', 'texto', 'Resultados de conflictos entre grupo de personas', 'secreta', 670, 70, 60 , '2034-01-20 01:00:00', '2034-01-05 01:00:00', 2, 1, 10, 5, 2, 1, 1, '2034-01-06 01:00:00', 3),
-('crudo_contenido/texto.txt', 'texto', 'Resultados de conflictos entre grupo de personas II', 'abierta', 680, 60, 60 , '2034-02-14 01:00:00', '2034-01-06 01:00:00', 3, 8, null, 6, 2, 2, 1, '2034-01-05 01:00:00', 5),
-('crudo_contenido/audio.mp3', 'audio', 'Agresion de grupo de personas en la via publica', 'tecnica', 690, 100, 100 , '2034-03-19 01:00:00', null, 3, 2, null, 7, 3, 2, 1, '2034-01-06 01:00:00', 7),
-('crudo_contenido/audio.mp3', 'audio', 'Agresion de grupo de personas en la via publica', 'secreta', 700, 90, 85 , '2034-03-12 01:00:00', '2034-01-06 01:00:00', 2, 2, 11, 6, 2, 3, 1, '2034-01-05 01:00:00', 9),
-('crudo_contenido/audio.mp3', 'audio', 'Conflictos en calle con individuos', 'abierta', 710, 30, 30 , '2035-01-06 01:00:00', '2034-01-06 01:00:00', 2, 2, null, 7, 3, 3, 1, '2034-01-06 01:00:00', 11),
-('crudo_contenido/formulas.mp4', 'video', 'Formulas para las empresas', 'tecnica', 720, 40, 35 , '2035-02-14 01:00:00', '2034-01-06 01:00:00', 2, 4, null, 8, 3, 4, 2, '2034-01-05 01:00:00', 13),
-('crudo_contenido/imagen3.png', 'imagen', 'Planificacin de marketing', 'secreta', 730, 50, 66 , '2034-03-05 01:00:00', '2034-01-06 01:00:00', 2, 3, 12, 6, 2, 4, 2, '2034-01-06 01:00:00', 15),
-('crudo_contenido/planos.png', 'imagen', 'Investigacion de planos para construcción', 'abierta', 740, 45, 45 , '2035-01-05 01:00:00', '2034-01-06 01:00:00', 2, 8, null, 7, 3, 5, 2, '2034-01-05 01:00:00', 17),
-('crudo_contenido/planos.png', 'imagen', 'Planificacion de marketing', 'tecnica', 750, 95, 90 , '2034-12-24 01:00:00', '2034-01-06 01:00:00', 2, 3, null, 8, 3, 5, 2, '2034-01-06 01:00:00', 19),
-('crudo_contenido/imagen3.png', 'imagen', 'Organizacion de marketing', 'abierta', 760, 90, 90 , '2034-11-11 01:00:00', null, 3, 3, null, 9, 3, 6, 2, '2034-01-05 01:00:00', 21),
-('crudo_contenido/planos.png', 'imagen', 'Investigacion de planos para construcción', 'abierta', 770, 85, 80 , '2035-01-30 01:00:00', '2034-01-05 01:00:00', 3, 8, null, 10, 4, 1, 1, '2034-01-05 01:00:00', 1);
 
 
 --TRANSACCION_PAGO
