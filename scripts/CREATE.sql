@@ -22,7 +22,7 @@ CREATE TYPE alias_ty as (
     segundo_nombre varchar(50),
     primer_apellido varchar(50),
     segundo_apellido varchar(50),
-    foto varchar(1000),
+    foto bytea,
     fecha_nacimiento timestamp,
     pais varchar(50),
     documento_identidad numeric(10),
@@ -209,9 +209,9 @@ CREATE TABLE PERSONAL_INTELIGENCIA (
 --
 --
 --    --LOBS
-    fotografia varchar(1000) NOT NULL,
-    huella_retina varchar(1000) NOT NULL,
-    huella_digital varchar(1000) NOT NULL,
+    fotografia bytea NOT NULL,
+    huella_retina bytea NOT NULL,
+    huella_digital bytea NOT NULL,
        
 --    --TDAs
     telefono telefono_ty NOT NULL,
@@ -444,6 +444,9 @@ CREATE TABLE PIEZA_INTELIGENCIA (
     fecha_creacion timestamp,
     nivel_confiabilidad numeric(5), 
     precio_base numeric(20),
+
+    descripcion varchar(500),
+
     class_seguridad varchar(50) NOT NULL,
     
     --fks hist_cargo

@@ -259,7 +259,9 @@ INSERT INTO clas_tema(nombre, descripcion, topico) VALUES
 ('Estrategia Económica', 'Estrategia para impulsar la economia prosperidad y el desempeño del pais.', 'paises'),
 ('Politica Exterior', 'El conjunto de decisiones, politicas y acciones que confomar un pais, para poder representar los intereses nacionales de este', 'paises');
 
-----CLIENTES BIEN HECHOS
+
+
+----CLIENTE
 INSERT INTO cliente (nombre_empresa, pagina_web, exclusivo, telefonos, contactos, fk_lugar_pais) VALUES
 ('mexicaso', 'mexicaso.org.ve' ,true, ARRAY[CAST((58,4126909353) as telefono_ty), CAST((58,4165420879)as telefono_ty)],  ARRAY[ ROW('Eloisa', 'Petronila', 'Nolasco', 'White', '91 Sage Ave. Colorado Springs, CO 80911',  ROW(58,4121705701)), ROW('Nicolas', 'Abelardo', 'Tafoya', 'Peralta', '8370 Euclid Lane Harrisburg, PA 17109', ROW(58,4127728311))]::contacto_ty[], 4),
 ('exibera', 'exibera.com' ,true, ARRAY[CAST((58,4141416359) as telefono_ty), CAST((58,4124647938)as telefono_ty)],  ARRAY[ ROW('Cayetano', 'Paulo', 'Guillen', 'Miramontes', '260 Griffin Ave. Saint Joseph, MI 49085',  ROW(58,4147468253)), ROW('Aidana', 'Consuelo', 'Hidalgo', 'Rodrigues', '421A El Dorado St. Pittsburgh, PA 15206', ROW(58,4145897204))]::contacto_ty[], 1),
@@ -281,15 +283,6 @@ INSERT INTO cliente (nombre_empresa, pagina_web, exclusivo, telefonos, contactos
 ('devflair', 'devflair.com' ,true, ARRAY[CAST((58,4167026825) as telefono_ty), CAST((58,4166388369)as telefono_ty)],  ARRAY[ ROW('Daniela', 'Aidana', 'Avelar', 'Recinos', '23 Monroe St. Maryville, TN 37803',  ROW(58,4167709376)), ROW('Silvio', 'Maximiliano', 'Granados', 'Cordova', '9 South Hilltop Road Bethel Park, PA 15102', ROW(58,4166783921))]::contacto_ty[], 9),
 ('inconce', 'inconce.org.ve' ,false, ARRAY[CAST((58,4247453786) as telefono_ty), CAST((58,4143307715)as telefono_ty)],  ARRAY[ ROW('Pilar', 'Inocencia', 'Antonio', 'Cepeda', '9241 Blackburn St. Oak Creek, WI 53154',  ROW(58,4243443197)), ROW('Ayala', 'Adria', 'Arriaga', 'Cota', '114 Lookout Court Egg Harbor Township, NJ 08234', ROW(58,4144959888))]::contacto_ty[], 4),
 ('sloquest', 'sloquest.com' ,false, ARRAY[CAST((58,4162833863) as telefono_ty), CAST((58,4144556851)as telefono_ty)],  ARRAY[ ROW('Flor', 'Esperanza', 'Peterson', 'Sarmiento', '49 W. Lees Creek Ave. Pickerington, OH 43147',  ROW(58,4165511783)), ROW('Perla', 'Gloria', 'Lima', 'Valentin', '78 Clay St. Uniondale, NY 11553', ROW(58,4124743278))]::contacto_ty[], 6);
-
-
-
-
-
-
-
-
-
 
 
 
@@ -859,7 +852,7 @@ INSERT INTO analista_crudo (fecha_hora, nivel_confiabilidad, fk_crudo, fk_fecha_
 
 --TRANSACCION_PAGO
 
-INSERT INTO transaccion_pago_alt (fecha_hora, monto_pago, fk_crudo, fk_informante) VALUES
+INSERT INTO TRANSACCION_PAGO (fecha_hora, monto_pago, fk_crudo, fk_informante) VALUES
 (' 2034-01-08 01:00:00',250,1,1),
 (' 2034-01-09 01:00:00',260,2,2),
 (' 2034-01-08 01:00:00',270,3,3),
