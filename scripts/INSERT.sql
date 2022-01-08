@@ -742,7 +742,6 @@ INSERT INTO HIST_CARGO (fecha_inicio, fecha_fin, cargo,  fk_personal_inteligenci
 ---INFORMANTES
 
 INSERT INTO informante (nombre_clave, fk_personal_inteligencia_encargado, fk_fecha_inicio_encargado, fk_estacion_encargado, fk_oficina_principal_encargado, fk_empleado_jefe_confidente, fk_personal_inteligencia_confidente, fk_fecha_inicio_confidente, fk_estacion_confidente, fk_oficina_principal_confidente) VALUES
-
 ('Ameamezersali', 1, '2034-01-05 01:00:00', 1, 1, 11, null, null, null, null),
 ('Cuente', 3, '2034-01-06 01:00:00', 1, 1, 11, null, null, null, null),
 ('Tipini', 5, '2034-01-05 01:00:00', 2, 1, 12, null, null, null, null),
@@ -751,20 +750,19 @@ INSERT INTO informante (nombre_clave, fk_personal_inteligencia_encargado, fk_fec
 ('Mentino', 11, '2034-01-06 01:00:00', 3, 1, 13, null, null, null, null),
 ('Traccion', 13, '2034-01-05 01:00:00', 4, 2, 14, null, null, null, null),
 ('Oversta', 15, '2034-01-06 01:00:00', 4, 2, 14, null, null, null, null),
-('Inforaza', 17, '2034-01-05 01:00:00', 5, 2, null, 17, '2034-01-06 01:00:00', 5, 2),
-('Endora', 19, '2034-01-06 01:00:00', 5, 2, null, 19, '2034-01-05 01:00:00', 5, 2),
-('Chalida', 21, '2034-01-05 01:00:00', 6, 2, null, 21, '2034-01-06 01:00:00', 6, 2),
+('Inforaza', 17, '2034-01-05 01:00:00', 5, 2, null, 17, '2034-01-05 01:00:00', 5, 2),
+('Endora', 19, '2034-01-06 01:00:00', 5, 2, null, 19, '2034-01-06 01:00:00', 5, 2),
+('Chalida', 21, '2034-01-05 01:00:00', 6, 2, null, 21, '2034-01-05 01:00:00', 6, 2),
 ('Trustora', 101, '2035-03-09 07:00:00 ', 27, 9, null, 101, '2035-03-09 07:00:00', 27, 9),
-('Impaza', 1, '2035-03-12 07:00:00', 1, 1, null, 2, '2035-03-12 07:00:00', 1, 1),
-('Clari', 3, '2035-03-09 07:00:00', 1, 1, null, 4, '2035-03-09 07:00:00', 1, 1),
-('Monerte', 5, '2035-03-12 07:00:00', 2, 1, null, 6, '2035-03-12 07:00:00', 2, 1),
-('Accuenti', 7, '2035-03-09 07:00:00', 2, 1, null, 8, '2035-03-09 07:00:00', 2, 1),
-('Advazon', 9, '2035-03-12 07:00:00', 3, 1, null, 10, '2035-03-12 07:00:00', 3, 1),
-('Promante', 11, '2035-03-09 07:00:00', 3, 1, null, 12, '2035-03-09 07:00:00', 3, 1),
-('Evantino', 13, '2035-03-12 07:00:00', 4, 1, null, 14, '2035-03-12 07:00:00', 4, 1),
-('Advinco', 15, '2035-03-09 07:00:00', 4, 2, null, 16, '2035-03-09 07:00:00', 4, 2),
-('Inforwer', 17, '2035-03-12 07:00:00', 5, 2, null, 18, '2035-03-12 07:00:00', 5, 2);
-
+('Impaza', 1, '2034-01-05 01:00:00', 1, 1, null, 1, '2034-01-05 01:00:00', 1, 1),
+('Clari', 3, '2034-01-06 01:00:00', 1, 1, null, 3, '2034-01-06 01:00:00', 1, 1),
+('Monerte', 5, '2034-01-05 01:00:00', 2, 1, null, 5, '2034-01-05 01:00:00', 2, 1),
+('Accuenti', 7, '2034-01-06 01:00:00', 2, 1, null, 7, '2034-01-06 01:00:00', 2, 1),
+('Advazon', 9, '2034-01-05 01:00:00', 3, 1, null, 9, '2034-01-05 01:00:00', 3, 1),
+('Promante', 11, '2034-01-06 01:00:00', 3, 1, null, 11, '2034-01-06 01:00:00', 3, 1),
+('Evantino', 13, '2034-01-05 01:00:00', 4, 2, null, 13, '2034-01-05 01:00:00', 4, 2),
+('Advinco', 15, '2034-01-06 01:00:00', 4, 2, null, 15, '2034-01-06 01:00:00', 4, 2),
+('Inforwer', 17, '2034-01-05 01:00:00', 5, 2, null, 17, '2034-01-05 01:00:00', 5, 2);
 
 --CRUDOS
 
