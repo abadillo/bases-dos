@@ -11,19 +11,18 @@
 DROP PROCEDURE IF EXISTS REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA CASCADE;
 
 
-CREATE OR REPLACE PROCEDURE REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA (id_analista_encargado integer, precio_base numeric, descripcion character varying)
+CREATE OR REPLACE PROCEDURE REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA (id_analista_encargado IN integer, precio_base IN PIEZA_INTELIGENCIA.precio_base%TYPE, descripcion IN PIEZA_INTELIGENCIA.descripcion%TYPE)
 LANGUAGE plpgsql
-AS $procedure$  
-DECLARE  
+AS $$  
+DECLARE
     
     fecha_creacion_va PIEZA_INTELIGENCIA.fecha_creacion%TYPE;
     class_seguridad_va PIEZA_INTELIGENCIA.class_seguridad%TYPE;
 
     analista_encargado_reg PERSONAL_INTELIGENCIA%ROWTYPE;
    	hist_cargo_reg HIST_CARGO%ROWTYPE;
-   
-   
-   tmp record;
+     
+    tmp record;
 
 BEGIN 
 
@@ -84,9 +83,8 @@ BEGIN
    RAISE INFO 'Datos de la pieza creada: %', tmp;
 
 	   
-END $procedure$
-;
+END $$;
 
 
-CALL REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA( 0 );
+CALL REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA( 1, 9999 , 'descripcion pieza prueba' );
 

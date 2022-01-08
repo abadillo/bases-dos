@@ -771,13 +771,14 @@ RETURNS bytea
 LANGUAGE plpgsql AS $$ 
 DECLARE 
 
-	ruta text := 'C:\Users\Mickel\BD2\bases-dos\scripts\';
---	ruta text := 'C:/mnt/postgres/';
---	ruta text := '';
+    ruta text := 'C:\Users\Mickel\BD2\bases-dos\scripts\';
+--	ruta text := '/mnt/postgres/';
+--  ruta text := 'C:\Users\Mickel\BD2\bases-dos\scripts\';
 
 	
 BEGIN 
 
+	RAISE INFO 'Ruta: %', ruta || ruta_archivo ;
 	RAISE INFO 'Archivo -> bytea: %', pg_read_binary_file(ruta || ruta_archivo) ;
 	RETURN pg_read_binary_file(ruta || ruta_archivo); 
 	
