@@ -790,10 +790,16 @@ INSERT INTO crudo (contenido, tipo_contenido, resumen, fuente, valor_apreciacion
 ('crudo_contenido/planos.png', 'imagen', 'Investigacion de planos para construcción', 'abierta', 740, 45, 45 , '2035-01-05 01:00:00', '2034-01-06 01:00:00', 2, 8, null, 7, 3, 5, 2, '2034-01-05 01:00:00', 17),
 ('crudo_contenido/planos.png', 'imagen', 'Planificacion de marketing', 'tecnica', 750, 95, 90 , '2034-12-24 01:00:00', '2034-01-06 01:00:00', 2, 3, null, 8, 3, 5, 2, '2034-01-06 01:00:00', 19),
 ('crudo_contenido/imagen3.png', 'imagen', 'Organizacion de marketing', 'abierta', 760, 90, 90 , '2034-11-11 01:00:00', null, 3, 3, null, 9, 3, 6, 2, '2034-01-05 01:00:00', 21),
-('crudo_contenido/planos.png', 'imagen', 'Investigacion de planos para construcción', 'abierta', 770, 85, 80 , '2035-01-30 01:00:00', '2034-01-05 01:00:00', 3, 8, null, 10, 4, 1, 1, '2034-01-05 01:00:00', 1);
+('crudo_contenido/planos.png', 'imagen', 'Investigacion de planos para construcción', 'abierta', 770, 85, 80 , '2035-01-30 01:00:00', '2034-01-05 01:00:00', 3, 8, null, 10, 4, 1, 1, '2034-01-05 01:00:00', 1),
+('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por problemas economicos', 'tecnica', 600, 80, 85 , '2035-02-14 01:00:00', '2034-01-06 01:00:00', 2, 8, null, 11, 4, 3, 1, '2034-01-06 01:00:00', 11),
+('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part I', 'secreta', 630, 30, 10 , '2035-01-06 01:00:00', '2034-01-05 01:00:00', 2, 6, 1, 7, 3, 2, 2, '2034-01-05 01:00:00', 13),
+('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part II', 'secreta', 680, 70, 90 , '2035-01-09 01:00:00', '2034-01-05 01:00:00', 2, 3, 3, 8, 3, 4, 2, '2034-01-06 01:00:00', 15),
+('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part I', 'secreta', 720, 90, 85 , '2035-01-20 01:00:00', '2034-01-06 01:00:00', 2, 8, 5, 9, 4, 3, 2, '2034-01-05 01:00:00', 17),
+('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part I', 'secreta', 630, 50, 90 , '2035-01-11 01:00:00', '2034-01-05 01:00:00', 2, 6, 7, 10, 4, 1, 1, '2034-01-05 01:00:00', 1),
 
 
 -- ANALISTA_CRUDO
+
 INSERT INTO analista_crudo (fecha_hora, nivel_confiabilidad, fk_crudo, fk_fecha_inicio_analista, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista) VALUES
 ('2034-01-05 01:00:00', 60, 1, '2034-01-05 01:00:00',2,1,1),
 ('2034-01-06 01:00:00', 85, 1, '2034-01-06 01:00:00',4,1,1),
@@ -842,8 +848,17 @@ INSERT INTO analista_crudo (fecha_hora, nivel_confiabilidad, fk_crudo, fk_fecha_
 ('2034-01-05 01:00:00', 80, 23, '2034-01-05 01:00:00',2,1,1),
 ('2034-01-06 01:00:00', 95, 23, '2034-01-06 01:00:00',4,1,1),
 ('2034-01-05 01:00:00', 90, 23, '2034-01-05 01:00:00',6,2,1),
-('2034-01-05 01:00:00', 80, 24, '2034-01-05 01:00:00',30,8,3);
-
+('2034-01-05 01:00:00', 80, 24, '2034-01-05 01:00:00',30,8,3),
+('2034-01-05 01:00:00', 60, 25, '2034-01-05 01:00:00',2,1,1),
+('2034-01-06 01:00:00', 85, 25, '2034-01-06 01:00:00',4,1,1),
+('2034-01-05 01:00:00', 30, 26, '2034-01-05 01:00:00',2,1,1),
+('2034-01-05 01:00:00', 30, 26, '2034-01-05 01:00:00',6,2,1),
+('2034-01-06 01:00:00', 85, 27, '2034-01-06 01:00:00',8,2,1),
+('2034-01-05 01:00:00', 90, 27, '2034-01-05 01:00:00',18,5,2),
+('2034-01-05 01:00:00', 50, 28, '2034-01-05 01:00:00',10,3,1),
+('2034-01-06 01:00:00', 60, 28, '2034-01-06 01:00:00',12,3,1),
+('2034-01-05 01:00:00', 60, 29, '2034-01-05 01:00:00',14,4,2),
+('2034-01-05 01:00:00', 70, 29, '2034-01-05 01:00:00',2,1,1),
 
 
 
