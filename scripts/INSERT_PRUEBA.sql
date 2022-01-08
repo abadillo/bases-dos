@@ -771,7 +771,7 @@ RETURNS bytea
 LANGUAGE plpgsql AS $$ 
 DECLARE 
 
-	ruta text := '/mnt/postgres/';
+	ruta text := 'C:\Users\Mickel\BD2\bases-dos\scripts\';
 --	ruta text := 'C:/mnt/postgres/';
 --	ruta text := '';
 
