@@ -141,7 +141,7 @@ INSERT INTO estacion (nombre, fk_oficina_principal, fk_empleado_jefe, fk_lugar_c
 ('Est. Haarlam', 2, 16, 15),
 ('Est. Nuuk', 3, 17, 16),
 ('Est. Qaqortoq', 3, 18, 17),
-('Est. Sisimiut ', 3, 19, 18),
+('Est. Sisimiut', 3, 19, 18),
 ('Est. Buenos Aires', 4, 20, 19),
 ('Est. Ciudad de Cordoba', 4, 21, 20),
 ('Est. Rosario', 4, 22, 21),
@@ -902,14 +902,6 @@ INSERT INTO PIEZA_INTELIGENCIA (fecha_creacion, nivel_confiabilidad,  precio_bas
     ;
 
 
--- CRUDO-PIEZA
-
-/*
-INSERT INTO CRUDO_PIEZA ( fk_pieza_inteligencia, fk_crudo) VALUES
-    ( , )
-    ;
-*/
-
 
 
 -- ADQUISICION
@@ -952,3 +944,102 @@ INSERT INTO ADQUISICION (fecha_hora_venta, precio_vendido, fk_cliente, fk_pieza_
     ('2035-09-02 04:00:00', 1800, 19, 25),
     ('2036-02-24 05:00:00', 1777, 20, 26)
     ;
+
+
+
+
+-- CRUDO-PIEZA
+/*
+INSERT INTO CRUDO_PIEZA ( fk_pieza_inteligencia, fk_crudo) VALUES
+    (1, 1), --
+    (1, 6), -- 
+    (1, 20), -- 
+    (2, 2), -- 
+    (2, 7), -- 
+    (2, 21), -- 
+    (3, 3), -- 
+    (3, 8), --
+    (3, 23), -- 
+    (4, 4), --
+    (4, 9), --
+    (5, 5), --
+    (5, 12), --
+    (10, 10), -- 
+    (10, 13), --
+    (11, 11), --
+    (11, 15), -- 
+    (12, 22), --
+    (12, 19), --
+    (14, 14), --
+    (14, 17), --
+    (16, 16), --
+    (16, 18), -- 
+    
+    
+    (6,24),
+    (6,),
+    (6,),
+    (7,),
+    (7,),
+    (7,),
+    (8,24),
+    (8,),
+    (9,),
+    (9,),
+    (9,),
+    (9,),
+    (13,24),
+    (13,),
+    (13,),
+    (15,),
+    (15,),
+    (17,24),
+    (17,),
+    (17,),
+    (18,),
+    (18,),
+    (19,),
+    (19,),
+    (19,),
+    (20,24),
+    (20,),
+    (21,),
+    (21,),
+    (21,),
+    (21,),
+    (21,),
+    (22,),
+    (22,),
+    (22,),
+    (23,),
+    (24,24),
+    (24,),
+    (25,),
+    (25,),
+    (25,),
+    (26,),
+    (26,),
+    (27,),
+    (27,),
+    (27,),
+    (27,24)
+    ;
+
+*/
+
+
+-- INTENTO NO AUTORIZADO
+/*
+INSERT INTO INTENTO_NO_AUTORIZADO (fecha_hora, id_pieza,  id_empleado, fk_personal_inteligencia) VALUES
+    ('2034-01-01 01:00:00', 2, 11, ),  -- Est. Dublin. 10
+    ('2034-02-07 01:00:00', 5, 12, ),  -- Est. Cork. 11
+    ('2034-02-02 01:00:00', 7, 13, ),  -- Est. Galway. 12
+    ('2034-03-01 01:00:00', 11, 14, ), -- Est. Amsterdam 13
+    ('2035-06-22 01:00:00', 12, 15, ), -- Est. Roterdam 14 
+    ('2035-09-11 01:00:00', 13, 16, ), -- Est. Haarlam 15
+    ('2035-10-21 01:00:00', 15, 17, ), -- Est. Nuuk 16
+    ('2035-11-30 01:00:00', 20, 18, ), -- Est. Qaqortoq 17
+    ('2035-12-06 01:00:00', 22, 19, ), -- Est. Sisimiut 18
+    ('2036-01-13 01:00:00', 24, 20, ), -- Est. Buenos Aires 19
+    ;
+*/
