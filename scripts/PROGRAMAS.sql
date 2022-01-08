@@ -62,7 +62,7 @@ BEGIN
    	IF (hist_cargo_reg IS NULL) THEN
   		RAISE EXCEPTION 'El analista que ingresó no existe';
    	ELSE 
-   		IF hist_cargo_reg.cargo != 'analista' THEN
+   		IF (hist_cargo_reg.cargo != 'analista') THEN
    			RAISE EXCEPTION 'El analista que ingresó no es un analista, es un agente de campo';
    		END IF;
   
