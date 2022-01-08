@@ -765,7 +765,6 @@ INSERT INTO informante (nombre_clave, fk_personal_inteligencia_encargado, fk_fec
 ('Inforwer', 17, '2034-01-05 01:00:00', 5, 2, null, 17, '2034-01-05 01:00:00', 5, 2);
 
 --CRUDOS
-
 INSERT INTO crudo (contenido, tipo_contenido, resumen, fuente, valor_apreciacion, nivel_confiabilidad_inicial, nivel_confiabilidad_final, fecha_obtencion, fecha_verificacion_final, cant_analistas_verifican, fk_clas_tema, fk_informante, fk_estacion_pertenece, fk_oficina_principal_pertenece, fk_estacion_agente, fk_oficina_principal_agente, fk_fecha_inicio_agente, fk_personal_inteligencia_agente) VALUES
 ('crudo_contenido/imagen.jpg', 'imagen', 'Problemas politicos en Vitnam I', 'secreta', 500, 85, 85 , '2034-01-08 01:00:00', '2034-01-06 01:00:00', 2, 1, 1, 1, 1, 1, 1, '2034-01-05 01:00:00', 1),
 ('crudo_contenido/imagen.jpg', 'imagen', 'Problemas politicos en Vitnam II', 'secreta', 550, 30, 10 , '2034-01-09 01:00:00', '2034-01-05 01:00:00', 2, 7, 2, 1, 1, 1, 1, '2034-01-06 01:00:00', 3),
@@ -792,10 +791,16 @@ INSERT INTO crudo (contenido, tipo_contenido, resumen, fuente, valor_apreciacion
 ('crudo_contenido/imagen3.png', 'imagen', 'Organizacion de marketing', 'abierta', 760, 90, 90 , '2034-11-11 01:00:00', null, 3, 3, null, 9, 3, 6, 2, '2034-01-05 01:00:00', 21),
 ('crudo_contenido/planos.png', 'imagen', 'Investigacion de planos para construcción', 'abierta', 770, 85, 80 , '2035-01-30 01:00:00', '2034-01-05 01:00:00', 3, 8, null, 10, 4, 1, 1, '2034-01-05 01:00:00', 1),
 ('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por problemas economicos', 'tecnica', 600, 80, 85 , '2035-02-14 01:00:00', '2034-01-06 01:00:00', 2, 8, null, 11, 4, 3, 1, '2034-01-06 01:00:00', 11),
-('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part I', 'secreta', 630, 30, 10 , '2035-01-06 01:00:00', '2034-01-05 01:00:00', 2, 6, 1, 7, 3, 2, 2, '2034-01-05 01:00:00', 13),
+('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part I', 'secreta', 630, 30, 10 , '2035-01-06 01:00:00', '2034-01-05 01:00:00', 2, 6, 1, 7, 3, 4, 2, '2034-01-05 01:00:00', 13),
 ('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part II', 'secreta', 680, 70, 90 , '2035-01-09 01:00:00', '2034-01-05 01:00:00', 2, 3, 3, 8, 3, 4, 2, '2034-01-06 01:00:00', 15),
+<<<<<<< HEAD
+('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part I', 'secreta', 720, 90, 85 , '2035-01-20 01:00:00', '2034-01-06 01:00:00', 2, 8, 5, 9, 3, 5, 2, '2034-01-05 01:00:00', 17),
+('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part I', 'secreta', 630, 50, 90 , '2035-01-11 01:00:00', '2034-01-05 01:00:00', 2, 6, 7, 10, 4, 1, 1, '2034-01-05 01:00:00', 1);
+
+=======
 ('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part I', 'secreta', 720, 90, 85 , '2035-01-20 01:00:00', '2034-01-06 01:00:00', 2, 8, 5, 9, 4, 3, 2, '2034-01-05 01:00:00', 17),
 ('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part I', 'secreta', 630, 50, 90 , '2035-01-11 01:00:00', '2034-01-05 01:00:00', 2, 6, 7, 10, 4, 1, 1, '2034-01-05 01:00:00', 1);
+>>>>>>> bee9898c104fa08b012694f13bde426c3a4e978d
 
 
 -- ANALISTA_CRUDO
