@@ -795,7 +795,7 @@ INSERT INTO crudo (contenido, tipo_contenido, resumen, fuente, valor_apreciacion
 ('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part I', 'secreta', 630, 30, 10 , '2035-01-06 01:00:00', '2034-01-05 01:00:00', 2, 6, 1, 7, 3, 2, 2, '2034-01-05 01:00:00', 13),
 ('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part II', 'secreta', 680, 70, 90 , '2035-01-09 01:00:00', '2034-01-05 01:00:00', 2, 3, 3, 8, 3, 4, 2, '2034-01-06 01:00:00', 15),
 ('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part I', 'secreta', 720, 90, 85 , '2035-01-20 01:00:00', '2034-01-06 01:00:00', 2, 8, 5, 9, 4, 3, 2, '2034-01-05 01:00:00', 17),
-('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part I', 'secreta', 630, 50, 90 , '2035-01-11 01:00:00', '2034-01-05 01:00:00', 2, 6, 7, 10, 4, 1, 1, '2034-01-05 01:00:00', 1),
+('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part I', 'secreta', 630, 50, 90 , '2035-01-11 01:00:00', '2034-01-05 01:00:00', 2, 6, 7, 10, 4, 1, 1, '2034-01-05 01:00:00', 1);
 
 
 -- ANALISTA_CRUDO
@@ -858,7 +858,7 @@ INSERT INTO analista_crudo (fecha_hora, nivel_confiabilidad, fk_crudo, fk_fecha_
 ('2034-01-05 01:00:00', 50, 28, '2034-01-05 01:00:00',10,3,1),
 ('2034-01-06 01:00:00', 60, 28, '2034-01-06 01:00:00',12,3,1),
 ('2034-01-05 01:00:00', 60, 29, '2034-01-05 01:00:00',14,4,2),
-('2034-01-05 01:00:00', 70, 29, '2034-01-05 01:00:00',2,1,1),
+('2034-01-05 01:00:00', 70, 29, '2034-01-05 01:00:00',2,1,1);
 
 
 
@@ -964,9 +964,9 @@ INSERT INTO ADQUISICION (fecha_hora_venta, precio_vendido, fk_cliente, fk_pieza_
 
 
 -- CRUDO-PIEZA
-/*
+
 INSERT INTO CRUDO_PIEZA ( fk_pieza_inteligencia, fk_crudo) VALUES
-    (1, 1), --
+    (1, 1), -- Exclusivos
     (1, 6), -- 
     (1, 20), -- 
     (2, 2), -- 
@@ -989,58 +989,57 @@ INSERT INTO CRUDO_PIEZA ( fk_pieza_inteligencia, fk_crudo) VALUES
     (14, 17), --
     (16, 16), --
     (16, 18), -- 
-    
-    
+
     (6,24),
-    (6,),
-    (6,),
-    (7,),
-    (7,),
-    (7,),
+    (6,25),
+    (6,26),
+    (7,25),
+    (7,27),
+    (7,29),
     (8,24),
-    (8,),
-    (9,),
-    (9,),
-    (9,),
-    (9,),
+    (8,26),
+    (9,29),
+    (9,25),
+    (9,27),
+    (9,24),
     (13,24),
-    (13,),
-    (13,),
-    (15,),
-    (15,),
+    (13,26),
+    (13,29),
+    (15,25),
+    (15,26),
     (17,24),
-    (17,),
-    (17,),
-    (18,),
-    (18,),
-    (19,),
-    (19,),
-    (19,),
+    (17,28),
+    (17,29),
+    (18,26),
+    (18,25),
+    (19,25),
+    (19,27),
+    (19,28),
     (20,24),
-    (20,),
-    (21,),
-    (21,),
-    (21,),
-    (21,),
-    (21,),
-    (22,),
-    (22,),
-    (22,),
-    (23,),
+    (20,29),
+    (21,25),
+    (21,28),
+    (21,26),
+    (21,27),
+    (21,29),
+    (22,26),
+    (22,25),
+    (22,28),
+    (23,26),
+    (23,29),
     (24,24),
-    (24,),
-    (25,),
-    (25,),
-    (25,),
-    (26,),
-    (26,),
-    (27,),
-    (27,),
-    (27,),
+    (24,28),
+    (25,26),
+    (25,25),
+    (25,28),
+    (26,26),
+    (26,28),
+    (27,25),
+    (27,27),
+    (27,29),
     (27,24)
     ;
 
-*/
 
 
 -- INTENTO NO AUTORIZADO
