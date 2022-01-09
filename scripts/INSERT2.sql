@@ -765,6 +765,7 @@ INSERT INTO informante (nombre_clave, fk_personal_inteligencia_encargado, fk_fec
 ('Inforwer', 17, '2034-01-05 01:00:00', 5, 2, null, 17, '2034-01-05 01:00:00', 5, 2);
 
 --CRUDOS
+
 INSERT INTO crudo (contenido, tipo_contenido, resumen, fuente, valor_apreciacion, nivel_confiabilidad_inicial, nivel_confiabilidad_final, fecha_obtencion, fecha_verificacion_final, cant_analistas_verifican, fk_clas_tema, fk_informante, fk_estacion_pertenece, fk_oficina_principal_pertenece, fk_estacion_agente, fk_oficina_principal_agente, fk_fecha_inicio_agente, fk_personal_inteligencia_agente) VALUES
 ('crudo_contenido/imagen.jpg', 'imagen', 'Problemas politicos en Vitnam I', 'secreta', 500, 85, 85 , '2034-01-08 01:00:00', '2034-01-06 01:00:00', 2, 1, 1, 1, 1, 1, 1, '2034-01-05 01:00:00', 1),
 ('crudo_contenido/imagen.jpg', 'imagen', 'Problemas politicos en Vitnam II', 'secreta', 550, 30, 10 , '2034-01-09 01:00:00', '2034-01-05 01:00:00', 2, 7, 2, 1, 1, 1, 1, '2034-01-06 01:00:00', 3),
@@ -772,7 +773,7 @@ INSERT INTO crudo (contenido, tipo_contenido, resumen, fuente, valor_apreciacion
 ('crudo_contenido/imagen4.jpg', 'imagen', 'Manifestaciones por cambio de leyes', 'secreta', 570, 50, 85 , '2034-01-09 01:00:00', '2034-01-06 01:00:00', 2, 9, 4, 2, 1, 2, 1, '2034-01-06 01:00:00', 7),
 ('crudo_contenido/imagen2.jpg', 'imagen', 'Consecuencias de problemas politicos por petroleo en otros territorios', 'secreta', 580, 60, 90 , '2034-01-10 01:00:00', '2034-01-05 01:00:00', 2, 9, 5, 3, 1, 3, 1, '2034-01-05 01:00:00', 9),
 ('crudo_contenido/imagen2.jpg', 'imagen', 'Resultado de guerras entre paises ', 'secreta', 590, 85, 60 , '2034-01-09 01:00:00', '2034-01-05 01:00:00', 2, 8, 6, 3, 1, 3, 1, '2034-01-06 01:00:00', 11),
-('crudo_contenido/imagen2.jpg', 'imagen', 'Consecuencias de problemas politicos ', 'secreta', 600, 35, 60 , '2034-01-11 01:00:00', null, 3, 9, 7, 4, 2, 4, 2, '2034-01-05 01:00:00', 13),
+('crudo_contenido/imagen2.jpg', 'imagen', 'Consecuencias de problemas politicos ', 'secreta', 600, 35, null , '2034-01-11 01:00:00', null, 3, 9, 7, 4, 2, 4, 2, '2034-01-05 01:00:00', 13),
 ('crudo_contenido/imagen4.jpg', 'imagen', 'Manifestaciones por digustos de una población por el abuso de poder', 'secreta', 610, 85, 70 , '2034-02-10 01:00:00', '2034-01-05 01:00:00', 3, 9, 8, 4, 2, 4, 2, '2034-01-06 01:00:00', 15),
 ('crudo_contenido/texto2.txt', 'texto', 'Conflictos entre paises por poder II', 'abierta', 620, 90, 90 , '2034-03-05 01:00:00', '2034-01-05 01:00:00', 2, 1, null, 5, 2, 5, 2, '2034-01-05 01:00:00', 17),
 ('crudo_contenido/texto2.txt', 'texto', 'Conflictos entre paises por poder II', 'tecnica', 630, 75, 80 , '2034-05-06 01:00:00', '2034-01-05 01:00:00', 2, 1, null, 6, 2, 5, 2, '2034-01-06 01:00:00', 19),
@@ -781,24 +782,30 @@ INSERT INTO crudo (contenido, tipo_contenido, resumen, fuente, valor_apreciacion
 ('crudo_contenido/texto.txt', 'texto', 'Resultados de los conflictos II', 'tecnica', 660, 90, 95 , '2034-01-09 01:00:00', '2034-01-05 01:00:00', 2, 8, null, 8, 3, 1, 1, '2034-01-05 01:00:00', 1),
 ('crudo_contenido/texto.txt', 'texto', 'Resultados de conflictos entre grupo de personas', 'secreta', 670, 70, 60 , '2034-01-20 01:00:00', '2034-01-05 01:00:00', 2, 1, 10, 5, 2, 1, 1, '2034-01-06 01:00:00', 3),
 ('crudo_contenido/texto.txt', 'texto', 'Resultados de conflictos entre grupo de personas II', 'abierta', 680, 60, 60 , '2034-02-14 01:00:00', '2034-01-06 01:00:00', 3, 8, null, 6, 2, 2, 1, '2034-01-05 01:00:00', 5),
-('crudo_contenido/audio.mp3', 'sonido', 'Agresion de grupo de personas en la via publica', 'tecnica', 690, 100, 100 , '2034-03-19 01:00:00', null, 3, 2, null, 7, 3, 2, 1, '2034-01-06 01:00:00', 7),
+('crudo_contenido/audio.mp3', 'sonido', 'Agresion de grupo de personas en la via publica', 'tecnica', 690, 100, null , '2034-03-19 01:00:00', null, 3, 2, null, 7, 3, 2, 1, '2034-01-06 01:00:00', 7),
 ('crudo_contenido/audio.mp3', 'sonido', 'Agresion de grupo de personas en la via publica', 'secreta', 700, 90, 85 , '2034-03-12 01:00:00', '2034-01-06 01:00:00', 2, 2, 11, 6, 2, 3, 1, '2034-01-05 01:00:00', 9),
 ('crudo_contenido/audio.mp3', 'sonido', 'Conflictos en calle con individuos', 'abierta', 710, 30, 30 , '2035-01-06 01:00:00', '2034-01-06 01:00:00', 2, 2, null, 7, 3, 3, 1, '2034-01-06 01:00:00', 11),
 ('crudo_contenido/formulas.mp4', 'video', 'Formulas para las empresas', 'tecnica', 720, 40, 35 , '2035-02-14 01:00:00', '2034-01-06 01:00:00', 2, 4, null, 8, 3, 4, 2, '2034-01-05 01:00:00', 13),
 ('crudo_contenido/imagen3.png', 'imagen', 'Planificacin de marketing', 'secreta', 730, 50, 66 , '2034-03-05 01:00:00', '2034-01-06 01:00:00', 2, 3, 12, 6, 2, 4, 2, '2034-01-06 01:00:00', 15),
 ('crudo_contenido/planos.png', 'imagen', 'Investigacion de planos para construcción', 'abierta', 740, 45, 45 , '2035-01-05 01:00:00', '2034-01-06 01:00:00', 2, 8, null, 7, 3, 5, 2, '2034-01-05 01:00:00', 17),
 ('crudo_contenido/planos.png', 'imagen', 'Planificacion de marketing', 'tecnica', 750, 95, 90 , '2034-12-24 01:00:00', '2034-01-06 01:00:00', 2, 3, null, 8, 3, 5, 2, '2034-01-06 01:00:00', 19),
-('crudo_contenido/imagen3.png', 'imagen', 'Organizacion de marketing', 'abierta', 760, 90, 90 , '2034-11-11 01:00:00', null, 3, 3, null, 9, 3, 6, 2, '2034-01-05 01:00:00', 21),
+('crudo_contenido/imagen3.png', 'imagen', 'Organizacion de marketing', 'abierta', 760, 90, null , '2034-11-11 01:00:00', null, 3, 3, null, 9, 3, 6, 2, '2034-01-05 01:00:00', 21),
 ('crudo_contenido/planos.png', 'imagen', 'Investigacion de planos para construcción', 'abierta', 770, 85, 80 , '2035-01-30 01:00:00', '2034-01-05 01:00:00', 3, 8, null, 10, 4, 1, 1, '2034-01-05 01:00:00', 1),
 ('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por problemas economicos', 'tecnica', 600, 80, 85 , '2035-02-14 01:00:00', '2034-01-06 01:00:00', 2, 8, null, 11, 4, 3, 1, '2034-01-06 01:00:00', 11),
 ('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part I', 'secreta', 630, 30, 10 , '2035-01-06 01:00:00', '2034-01-05 01:00:00', 2, 6, 1, 7, 3, 4, 2, '2034-01-05 01:00:00', 13),
 ('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part II', 'secreta', 680, 70, 90 , '2035-01-09 01:00:00', '2034-01-05 01:00:00', 2, 3, 3, 8, 3, 4, 2, '2034-01-06 01:00:00', 15),
+<<<<<<< HEAD
 
 ('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part I', 'secreta', 720, 90, 85 , '2035-01-20 01:00:00', '2034-01-06 01:00:00', 2, 8, 5, 9, 3, 5, 2, '2034-01-05 01:00:00', 17),
 ('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part I', 'secreta', 630, 50, 90 , '2035-01-11 01:00:00', '2034-01-05 01:00:00', 2, 6, 7, 10, 4, 1, 1, '2034-01-05 01:00:00', 1);
 
 
 
+=======
+('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part I', 'secreta', 720, 90, 85 , '2035-01-20 01:00:00', '2034-01-06 01:00:00', 2, 8, 5, 9, 3, 5, 2, '2034-01-05 01:00:00', 17),
+('crudo_contenido/images.png', 'imagen', 'Empresa en quiebra por malas decisiones del directivo part I', 'secreta', 630, 50, 90 , '2035-01-11 01:00:00', '2034-01-05 01:00:00', 2, 6, 7, 10, 4, 1, 1, '2034-01-05 01:00:00', 1);
+
+>>>>>>> a65fe9a746c155834dcc8abb0d29bd79025065c4
 
 -- ANALISTA_CRUDO
 
@@ -889,33 +896,33 @@ INSERT INTO PIEZA_INTELIGENCIA (fecha_creacion, nivel_confiabilidad,  precio_bas
                                 fk_fecha_inicio_analista, fk_personal_inteligencia_analista, fk_estacion_analista,
                                 fk_oficina_principal_analista, fk_clas_tema)
                                 VALUES
-    ('2034-12-02 17:00:00', 90, 1000, 'no_clasificado', '2034-01-05 01:00:00', 2,1,1,1), --CHECK
-    ('2034-11-03 07:00:00', 88, 1222, 'confidencial', '2034-01-06 01:00:00', 4,1,1,2), --CHECK
-    ('2034-10-04 02:00:00', 78, 1234, 'no_clasificado', '2034-01-05 01:00:00', 2,1,1,3), --CHECK
-    ('2035-02-05 03:00:00', 77, 1111, 'no_clasificado', '2034-01-06 01:00:00', 4,1,1,4), --CHECK
-    ('2035-08-06 04:00:00', 67, 1245, 'top_secret', '2035-03-09 07:00:00', 1,1,1,5), --CHECK
-    ('2034-07-07 05:00:00', 56, 1234, 'no_clasificado', '2034-01-05 01:00:00', 2,1,1,5), --CHECK
-    ('2035-06-08 06:00:00', 10, 1249, 'confidencial', '2035-03-12 07:00:00', 3,1,1,6), --CHECK
-    ('2036-05-09 07:00:00', 99, 1234, 'no_clasificado', '2035-03-09 07:00:00', 5,2,1,7), --CHECK
-    ('2035-01-09 08:00:00', 100, 999, 'no_clasificado', '2034-01-05 01:00:00', 2,1,1,6), --CHECK
-    ('2036-01-29 17:00:00', 90, 1000, 'no_clasificado', '2035-03-12 07:00:00', 7,2,1,1), --CHECK
-    ('2034-02-28 07:00:00', 88, 1222, 'confidencial', '2034-01-06 01:00:00', 4,1,1,7), --CHECK
-    ('2035-03-27 02:00:00', 78, 1234, 'confidencial', '2035-03-09 07:00:00', 9,3,1,2), --CHECK
-    ('2035-04-26 03:00:00', 77, 1111, 'top_secret', '2035-03-09 07:00:00', 101,27,9,3), --CHECK
-    ('2035-05-25 04:00:00', 67, 1245, 'no_clasificado', '2035-03-12 07:00:00', 99,26,9,4), --CHECK
-    ('2035-06-24 05:00:00', 56, 1234, 'confidencial', '2035-03-09 07:00:00', 97,26,9,6), --CHECK
-    ('2035-03-10 06:00:00', 10, 1249, 'no_clasificado', '2034-01-06 01:00:00', 4,1,1,1), --CHECK
-    ('2036-08-22 07:00:00', 99, 1234, 'no_clasificado', '2035-03-12 07:00:00', 95,25,9,4), --CHECK
-    ('2035-01-21 08:00:00', 100, 999, 'no_clasificado', '2034-01-06 01:00:00', 4,1,1,2), --CHECK
-    ('2034-03-20 17:00:00', 90, 1000, 'no_clasificado', '2034-01-05 01:00:00', 102,27,9,1), --CHECK 
-    ('2034-05-19 07:00:00', 88, 1222, 'confidencial', '2034-01-06 01:00:00', 100,27,9,2), --CHECK
-    ('2034-07-18 02:00:00', 78, 1234, 'no_clasificado', '2034-01-05 01:00:00', 98,26,9,3), --CHECK
-    ('2035-01-17 03:00:00', 77, 1111, 'confidencial', '2034-01-06 01:00:00', 96,25,9,4), --CHECK
-    ('2035-03-01 04:00:00', 67, 1245, 'no_clasificado', '2034-01-05 01:00:00', 94,25,9,5), --CHECK
-    ('2035-01-15 05:00:00', 56, 1234, 'confidencial', '2034-01-06 01:00:00', 92,24,8,6), --CHECK
-    ('2035-02-14 06:00:00', 10, 1249, 'no_clasificado', '2034-01-05 01:00:00', 90,23,8,7), --CHECK
-    ('2034-03-13 07:00:00', 99, 1234, 'no_clasificado', '2034-01-05 01:00:00', 86,22,8,1), --CHECK
-    ('2035-02-18 08:00:00', 100, 999, 'no_clasificado', '2034-01-05 01:00:00', 34,9,3,2) --CHECK
+    ('2034-12-02 17:00:00', 90, 1000, 'no_clasificado', '2034-01-05 01:00:00', 2,1,1,1), --CHECK 1
+    ('2034-11-03 07:00:00', 88, 1222, 'confidencial', '2034-01-06 01:00:00', 4,1,1,2), --CHECK 2
+    ('2034-10-04 02:00:00', 78, 1234, 'no_clasificado', '2034-01-05 01:00:00', 2,1,1,3), --CHECK 3
+    ('2035-02-05 03:00:00', 77, 1111, 'no_clasificado', '2034-01-06 01:00:00', 4,1,1,4), --CHECK 4
+    ('2035-08-06 04:00:00', 67, 1245, 'top_secret', '2035-03-09 07:00:00', 1,1,1,5), --CHECK 5
+    ('2034-07-07 05:00:00', 56, 1234, 'no_clasificado', '2034-01-05 01:00:00', 2,1,1,5), --CHECK 6
+    ('2035-06-08 06:00:00', 10, 1249, 'confidencial', '2035-03-12 07:00:00', 3,1,1,6), --CHECK 7
+    ('2036-05-09 07:00:00', 99, 1234, 'no_clasificado', '2035-03-09 07:00:00', 5,2,1,7), --CHECK 8
+    ('2035-01-09 08:00:00', 100, 999, 'no_clasificado', '2034-01-05 01:00:00', 2,1,1,6), --CHECK 9
+    ('2036-01-29 17:00:00', 90, 1000, 'no_clasificado', '2035-03-12 07:00:00', 7,2,1,1), --CHECK 10
+    ('2034-02-28 07:00:00', 88, 1222, 'confidencial', '2034-01-06 01:00:00', 4,1,1,7), --CHECK 11
+    ('2035-03-27 02:00:00', 78, 1234, 'confidencial', '2035-03-09 07:00:00', 9,3,1,2), --CHECK 12
+    ('2035-04-26 03:00:00', 77, 1111, 'top_secret', '2035-03-09 07:00:00', 101,27,9,3), --CHECK 13
+    ('2035-05-25 04:00:00', 67, 1245, 'no_clasificado', '2035-03-12 07:00:00', 99,26,9,4), --CHECK 14
+    ('2035-06-24 05:00:00', 56, 1234, 'confidencial', '2035-03-09 07:00:00', 97,26,9,6), --CHECK 15
+    ('2035-03-10 06:00:00', 10, 1249, 'no_clasificado', '2034-01-06 01:00:00', 4,1,1,1), --CHECK 16
+    ('2036-08-22 07:00:00', 99, 1234, 'no_clasificado', '2035-03-12 07:00:00', 95,25,9,4), --CHECK 17
+    ('2035-01-21 08:00:00', 100, 999, 'no_clasificado', '2034-01-06 01:00:00', 4,1,1,2), --CHECK 18
+    ('2034-03-20 17:00:00', 90, 1000, 'no_clasificado', '2034-01-05 01:00:00', 102,27,9,1), --CHECK 19 
+    ('2034-05-19 07:00:00', 88, 1222, 'confidencial', '2034-01-06 01:00:00', 100,27,9,2), --CHECK 20
+    ('2034-07-18 02:00:00', 78, 1234, 'no_clasificado', '2034-01-05 01:00:00', 98,26,9,3), --CHECK 21
+    ('2035-01-17 03:00:00', 77, 1111, 'confidencial', '2034-01-06 01:00:00', 96,25,9,4), --CHECK 22
+    ('2035-03-01 04:00:00', 67, 1245, 'no_clasificado', '2034-01-05 01:00:00', 94,25,9,5), --CHECK 23
+    ('2035-01-15 05:00:00', 56, 1234, 'confidencial', '2034-01-06 01:00:00', 92,24,8,6), --CHECK 24
+    ('2035-02-14 06:00:00', 10, 1249, 'no_clasificado', '2034-01-05 01:00:00', 90,23,8,7), --CHECK 25
+    ('2034-03-13 07:00:00', 99, 1234, 'no_clasificado', '2034-01-05 01:00:00', 86,22,8,1), --CHECK 26
+    ('2035-02-18 08:00:00', 100, 999, 'no_clasificado', '2034-01-05 01:00:00', 34,9,3,2) --CHECK 27
     ;
 
 
@@ -926,17 +933,18 @@ INSERT INTO PIEZA_INTELIGENCIA (fecha_creacion, nivel_confiabilidad,  precio_bas
 INSERT INTO ADQUISICION (fecha_hora_venta, precio_vendido, fk_cliente, fk_pieza_inteligencia) VALUES
 
 -- clientes exclusivos: 1, 2, 5, 6, 9, 10, 13, 14, 17, 18
+-- Una pieza de inteligencia de venta exclusiva tiene al menos el 45% de recargo de su precio base.
 
-    ('2035-12-02 17:00:00', 1200, 1, 1),
-    ('2034-12-04 07:00:00', 1222, 1, 2),
-    ('2034-12-05 02:00:00', 1300, 1, 3),
-    ('2036-09-06 03:00:00', 1400, 2, 4),
-    ('2035-08-16 04:00:00', 1245, 2, 5),
-    ('2036-02-12 17:00:00', 1000, 5, 10),
-    ('2034-03-28 07:00:00', 1300, 6, 11),
-    ('2035-09-02 04:00:00', 1266, 10, 14),
-    ('2035-12-22 17:00:00', 1330, 9, 16),
-    ('2034-12-05 02:00:00', 1500, 10, 12), 
+    ('2035-12-02 17:00:00', 1544, 1, 1),
+    ('2034-12-04 07:00:00', 1870, 1, 2),
+    ('2034-12-05 02:00:00', 1820, 1, 3),
+    ('2036-09-06 03:00:00', 1700, 2, 4),
+    ('2035-08-16 04:00:00', 1850, 2, 5),
+    ('2036-02-12 17:00:00', 1500, 5, 10),
+    ('2034-03-28 07:00:00', 1880, 6, 11),
+    ('2035-09-02 04:00:00', 1966, 10, 14),
+    ('2035-12-22 17:00:00', 2030, 9, 16),
+    ('2034-12-05 02:00:00', 1987, 10, 12), 
 
 -- no exclusivos:
 
@@ -968,29 +976,32 @@ INSERT INTO ADQUISICION (fecha_hora_venta, precio_vendido, fk_cliente, fk_pieza_
 -- CRUDO-PIEZA
 
 INSERT INTO CRUDO_PIEZA ( fk_pieza_inteligencia, fk_crudo) VALUES
-    (1, 1), -- Exclusivos
-    (1, 6), -- 
-    (1, 20), -- 
-    (2, 2), -- 
-    (2, 7), -- 
-    (2, 21), -- 
-    (3, 3), -- 
-    (3, 8), --
-    (3, 23), -- 
-    (4, 4), --
-    (4, 9), --
-    (5, 5), --
-    (5, 12), --
-    (10, 10), -- 
-    (10, 13), --
-    (11, 11), --
-    (11, 15), -- 
-    (12, 22), --
-    (12, 19), --
-    (14, 14), --
-    (14, 17), --
-    (16, 16), --
-    (16, 18), -- 
+    
+    -- Exclusivos:
+    (1, 1), 
+    (1, 6),  
+    (1, 20), 
+    (2, 2),  
+    (2, 7),  
+    (2, 21), 
+    (3, 3),  
+    (3, 8), 
+    (3, 23),  
+    (4, 4),  
+    (4, 9),  
+    (5, 5),  
+    (5, 12),  
+    (10, 10),  
+    (10, 13), 
+    (11, 11), 
+    (11, 15),  
+    (12, 22), 
+    (12, 19), 
+    (14, 14), 
+    (14, 17), 
+    (16, 16), 
+    (16, 18), 
+
 
     (6,24),
     (6,25),
@@ -1047,6 +1058,7 @@ INSERT INTO CRUDO_PIEZA ( fk_pieza_inteligencia, fk_crudo) VALUES
 -- INTENTO NO AUTORIZADO
 /*
 INSERT INTO INTENTO_NO_AUTORIZADO (fecha_hora, id_pieza,  id_empleado, fk_personal_inteligencia) VALUES
+
     ('2034-01-01 01:00:00', 2, 11, ),  -- Est. Dublin. 10
     ('2034-02-07 01:00:00', 5, 12, ),  -- Est. Cork. 11
     ('2034-02-02 01:00:00', 7, 13, ),  -- Est. Galway. 12
