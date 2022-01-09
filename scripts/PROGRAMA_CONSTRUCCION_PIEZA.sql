@@ -17,6 +17,31 @@ BEGIN
 END $$;
 
 
+-------------////////.........^^^^^^^^^^^^^^^^^^^^^..........\\\\\\\\\\-------------
+
+
+
+DROP FUNCTION IF EXISTS ANALISTA_VERIFICO_CRUDO CASCADE;
+
+CREATE OR REPLACE FUNCTION ANALISTA_VERIFICO_CRUDO ( id_crudo IN integer, id_analista IN integer ) 
+RETURNS boolean
+LANGUAGE PLPGSQL 
+AS $$
+DECLARE 
+
+	registro record;
+
+BEGIN 
+	
+	SELECT * INTO registro FROM ANALISTA_CRUDO WHERE fk_crudo = id_crudo AND fk_personal_inteligencia_analista = id_analista;
+	
+	IF (registro IS NULL) THEN
+		RETURN false;
+	END IF;
+
+	RETURN true;
+	
+END $$;
 
 
 
@@ -39,6 +64,9 @@ END $$;
 -- fijan el precio base de las piezas de inteligencia. Una pieza de inteligencia registrada no puede ser
 -- alterada
 
+-- Cuando un hecho crudo tiene un nivel de confiabilidad superior al 85, el jefe de la estación asigna 
+-- al analista responsable - debe ser diferente de los analistas que verificaron el hecho.
+ 
 
 -- 4. Demostración de la implementación de los requerimientos del sistema de bases de datos transaccional referidos al proceso de venta de piezas de inteligencia – construcción de piezas de inteligencia y venta a clientes, incluyendo la seguridad correspondiente (roles, cuentas con privilegios para poder ejecutar los programas y reportes).
 
@@ -87,9 +115,7 @@ BEGIN
 	SELECT * INTO crudo_base_reg FROM CRUDO WHERE id = id_crudo_base;
     RAISE INFO 'datos del crudo base: %', crudo_base_reg;
     
-   --  AGREGAR VALIDACION DE SI EL ANALISTA ESTA EN LA MISMA ESTACION QUE EL CRUDO A INSERTAR
-	-- VALIDAR: Cuando un hecho crudo tiene un nivel de confiabilidad superior al 85, el jefe de la estación asigna al analista responsable - debe ser diferente de los analistas que verificaron el hecho.
- 
+   --------
 
    	IF (hist_cargo_reg IS NULL) THEN
    		RAISE INFO 'El analista que ingresó no existe o ya no trabaja en AII';
@@ -98,8 +124,8 @@ BEGIN
   	
    
 	IF (hist_cargo_reg.cargo != 'analista') THEN
-		RAISE INFO 'El analista que ingresó no es un analista, es un agente de campo';
-		RAISE EXCEPTION 'El analista que ingresó no es un analista, es un agente de campo';
+		RAISE INFO 'El analista que ingresó no es un analista en su cargo actual';
+		RAISE EXCEPTION 'El analista que ingresó no es un analista en su cargo actual';
 	END IF;
 
 	IF (crudo_base_reg IS NULL) THEN
@@ -111,10 +137,20 @@ BEGIN
    		RAISE INFO 'El crudo que ingresó no ha sido verificado';
   		RAISE EXCEPTION 'El crudo que ingresó no ha sido verificado';
    	END IF;   	
-   
-   	IF (crudo_base_reg.nivel_confiabilidad_final < 85 ) THEN
-   		RAISE INFO 'El crudo que ingresó no tiene el nivel de confiabilidad necesario ( > 85% )';
-  		RAISE EXCEPTION 'El crudo que ingresó no tiene el nivel de confiabilidad necesario ( > 85% )';
+
+	IF (ANALISTA_VERIFICO_CRUDO(id_crudo_base, id_analista_encargado) = true) THEN
+   		RAISE INFO 'La pieza no puede tener ningun crudo verificado por el analista encargado';
+  		RAISE EXCEPTION 'La pieza no puede tener ningun crudo verificado por el analista encargado';
+   	END IF; 
+
+	IF (hist_cargo_reg.fk_estacion != crudo_base_reg.fk_estacion_pertenece) THEN
+		RAISE INFO 'El analista no pertenece a la misma estación que el crudo';
+  		RAISE EXCEPTION 'El analista no pertenece a la misma estación que el crudo';
+	END IF;
+
+   	IF (crudo_base_reg.nivel_confiabilidad_final <= 85 ) THEN
+   		RAISE INFO 'El crudo que ingresó no tiene el nivel de confiabilidad necesario ( > 85 )';
+  		RAISE EXCEPTION 'El crudo que ingresó no tiene el nivel de confiabilidad necesario ( > 85 )';
    	END IF;   	
    
 	fecha_creacion_va = NOW();
@@ -157,11 +193,20 @@ BEGIN
 END $$;
 
 
-CALL REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA( 1 , 'descripcion pieza prueba', 29 );
+CALL REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA( 1 , 'descripcion pieza prueba', 1 );
 
 
---select c.id, c.nivel_confiabilidad_final , (SELECT count(*) FROM ANALISTA_CRUDO WHERE fk_crudo = c.id) as numero_analistas from crudo c 
 
+
+--select c.id, c.nivel_confiabilidad_final , (SELECT count(*) FROM ANALISTA_CRUDO WHERE fk_crudo = c.id) as numero_analistas from crudo c ;
+--select * from crudo where id = 1;
+
+
+
+--SELECT c.id, count(*) as numero_analistas, c.cant_analistas_verifican FROM ANALISTA_CRUDO ac, CRUDO c WHERE ac.fk_crudo = c.id  GROUP BY c.id, c.cant_analistas_verifican ORDER BY c.id  ;
+--
+--select * from analista_crudo ac where fk_crudo =24;
+--select * from crudo  where id=24;
 
 
 -----------------------------===========$$$$$$$$$$///////////////|\\\\\\\\\\\\\\\$$$$$$$$$$===========-------------------------------------------
@@ -244,8 +289,8 @@ END $$;
 CALL AGREGAR_CRUDO_A_PIEZA( 37, 19 );
 
 
---
---
+
+
 --SELECT count(*) as numero_crudos_va_en_pieza, sum(c.nivel_confiabilidad_final)/count(*) as nivel_confiabilidad_promedio_va
 ----	INTO numero_crudos_va, nivel_confiabilidad 
 --FROM CRUDO_PIEZA cp, CRUDO c WHERE cp.fk_crudo = c.id AND cp.fk_pieza_inteligencia = 2;
