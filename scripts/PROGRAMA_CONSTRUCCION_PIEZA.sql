@@ -361,7 +361,10 @@ BEGIN
    
    -------------///////////--------------	
 	
-	UPDATE PIEZA_INTELIGENCIA SET nivel_confiabilidad = nivel_confiabilidad_promedio_va, precio_base = precio_base_va;
+	UPDATE PIEZA_INTELIGENCIA SET 
+		nivel_confiabilidad = nivel_confiabilidad_promedio_va, 
+		precio_base = precio_base_va
+	;
    
    	SELECT * INTO pieza_reg FROM PIEZA_INTELIGENCIA WHERE id = id_pieza; 
    
