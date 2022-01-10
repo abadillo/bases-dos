@@ -245,6 +245,7 @@ BEGIN
    
 	--------
 
+
 	IF (pieza_reg IS NULL) THEN
    		RAISE INFO 'La pieza que ingresó no esta registrado o no cumple con los requerimientos necesarios';
   		RAISE EXCEPTION 'La pieza que ingresó no esta registrado o no cumple con los requerimientos necesarios';
