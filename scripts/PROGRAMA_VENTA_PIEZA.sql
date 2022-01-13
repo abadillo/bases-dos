@@ -1,49 +1,84 @@
--- DROP FUNCTION IF EXISTS NUMERO_ANALISTAS_VERIFICAN_CRUDO CASCADE;
 
--- CREATE OR REPLACE FUNCTION NUMERO_ANALISTAS_VERIFICAN_CRUDO ( id_crudo IN integer ) 
--- RETURNS integer
--- LANGUAGE PLPGSQL 
--- AS $$
--- DECLARE 
 
--- 	numero_analistas_va integer;	
+DROP FUNCTION IF EXISTS ELIMINACION_REGISTROS_VENTA_EXCLUSIVA CASCADE;
 
--- BEGIN 
+ CREATE OR REPLACE FUNCTION ELIMINACION_REGISTROS_VENTA_EXCLUSIVA ( id_pieza IN integer ) 
+ RETURNS boolean
+ LANGUAGE PLPGSQL 
+ AS $$
+
+ DECLARE 
+ 
+ 	id_crudos_asociados integer[];
+ 
+ BEGIN 
+	 
+	 
+	SELECT fk_crudo INTO id_crudos_asociados FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza;
 	
--- 	SELECT count(*) INTO numero_analistas_va FROM ANALISTA_CRUDO WHERE fk_crudo = id_crudo;
+	RAISE INFO 'IDs de crudos de la pieza %: %', id_pieza, id_crudos_asociados;
 	
--- 	RETURN numero_analistas_va;
+	DELETE FROM ADQUISICION WHERE fk_pieza_inteligencia = id_pieza;
 	
--- END $$;
-
-
--- -------------////////.........^^^^^^^^^^^^^^^^^^^^^..........\\\\\\\\\\-------------
-
-
-
--- DROP FUNCTION IF EXISTS ANALISTA_VERIFICO_CRUDO CASCADE;
-
--- CREATE OR REPLACE FUNCTION ANALISTA_VERIFICO_CRUDO ( id_crudo IN integer, id_analista IN integer ) 
--- RETURNS boolean
--- LANGUAGE PLPGSQL 
--- AS $$
--- DECLARE 
-
--- 	registro record;
-
--- BEGIN 
+	DELETE FROM ANALISTA_CRUDO WHERE fk_crudo IN (id_crudos_asociados);
 	
--- 	SELECT * INTO registro FROM ANALISTA_CRUDO WHERE fk_crudo = id_crudo AND fk_personal_inteligencia_analista = id_analista;
+ 	DELETE FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza;
+ 	
+ 	DELETE FROM CRUDO WHERE id IN (id_crudos_asociados);
 	
--- 	IF (registro IS NULL) THEN
--- 		RETURN false;
--- 	END IF;
+ END $$;
 
--- 	RETURN true;
+
+
+SELECT ELIMINACION_REGISTROS_VENTA_EXCLUSIVA(1);
+
+--------------------------///////////////////////-----------------------------
+ 
+
+
+
+DROP FUNCTION IF EXISTS VALIDAR_VENTA_EXCLUSIVA CASCADE;
+
+ CREATE OR REPLACE FUNCTION VALIDAR_VENTA_EXCLUSIVA ( id_pieza IN integer ) 
+ RETURNS boolean
+ LANGUAGE PLPGSQL 
+ AS $$
+ DECLARE 
+
+-- 	curdos_en_pieza_int integer;
+-- 	curdos_en_pieza_int integer;
 	
--- END $$;
+ 	numero_piezas_compartidas integer := 0;
+ 	numero_veces_pieza_vendida integer := 0;
+ 
+ 
+ BEGIN 
+	 
+	SELECT COUNT(*) INTO numero_veces_pieza_vendida FROM ADQUISICION WHERE fk_pieza_inteligencia = id_pieza;
 
+	RAISE INFO 'Número de veces en las que se ha vendido la pieza a verificar %', numero_veces_pieza_vendida; 
 
+	IF (numero_veces_pieza_vendida != 0) THEN
+ 		RETURN false;
+ 	END IF;
+ 
+ 	
+ 
+    -----------////// 
+
+ 	
+	SELECT COUNT( DISTINCT fk_pieza_inteligencia) INTO numero_piezas_compartidas FROM CRUDO_PIEZA WHERE fk_crudo IN (SELECT fk_crudo FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza);
+
+	RAISE INFO 'Número de piezas que contienen los crudos de la pieza a verificar %', numero_piezas_compartidas; 	
+
+ 	IF (numero_piezas_compartidas != 1) THEN
+ 		RETURN false;
+ 	END IF;
+
+ 
+ 	RETURN true;
+	
+ END $$;
 
 
 --------------------------///////////////////////-----------------------------
@@ -133,6 +168,8 @@ BEGIN
 	END IF;
   
 
+
+
 	IF (cliente_reg.exclusivo = TRUE) THEN
 
 		IF ( (precio_vendido_va - pieza_reg.precio_base)/(pieza_reg.precio_base) < 0.45) THEN
@@ -140,9 +177,37 @@ BEGIN
 			RAISE EXCEPTION 'El precio de venta de una pieza exclusiva tiene un recargo del 45 porciento sobre el precio base de la pieza ( $% ), es decir, $% o más', pieza_reg.precio_base , 1.45*pieza_reg.precio_base ;
 		END IF;
 
-		-- IF (VALIDAR_VENTA_EXCLUSIVA(id_pieza))
+		
+		IF (VALIDAR_VENTA_EXCLUSIVA(id_pieza) IS TRUE) THEN 
+		
+			INSERT INTO ADQUISICION (fecha_hora_venta,precio_vendido,fk_cliente,fk_pieza_inteligencia) VALUES (
+		
+				fecha_hora_venta_va,
+				precio_vendido_va,
+				cliente_reg.id,
+				pieza_reg.id
+			
+			) RETURNING * INTO adquisicion_reg;
+		
+		
+			RAISE INFO 'VENTA EXCLUSIVA EXITOSA!';
+	  		RAISE INFO 'Datos de la venta: %', adquisicion_reg ; 
+	  	
+	  	
+	  		ELIMINACION_REGISTROS_VENTA_EXCLUSIVA(pieza_reg.id);	
+			
+		
+		ELSE
+		
+			RAISE INFO 'No es posible la venta de esta pieza de forma exclusiva, debido a que la pieza ya fue vendida; o contiene algun(os) crudo(s) que pertenece(n) a otra(s) pieza(s); o porque la pieza no continene ningun crudo' ;
+			RAISE EXCEPTION 'No es posible la venta de esta pieza de forma exclusiva, debido a que la pieza ya fue vendida; o contiene algun(os) crudo(s) que pertenece(n) a otra(s) pieza(s); o porque la pieza no continene ningun crudo' ;
+		
+		
+		END IF;
 
-
+		
+	
+	
 	ELSE
 
 
@@ -153,30 +218,23 @@ BEGIN
 			cliente_reg.id,
 			pieza_reg.id
 			
-		);
+		) RETURNING * INTO adquisicion_reg;
 	
-	
-		SELECT * INTO adquisicion_reg FROM ADQUISICION WHERE fk_cliente = id_cliente AND fk_pieza_inteligencia = id_pieza; 
-   
+		-- REGISTRAR TEMA COMPRA EN AREA_TEMA
 
+		RAISE INFO 'VENTA EXITOSA!';
+   		RAISE INFO 'Datos de la venta: %', adquisicion_reg ; 	
+	
 	END IF;
 
 	
- 	
-
-	---- FALTA IF DE VENTA EXCLUSIVA
-
- 	-------------///////////--------------	
- 
-
-   RAISE INFO 'VENTA EXITOSA!';
-   RAISE INFO 'Datos de la venta: %', adquisicion_reg ; 
+ -- REGISTRAR TEMA COMPRA EN AREA_TEMA
 
 
 END $$;
 
 
-CALL REGISTRO_VENTA( 1,  1, 100.0 );
+CALL REGISTRO_VENTA( 1,  1, 10000.0 );
 
 select * from adquisicion a 
 

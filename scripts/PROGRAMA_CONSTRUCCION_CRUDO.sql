@@ -94,7 +94,7 @@ BEGIN
   	
 	IF (hist_cargo_agente_encargado_reg.cargo != 'agente') THEN
 		RAISE INFO 'El agente de campo que ingresó no es un agente de campo en su cargo actual';
-		RAISE EXCEPTION 'El agente de campo que ingresó no es un agente de campo en su cargo actua';
+		RAISE EXCEPTION 'El agente de campo que ingresó no es un agente de campo en su cargo actual';
 	END IF;
 
 
