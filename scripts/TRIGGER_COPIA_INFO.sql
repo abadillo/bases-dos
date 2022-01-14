@@ -61,29 +61,31 @@ DROP TRIGGER trigger_copia_pieza ON pieza_inteligencia;
 
 ------ PROCEDIMIENTO PARA COPIAR HISTORICO CARGO ---------------
 
-CREATE OR REPLACE PROCEDURE copia_historico_cargo(fecha timestamp)
+CREATE OR REPLACE PROCEDURE COPIA_HISTORICO_CARGO(fecha timestamp, personal integer, estacion integer, oficina integer)
 LANGUAGE PLPGSQL
 AS $$
 DECLARE
 	HISTORICO hist_cargo%rowtype;
+	
 	hist_cargo_alt_reg hist_cargo%rowtype;
 	
 BEGIN
-
-	--- BUSCA LA INFORMACION EN HIST_CARGO PARA COPIARLA
 	
 	SELECT fecha_inicio, fecha_fin, cargo, fk_personal_inteligencia, fk_estacion, fk_oficina_principal
 	INTO HISTORICO FROM hist_cargo 
-	WHERE fecha_inicio=fecha;
+	WHERE fecha_inicio=fecha
+	AND fk_personal_inteligencia = personal
+	AND fk_estacion = estacion
+	AND fk_oficina_principal = oficina;
 	
-	---validacion si existe el historico cargo
-		
+	--- BUSCA LA INFORMACION EN HIST_CARGO PARA COPIARLA y VALIDACION SI EXISTE EL CARGO EN LA TABLA ALTE
+
 	select * into hist_cargo_alt_reg 
 	from hist_cargo_alt
-	where fecha_inicio = HISTORICO.fecha_inicio 
-	AND fk_personal_inteligencia= HISTORICO.fk_personal_inteligencia
-	AND fk_estacion = HISTORICO.fk_estacion	
-	AND fk_oficina_principal = HISTORICO.fk_oficina_principal;
+	where fecha_inicio = fecha
+	AND fk_personal_inteligencia = personal
+	AND fk_estacion = estacion
+	AND fk_oficina_principal = oficina;
 
 	--- INSERT EN LA TABLA ALTERNATIVA DE HISTORICO CARGO
 	
@@ -118,12 +120,12 @@ $$;
 
 
 
-CALL copia_historico_cargo('2034-01-06 01:00:00')
+CALL copia_historico_cargo('2034-01-06 01:00:00',1,3,4)
 select * from hist_cargo_alt
 SELECT * FROM hist_cargo
 
 
-CREATE OR REPLACE PROCEDURE copia_pieza(id_pieza integer)
+CREATE OR REPLACE PROCEDURE COPIA_PIEZA(id_pieza integer)
 LANGUAGE PLPGSQL
 AS $$
 DECLARE
@@ -152,7 +154,7 @@ BEGIN
 	
 	---- INSERT EN LA TABLA ALT DE HISTORICO(COPIA DE INFORMACION)
 	
-	CALL copia_historico_cargo(copia_historico.fecha_inicio);
+	CALL copia_historico_cargo(copia_historico.fecha_inicio, copia_historico.fk_personal_inteligencia, copia_historico.fk_estacion, copia_historico.fk_oficina_principal);
 	
 	
 	----INSERT EN LA TABLA ALT DE PIEZA (COPIA DE INFORMACION)
