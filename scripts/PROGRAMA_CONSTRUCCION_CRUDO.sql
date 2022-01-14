@@ -208,7 +208,7 @@ END $$;
 
 
 
-CALL REGISTRO_INFORMANTE( 'aja prueba 2', 2, 1, null );
+-- CALL REGISTRO_INFORMANTE( 'aja prueba 2', 2, 1, null );
 
 
 
@@ -382,10 +382,10 @@ END $$;
 
 
 -- bien
-CALL REGISTRO_CRUDO_SIN_INFORMANTE(2, 1, FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/texto.txt'), 'texto', 'resumen crudo prueba', 'abierta', 999, 5, 3);
+-- CALL REGISTRO_CRUDO_SIN_INFORMANTE(2, 1, FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/texto.txt'), 'texto', 'resumen crudo prueba', 'abierta', 999, 5, 3);
 
 -- mal
-CALL REGISTRO_CRUDO_SIN_INFORMANTE(2, 1, FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/texto.txt'), 'texto', 'resumen', 'tecnica', null, 25, 5);
+-- CALL REGISTRO_CRUDO_SIN_INFORMANTE(2, 1, FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/texto.txt'), 'texto', 'resumen', 'tecnica', null, 25, 5);
 
 
 
@@ -593,10 +593,10 @@ END $$;
 
 
 
-CALL REGISTRO_CRUDO_CON_INFORMANTE(33, 100, 2, 1, FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/texto.txt'), 'texto', 'resumen crudo prueba', 999, 5, 3);
+-- CALL REGISTRO_CRUDO_CON_INFORMANTE(33, 100, 2, 1, FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/texto.txt'), 'texto', 'resumen crudo prueba', 999, 5, 3);
 
 
 
-select * from informante where fk_personal_inteligencia_encargado = 2;
-select * from crudo where fk_personal_inteligencia_agente = 2;
-select * from transaccion_pago ORDER BY fecha_hora DESC;
+-- select * from informante where fk_personal_inteligencia_encargado = 2;
+-- select * from crudo where fk_personal_inteligencia_agente = 2;
+-- select * from transaccion_pago ORDER BY fecha_hora DESC;

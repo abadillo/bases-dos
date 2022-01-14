@@ -651,9 +651,7 @@ CREATE TABLE ANALISTA_CRUDO_ALT (
     CONSTRAINT ANALISTA_CRUDO_ALT_PK PRIMARY KEY (fk_crudo, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista),
 
     CONSTRAINT ANALISTA_CRUDO_CRUDO_ALT_FK FOREIGN KEY (fk_crudo) REFERENCES CRUDO_ALT (id),
-    CONSTRAINT ANALISTA_CRUDO_HIST_CARGO_ALT_FK FOREIGN KEY (fk_fecha_inicio_analista, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista) REFERENCES HIST_CARGO_ALT (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal),
-
-    CONSTRAINT ANALISTA_CRUDO_ALT_CH_nivel_confiabilidad CHECK ( nivel_confiabilidad >= 0 AND nivel_confiabilidad <= 100 )    
+    CONSTRAINT ANALISTA_CRUDO_HIST_CARGO_ALT_FK FOREIGN KEY (fk_fecha_inicio_analista, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista) REFERENCES HIST_CARGO_ALT (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal)
 
 );
 

@@ -67,12 +67,14 @@ BEGIN
 	SELECT fk_estacion INTO id_estacion_analista FROM HIST_CARGO WHERE fk_personal_inteligencia = id_analista AND fecha_fin IS NULL; 
 	
 	-- estacion del crudo
-	id_estacion_crudo := ARRAY( 
-		SELECT fk_estacion_pertenece FROM CRUDO WHERE id = id_crudo
-	);
+	SELECT fk_estacion_pertenece INTO id_estacion_crudo FROM CRUDO WHERE id = id_crudo;
+	
 
 	-- estacion de los analistas que verificaron el crudo
-	SELECT fk_estacion_analista INTO id_estaciones_otros_analistas FROM ANALISTA_CRUDO WHERE fk_crudo = id_crudo;
+	id_estaciones_otros_analistas := ARRAY( 
+		SELECT fk_estacion_analista FROM ANALISTA_CRUDO WHERE fk_crudo = id_crudo
+	);
+	
 	
 	IF (id_estacion_analista = id_estacion_crudo OR id_estacion_analista = ANY(id_estaciones_otros_analistas)) THEN
 		RETURN false;
@@ -191,8 +193,8 @@ BEGIN
 
 
 	IF (crudo_reg.nivel_confiabilidad_final IS NOT NULL OR crudo_reg.fecha_verificacion_final IS NOT NULL OR NUMERO_ANALISTAS_VERIFICAN_CRUDO(id_crudo) >= crudo_reg.cant_analistas_verifican) THEN
-   		RAISE INFO 'El crudo ya fue verificado';
-  		RAISE EXCEPTION 'El crudo ya fue verificado';
+   		RAISE INFO 'El crudo ya fue verificado, puede que falte cerrar el crudo';
+  		RAISE EXCEPTION 'El crudo ya fue verificado, puede que falte cerrar el crudo';
    	END IF; 
 
 	IF (ANALISTA_PUEDE_VERIFICA_CRUDO(id_crudo, id_analista) = false) THEN
@@ -230,7 +232,7 @@ BEGIN
     
 
    RAISE INFO 'CRUDO VERIFICADO CREADO CON EXITO!';
-   RAISE INFO 'Datos del informante: %', informante_reg ; 
+   RAISE INFO 'Datos del registro: %', analista_crudo_reg ; 
 
    RAISE INFO 'Faltan % verificaciones para poder cerrar el crudo', ( crudo_reg.cant_analistas_verifican - NUMERO_ANALISTAS_VERIFICAN_CRUDO(id_crudo)) ;
 
@@ -296,7 +298,7 @@ BEGIN
 
 	SELECT sum(nivel_confiabilidad)/count(*) INTO nivel_confiabilidad_promedio_va FROM ANALISTA_CRUDO WHERE fk_crudo = id_crudo;
 
-	UPDATE CRUDO SET nivel_confiabilidad_final = nivel_confiabilidad_promedio_va, fecha_verificacion_final = fecha_verificacion_final_va RETURNING * INTO crudo_reg;
+	UPDATE CRUDO SET nivel_confiabilidad_final = nivel_confiabilidad_promedio_va, fecha_verificacion_final = fecha_verificacion_final_va WHERE id = id_crudo RETURNING * INTO crudo_reg;
 
 
    RAISE INFO 'CRUDO CERRADO EXITO!';
@@ -309,3 +311,8 @@ END $$;
 
 
 --CALL VERIFICAR_CRUDO( id_analista, id_crudo, nivel_confiabilidad );
+
+CALL VERIFICAR_CRUDO( 53, 31 , 85);
+
+CALL CERRAR_CRUDO(31);
+

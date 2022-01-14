@@ -1,3 +1,7 @@
+
+
+
+
 CREATE OR REPLACE FUNCTION trigger_copia_info_pieza()
 RETURNS TRIGGER
 LANGUAGE PLPGSQL
@@ -8,6 +12,10 @@ AS $$
 	copia_pieza pieza_inteligencia%rowtype;
 	
 	BEGIN
+	
+	
+
+
 	raise info '%',copia_pieza;	
 	CALL copia_historico_cargo(fk.fecha_inicio_analista);
 	
@@ -19,8 +27,9 @@ AS $$
 		fk_estacion_analista,
 		fk_oficina_principal_analista, 
 		fk_clas_tema
-		INTO copia_pieza FROM pieza_inteligencia
-		WHERE old.fecha_creacion=fecha_creacion;
+	INTO copia_pieza 
+	FROM pieza_inteligencia
+	WHERE old.fecha_creacion=fecha_creacion;
 	
 	----INSERT EN LA TABLA ALT DE PIEZA (COPIA DE INFORMACION)
 	
@@ -59,6 +68,9 @@ DROP TRIGGER trigger_copia_pieza ON pieza_inteligencia;
 
 
 
+
+
+
 ------ PROCEDIMIENTO PARA COPIAR HISTORICO CARGO ---------------
 
 CREATE OR REPLACE PROCEDURE COPIA_HISTORICO_CARGO(fecha timestamp, personal integer, estacion integer, oficina integer)
@@ -67,16 +79,10 @@ AS $$
 DECLARE
 	HISTORICO hist_cargo%rowtype;
 	
-	hist_cargo_alt_reg hist_cargo%rowtype;
+	hist_cargo_alt_reg hist_cargo_alt%rowtype;     --- cambio de hist_cargo a hist_cargo_alt
 	
 BEGIN
-	
-	SELECT fecha_inicio, fecha_fin, cargo, fk_personal_inteligencia, fk_estacion, fk_oficina_principal
-	INTO HISTORICO FROM hist_cargo 
-	WHERE fecha_inicio=fecha
-	AND fk_personal_inteligencia = personal
-	AND fk_estacion = estacion
-	AND fk_oficina_principal = oficina;
+		
 	
 	--- BUSCA LA INFORMACION EN HIST_CARGO PARA COPIARLA y VALIDACION SI EXISTE EL CARGO EN LA TABLA ALTE
 
@@ -90,23 +96,38 @@ BEGIN
 	--- INSERT EN LA TABLA ALTERNATIVA DE HISTORICO CARGO
 	
 	IF (hist_cargo_alt_reg IS NULL) THEN
-		INSERT INTO hist_cargo_alt (
-		fecha_inicio,
-		fecha_fin,
-		cargo,
 
-		fk_personal_inteligencia,
-		fk_estacion,
-		fk_oficina_principal)
-	VALUES (
+		SELECT * INTO HISTORICO 
+		FROM hist_cargo 
+		WHERE fecha_inicio=fecha
+		AND fk_personal_inteligencia = personal
+		AND fk_estacion = estacion
+		AND fk_oficina_principal = oficina;
+
+
+		RAISE INFO 'DATOS DEL HIST_CARGO BASE A COPIAR: %', HISTORICO;
+
+
+		INSERT INTO hist_cargo_alt (
+			fecha_inicio,
+			fecha_fin,
+			cargo,
+
+			fk_personal_inteligencia,
+			fk_estacion,
+			fk_oficina_principal
+
+		) VALUES (
 			HISTORICO.fecha_inicio,
 			HISTORICO.fecha_fin, 
 			HISTORICO.cargo, 
 			HISTORICO.fk_personal_inteligencia,
 			HISTORICO.fk_estacion, 
 			HISTORICO.fk_oficina_principal
-	);	
-		RAISE INFO 'INSER DE LA INFORMACION COPIADA EN LA TABLA HISTORICO_CARGO_ALT';
+		);	
+
+		RAISE INFO 'INSERT DE LA INFORMACION COPIADA EN LA TABLA HISTORICO_CARGO_ALT';
+
 	ELSE
 	
 		RAISE INFO 'EL HISTORICO CARGO YA ESTA REGISTRADO ';
@@ -120,7 +141,13 @@ $$;
 
 
 
-CALL copia_historico_cargo('2034-01-06 01:00:00',1,3,4)
+CALL copia_historico_cargo('2020-01-06 01:00:00',1,3,4)
+
+select * from hist_cargo where fecha_inicio = '2020-01-06 01:00:00';
+
+
+
+
 select * from hist_cargo_alt
 SELECT * FROM hist_cargo
 

@@ -146,7 +146,7 @@ BEGIN
 END $$;
 
 
-CALL REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA( 1 , 'descripcion pieza prueba', 1 );
+--CALL REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA( 1 , 'descripcion pieza prueba', 1 );
 
 
 
@@ -168,7 +168,7 @@ CALL REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA( 1 , 'descripcion pieza prueba', 1
 
 
 DROP PROCEDURE IF EXISTS AGREGAR_CRUDO_A_PIEZA CASCADE;
--
+
 CREATE OR REPLACE PROCEDURE AGREGAR_CRUDO_A_PIEZA (id_crudo IN integer, id_pieza IN integer)
 LANGUAGE plpgsql
 AS $$  
@@ -214,7 +214,7 @@ BEGIN
   		RAISE EXCEPTION 'El crudo que intenta asociar ya está asociado a esta pieza';
    	END IF;   	
    
-   	IF (NUMERO_ANALISTAS_VERIFICAN_CRUDO(id_crudo_base) != crudo_base_reg.cant_analistas_verifican) THEN
+   	IF ( NUMERO_ANALISTAS_VERIFICAN_CRUDO(id_crudo) != crudo_reg.cant_analistas_verifican ) THEN
    		RAISE INFO 'El crudo que ingresó no ha sido verificado';
   		RAISE EXCEPTION 'El crudo que ingresó no ha sido verificado';
    	END IF;   	
@@ -240,7 +240,7 @@ BEGIN
 END $$;
 
 
-CALL AGREGAR_CRUDO_A_PIEZA( 37, 19 );
+--CALL AGREGAR_CRUDO_A_PIEZA( 37, 19 );
 
 
 
@@ -331,7 +331,7 @@ END $$;
 
 
 
-CALL CERTIFICAR_PIEZA( 37, 1 );
+--CALL CERTIFICAR_PIEZA( 37, 1 );
 
 
 

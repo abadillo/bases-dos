@@ -34,7 +34,7 @@ END $$;
 
 
 
-SELECT ELIMINACION_REGISTROS_VENTA_EXCLUSIVA(1);
+--SELECT ELIMINACION_REGISTROS_VENTA_EXCLUSIVA(1);
 
 --------------------------///////////////////////-----------------------------
  
@@ -198,7 +198,7 @@ BEGIN
 	  		RAISE INFO 'Datos de la venta: %', adquisicion_reg ; 
 	  	
 	  	
-	  		ELIMINACION_REGISTROS_VENTA_EXCLUSIVA(pieza_reg.id);	
+	  		SELECT ELIMINACION_REGISTROS_VENTA_EXCLUSIVA(pieza_reg.id);	
 			
 		
 		ELSE
@@ -238,9 +238,9 @@ BEGIN
 END $$;
 
 
-CALL REGISTRO_VENTA( 1,  1, 10000.0 );
+--CALL REGISTRO_VENTA( 1,  1, 10000.0 );
 
-select * from adquisicion a 
+--select * from adquisicion a 
 
 -- select c.id as id_cliente, c.exclusivo, p.id as id_pieza, p.precio_base, a.*, ((a.precio_vendido - p.precio_base)/(p.precio_base))*100 as porcentaje_recargo from adquisicion a, cliente c, PIEZA_INTELIGENCIA p where a.fk_cliente = c.id AND a.fk_pieza_inteligencia = p.id;
 
