@@ -2,31 +2,30 @@
 
 DROP FUNCTION IF EXISTS ELIMINACION_REGISTROS_VENTA_EXCLUSIVA CASCADE;
 
- CREATE OR REPLACE FUNCTION ELIMINACION_REGISTROS_VENTA_EXCLUSIVA ( id_pieza IN integer ) 
- RETURNS boolean
- LANGUAGE PLPGSQL 
- AS $$
+CREATE OR REPLACE FUNCTION ELIMINACION_REGISTROS_VENTA_EXCLUSIVA ( id_pieza IN integer ) 
+RETURNS boolean
+LANGUAGE PLPGSQL 
+AS $$
 
- DECLARE 
- 
- 	id_crudos_asociados integer[];
- 
- BEGIN 
-	 
-	 
+DECLARE 
+
+	id_crudos_asociados integer[];	
+
+BEGIN 
+
 	SELECT fk_crudo INTO id_crudos_asociados FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza;
-	
+
 	RAISE INFO 'IDs de crudos de la pieza %: %', id_pieza, id_crudos_asociados;
-	
+
 	DELETE FROM ADQUISICION WHERE fk_pieza_inteligencia = id_pieza;
-	
+
 	DELETE FROM ANALISTA_CRUDO WHERE fk_crudo IN (id_crudos_asociados);
-	
- 	DELETE FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza;
- 	
- 	DELETE FROM CRUDO WHERE id IN (id_crudos_asociados);
-	
- END $$;
+
+	DELETE FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza;
+
+	DELETE FROM CRUDO WHERE id IN (id_crudos_asociados);
+
+END $$;
 
 
 

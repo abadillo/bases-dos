@@ -1050,7 +1050,7 @@ INSERT INTO CRUDO_PIEZA ( fk_pieza_inteligencia, fk_crudo) VALUES
 
 --------------------------/////////////// FUNCION PARA INSERT EN COLUMNA BYTEA //////////////////---------------------- 
 
-CREATE OR REPLACE FUNCTION formato_archivo_a_bytea ( ruta_archivo IN text ) 
+CREATE OR REPLACE FUNCTION FORMATO_ARCHIVO_A_BYTEA ( ruta_archivo IN text ) 
 RETURNS bytea 
 LANGUAGE plpgsql AS $$ 
 DECLARE 
@@ -1064,13 +1064,14 @@ BEGIN
 
 	RAISE INFO 'Ruta: %', ruta || ruta_archivo ;
 	RAISE INFO 'Archivo -> bytea: %', pg_read_binary_file(ruta || ruta_archivo) ;
+    
 	RETURN pg_read_binary_file(ruta || ruta_archivo); 
 	
 END $$;
 
 
 INSERT INTO crudo (contenido, tipo_contenido, resumen, fuente, valor_apreciacion, nivel_confiabilidad_inicial, nivel_confiabilidad_final, fecha_obtencion, fecha_verificacion_final, cant_analistas_verifican, fk_clas_tema, fk_informante, fk_estacion_pertenece, fk_oficina_principal_pertenece, fk_estacion_agente, fk_oficina_principal_agente, fk_fecha_inicio_agente, fk_personal_inteligencia_agente) VALUES
-(formato_archivo_a_bytea('crudo_contenido/images.jpg'), 'imagen', 'Problemas politicos en Vitnam I', 'secreta', 500, 85, 85 , '2034-01-08 01:00:00', '2034-01-06 01:00:00', 2, 1, 1, 1, 1, 1, 1, '2034-01-05 01:00:00', 1);
+(FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/images.jpg'), 'imagen', 'Problemas politicos en Vitnam I', 'secreta', 500, 85, 85 , '2034-01-08 01:00:00', '2034-01-06 01:00:00', 2, 1, 1, 1, 1, 1, 1, '2034-01-05 01:00:00', 1);
 
 
 --SELECT  * from crudo c ;
