@@ -285,15 +285,7 @@ BEGIN
    	END IF;   
 
 
-
-	-- SELECT * INTO informante_reg FROM INFORMANTE WHERE id = id_informante;
-
-	-- RAISE INFO 'DATOS DE INFORMANTE %:', informante_reg;
-	
-	-- IF (informante_reg IS NULL) THEN
-	-- 	RAISE INFO 'El informante que ingresó no se encuetra registrado';
-  	-- 	RAISE EXCEPTION 'El informante que ingresó no se encuetra registrado';
-	-- END IF;
+	------- ///////
 
 	SELECT * INTO tema_reg FROM CLAS_TEMA WHERE id = id_tema;
 
@@ -342,7 +334,6 @@ BEGIN
 		cant_analistas_verifican,
 
 		fk_clas_tema,
---		fk_informante,
 
 		--estacion a donde pertence
 		fk_estacion_pertenece,
@@ -366,7 +357,7 @@ BEGIN
 		cant_analistas_verifican_va,
 
 		id_tema,
---		id_informante,
+
 
 		--estacion a donde pertence
 		hist_cargo_agente_encargado_reg.fk_estacion,
@@ -397,4 +388,215 @@ CALL REGISTRO_CRUDO_SIN_INFORMANTE(2, 1, FORMATO_ARCHIVO_A_BYTEA('crudo_contenid
 CALL REGISTRO_CRUDO_SIN_INFORMANTE(2, 1, FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/texto.txt'), 'texto', 'resumen', 'tecnica', null, 25, 5);
 
 
+
+
+
+
+
+
+--------------------------///////////////////////-----------------------------
+
+
+
+
+DROP PROCEDURE IF EXISTS REGISTRO_CRUDO_CON_INFORMANTE CASCADE;
+
+
+CREATE OR REPLACE PROCEDURE REGISTRO_CRUDO_CON_INFORMANTE ( id_informante IN integer, monto_pago_va IN TRANSACCION_PAGO.monto_pago%TYPE, id_agente_campo IN integer, id_tema IN integer, contenido_va IN CRUDO.contenido%TYPE, tipo_contenido_va IN CRUDO.tipo_contenido%TYPE, resumen_va IN CRUDO.resumen%TYPE, valor_apreciacion_va IN CRUDO.valor_apreciacion%TYPE, nivel_confiabilidad_inicial_va IN CRUDO.nivel_confiabilidad_inicial%TYPE, cant_analistas_verifican_va IN CRUDO.cant_analistas_verifican%TYPE )
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+    agente_campo_encargado_reg PERSONAL_INTELIGENCIA%ROWTYPE;
+	hist_cargo_agente_encargado_reg HIST_CARGO%ROWTYPE;
+
+	informante_reg INFORMANTE%ROWTYPE;
+	tema_reg CLAS_TEMA%ROWTYPE;
+	crudo_reg CRUDO%ROWTYPE;
+	transaccion_pago_reg TRANSACCION_PAGO%ROWTYPE;
+
+	fuente_va CRUDO.fuente%TYPE := 'secreta';
+	fecha_obtencion_va CRUDO.fecha_obtencion%TYPE;
+	
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO REGISTRO_CRUDO_CON_INFORMANTE ( % ) ------', NOW();
+	
+	-------------/////////// VALIDACIONES DE LLAVES
+
+	
+	IF (contenido_va IS NULL OR contenido_va = '') THEN
+   		RAISE INFO 'Debe ingresar el contenido del crudo que quiere crear';
+  		RAISE EXCEPTION 'Debe ingresar el contenido del crudo que quiere crear';
+   	END IF;  
+
+	IF (tipo_contenido_va != 'texto' AND tipo_contenido_va != 'imagen' AND tipo_contenido_va != 'sonido' AND tipo_contenido_va != 'video') THEN
+   		RAISE INFO 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video), %', tipo_contenido_va;
+  		RAISE EXCEPTION 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video)';
+   	END IF;   	
+
+	IF (resumen_va IS NULL OR resumen_va = '') THEN
+   		RAISE INFO 'Debe ingresar el resumen del crudo que quiere crear';
+  		RAISE EXCEPTION 'Debe ingresar el resumen del crudo que quiere crear';
+   	END IF;   
+
+
+	IF (valor_apreciacion_va IS NOT NULL AND valor_apreciacion_va <= 0) THEN
+   		RAISE INFO 'El valor de apreciacion del crudo debe ser mayor a 0$';
+  		RAISE EXCEPTION 'El valor de apreciacion del crudo debe ser mayor a 0$';
+   	END IF; 
+	   
+	IF (monto_pago_va IS NULL OR monto_pago_va <= 0) THEN
+   		RAISE INFO 'El monto pagado por el crudo al informante debe ser mayor a 0$';
+  		RAISE EXCEPTION 'El monto pagado por el crudo al informante debe ser mayor a 0$';
+   	END IF; 
+
+	IF (nivel_confiabilidad_inicial_va IS NULL OR nivel_confiabilidad_inicial_va < 0 OR nivel_confiabilidad_inicial_va > 100 ) THEN
+   		RAISE INFO 'El nivel de confiabilidad del crudo debe estar entre el rango de 0 y 100';
+  		RAISE EXCEPTION 'El nivel de confiabilidad del crudo debe estar entre el rango de 0 y 100';
+   	END IF; 
+	   
+	IF (cant_analistas_verifican_va IS NULL OR cant_analistas_verifican_va < 2) THEN	
+   		RAISE INFO 'Debe ingresar un número valido de analistas requeridos para la verificación';
+  		RAISE EXCEPTION 'Debe ingresar un número valido de analistas requeridos para la verificación';
+   	END IF;   
+
+
+
+	SELECT * INTO informante_reg FROM INFORMANTE WHERE id = id_informante AND fk_personal_inteligencia_encargado = id_agente_campo;
+
+	RAISE INFO 'DATOS DE INFORMANTE %:', informante_reg;
+	
+	IF (informante_reg IS NULL) THEN
+		RAISE INFO 'El informante que ingresó no se encuetra registrado o no le pertenece al agente que ingresó';
+  		RAISE EXCEPTION 'El informante que ingresó no se encuetra registrado o no le pertenece al agente que ingresó';
+	END IF;
+
+
+	SELECT * INTO tema_reg FROM CLAS_TEMA WHERE id = id_tema;
+
+	RAISE INFO 'DATOS DE TEMA %:', tema_reg;
+	
+	IF (tema_reg IS NULL) THEN
+		RAISE INFO 'El tema que ingresó no se encuetra registrado';
+  		RAISE EXCEPTION 'El tema que ingresó no se encuetra registrado';
+	END IF;
+	
+	
+	
+	-------------////  BUSQUEDA DEL AGENTE ENCARGADO
+
+    SELECT * INTO agente_campo_encargado_reg FROM PERSONAL_INTELIGENCIA WHERE id = id_agente_campo;
+    RAISE INFO 'datos del agente de campo encargado: %', agente_campo_encargado_reg;
+   
+   	SELECT * INTO hist_cargo_agente_encargado_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = id_agente_campo AND fecha_fin IS NULL; 
+   	RAISE INFO 'datos de hist_cargo del agente encargado: %', hist_cargo_agente_encargado_reg;
+
+	
+	IF (hist_cargo_agente_encargado_reg IS NULL) THEN
+   		RAISE INFO 'El agente de campo que ingresó no existe o ya no trabaja en AII';
+  		RAISE EXCEPTION 'El agente de campo que ingresó no existe o ya no trabaja en AII';
+   	END IF;   	
+  	
+	IF (hist_cargo_agente_encargado_reg.cargo != 'agente') THEN
+		RAISE INFO 'El agente de campo que ingresó no es un agente de campo en su cargo actual';
+		RAISE EXCEPTION 'El agente de campo que ingresó no es un agente de campo en su cargo actual';
+	END IF;
+
+
+	-------------////////
+
+	fecha_obtencion_va = NOW();
+   
+   
+	INSERT INTO CRUDO (
+		contenido,
+		tipo_contenido,
+		resumen,
+		fuente, 
+		valor_apreciacion,
+		nivel_confiabilidad_inicial,
+		fecha_obtencion,
+		cant_analistas_verifican,
+
+		fk_clas_tema,
+		fk_informante,
+
+		--estacion a donde pertence
+		fk_estacion_pertenece,
+		fk_oficina_principal_pertenece,
+
+		--agente encargado
+		fk_estacion_agente,
+		fk_oficina_principal_agente,
+		fk_fecha_inicio_agente,
+		fk_personal_inteligencia_agente
+	
+	) VALUES (
+		
+		contenido_va,
+		tipo_contenido_va,
+		resumen_va,
+		fuente_va, 
+		valor_apreciacion_va,
+		nivel_confiabilidad_inicial_va,
+		fecha_obtencion_va,
+		cant_analistas_verifican_va,
+
+		id_tema,
+		id_informante,
+
+		--estacion a donde pertence
+		hist_cargo_agente_encargado_reg.fk_estacion,
+		hist_cargo_agente_encargado_reg.fk_oficina_principal,
+
+		--agente encargado
+		hist_cargo_agente_encargado_reg.fk_estacion,
+		hist_cargo_agente_encargado_reg.fk_oficina_principal,
+		hist_cargo_agente_encargado_reg.fecha_inicio,
+		hist_cargo_agente_encargado_reg.fk_personal_inteligencia
+
+	) RETURNING * INTO crudo_reg;
+
+
+
+   RAISE INFO 'CRUDO CREADO CON EXITO!';
+   RAISE INFO 'Datos del crudo: %', crudo_reg ; 
+
+	-------//////
+      
+   
+	INSERT INTO TRANSACCION_PAGO (
+		fecha_hora,
+		monto_pago,
+		fk_crudo,
+		fk_informante
+	
+	) VALUES (
+		
+		fecha_obtencion_va,
+		monto_pago_va,
+		crudo_reg.id,
+		id_informante
+
+	) RETURNING * INTO transaccion_pago_reg;
+
+
+
+   RAISE INFO 'TRANSACCIÓN DE PAGO DE CRUDO CREADA CON EXITO!';
+   RAISE INFO 'Datos de la transacción: %', transaccion_pago_reg ; 
+
+
+
+END $$;
+
+
+
+CALL REGISTRO_CRUDO_CON_INFORMANTE(377, 100, 2, 1, FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/texto.txt'), 'texto', 'resumen crudo prueba', 999, 5, 3);
+
+
+
+select * from informante where fk_personal_inteligencia_encargado = 2;
 select * from crudo where fk_personal_inteligencia_agente = 2;
+select * from transaccion_pago ORDER BY fecha_hora DESC;
