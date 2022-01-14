@@ -356,8 +356,8 @@ CREATE TABLE CRUDO (
 
     id serial NOT NULL,
 
-    contenido bytea NOT NULL, -- 'text, imagen, sonido, video' 
-    tipo_contenido varchar(1000) NOT NULL,
+    contenido bytea NOT NULL, 
+    tipo_contenido varchar(50) NOT NULL, -- 'texto, imagen, sonido, video' 
     resumen varchar(1000) NOT NULL,
     fuente varchar(20) NOT NULL, -- 'abierta, secreta, tecnica'
     valor_apreciacion numeric(20),
@@ -549,9 +549,12 @@ DROP TABLE HIST_CARGO_ALT CASCADE;
 DROP TABLE INFORMANTE_ALT CASCADE;
 DROP TABLE TRANSACCION_PAGO_ALT CASCADE;
 DROP TABLE CRUDO_ALT CASCADE;
+DROP TABLE ANALISTA_CRUDO_ALT CASCADE;
 DROP TABLE PIEZA_INTELIGENCIA_ALT CASCADE;
 DROP TABLE CRUDO_PIEZA_ALT CASCADE;
 DROP TABLE ADQUISICION_ALT CASCADE;
+
+
 
 
 
@@ -617,6 +620,7 @@ CREATE TABLE CRUDO_ALT (
 );
 
 
+
 CREATE TABLE TRANSACCION_PAGO_ALT (
 
     id serial NOT NULL,
@@ -630,6 +634,27 @@ CREATE TABLE TRANSACCION_PAGO_ALT (
     CONSTRAINT TRANSACCION_PAGO_ALT_PK PRIMARY KEY (id, fk_informante),
     CONSTRAINT TRANSACCION_PAGO_ALT_CRUDO_ALT_FK FOREIGN KEY (fk_crudo) REFERENCES CRUDO_ALT (id),
     CONSTRAINT TRANSACCION_PAGO_ALT_INFORMANTE_ALT_FK FOREIGN KEY (fk_informante) REFERENCES INFORMANTE_ALT (id)
+);
+
+CREATE TABLE ANALISTA_CRUDO_ALT (
+
+    fecha_hora timestamp NOT NULL,
+
+    fk_crudo integer NOT NULL,
+
+    -- fks de hist_cargo
+    fk_fecha_inicio_analista timestamp NOT NULL,
+    fk_personal_inteligencia_analista integer NOT NULL,
+    fk_estacion_analista integer NOT NULL,
+    fk_oficina_principal_analista integer NOT NULL ,
+
+    CONSTRAINT ANALISTA_CRUDO_ALT_PK PRIMARY KEY (fk_crudo, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista),
+
+    CONSTRAINT ANALISTA_CRUDO_CRUDO_ALT_FK FOREIGN KEY (fk_crudo) REFERENCES CRUDO_ALT (id),
+    CONSTRAINT ANALISTA_CRUDO_HIST_CARGO_ALT_FK FOREIGN KEY (fk_fecha_inicio_analista, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista) REFERENCES HIST_CARGO_ALT (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal),
+
+    CONSTRAINT ANALISTA_CRUDO_ALT_CH_nivel_confiabilidad CHECK ( nivel_confiabilidad >= 0 AND nivel_confiabilidad <= 100 )    
+
 );
 
 
