@@ -1,50 +1,3 @@
-DROP FUNCTION IF EXISTS NUMERO_ANALISTAS_VERIFICAN_CRUDO CASCADE;
-
-CREATE OR REPLACE FUNCTION NUMERO_ANALISTAS_VERIFICAN_CRUDO ( id_crudo IN integer ) 
-RETURNS integer
-LANGUAGE PLPGSQL 
-AS $$
-DECLARE 
-
-	numero_analistas_va integer;	
-
-BEGIN 
-	
-	SELECT count(*) INTO numero_analistas_va FROM ANALISTA_CRUDO WHERE fk_crudo = id_crudo;
-	
-	RETURN numero_analistas_va;
-	
-END $$;
-
-
--------------////////.........^^^^^^^^^^^^^^^^^^^^^..........\\\\\\\\\\-------------
-
-
-
-DROP FUNCTION IF EXISTS ANALISTA_VERIFICO_CRUDO CASCADE;
-
-CREATE OR REPLACE FUNCTION ANALISTA_VERIFICO_CRUDO ( id_crudo IN integer, id_analista IN integer ) 
-RETURNS boolean
-LANGUAGE PLPGSQL 
-AS $$
-DECLARE 
-
-	registro record;
-
-BEGIN 
-	
-	SELECT * INTO registro FROM ANALISTA_CRUDO WHERE fk_crudo = id_crudo AND fk_personal_inteligencia_analista = id_analista;
-	
-	IF (registro IS NULL) THEN
-		RETURN false;
-	END IF;
-
-	RETURN true;
-	
-END $$;
-
-
-
 
 --------------------------///////////////////////-----------------------------
 
@@ -133,7 +86,7 @@ BEGIN
   		RAISE EXCEPTION 'El crudo que ingresó no está registrado o no cumple con los requerimientos necesarios';
    	END IF;   	
   
-   	IF (NUMERO_ANALISTAS_VERIFICAN_CRUDO(id_crudo_base) = 0) THEN
+   	IF ( NUMERO_ANALISTAS_VERIFICAN_CRUDO(id_crudo_base) != crudo_base_reg.cant_analistas_verifican ) THEN
    		RAISE INFO 'El crudo que ingresó no ha sido verificado';
   		RAISE EXCEPTION 'El crudo que ingresó no ha sido verificado';
    	END IF;   	
@@ -261,7 +214,7 @@ BEGIN
   		RAISE EXCEPTION 'El crudo que intenta asociar ya está asociado a esta pieza';
    	END IF;   	
    
-   	IF (NUMERO_ANALISTAS_VERIFICAN_CRUDO(id_crudo) = 0) THEN
+   	IF (NUMERO_ANALISTAS_VERIFICAN_CRUDO(id_crudo_base) != crudo_base_reg.cant_analistas_verifican) THEN
    		RAISE INFO 'El crudo que ingresó no ha sido verificado';
   		RAISE EXCEPTION 'El crudo que ingresó no ha sido verificado';
    	END IF;   	

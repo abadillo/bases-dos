@@ -593,7 +593,7 @@ END $$;
 
 
 
-CALL REGISTRO_CRUDO_CON_INFORMANTE(377, 100, 2, 1, FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/texto.txt'), 'texto', 'resumen crudo prueba', 999, 5, 3);
+CALL REGISTRO_CRUDO_CON_INFORMANTE(33, 100, 2, 1, FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/texto.txt'), 'texto', 'resumen crudo prueba', 999, 5, 3);
 
 
 
