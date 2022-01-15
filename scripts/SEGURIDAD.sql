@@ -1,17 +1,17 @@
 -- DBA (privilegios referidos a auditorías, backups, diseño físico, otorgamiento de provilegios, etc…); 
 -- Desarrollador (privilegios de creación y mantenimiento de objetos) 
--- Usuario Final cuyo único provilegio de sistema
-
+-- Usuario Final cuyo único provilegio de sistema es el inicio de sesion
+ 
 -------------------------////////////////-----------------------------
 
 -- select pg_terminate_backend(pid) from pg_stat_activity where datname='aii';
 -- DROP DATABASE aii;
-
 -- drop user dba01, dev01, emp01;
 
+-------------------------////////////////-----------------------------
 
 
-----------///////////- CREACION DE LA BASE DE DATOS XON USUARIOS ADMINISTRADORES Y DESARROLLADORES  -///////////----------
+----------///////////- CREACION DE LA BASE DE DATOS CON USUARIOS ADMINISTRADORES Y DESARROLLADORES  -///////////----------
 
 
 -- EJECUTAR COMO SUPERUSUARIO postgres
