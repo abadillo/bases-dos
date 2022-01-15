@@ -1,16 +1,4 @@
-﻿------------------------- FUNCIONES -------------------------------
-
-CREATE OR REPLACE FUNCTION RESTA_7_DIAS ( fecha IN timestamp ) 
-RETURNS timestamp
-LANGUAGE PLPGSQL 
-AS $$
-BEGIN 
-		
-	RETURN fecha - INTERVAL '7 days';
-	
-END $$;
-
--------------------------------------------------------------------
+﻿
 
 TRUNCATE TABLE LUGAR RESTART IDENTITY CASCADE;
 TRUNCATE TABLE CLIENTE RESTART IDENTITY CASCADE;
@@ -1094,7 +1082,19 @@ INSERT INTO INTENTO_NO_AUTORIZADO (fecha_hora, id_pieza,  id_empleado, fk_person
    
    
    
-   
+------------------------ FUNCIONES -------------------------------
+
+CREATE OR REPLACE FUNCTION RESTA_7_DIAS ( fecha IN timestamp ) 
+RETURNS timestamp
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '7 days';
+	
+END $$;
+
+-------------------------------------------------------------------
    
  
 

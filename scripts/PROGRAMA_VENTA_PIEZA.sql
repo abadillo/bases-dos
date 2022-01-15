@@ -27,9 +27,9 @@ BEGIN
 
 	DELETE FROM TRANSACCION_PAGO WHERE fk_crudo = ANY(id_crudos_asociados);
 
-	DELETE FROM ANALISTA_CRUDO WHERE fk_crudo = ANY(id_crudos_asociados);
+--	DELETE FROM ANALISTA_CRUDO WHERE fk_crudo = ANY(id_crudos_asociados);
 
-	DELETE FROM CRUDO WHERE id = ANY(id_crudos_asociados);
+--	DELETE FROM CRUDO WHERE id = ANY(id_crudos_asociados);
 
 
 END $$;
@@ -40,6 +40,14 @@ select * from adquisicion_alt aa where id = 1;
 
 select * from crudo_pieza cp where fk_pieza_inteligencia = 1;
 select * from crudo_pieza_alt cpa where fk_pieza_inteligencia = 1;
+
+select * from pieza_inteligencia pi2 where id = 1;
+SELECT * from pieza_inteligencia_alt where id = 1;
+
+SELECT * from transaccion_pago tp where fk_crudo in	(SELECT fk_crudo FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = 1);
+SELECT * from transaccion_pago_alt tp;
+
+SELECT * FROM informante_alt ia ;
 
 SELECT ELIMINACION_REGISTROS_VENTA_EXCLUSIVA(1);
 
