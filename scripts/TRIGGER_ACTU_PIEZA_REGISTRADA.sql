@@ -11,15 +11,16 @@ BEGIN
 	---SELECT PARA BUSCAR LAS PIEZAS VENDIDAS EN LA TABLA ADQUISICION
 	---PUEDE SER VENDIDA VARIAS VECES LA PIEZA
 	
-	--SELECT * INTO pieza
-	--FROM pieza_inteligencia p, adquisicion a
-	--WHERE p.id = a.fk_pieza_inteligencia
-	--AND p.id = old.id;
+	SELECT * INTO pieza
+	FROM pieza_inteligencia p, adquisicion a
+	WHERE p.id = a.fk_pieza_inteligencia
+	AND p.id = old.id;
 	
 	IF (old.precio_base IS NOT NULL) THEN
 		RAISE INFO 'DATOS DE LA PIEZA DE INTELIGENCIA: %',pieza;
 		RAISE EXCEPTION 'LA PIEZA DE INTELIGENCIA HA SIDO REGISTRADA';	
 	ELSE
+		RAISE INFO 'SE ACTUALIZO LA PIEZA DE INTELIGENCIA';
 		RETURN new;
 	END IF;
 
@@ -30,4 +31,7 @@ $$;
 ----BEFORE UPDATE ON pieza_inteligencia
 ----FOR EACH ROW EXECUTE FUNCTION TRIGGER_ACTUALIZACION_PIEZA()
 ----DROP TRIGGER TRIGGER_ACTUALIZACION_PIEZA;
+
+--UPDATE pieza_inteligencia set nivel_confiabilidad = 96
+--WHERE id=28
 
