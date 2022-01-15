@@ -18,6 +18,19 @@ TRUNCATE TABLE PIEZA_INTELIGENCIA RESTART IDENTITY CASCADE;
 TRUNCATE TABLE CRUDO_PIEZA RESTART IDENTITY CASCADE;
 TRUNCATE TABLE ADQUISICION RESTART IDENTITY CASCADE;
 
+
+
+
+TRUNCATE TABLE HIST_CARGO_ALT RESTART IDENTITY CASCADE;
+TRUNCATE TABLE INFORMANTE_ALT RESTART IDENTITY CASCADE;
+TRUNCATE TABLE TRANSACCION_PAGO_ALT RESTART IDENTITY CASCADE;
+TRUNCATE TABLE CRUDO_ALT RESTART IDENTITY CASCADE;
+TRUNCATE TABLE ANALISTA_CRUDO_ALT RESTART IDENTITY CASCADE;
+TRUNCATE TABLE PIEZA_INTELIGENCIA_ALT RESTART IDENTITY CASCADE;
+TRUNCATE TABLE CRUDO_PIEZA_ALT RESTART IDENTITY CASCADE;
+TRUNCATE TABLE ADQUISICION_ALT RESTART IDENTITY CASCADE;
+
+
 --SELECT nextval('lugar_id_seq');
 --select * from lugar;
 -- select pg_terminate_backend(pid) from pg_stat_activity where datname='PRUEBAS_GRUPO_9';
@@ -1063,3 +1076,77 @@ INSERT INTO INTENTO_NO_AUTORIZADO (fecha_hora, id_pieza,  id_empleado, fk_person
     ('2035-12-06 01:00:00', 22, 19, 34), -- Est. Sisimiut 18. C
     ('2036-01-13 01:00:00', 24, 20, 39)  -- Est. Buenos Aires 19. C 
     ;
+   
+   
+   
+   
+   
+   
+ 
+
+-------------------------//////////ACTUALIZAR TODAS LAS FECHAS - RESTA 14 años  /////////////-------------------------
+
+
+DROP FUNCTION IF EXISTS RESTA_14_FECHA CASCADE;
+
+CREATE OR REPLACE FUNCTION RESTA_14_FECHA ( fecha IN date ) 
+RETURNS date
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '14 years';
+	
+END $$;
+
+------- .... -------
+
+DROP FUNCTION IF EXISTS RESTA_14_FECHA_HORA CASCADE;
+
+CREATE OR REPLACE FUNCTION RESTA_14_FECHA_HORA ( fecha IN timestamp ) 
+RETURNS timestamp
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '14 years';
+	
+END $$;
+
+---------.'.'.'.'.'.'.'.---------
+
+WITH 
+	a AS (
+   		UPDATE HIST_CARGO SET fecha_inicio = RESTA_14_FECHA_HORA(fecha_inicio), fecha_fin = RESTA_14_FECHA_HORA(fecha_fin)
+    ), b as (
+   		UPDATE CRUDO SET fecha_obtencion = RESTA_14_FECHA_HORA(fecha_obtencion), fecha_verificacion_final = RESTA_14_FECHA_HORA(fecha_verificacion_final), fk_fecha_inicio_agente = RESTA_14_FECHA_HORA(fk_fecha_inicio_agente) 
+	), c as (
+		UPDATE TRANSACCION_PAGO SET fecha_hora = RESTA_14_FECHA_HORA(fecha_hora) 
+	), d as (
+		UPDATE ANALISTA_CRUDO SET fecha_hora = RESTA_14_FECHA_HORA(fecha_hora) , fk_fecha_inicio_analista = RESTA_14_FECHA_HORA(fk_fecha_inicio_analista)
+	), e as (
+		UPDATE PIEZA_INTELIGENCIA SET fecha_creacion = RESTA_14_FECHA_HORA(fecha_creacion) , fk_fecha_inicio_analista = RESTA_14_FECHA_HORA(fk_fecha_inicio_analista)
+	), f as (
+		UPDATE ADQUISICION SET fecha_hora_venta = RESTA_14_FECHA_HORA(fecha_hora_venta)
+	), g as (
+		UPDATE PERSONAL_INTELIGENCIA SET fecha_nacimiento = RESTA_14_FECHA(fecha_nacimiento)
+	), i as (
+		UPDATE INFORMANTE SET fk_fecha_inicio_encargado = RESTA_14_FECHA_HORA(fk_fecha_inicio_encargado), fk_fecha_inicio_confidente = RESTA_14_FECHA_HORA(fk_fecha_inicio_confidente)
+	), j AS (
+   		UPDATE HIST_CARGO_ALT SET fecha_inicio = RESTA_14_FECHA_HORA(fecha_inicio), fecha_fin = RESTA_14_FECHA_HORA(fecha_fin)
+    ), k as (
+   		UPDATE CRUDO_ALT SET fecha_obtencion = RESTA_14_FECHA_HORA(fecha_obtencion), fk_fecha_inicio_agente = RESTA_14_FECHA_HORA(fk_fecha_inicio_agente) 
+	), l as (
+		UPDATE TRANSACCION_PAGO_ALT SET fecha_hora = RESTA_14_FECHA_HORA(fecha_hora) 
+	), m as (
+		UPDATE PIEZA_INTELIGENCIA_ALT SET fecha_creacion = RESTA_14_FECHA_HORA(fecha_creacion) , fk_fecha_inicio_analista = RESTA_14_FECHA_HORA(fk_fecha_inicio_analista)
+	), n as (
+		UPDATE ADQUISICION_ALT SET fecha_hora_venta = RESTA_14_FECHA_HORA(fecha_hora_venta)
+	), o as (
+		UPDATE INFORMANTE_ALT SET fk_fecha_inicio_encargado = RESTA_14_FECHA_HORA(fk_fecha_inicio_encargado)
+	)
+UPDATE INTENTO_NO_AUTORIZADO SET fecha_hora = RESTA_14_FECHA_HORA(fecha_hora);	
+
+
+
+

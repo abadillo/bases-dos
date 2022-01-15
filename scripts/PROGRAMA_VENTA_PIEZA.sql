@@ -23,20 +23,27 @@ BEGIN
 
 	DELETE FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza;
 
-	DELETE FROM PIEZA WHERE id = id_pieza;
-
-	DELETE FROM CRUDO WHERE id = ANY(id_crudos_asociados);
+	DELETE FROM PIEZA_INTELIGENCIA WHERE id = id_pieza;
 
 	DELETE FROM TRANSACCION_PAGO WHERE fk_crudo = ANY(id_crudos_asociados);
 
 	DELETE FROM ANALISTA_CRUDO WHERE fk_crudo = ANY(id_crudos_asociados);
 
+	DELETE FROM CRUDO WHERE id = ANY(id_crudos_asociados);
+
 
 END $$;
 
 
+select * from adquisicion a where id = 1;
+select * from adquisicion_alt aa where id = 1;
 
---SELECT ELIMINACION_REGISTROS_VENTA_EXCLUSIVA(1);
+select * from crudo_pieza cp where fk_pieza_inteligencia = 1;
+select * from crudo_pieza_alt cpa where fk_pieza_inteligencia = 1;
+
+SELECT ELIMINACION_REGISTROS_VENTA_EXCLUSIVA(1);
+
+
 
 --------------------------///////////////////////-----------------------------
  
