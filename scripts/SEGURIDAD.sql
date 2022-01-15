@@ -5,9 +5,12 @@
 -------------------------////////////////-----------------------------
 
 -- select pg_terminate_backend(pid) from pg_stat_activity where datname='aii';
--- DROP DATABASE aii;
--- drop user dba01, dev01, emp01;
 
+-- DROP DATABASE aii;
+-- DROP 
+-- drop user dba01, dev01, emp01;
+-- drop user admin01;
+-- select current_user;
 -------------------------////////////////-----------------------------
 
 
@@ -43,7 +46,7 @@ CREATE USER dev01 WITH
 ;
 
 
--- EJECUTAR COMO SUPERUSUARIO (o DBA). USAGE ES PARA VER LOS OBJECTOS DEL ESQUEMA. CREATE ES PARA CREAR OBJETOS EN EL ESQUEMA 
+-- EJECUTAR COMO SUPERUSUARIO admin01 USAGE ES PARA VER LOS OBJECTOS DEL ESQUEMA. CREATE ES PARA CREAR OBJETOS EN EL ESQUEMA 
 REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON ALL TABLES IN SCHEMA public FROM PUBLIC;
 
@@ -120,10 +123,13 @@ GRANT SELECT ON EMPLEADO_JEFE TO ROL_EMPLEADO_JEFE;
 
 
 -- SOLO EL USUARIO admin01 y dev01 PUEDE CREAR TABLAS
-create table public.empleado_jefe (id integer);
+create table empleado_jefe (id integer);
 
 -- SOLO EL USUARIO 
-select * from public.empleado_jefe ;
+select * from empleado_jefe ;
+
+
+
 
 
 

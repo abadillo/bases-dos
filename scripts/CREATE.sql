@@ -568,15 +568,15 @@ CREATE TABLE HIST_CARGO_ALT (
     fk_estacion integer NOT NULL,
     fk_oficina_principal integer NOT NULL,
 
-    CONSTRAINT HIST_CARGO_ALT_PK PRIMARY KEY (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal),
+    CONSTRAINT HIST_CARGO_ALT_PK PRIMARY KEY (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal)
 
-    CONSTRAINT HIST_CARGO_ALT_CH_cargo CHECK ( cargo IN ('analista', 'agente') )
+    -- CONSTRAINT HIST_CARGO_ALT_CH_cargo CHECK ( cargo IN ('analista', 'agente') )
 );
 
 
 CREATE TABLE INFORMANTE_ALT (
 
-    id serial NOT NULL,
+    id integer NOT NULL,
 
     -- agente de campo encargado del informante
     fk_personal_inteligencia_encargado integer NOT NULL,
@@ -584,15 +584,15 @@ CREATE TABLE INFORMANTE_ALT (
     fk_estacion_encargado integer NOT NULL,
     fk_oficina_principal_encargado integer NOT NULL,
 
-    CONSTRAINT INFORMANTE_ALT_PK PRIMARY KEY (id),
-    CONSTRAINT INFORMANTE_ALT_HIST_CARGO_ALT_encargado FOREIGN KEY (fk_fecha_inicio_encargado, fk_personal_inteligencia_encargado, fk_estacion_encargado, fk_oficina_principal_encargado) REFERENCES HIST_CARGO_ALT (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal)
+    CONSTRAINT INFORMANTE_ALT_PK PRIMARY KEY (id)
+    -- CONSTRAINT INFORMANTE_ALT_HIST_CARGO_ALT_encargado FOREIGN KEY (fk_fecha_inicio_encargado, fk_personal_inteligencia_encargado, fk_estacion_encargado, fk_oficina_principal_encargado) REFERENCES HIST_CARGO_ALT (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal)
     
 );
 
 
 CREATE TABLE CRUDO_ALT (
 
-    id serial NOT NULL,
+    id integer NOT NULL,
 
     fuente varchar(20) NOT NULL, -- 'abierta, secreta, tecnica'
     fecha_obtencion timestamp NOT NULL,
@@ -610,20 +610,20 @@ CREATE TABLE CRUDO_ALT (
     fk_fecha_inicio_agente timestamp NOT NULL,
     fk_personal_inteligencia_agente integer NOT NULL,
 
-    CONSTRAINT CRUDO_ALT_PK PRIMARY KEY (id),
+    CONSTRAINT CRUDO_ALT_PK PRIMARY KEY (id)
 
-    CONSTRAINT CRUDO_ALT_HIST_CARGO_ALT_FK FOREIGN KEY (fk_fecha_inicio_agente, fk_personal_inteligencia_agente, fk_estacion_agente, fk_oficina_principal_agente) REFERENCES HIST_CARGO_ALT (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal),
+    -- CONSTRAINT CRUDO_ALT_HIST_CARGO_ALT_FK FOREIGN KEY (fk_fecha_inicio_agente, fk_personal_inteligencia_agente, fk_estacion_agente, fk_oficina_principal_agente) REFERENCES HIST_CARGO_ALT (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal),
 
-    CONSTRAINT CRUDO_ALT_INFORMANTE_ALT_FK FOREIGN KEY (fk_informante) REFERENCES INFORMANTE_ALT (id),
+    -- CONSTRAINT CRUDO_ALT_INFORMANTE_ALT_FK FOREIGN KEY (fk_informante) REFERENCES INFORMANTE_ALT (id),
 
-    CONSTRAINT CRUDO_ALT_CH_fuente CHECK ( fuente IN ('abierta', 'secreta', 'tecnica') ) 
+    -- CONSTRAINT CRUDO_ALT_CH_fuente CHECK ( fuente IN ('abierta', 'secreta', 'tecnica') ) 
 );
 
 
 
 CREATE TABLE TRANSACCION_PAGO_ALT (
 
-    id serial NOT NULL,
+    id integer NOT NULL,
 
     fecha_hora timestamp NOT NULL,
     monto_pago numeric(20) NOT NULL,
@@ -631,9 +631,9 @@ CREATE TABLE TRANSACCION_PAGO_ALT (
     fk_crudo integer,
     fk_informante integer NOT NULL,
 
-    CONSTRAINT TRANSACCION_PAGO_ALT_PK PRIMARY KEY (id, fk_informante),
-    CONSTRAINT TRANSACCION_PAGO_ALT_CRUDO_ALT_FK FOREIGN KEY (fk_crudo) REFERENCES CRUDO_ALT (id),
-    CONSTRAINT TRANSACCION_PAGO_ALT_INFORMANTE_ALT_FK FOREIGN KEY (fk_informante) REFERENCES INFORMANTE_ALT (id)
+    CONSTRAINT TRANSACCION_PAGO_ALT_PK PRIMARY KEY (id, fk_informante)
+    -- CONSTRAINT TRANSACCION_PAGO_ALT_CRUDO_ALT_FK FOREIGN KEY (fk_crudo) REFERENCES CRUDO_ALT (id),
+    -- CONSTRAINT TRANSACCION_PAGO_ALT_INFORMANTE_ALT_FK FOREIGN KEY (fk_informante) REFERENCES INFORMANTE_ALT (id)
 );
 
 CREATE TABLE ANALISTA_CRUDO_ALT (
@@ -648,17 +648,17 @@ CREATE TABLE ANALISTA_CRUDO_ALT (
     fk_estacion_analista integer NOT NULL,
     fk_oficina_principal_analista integer NOT NULL ,
 
-    CONSTRAINT ANALISTA_CRUDO_ALT_PK PRIMARY KEY (fk_crudo, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista),
+    CONSTRAINT ANALISTA_CRUDO_ALT_PK PRIMARY KEY (fk_crudo, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista)
 
-    CONSTRAINT ANALISTA_CRUDO_CRUDO_ALT_FK FOREIGN KEY (fk_crudo) REFERENCES CRUDO_ALT (id),
-    CONSTRAINT ANALISTA_CRUDO_HIST_CARGO_ALT_FK FOREIGN KEY (fk_fecha_inicio_analista, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista) REFERENCES HIST_CARGO_ALT (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal)
+    -- CONSTRAINT ANALISTA_CRUDO_CRUDO_ALT_FK FOREIGN KEY (fk_crudo) REFERENCES CRUDO_ALT (id),
+    -- CONSTRAINT ANALISTA_CRUDO_HIST_CARGO_ALT_FK FOREIGN KEY (fk_fecha_inicio_analista, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista) REFERENCES HIST_CARGO_ALT (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal)
 
 );
 
 
 CREATE TABLE PIEZA_INTELIGENCIA_ALT (
 
-    id serial NOT NULL,
+    id integer NOT NULL,
 
     fecha_creacion timestamp,
     precio_base numeric(20),
@@ -672,9 +672,9 @@ CREATE TABLE PIEZA_INTELIGENCIA_ALT (
 
     fk_clas_tema integer NOT NULL,
 
-    CONSTRAINT PIEZA_INTELIGENCIA_ALT_PK PRIMARY KEY (id),
+    CONSTRAINT PIEZA_INTELIGENCIA_ALT_PK PRIMARY KEY (id)
 
-    CONSTRAINT PIEZA_INTELIGENCIA_ALT_HIST_CARGO_ALT_FK FOREIGN KEY (fk_fecha_inicio_analista, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista) REFERENCES HIST_CARGO_ALT (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal)
+    -- CONSTRAINT PIEZA_INTELIGENCIA_ALT_HIST_CARGO_ALT_FK FOREIGN KEY (fk_fecha_inicio_analista, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista) REFERENCES HIST_CARGO_ALT (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal)
     
 );
 
@@ -683,16 +683,16 @@ CREATE TABLE CRUDO_PIEZA_ALT (
     fk_pieza_inteligencia integer NOT NULL,
     fk_crudo integer NOT NULL,
 
-    CONSTRAINT CRUDO_PIEZA_ALT_PK PRIMARY KEY (fk_pieza_inteligencia, fk_crudo),
-    CONSTRAINT CRUDO_PIEZA_ALT_PIEZA_INTELIGENCIA_ALT_FK FOREIGN KEY (fk_pieza_inteligencia) REFERENCES PIEZA_INTELIGENCIA_ALT (id),
-    CONSTRAINT CRUDO_PIEZA_ALT_CRUDO_ALT_FK FOREIGN KEY (fk_crudo) REFERENCES CRUDO_ALT (id)
+    CONSTRAINT CRUDO_PIEZA_ALT_PK PRIMARY KEY (fk_pieza_inteligencia, fk_crudo)
+    -- CONSTRAINT CRUDO_PIEZA_ALT_PIEZA_INTELIGENCIA_ALT_FK FOREIGN KEY (fk_pieza_inteligencia) REFERENCES PIEZA_INTELIGENCIA_ALT (id),
+    -- CONSTRAINT CRUDO_PIEZA_ALT_CRUDO_ALT_FK FOREIGN KEY (fk_crudo) REFERENCES CRUDO_ALT (id)
 );
 
 
 
 CREATE TABLE ADQUISICION_ALT (
 
-    id serial NOT NULL,
+    id integer NOT NULL,
 
     fecha_hora_venta timestamp NOT NULL,
     precio_vendido numeric(20) NOT NULL,
@@ -700,9 +700,9 @@ CREATE TABLE ADQUISICION_ALT (
     fk_cliente integer NOT NULL,
     fk_pieza_inteligencia integer NOT NULL,
 
-    CONSTRAINT ADQUISICION_ALT_PK PRIMARY KEY (id, fk_cliente, fk_pieza_inteligencia),
+    CONSTRAINT ADQUISICION_ALT_PK PRIMARY KEY (id, fk_cliente, fk_pieza_inteligencia)
 
-    CONSTRAINT ADQUISICION_ALT_PIEZA_INTELIGENCIA_ALT_FK FOREIGN KEY (fk_pieza_inteligencia) REFERENCES PIEZA_INTELIGENCIA_ALT (id)
+    -- CONSTRAINT ADQUISICION_ALT_PIEZA_INTELIGENCIA_ALT_FK FOREIGN KEY (fk_pieza_inteligencia) REFERENCES PIEZA_INTELIGENCIA_ALT (id)
 );
 
 

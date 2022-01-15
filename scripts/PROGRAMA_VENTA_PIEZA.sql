@@ -21,13 +21,15 @@ BEGIN
 
 	DELETE FROM ADQUISICION WHERE fk_pieza_inteligencia = id_pieza;
 
-	DELETE FROM ANALISTA_CRUDO WHERE fk_crudo = ANY(id_crudos_asociados);
-
 	DELETE FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza;
+
+	DELETE FROM PIEZA WHERE id = id_pieza;
+
+	DELETE FROM CRUDO WHERE id = ANY(id_crudos_asociados);
 
 	DELETE FROM TRANSACCION_PAGO WHERE fk_crudo = ANY(id_crudos_asociados);
 
-	DELETE FROM CRUDO WHERE id = ANY(id_crudos_asociados);
+	DELETE FROM ANALISTA_CRUDO WHERE fk_crudo = ANY(id_crudos_asociados);
 
 
 END $$;
