@@ -1175,6 +1175,8 @@ WITH
 	), n as (
 		UPDATE ADQUISICION_ALT SET fecha_hora_venta = RESTA_14_FECHA_HORA(fecha_hora_venta)
 	), o as (
+		UPDATE CUENTA SET año = RESTA_14_FECHA(año)
+	), p as (
 		UPDATE INFORMANTE_ALT SET fk_fecha_inicio_encargado = RESTA_14_FECHA_HORA(fk_fecha_inicio_encargado)
 	)
 UPDATE INTENTO_NO_AUTORIZADO SET fecha_hora = RESTA_14_FECHA_HORA(fecha_hora);	
