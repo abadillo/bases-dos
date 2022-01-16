@@ -169,7 +169,7 @@ END $$;
 
 DROP PROCEDURE IF EXISTS AGREGAR_CRUDO_A_PIEZA CASCADE;
 
-CREATE OR REPLACE PROCEDURE AGREGAR_CRUDO_A_PIEZA (id_crudo IN integer, id_pieza IN integer)
+CREATE OR REPLACE PROCEDURE AGREGAR_CRUDO_A_PIEZA (id_crudo IN integer, id_pieza IN integer, id_analista_encargado IN integer)
 LANGUAGE plpgsql
 AS $$  
 DECLARE
@@ -187,7 +187,9 @@ BEGIN
 	-------------///////////--------------	
 
 
-	SELECT * INTO pieza_reg FROM PIEZA_INTELIGENCIA WHERE id = id_pieza AND precio_base IS NULL;
+	SELECT * INTO pieza_reg FROM PIEZA_INTELIGENCIA WHERE id = id_pieza 
+--	AND precio_base IS NULL
+	;
     RAISE INFO 'datos de la pieza de inteligencia %', pieza_reg;
 
 	SELECT * INTO crudo_reg FROM CRUDO WHERE id = id_crudo;
@@ -223,8 +225,14 @@ BEGIN
    		RAISE INFO 'El crudo que ingresó no tiene el nivel de confiabilidad necesario ( > 85 porciento )';
   		RAISE EXCEPTION 'El crudo que ingresó no tiene el nivel de confiabilidad necesario ( > 85 porciento )';
    	END IF;   	
+--   
+--   IF (pieza_reg.fk_personal_inteligencia_analista !=  id_analista_encargado ) THEN
+--   		RAISE INFO 'El analista que ingresó no es el analista encargado de la pieza';
+--  		RAISE EXCEPTION 'El analista que ingresó no es el analista encargado de la pieza';
+--   	END IF;  
    
   
+   CALL VALIDAR_ACCESO_PIEZA(id_pieza, id_analista_encargado);
    
    -------------///////////--------------	
 	
@@ -240,7 +248,14 @@ BEGIN
 END $$;
 
 
---CALL AGREGAR_CRUDO_A_PIEZA( 37, 19 );
+COMMIT;
+
+--CALL AGREGAR_CRUDO_A_PIEZA( id_pieza, id_crudo , id_analista);
+
+CALL AGREGAR_CRUDO_A_PIEZA( 9, 10 , 11);
+
+
+SELECT id_pieza,fk_personal_inteligencia FROM intento_no_autorizado ina order by fecha_hora desc;
 
 
 
@@ -333,7 +348,7 @@ END $$;
 
 --CALL CERTIFICAR_PIEZA( 37, 1 );
 
-
+-- VALIDAR CON EL ID DEL ANALISTA 
 
 
 
