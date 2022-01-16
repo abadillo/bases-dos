@@ -222,7 +222,8 @@ BEGIN
 			RAISE INFO 'VENTA EXCLUSIVA EXITOSA!';
 	  		RAISE INFO 'Datos de la venta: %', adquisicion_reg ; 
 	  	
-	  	
+	  		CALL REGISTRO_TEMA_VENTA(id_cliente,id_tema);
+
 	  		SELECT ELIMINACION_REGISTROS_VENTA_EXCLUSIVA(pieza_reg.id);	
 			
 		
@@ -249,7 +250,7 @@ BEGIN
 			
 		) RETURNING * INTO adquisicion_reg;
 	
-		-- REGISTRAR TEMA COMPRA EN AREA_TEMA
+		CALL REGISTRO_TEMA_VENTA(id_cliente,id_tema);
 
 		RAISE INFO 'VENTA EXITOSA!';
    		RAISE INFO 'Datos de la venta: %', adquisicion_reg ; 	
@@ -257,8 +258,8 @@ BEGIN
 	END IF;
 
 	
- -- REGISTRAR TEMA COMPRA EN AREA_TEMA
-
+ 	
+ 
 
 END $$;
 
@@ -268,5 +269,70 @@ END $$;
 --select * from adquisicion a 
 
 -- select c.id as id_cliente, c.exclusivo, p.id as id_pieza, p.precio_base, a.*, ((a.precio_vendido - p.precio_base)/(p.precio_base))*100 as porcentaje_recargo from adquisicion a, cliente c, PIEZA_INTELIGENCIA p where a.fk_cliente = c.id AND a.fk_pieza_inteligencia = p.id;
+
+
+
+
+
+
+
+--------------------------///////////////////////-----------------------------
+
+
+
+
+
+DROP PROCEDURE IF EXISTS REGISTRO_TEMA_VENTA CASCADE;
+
+
+CREATE OR REPLACE PROCEDURE REGISTRO_TEMA_VENTA (id_cliente IN integer, id_tema IN integer)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+    area_interes_reg AREA_INTERES%ROWTYPE;
+	
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO REGISTRO_TEMA_VENTA ( % ) ------', NOW();
+	
+	-------------///////////--------------	
+
+	SELECT * INTO area_interes_reg FROM AREA_INTERES WHERE fk_clas_tema = id_tema AND fk_cliente = id_cliente ;
+    RAISE INFO 'datos del AREA_INTERES: %', area_interes_reg;
+    
+
+	IF (area_interes_reg IS NULL) THEN
+   
+	
+		INSERT INTO AREA_INTERES (
+			fk_clas_tema, 
+			fk_cliente
+		) VALUES (
+
+			id_tema, 
+			id_cliente
+		
+		) RETURNING * INTO area_interes_reg;
+
+
+		RAISE INFO 'REGISTRO AREA_INTERES!';
+		RAISE INFO 'Datos de area_intereses: %', area_interes_reg ; 
+	  	
+	ELSE
+		RAISE INFO 'AREA_INTERESES YA REGISTRADA';
+	
+
+	END IF;	
+ 
+
+END $$;
+
+
+--CALL registro_tema_venta (1,6);
+--select * from area_interes ai ;
+
+
 
 
