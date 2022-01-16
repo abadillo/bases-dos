@@ -1099,6 +1099,19 @@ BEGIN
 	
 END $$;
 
+
+
+CREATE OR REPLACE FUNCTION RESTA_6_MESES ( fecha IN timestamp ) 
+RETURNS timestamp
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '6 month';
+	
+END $$;
+
+
 -------------------------------------------------------------------
    
  

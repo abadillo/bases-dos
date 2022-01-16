@@ -43,6 +43,29 @@
 
 
 
+-- DROP FUNCTION INFORMACION_INFORMANTES CASCADE;
+
+CREATE OR REPLACE FUNCTION INFORMACION_INFORMANTES ()
+RETURNS TABLE(  id_informante int, nombre_clave varchar(50), agente_encargado int, crudo int, pieza int) 
+    AS $$
+    SELECT  i.id, i.nombre_clave, i.fk_personal_inteligencia_encargado, c.id, cp.fk_pieza_inteligencia,
+            (COUNT(a.fk_pieza_inteligencia) + COUNT (aa.fk_pieza_inteligencia)/(COUNT()))
+        FROM    PERSONAL_INTELIGENCIA e, INFORMANTE i, PIEZA_INTELIGENCIA p, CRUDO c, CRUDO_PIEZA cp, ADQUISICION a
+                ADQUISICION_ALT aa
+        WHERE   e.id = i.fk_personal_inteligencia_encargado AND i.id = c.fk_informante AND c.id = cp.fk_crudo
+                AND (   cp.fk_pieza_inteligencia = a.fk_pieza_inteligencia 
+                        OR cp.fk_pieza_inteligencia = aa.fk_pieza_inteligencia  ) --SI EL ID ESTA EN ADQUICISION Y ALT
+                AND 
+
+		GROUP BY i.id, c.id, cp.fk_pieza_inteligencia
+		ORDER BY i.id
+$$ LANGUAGE SQL;
+
+-- LLAMADA:     SELECT * FROM INFORMACION_INFORMANTES();
+
+
+
+
 
 ------------------------------- INTENTOS NO AUTORIZADOS ------------------------------------
 
@@ -65,7 +88,7 @@ RETURNS TABLE(  primer_nombre varchar(50), segundo_nombre2 varchar(50), primer_a
 $$ LANGUAGE SQL;
 
 -- PARAMETRO: fk_lugar_ciudad (id del lugar de la estacion)
--- LLAMADA:     SELECT * FROM INTENTOS_NO_AUTORIZADOS(10);
+-- LLAMADA:     SELECT * FROM INTENTOS_NO_AUTORIZADOS(19);
 
 
 
@@ -74,3 +97,21 @@ $$ LANGUAGE SQL;
 /*  Es importante que otro empleado de All pueda acceder a la lista de informantes de un agente.    */
 
 
+
+-- DROP FUNCTION LISTA_INFORMANTES CASCADE;
+
+CREATE OR REPLACE FUNCTION LISTA_INFORMANTES (agente int)
+RETURNS TABLE(  nombre_clave varchar(50), agente_encargado int, fecha_inicio_agente timestamp, id_estacion_agente int,
+                oficina_principal_agente int, id_jefe_confidente integer, id_confidente int, 
+                fecha_inicio_confidente timestamp, id_estacion_confidente int, oficina_principal_confidente int
+                ) 
+    AS $$
+    SELECT  i.nombre_clave, i.fk_personal_inteligencia_encargado, i.fk_fecha_inicio_encargado, i.fk_estacion_encargado,
+            i.fk_oficina_principal_encargado, i.fk_empleado_jefe_confidente, i.fk_personal_inteligencia_confidente, 
+            i.fk_fecha_inicio_confidente, i.fk_estacion_confidente, i.fk_oficina_principal_confidente 
+        FROM PERSONAL_INTELIGENCIA e, INFORMANTE i
+        WHERE e.id = agente AND e.id = i.fk_personal_inteligencia_encargado
+$$ LANGUAGE SQL;
+
+-- PARAMETRO:  fk_personal_inteligencia_encargado (id del agente o confidente)
+-- LLAMADA:     SELECT * FROM LISTA_INFORMANTES(13);
