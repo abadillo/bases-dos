@@ -6,11 +6,11 @@ DECLARE
 
 	crudo_reg crudo%rowtype;
 	
-	crudo_record record;
+	nivel_confiabilidad_va CRUDO.nivel_confiabilidad_final%ROWTYPE;
 		
 BEGIN
 
-	SELECT c.nivel_confiabilidad_final INTO crudo_record FROM crudo_pieza cp, crudo c
+	SELECT c.nivel_confiabilidad_final INTO nivel_confiabilidad_va FROM crudo_pieza cp, crudo c
 	WHERE new.fk_crudo = c.id;	
 ---- SELECT PARA MOSTRAR DATOS DEL CRUDO
 
@@ -18,7 +18,7 @@ BEGIN
 	WHERE id = new.fk_crudo;
 	RAISE INFO 'VALORES DEL CRUDO %', crudo_reg;
 	
-	IF (crudo_record.nivel_confiabilidad_final >= 85) THEN
+	IF (nivel_confiabilidad_va >= 85) THEN
 		RAISE INFO 'SE INSERTO UN CRUDO A UNA PIEZA DE INTELIGENCIA, Id crudo: %', new.fk_crudo;
 		RETURN new;
 	
@@ -34,9 +34,9 @@ $$;
 ---DROP FUNCTION TRIGGER_CRUDO_PIEZA()
 
 ---------CREACION DEL TRIGGER-----
----CREATE TRIGGER TRIGGER_CRUDO_PIEZA
----BEFORE INSERT OR UPDATE ON crudo_pieza
----FOR EACH ROW EXECUTE FUNCTION TRIGGER_CRUDO_PIEZA()
+CREATE TRIGGER TRIGGER_CRUDO_PIEZA
+BEFORE INSERT OR UPDATE ON crudo_pieza
+FOR EACH ROW EXECUTE FUNCTION TRIGGER_CRUDO_PIEZA()
 
 ---------ELIMINACION DEL TRIGGER-----
 ---DROP TRIGGER TRIGGER_CRUDO_PIEZA

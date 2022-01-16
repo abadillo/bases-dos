@@ -56,7 +56,9 @@ GRANT CREATE ON SCHEMA public TO dev01;
 GRANT ALL ON ALL TABLES IN SCHEMA public TO dev01 ;
 
 
-
+GRANT EXECUTE ON FUNCTION pg_read_binary_file(text,bigint,bigint,boolean) TO dev01;
+GRANT EXECUTE ON FUNCTION pg_read_binary_file(text,bigint,bigint) TO dev01; 
+GRANT EXECUTE ON FUNCTION pg_read_binary_file(text) TO dev01;
 
 
 ----------///////////- CREACION DE ROLES Y USUARIOS FINALES -///////////----------
@@ -106,7 +108,7 @@ GRANT ROL_AGENTE_CAMPO TO age01, age02, age03, age04;
 
 
 -- EJECUTAR COMO DEV
-GRANT SELECT ON EMPLEADO_JEFE TO ROL_EMPLEADO_JEFE;
+--GRANT SELECT ON EMPLEADO_JEFE TO ROL_EMPLEADO_JEFE;
 
 
 
@@ -123,10 +125,10 @@ GRANT SELECT ON EMPLEADO_JEFE TO ROL_EMPLEADO_JEFE;
 
 
 -- SOLO EL USUARIO admin01 y dev01 PUEDE CREAR TABLAS
-create table empleado_jefe (id integer);
-
--- SOLO EL USUARIO 
-select * from empleado_jefe ;
+--create table empleado_jefe (id integer);
+--
+---- SOLO EL USUARIO 
+--select * from empleado_jefe ;
 
 
 
