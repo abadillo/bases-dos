@@ -24,11 +24,57 @@
 */
 
 
+-- DROP FUNCTION FONDOS_ALL CASCADE;
+
+
+CREATE OR REPLACE FUNCTION SUMAR_PAGO_INFORMANTES ()
+RETURNS TABLE(pago_informantes int) 
+    AS $$
+    SELECT  SUM(t.monto_pago) as pago_informantes FROM TRANSACCION_PAGO t 
+$$ LANGUAGE SQL;
+
+
+CREATE OR REPLACE FUNCTION SUMAR_PAGO_INFORMANTES_ALT ()
+RETURNS TABLE(pago_informantes_alt int) 
+    AS $$
+    SELECT  SUM(t.monto_pago) as pago_informantes FROM TRANSACCION_PAGO_ALT t 
+$$ LANGUAGE SQL;
+
+
+CREATE OR REPLACE FUNCTION TOTAL_PAGO_INFORMANTES ()
+RETURNS int 
+    AS $$
+    (SUMAR_PAGO_INFORMANTES + SUMAR_PAGO_INFORMANTES_ALT)
+$$ LANGUAGE SQL;
+
+
+
+CREATE OR REPLACE FUNCTION FONDOS_ALL ()
+RETURNS TABLE(pago_informantes int, pago_informantes_alt int,
+            pago_informantes_total int,
+            piezas_vendidas int, piezas_vendidas_exclusivas int,
+            total_piezas int,
+            presupuesto_estaciones int
+            ) 
+    AS $$
+    SELECT  SUM(t.monto_pago) as pago_informantes, SUM(ta.monto_pago) as pago_informantes_alt,
+            (SUM(t.monto_pago) + SUM(ta.monto_pago)) as pago_informantes_total,
+            SUM(a.precio_vendido) as piezas_vendidas, SUM(aa.precio_vendido) as piezas_vendidas_exclusivas,
+            (SUM(a.precio_vendido) + SUM(aa.precio_vendido)) as total_piezas,
+            SUM(c.presupuesto) as presupuesto_estaciones
+
+        FROM TRANSACCION_PAGO t, TRANSACCION_PAGO_ALT ta, ADQUISICION a, ADQUISICION_ALT aa, CUENTA c   
+        -- WHERE e.fk_lugar_ciudad = lugar AND e.id = i.fk_personal_inteligencia AND i.id_pieza = p.id 
+$$ LANGUAGE SQL;
+
+
+-- LLAMADA:     SELECT * FROM FONDOS_ALL();
+
 
 
 ----------------------------------- INFORMACION DE SUS INFORMANTES -------------------------------------
 
-/*  Se debe llevar un control sobre la eficacioa de estos tratos.
+/*  Se debe llevar un control sobre la eficacia de estos tratos.
     Saber el % de su eficacia, en proporcion de los hechos crudos aportados por tal informante y se han convertido
     en piezas de inteligencia.
     Los precios base para registro e informes de desempeño son en dolares.
