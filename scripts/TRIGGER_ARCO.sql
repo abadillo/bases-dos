@@ -120,18 +120,9 @@ DECLARE
 	
 	END
 $$;
-select * from crudo
-INSERT INTO informante (nombre_clave, fk_personal_inteligencia_encargado, fk_fecha_inicio_encargado, fk_estacion_encargado, fk_oficina_principal_encargado, fk_empleado_jefe_confidente, fk_personal_inteligencia_confidente, fk_fecha_inicio_confidente, fk_estacion_confidente, fk_oficina_principal_confidente) VALUES
-('Ameamezersalica', 2, '2021-03-09 07:00:00', 1, 1, 11, null, null, null, null)
 
-SELECT i.id, h.fecha_inicio, h.fk_estacion, h.fk_oficina_principal FROM informante i, hist_cargo h
-WHERE i.fk_personal_inteligencia_encargado = h.fk_personal_inteligencia
-AND h.fecha_fin is null
-SELECT * FROM INFORMANTE
-SELECT * FROM hist_cargo
-
-SELECT * FROM analista_crudo
-WHERE 
+---INSERT INTO informante (nombre_clave, fk_personal_inteligencia_encargado, fk_fecha_inicio_encargado, fk_estacion_encargado, fk_oficina_principal_encargado, fk_empleado_jefe_confidente, fk_personal_inteligencia_confidente, fk_fecha_inicio_confidente, fk_estacion_confidente, fk_oficina_principal_confidente) VALUES
+---('Ameamezersalica', 2, '2021-03-09 07:00:00', 1, 1, 11, null, null, null, null)
 
 CREATE TRIGGER trigger_arco_exclusivo
 BEFORE INSERT ON informante
