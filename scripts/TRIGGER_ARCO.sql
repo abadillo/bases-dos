@@ -17,7 +17,7 @@ DECLARE
 	
 	BEGIN 
 		
-		------------- VALIDACIONES DE LLAVES
+		------------- VALIDACIONES DE LLAVES FORÁNEAS
 		
 		IF (new.fk_empleado_jefe_confidente IS NOT NULL AND (new.fk_personal_inteligencia_confidente IS NOT NULL OR new.fk_estacion_confidente IS NOT NULL OR new.fk_oficina_principal_confidente IS NOT NULL)) THEN
 			RAISE INFO 'Tiene dos confidentes el informante, no puede ocurrir % %', new.fk_empleado_jefe_confidente, new.fk_personal_inteligencia_confidente;
@@ -51,7 +51,7 @@ DECLARE
 	
 	IF (informante_reg.id IS NOT NULL) THEN
 		RAISE INFO 'El nombre clave que ingresó ya se encuentra en uso';
-  		RAISE EXCEPTION 'El nombre clave que ingresó ya se encuentra en uso';
+  		RAISE EXCEPTION 'El nombre clave que ingresó ya se encuentra en uso: %', new.nombre_clave;
 		RETURN NULL;
 	END IF;		
 	
@@ -67,13 +67,13 @@ DECLARE
 	
 	IF (hist_agente_encargado_reg IS NULL) THEN
 		RAISE INFO 'EL AGENTE DE CAMPO QUE INGRESÓ NO EXISTE O YA NO TRABAJA EN AII';
-		RAISE EXCEPTION 'EL AGENTE DE CAMPO QUE INGRESÓ NO EXISTE O YA NO TRABAJA EN AII';
+		RAISE EXCEPTION 'EL AGENTE DE CAMPO QUE INGRESÓ NO EXISTE O YA NO TRABAJA EN AII, ID: %', new.fk_personal_inteligencia_encargado;
 		RETURN NULL;
-	END IF;
+	END IF; 
 	
 	IF (hist_agente_encargado_reg.cargo != 'agente')	THEN
 		RAISE INFO 'El agente de campo que ingresó no es un agente de campo en su cargo actual';
-		RAISE EXCEPTION 'El agente de campo que ingresó no es un agente de campo en su cargo actual';
+		RAISE EXCEPTION 'El agente de campo que ingresó no es un agente de campo en su cargo actual, en el informante: %', new.nombre_clave;
 		RETURN NULL;
 	END IF;	
 	
@@ -121,8 +121,8 @@ DECLARE
 	END
 $$;
 
----INSERT INTO informante (nombre_clave, fk_personal_inteligencia_encargado, fk_fecha_inicio_encargado, fk_estacion_encargado, fk_oficina_principal_encargado, fk_empleado_jefe_confidente, fk_personal_inteligencia_confidente, fk_fecha_inicio_confidente, fk_estacion_confidente, fk_oficina_principal_confidente) VALUES
----('Ameamezersalica', 2, '2021-03-09 07:00:00', 1, 1, 11, null, null, null, null)
+INSERT INTO informante (nombre_clave, fk_personal_inteligencia_encargado, fk_fecha_inicio_encargado, fk_estacion_encargado, fk_oficina_principal_encargado, fk_empleado_jefe_confidente, fk_personal_inteligencia_confidente, fk_fecha_inicio_confidente, fk_estacion_confidente, fk_oficina_principal_confidente) VALUES
+('Ameamezersalica', 2, '2021-03-09 07:00:00', 1, 1, 11, null, null, null, null)
 
 CREATE TRIGGER trigger_arco_exclusivo
 BEFORE INSERT ON informante
