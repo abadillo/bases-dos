@@ -890,16 +890,16 @@ INSERT INTO analista_crudo (fecha_hora, nivel_confiabilidad, fk_crudo, fk_fecha_
 INSERT INTO TRANSACCION_PAGO (fecha_hora, monto_pago, fk_crudo, fk_informante) VALUES
 (' 2034-01-08 01:00:00',250,1,1),
 (' 2034-01-09 01:00:00',260,2,2),
-(' 2034-01-08 01:00:00',270,3,3),
-(' 2034-01-09 01:00:00',280,4,4),
-(' 2034-01-10 01:00:00',290,5,5),
-(' 2034-01-09 01:00:00',300,6,6),
-(' 2034-01-11 01:00:00',310,7,7),
-(' 2034-02-10 01:00:00',320,8,8),
-(' 2034-06-05 01:00:00',320,11,9),
-(' 2034-01-20 01:00:00',335,14,10),
-(' 2034-03-12 01:00:00',350,17,11),
-(' 2034-03-05 01:00:00',365,20,12);
+(' 2035-01-08 01:00:00',270,3,3),
+(' 2035-01-09 01:00:00',280,4,4),
+(' 2035-01-10 01:00:00',290,5,5),
+(' 2035-01-09 01:00:00',300,6,6),
+(' 2035-01-11 01:00:00',310,7,7),
+(' 2035-02-10 01:00:00',320,8,8),
+(' 2035-06-05 01:00:00',320,11,9),
+(' 2036-01-20 01:00:00',335,14,10),
+(' 2036-03-12 01:00:00',350,17,11),
+(' 2036-03-05 01:00:00',365,20,12);
 
 
 
@@ -1087,7 +1087,9 @@ INSERT INTO INTENTO_NO_AUTORIZADO (fecha_hora, id_pieza,  id_empleado, fk_person
    
    
    
------------------------- FUNCIONES -------------------------------
+------------------------ FUNCIONES REPORTES -------------------------------
+
+DROP FUNCTION IF EXISTS RESTA_7_DIAS CASCADE;
 
 CREATE OR REPLACE FUNCTION RESTA_7_DIAS ( fecha IN timestamp ) 
 RETURNS timestamp
@@ -1100,6 +1102,7 @@ BEGIN
 END $$;
 
 
+DROP FUNCTION IF EXISTS RESTA_6_MESES CASCADE;
 
 CREATE OR REPLACE FUNCTION RESTA_6_MESES ( fecha IN timestamp ) 
 RETURNS timestamp
@@ -1110,6 +1113,36 @@ BEGIN
 	RETURN fecha - INTERVAL '6 month';
 	
 END $$;
+
+
+
+
+DROP FUNCTION IF EXISTS RESTA_1_YEAR CASCADE;
+
+CREATE OR REPLACE FUNCTION RESTA_1_YEAR ( fecha IN timestamp ) 
+RETURNS timestamp
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '1 years';
+	
+END $$;
+
+
+DROP FUNCTION IF EXISTS RESTA_1_YEAR_DATE CASCADE;
+
+CREATE OR REPLACE FUNCTION RESTA_1_YEAR_DATE ( fecha IN date ) 
+RETURNS date
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '1 years';
+	
+END $$;
+
+------- .... -------
 
 
 -------------------------------------------------------------------
@@ -1144,6 +1177,8 @@ BEGIN
 	RETURN fecha - INTERVAL '14 years';
 	
 END $$;
+
+
 
 ---------.'.'.'.'.'.'.'.---------
 
