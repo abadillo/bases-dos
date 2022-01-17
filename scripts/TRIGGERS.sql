@@ -4,95 +4,135 @@
 --ALTER TABLE producto DISABLE TRIGGER ALL;
 
 
+-- CREATE OR REPLACE PROCEDURE VALIDAR_TELEFONO_TY (telefono IN telefono_ty)
+-- AS $$
+-- BEGIN
 
+-- 	IF (telefono.codigo IS NULL OR telefono.codigo = 0) THEN
+-- 		RAISE EXCEPTION 'El codigo del telefono no puede ser nulo';
+-- 	END IF;
+
+-- 	IF (telefono.numero IS NULL OR telefono.numero = 0) THEN
+-- 		RAISE EXCEPTION 'El numero del telefono no puede ser nulo';
+-- 	END IF;
+		
+-- END;
+-- $$ LANGUAGE plpgsql;
+
+
+-- call VALIDAR_TELEFONO_TY( CREAR_TELEFONO(0414,2133421) );
+
+-----/-/---//-/-/-/-/-/-/-/-/-/----------------/--/--//-/-/-/-/-/-/-/--/-/--/-----
+
+
+
+-----/-/---//-/-/-/-/-/-/-/-/-/----------------/--/--//-/-/-/-/-/-/-/--/-/--/-----
+-----/-/---//-/-/-/-/-/-/-/-/-/----------------/--/--//-/-/-/-/-/-/-/--/-/--/-----
 
 -- A. Triggers para validar las jerarquías en empleado_jefe
 
-CREATE OR REPLACE function TRIGGER_FUNCTION_VERIF_JERARQUIA_EMPLEADO_JEFE()
+CREATE OR REPLACE function TRIGGER_EMPLEADO_JEFE()
 RETURNS TRIGGER AS $$
-DECLARE  
-
-	fk_empleado_jefe_temp_va EMPLEADO_JEFE.fk_empleado_jefe%type ;
-	jefe_superior_registro EMPLEADO_JEFE := NULL ;
---	director_ejecutivo_va EMPLEADO_JEFE := NULL ;
-
 BEGIN
 	
-	-- VALIDACION DE JEREAQUIA DE JEFES
-	
-	raise notice '-------%------', NOW();
-	raise notice 'old.tipo %', old.tipo;
-	raise notice 'new.tipo %', new.tipo;
-	raise notice 'old.fk_empleado_jefe %', old.fk_empleado_jefe;
-	raise notice 'new.fk_empleado_jefe %', new.fk_empleado_jefe;
+	IF (TG_OP = 'DELETE') THEN
+        
+		--/
+		RETURN OLD;
 
-
-	
-	if (new.fk_empleado_jefe is NOT NULL) then
-	
-		fk_empleado_jefe_temp_va = new.fk_empleado_jefe;
-	
-		select * into jefe_superior_registro from EMPLEADO_JEFE where id = fk_empleado_jefe_temp_va;
-	end if;
-	
-
-	case new.tipo
-		when 'director_ejecutivo' then 
+	ELSIF (TG_OP = 'UPDATE') THEN
 		
---			select * into director_ejecutivo_va from EMPLEADO_JEFE where tipo = 'director_ejecutivo';
---	 
---			if (director_ejecutivo_va is NOT NULL) then 
---				raise exception 'Solo puede haber un solo director ejecutivo';
---				return null;
---			end if;
+		CASE new.tipo
+		
+			WHEN 'director_ejecutivo' THEN 
+
+				IF (new.fk_empleado_jefe IS NOT NULL) THEN
+					
+					RAISE EXCEPTION 'El director ejecutivo no tiene jefe';	
+				END IF;	
+
+			WHEN 'director_area' THEN
 			
-			if (jefe_superior_registro is null) then
-				return new;
-			else 
-				raise exception 'El director ejecutivo no tiene jefe';
-				return null;	
-			end if;	
-		
-		when 'director_area' then
-		
-			if (jefe_superior_registro.tipo = 'director_ejecutivo') then
-				return new;
-			else 
-				raise exception 'El jefe de un director de area debe ser el director ejecutivo';
-				return null;	
+				CALL VALIDAR_JERARQUIA_EMPLEADO_JEFE(new.fk_empleado_jefe,'director_ejecutivo');
 				
-			end if;
-	
-		when 'jefe' then
-		
-			if (jefe_superior_registro.tipo = 'director_area') then
-				return new;
-			else 
-				raise exception 'El jefe de jefe de estación debe ser un director de area';
-				return null;	
-				
-			end if;
-		
-		else 
-			return null;
-	end case;
+			WHEN 'jefe' THEN
 
-	
+				CALL VALIDAR_JERARQUIA_EMPLEADO_JEFE(new.fk_empleado_jefe,'director_area');
+				
+			ELSE 
+				RETURN null;
+				
+		END CASE;
+
+		-- CALL VALIDAR_TELEFONO_TY(new.telefono);
+
+		RETURN NEW;
+
+	ELSIF (TG_OP = 'INSERT') THEN
+
+		-- IF (new.primer_nombre IS NULL OR new.primer_nombre = '') THEN  
+		-- 	RAISE EXCEPTION 'El primer nombre no puede estar vacio';
+		-- END IF;
+		-- IF (new.primer_apellido IS NULL OR new.primer_apellido = '') THEN  
+		-- 	RAISE EXCEPTION 'El primer apellido no puede estar vacio';
+		-- END IF;
+		-- IF (new.segundo_apellido IS NULL OR new.segundo_apellido = '') THEN  
+		-- 	RAISE EXCEPTION 'El segundo apellido no puede estar vacio';
+		-- END IF;
+
+		CASE new.tipo
+		
+			WHEN 'director_ejecutivo' THEN 
+
+				IF (new.fk_empleado_jefe IS NOT NULL) THEN
+					
+					RAISE EXCEPTION 'El director ejecutivo no tiene jefe';	
+				END IF;	
+
+			WHEN 'director_area' THEN
+			
+				CALL VALIDAR_JERARQUIA_EMPLEADO_JEFE(new.fk_empleado_jefe,'director_ejecutivo');
+				
+			WHEN 'jefe' THEN
+
+				CALL VALIDAR_JERARQUIA_EMPLEADO_JEFE(new.fk_empleado_jefe,'director_area');
+				
+			ELSE 
+				RETURN null;
+				
+		END CASE;
+
+		-- CALL VALIDAR_TELEFONO_TY(new.telefono);
+
+		RETURN NEW;
+
+	END IF;
+    
+
+	RETURN NULL;
+
+
 END;
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS TRIGGER_INSERT_EMPLEADO_JEFE ON EMPLEADO_JEFE CASCADE;	
-DROP TRIGGER IF EXISTS TRIGGER_UPDATE_EMPLEADO_JEFE_TIPO_FK_EMPLEADO_JEFE ON EMPLEADO_JEFE CASCADE;
+
+-- DROP TRIGGER IF EXISTS TRIGGER_INSERT_EMPLEADO_JEFE ON EMPLEADO_JEFE CASCADE;	
+-- DROP TRIGGER IF EXISTS TRIGGER_UPDATE_EMPLEADO_JEFE_TIPO_FK_EMPLEADO_JEFE ON EMPLEADO_JEFE CASCADE;
 
 CREATE TRIGGER TRIGGER_INSERT_EMPLEADO_JEFE 
 BEFORE INSERT ON EMPLEADO_JEFE 
 FOR EACH ROW
-EXECUTE PROCEDURE TRIGGER_FUNCTION_VERIF_JERARQUIA_EMPLEADO_JEFE();
+EXECUTE PROCEDURE TRIGGER_EMPLEADO_JEFE();
 
-CREATE TRIGGER TRIGGER_UPDATE_EMPLEADO_JEFE_TIPO_FK_EMPLEADO_JEFE
-BEFORE UPDATE OF tipo,fk_empleado_jefe ON EMPLEADO_JEFE
+CREATE TRIGGER TRIGGER_UPDATE_EMPLEADO_JEFE
+BEFORE UPDATE EMPLEADO_JEFE
 FOR EACH ROW
-EXECUTE PROCEDURE TRIGGER_FUNCTION_VERIF_JERARQUIA_EMPLEADO_JEFE();
+EXECUTE PROCEDURE TRIGGER_EMPLEADO_JEFE();
+
+CREATE TRIGGER TRIGGER_DELETE_EMPLEADO_JEFE
+BEFORE DELETE EMPLEADO_JEFE
+FOR EACH ROW
+EXECUTE PROCEDURE TRIGGER_EMPLEADO_JEFE();
 	
 
 -- PRUEBAS
@@ -121,134 +161,148 @@ EXECUTE PROCEDURE TRIGGER_FUNCTION_VERIF_JERARQUIA_EMPLEADO_JEFE();
 
 -- A. Triggers para validar las jerarquías en lugar (si aplica); para validar tipo ciudad o país si aplica;
 
-CREATE OR REPLACE function TRIGGER_FUNCTION_VERIF_JERARQUIA_LUGAR()
-RETURNS TRIGGER AS $$
-DECLARE  
+-- CREATE OR REPLACE function TRIGGER_FUNCTION_VERIF_JERARQUIA_LUGAR()
+-- RETURNS TRIGGER AS $$
+-- DECLARE  
 
-	fk_lugar_temp_va LUGAR.fk_lugar%type ;
-	lugar_superior_registro LUGAR := NULL ;
+-- 	fk_lugar_temp_va LUGAR.fk_lugar%type ;
+-- 	lugar_superior_registro LUGAR := NULL ;
 
-BEGIN
+-- BEGIN
 	
-	-- VALIDACION DE JEREAQUIA DE LUGAR
+-- 	-- VALIDACION DE JEREAQUIA DE LUGAR
 	
-	raise notice '-------%------', NOW();
-	raise notice 'old.tipo %', old.tipo;
-	raise notice 'new.tipo %', new.tipo;
-	raise notice 'old.region %', old.region;
-	raise notice 'new.region %', new.region;
-	raise notice 'old.fk_lugar %', old.fk_lugar;
-	raise notice 'new.fk_lugar %', new.fk_lugar;
+-- 	raise notice '-------%------', NOW();
+-- 	raise notice 'old.tipo %', old.tipo;
+-- 	raise notice 'new.tipo %', new.tipo;
+-- 	raise notice 'old.region %', old.region;
+-- 	raise notice 'new.region %', new.region;
+-- 	raise notice 'old.fk_lugar %', old.fk_lugar;
+-- 	raise notice 'new.fk_lugar %', new.fk_lugar;
 
 
-	if (new.fk_lugar is NOT NULL) then
+-- 	IF (new.fk_lugar is NOT NULL) then
 	
-		fk_lugar_temp_va = new.fk_lugar;
+-- 		fk_lugar_temp_va = new.fk_lugar;
 	
-		select * into lugar_superior_registro from LUGAR where id = fk_lugar_temp_va;
-	end if;
+-- 		select * into lugar_superior_registro from LUGAR where id = fk_lugar_temp_va;
+-- 	END IF;
 	
 
-	case new.tipo
+-- 	case new.tipo
 	
-		when 'pais' then 
+-- 		when 'pais' then 
 					
-			if (lugar_superior_registro is null and new.region is not null) then
-				return new;
-			else 
-				raise exception 'La referencia a la región del país es solo a través del atributo "region"';
-				return null;	
-			end if;	
+-- 			IF (lugar_superior_registro is null and new.region is not null) then
+-- 				RETURN new;
+-- 			ELSE 
+-- 				RAISE EXCEPTION 'La referencia a la región del país es solo a través del atributo "region"';
+-- 				RETURN null;	
+-- 			END IF;	
 		
-		when 'ciudad' then
+-- 		when 'ciudad' then
 		
-			if (lugar_superior_registro.tipo = 'pais' and new.region is null) then
-				return new;
-			else 
-				raise exception 'Las ciudades no tiene región asignada y deben referenciar a un país';
-				return null;	
+-- 			IF (lugar_superior_registro.tipo = 'pais' and new.region is null) then
+-- 				RETURN new;
+-- 			ELSE 
+-- 				RAISE EXCEPTION 'Las ciudades no tiene región asignada y deben referenciar a un país';
+-- 				RETURN null;	
 				
-			end if;
+-- 			END IF;
 			
-		else 
-			return null;
-	end case;
+-- 		ELSE 
+-- 			RETURN null;
+-- 	end case;
 
 	
-END;
-$$ LANGUAGE plpgsql;
+-- END;
+-- $$ LANGUAGE plpgsql;
 
 
-DROP TRIGGER IF EXISTS TRIGGER_INSERT_LUGAR ON LUGAR CASCADE;	
-DROP TRIGGER IF EXISTS TRIGGER_UPDATE_LUGAR_TIPO_FK_LUGAR_REGION ON LUGAR CASCADE;
+-- DROP TRIGGER IF EXISTS TRIGGER_INSERT_LUGAR ON LUGAR CASCADE;	
+-- DROP TRIGGER IF EXISTS TRIGGER_UPDATE_LUGAR_TIPO_FK_LUGAR_REGION ON LUGAR CASCADE;
 
 
-CREATE TRIGGER TRIGGER_INSERT_LUGAR 
-BEFORE INSERT ON LUGAR 
-FOR EACH ROW
-EXECUTE PROCEDURE TRIGGER_FUNCTION_VERIF_JERARQUIA_LUGAR();
+-- CREATE TRIGGER TRIGGER_INSERT_LUGAR 
+-- BEFORE INSERT ON LUGAR 
+-- FOR EACH ROW
+-- EXECUTE PROCEDURE TRIGGER_FUNCTION_VERIF_JERARQUIA_LUGAR();
 
-CREATE TRIGGER TRIGGER_UPDATE_LUGAR_TIPO_FK_LUGAR_REGION
-BEFORE UPDATE OF tipo, fk_lugar, region ON LUGAR
-FOR EACH ROW
-EXECUTE PROCEDURE TRIGGER_FUNCTION_VERIF_JERARQUIA_LUGAR();
+-- CREATE TRIGGER TRIGGER_UPDATE_LUGAR_TIPO_FK_LUGAR_REGION
+-- BEFORE UPDATE OF tipo, fk_lugar, region ON LUGAR
+-- FOR EACH ROW
+-- EXECUTE PROCEDURE TRIGGER_FUNCTION_VERIF_JERARQUIA_LUGAR();
 	
--- PRUEBAS
+-- -- PRUEBAS
 
---INSERT INTO LUGAR (nombre,tipo,region,fk_lugar) VALUES ('prueba_pais','pais',null,null);
---INSERT INTO LUGAR (nombre,tipo,region,fk_lugar) VALUES ('prueba_ciudad','ciudad',null,1);
---
---select * from LUGAR;
-
-
+-- --INSERT INTO LUGAR (nombre,tipo,region,fk_lugar) VALUES ('prueba_pais','pais',null,null);
+-- --INSERT INTO LUGAR (nombre,tipo,region,fk_lugar) VALUES ('prueba_ciudad','ciudad',null,1);
+-- --
+-- --select * from LUGAR;
 
 
--- A. Trigger para verificar fk_lugar_ciudad y fk_lugar_pais en CLIENTE, ESTACION, OFICINA_PRINCIPAL, PERSONAL_INTELIGENCIA
+
+
+-- A. Trigger para VALIDAR fk_lugar_ciudad y fk_lugar_pais en CLIENTE, ESTACION, OFICINA_PRINCIPAL, PERSONAL_INTELIGENCIA
 
 -- CLIENTE
 
-CREATE OR REPLACE FUNCTION TRIGGER_FUNCTION_CLIENTE()
-RETURNS TRIGGER AS $$
-DECLARE
 
-	fk_lugar_temp_va CLIENTE.fk_lugar_pais%type ;
-	lugar_tipo_va LUGAR.tipo%type ;
 
-BEGIN
 
-	if (new.fk_lugar_pais is NOT NULL) then
+
+
+
+
+
+
+
+
+
+
+
+-- CREATE OR REPLACE FUNCTION TRIGGER_FUNCTION_CLIENTE()
+-- RETURNS TRIGGER AS $$
+-- DECLARE
+
+-- 	fk_lugar_temp_va CLIENTE.fk_lugar_pais%type ;
+-- 	lugar_tipo_va LUGAR.tipo%type ;
+
+-- BEGIN
+
+-- 	IF (new.fk_lugar_pais is NOT NULL) then
 	
-		fk_lugar_temp_va = new.fk_lugar_pais;
+-- 		fk_lugar_temp_va = new.fk_lugar_pais;
 	
-		select tipo into lugar_tipo_va from LUGAR where id = fk_lugar_temp_va;
+-- 		select tipo into lugar_tipo_va from LUGAR where id = fk_lugar_temp_va;
 	
-		if (lugar_tipo_va = 'pais') then
-			return new;
-		end if;
+-- 		IF (lugar_tipo_va = 'pais') then
+-- 			RETURN new;
+-- 		END IF;
 		
-	end if;
+-- 	END IF;
 	
 
-	raise exception 'Debe ingresar un país de registro para el cliente';
-	return null;
+-- 	RAISE EXCEPTION 'Debe ingresar un país de registro para el cliente';
+-- 	RETURN null;
 
 	
-END;
-$$ LANGUAGE plpgsql;
+-- END;
+-- $$ LANGUAGE plpgsql;
 
 
-DROP TRIGGER IF EXISTS TRIGGER_INSERT_CLIENTE ON CLIENTE CASCADE;	
-DROP TRIGGER IF EXISTS TRIGGER_UPDATE_CLIENTE ON CLIENTE CASCADE;
+-- DROP TRIGGER IF EXISTS TRIGGER_INSERT_CLIENTE ON CLIENTE CASCADE;	
+-- DROP TRIGGER IF EXISTS TRIGGER_UPDATE_CLIENTE ON CLIENTE CASCADE;
 
-CREATE TRIGGER TRIGGER_INSERT_CLIENTE
-BEFORE INSERT ON CLIENTE 
-FOR EACH ROW
-EXECUTE PROCEDURE TRIGGER_FUNCTION_CLIENTE();
+-- CREATE TRIGGER TRIGGER_INSERT_CLIENTE
+-- BEFORE INSERT ON CLIENTE 
+-- FOR EACH ROW
+-- EXECUTE PROCEDURE TRIGGER_FUNCTION_CLIENTE();
 
-CREATE TRIGGER TRIGGER_UPDATE_CLIENTE
-BEFORE UPDATE OF fk_lugar_pais ON CLIENTE
-FOR EACH ROW
-EXECUTE PROCEDURE TRIGGER_FUNCTION_CLIENTE();
+-- CREATE TRIGGER TRIGGER_UPDATE_CLIENTE
+-- BEFORE UPDATE OF fk_lugar_pais ON CLIENTE
+-- FOR EACH ROW
+-- EXECUTE PROCEDURE TRIGGER_FUNCTION_CLIENTE();
 	
 
 -- PRUEBAS 
@@ -267,6 +321,100 @@ EXECUTE PROCEDURE TRIGGER_FUNCTION_CLIENTE();
 
 
 
+
+
+CREATE OR REPLACE FUNCTION TRIGGER_OFICINA_PRINCIPAL()
+RETURNS TRIGGER AS $$
+DECLARE
+
+	numero_estaciones_dep integer;
+	
+BEGIN
+	
+
+    IF (TG_OP = 'DELETE') THEN
+        
+		SELECT COUNT(*) INTO numero_estaciones_dep FROM ESTACION WHERE fk_oficina_principal = old.id;
+ 
+		IF (numero_estaciones_dep != 0) THEN 
+			RAISE EXCEPTION 'No se puede eliminar la oficina ya que hay registros que dependen de ella';
+		END IF;
+
+		RETURN old;
+
+
+	ELSIF (TG_OP = 'UPDATE') THEN
+		
+		-- IF (new.nombre IS NULL OR new.nombre = '') THEN  
+		-- 	RAISE EXCEPTION 'El nombre no puede estar vacio';
+		-- END IF;
+
+		CALL VALIDAR_TIPO_LUGAR(new.fk_lugar_ciudad, 'ciudad');
+		
+		IF (new.sede = true) THEN 
+			CALL VALIDAR_TIPO_EMPLEADO_JEFE(new.fk_director_ejecutivo, 'director_ejecutivo');
+
+		ELSIF (new.fk_director_ejecutivo IS NOT NULL) THEN
+			RAISE EXCEPTION 'Solo las oficinas sede pueden tener director ejecutivo';
+			
+		END IF;
+			
+		CALL VALIDAR_TIPO_EMPLEADO_JEFE(new.fk_director_area, 'director_area');
+
+		RETURN new;
+
+
+	ELSIF (TG_OP = 'INSERT') THEN
+
+		-- IF (new.nombre IS NULL OR new.nombre = '') THEN  
+		-- 	RAISE EXCEPTION 'El nombre no puede estar vacio';
+		-- END IF;
+
+		CALL VALIDAR_TIPO_LUGAR(new.fk_lugar_ciudad, 'ciudad');
+		
+		IF (new.sede = true) THEN 
+			CALL VALIDAR_TIPO_EMPLEADO_JEFE(new.fk_director_ejecutivo, 'director_ejecutivo');
+
+		ELSIF (new.fk_director_ejecutivo IS NOT NULL) THEN
+			RAISE EXCEPTION 'Solo las oficinas sede pueden tener director ejecutivo';
+			
+		END IF;
+			
+		CALL VALIDAR_TIPO_EMPLEADO_JEFE(new.fk_director_area, 'director_area');
+	
+		
+		RETURN new;
+
+	END IF;
+    
+
+	RETURN NULL;
+
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+
+
+-- DROP TRIGGER IF EXISTS TRIGGER_OFICINA_PRINCIPAL ON OFICINA_PRINCIPAL CASCADE;	
+-- DROP TRIGGER IF EXISTS TRIGGER_OFICINA_PRINCIPAL ON OFICINA_PRINCIPAL CASCADE;
+
+CREATE TRIGGER TRIGGER_INSERT_OFICINA_PRINCIPAL
+BEFORE INSERT ON OFICINA_PRINCIPAL 
+FOR EACH ROW
+EXECUTE PROCEDURE TRIGGER_OFICINA_PRINCIPAL();
+
+CREATE TRIGGER TRIGGER_UPDATE_OFICINA_PRINCIPAL
+BEFORE UPDATE ON OFICINA_PRINCIPAL
+FOR EACH ROW
+EXECUTE PROCEDURE TRIGGER_OFICINA_PRINCIPAL();
+
+CREATE TRIGGER TRIGGER_DELETE_OFICINA_PRINCIPAL
+BEFORE DELETE ON OFICINA_PRINCIPAL 
+FOR EACH ROW
+EXECUTE PROCEDURE TRIGGER_OFICINA_PRINCIPAL();
+	
 
 
 

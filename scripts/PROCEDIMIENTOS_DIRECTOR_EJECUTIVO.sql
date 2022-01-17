@@ -1,4 +1,33 @@
 
+-----------------------------///////////////-------------------------------
+
+
+--DROP FUNCTION VER_DIRECTOR_AREA;
+
+CREATE OR REPLACE FUNCTION VER_LUGAR (id_lugar in integer)
+RETURNS LUGAR
+LANGUAGE sql
+AS $$  
+ 	SELECT * FROM LUGAR WHERE id = id_lugar; 
+$$;
+
+
+--
+--select VER_DIRECTOR_AREA(8);
+
+--DROP FUNCTION VER_DIRECTOR_AREA;
+
+CREATE OR REPLACE FUNCTION VER_LUGARES ()
+RETURNS setof LUGAR
+LANGUAGE sql
+AS $$  
+ 	SELECT * FROM LUGAR; 
+$$;
+--
+--
+--select VER_DIRECTOR_AREA(8);
+
+
 -- SELECCIONAR, CREAR, MODIFICAR y ELIMINAR EMPLEADOS_AREA
 
 
@@ -19,15 +48,29 @@
 --     CONSTRAINT EMPLEADO_JEFE_CH_tipo CHECK ( tipo IN ('director_area', 'jefe', 'director_ejecutivo') )
 -- );
 
+
+
+
 CREATE OR REPLACE FUNCTION CREAR_TELEFONO (codigo numeric(10), numero NUMERIC(15))
 RETURNS telefono_ty
-LANGUAGE sql
-AS $$  
- 	SELECT (ROW(codigo,numero)::telefono_ty); 
-$$;
+LANGUAGE plpgsql
+AS $$ 
+BEGIN
+
+	IF (codigo IS NULL OR codigo = 0) THEN
+		RAISE EXCEPTION 'El codigo del telefono no puede ser nulo';
+	END IF;
+
+	IF (numero IS NULL OR numero = 0) THEN
+		RAISE EXCEPTION 'El numero del telefono no puede ser nulo';
+	END IF;
+
+ 	RETURN ROW(codigo,numero)::telefono_ty; 
+
+END $$;
 --
 --
---select crear_telefono(12,0120301230);
+-- select crear_telefono(0,0120301230);
 
 -----------------------------///////////////-------------------------------
 
@@ -44,6 +87,17 @@ $$;
 --
 --select VER_DIRECTOR_AREA(8);
 
+--DROP FUNCTION VER_DIRECTOR_AREA;
+
+CREATE OR REPLACE FUNCTION VER_DIRECTORES_AREA ()
+RETURNS setof EMPLEADO_JEFE
+LANGUAGE sql
+AS $$  
+ 	SELECT * FROM EMPLEADO_JEFE WHERE tipo = 'director_area' ; 
+$$;
+--
+--
+--select VER_DIRECTOR_AREA(8);
 
 
 
@@ -101,6 +155,7 @@ SELECT * FROM empleado_jefe ej order by id desc;
 
 
 
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
 
 
 CREATE OR REPLACE PROCEDURE ELIMINAR_DIRECTOR_AREA (id_director_area IN INTEGER)
@@ -148,7 +203,7 @@ SELECT * FROM empleado_jefe ej order by id desc;
 
 
 
------------==--=-==--==-=-=-=--==-=-=----=---------
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
 
 
 CREATE OR REPLACE PROCEDURE ACTUALIZAR_DIRECTOR_AREA (id_director_area IN integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE, id_jefe IN EMPLEADO_JEFE.fk_empleado_jefe%TYPE)
@@ -203,13 +258,193 @@ BEGIN
 END $$;
 
 
-CALL actualizar_director_area (2,'nombre1','nombre2','apellido1','apellido2',CREAR_TELEFONO(0212,2847213), 5);
-SELECT * FROM empleado_jefe ej order by id desc; 
+-- CALL actualizar_director_area (2,'nombre1','nombre2','apellido1','apellido2',CREAR_TELEFONO(0212,2847213), 5);
+-- SELECT * FROM empleado_jefe ej order by id desc; 
 
 
-select now;
 
--------------------------/////////--------......---------------------
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------
+
+
+
+
+
+
+
+
+
+
+-- select * from lugar;
+
+
+-- select VERIFICAR_TIPO_LUGAR(1,'ciudad');
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------
+
+
+
+--DROP FUNCTION VER_OFICINA;
+
+CREATE OR REPLACE FUNCTION VER_OFICINA (id_oficina in integer)
+RETURNS OFICINA_PRINCIPAL
+LANGUAGE sql
+AS $$  
+ 	SELECT * FROM OFICINA_PRINCIPAL WHERE id = id_oficina; 
+$$;
+--
+--
+--select VER_DIRECTOR_AREA(8);
+
+--DROP FUNCTION VER_OFICINAS;
+
+CREATE OR REPLACE FUNCTION VER_OFICINAS ()
+RETURNS setof OFICINA_PRINCIPAL
+LANGUAGE sql
+AS $$  
+ 	SELECT * FROM OFICINA_PRINCIPAL; 
+$$;
+--
+--
+-- select VER_OFICINAS();
+
+
+
+
+
+
+DROP PROCEDURE IF EXISTS CREAR_OFICINA_PRINCIPAL CASCADE;
+
+CREATE OR REPLACE PROCEDURE CREAR_OFICINA_PRINCIPAL (nombre_va IN OFICINA_PRINCIPAL.nombre%TYPE, sede_va IN OFICINA_PRINCIPAL.sede%TYPE, id_ciudad IN OFICINA_PRINCIPAL.fk_lugar_ciudad%TYPE, id_director_area IN OFICINA_PRINCIPAL.fk_director_area%TYPE, id_director_ejecutivo IN OFICINA_PRINCIPAL.fk_director_ejecutivo%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	oficina_reg OFICINA_PRINCIPAL%ROWTYPE;
+
+	-- tipo_va EMPLEADO_JEFE.tipo%TYPE := 'director_area';
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CREAR_OFICINA_PRINCIPAL ( % ) ------', NOW();
+	
+	-------------////////
+		
+	INSERT INTO OFICINA_PRINCIPAL (
+		nombre,
+		sede,
+		fk_director_area,
+		fk_director_ejecutivo,
+		fk_lugar_ciudad
+	
+	) VALUES (
+		nombre_va,
+		sede_va,
+		id_director_area,
+		id_director_ejecutivo,
+		id_ciudad 
+
+	) RETURNING * INTO oficina_reg;
+
+   RAISE INFO 'OFICINA CREADA CON EXITO';
+   RAISE INFO 'Datos de la oficina creada %', oficina_reg ; 
+
+
+END $$;
+
+
+-- CALL CREAR_OFICINA_PRINCIPAL('prueba',20, 2);
+-- SELECT * FROM oficina_principal order by id desc; 
+-- select * from lugar where id = 2;
+-- select * from EMPLEADO_JEFE where id = 20;
+
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
+
+
+CREATE OR REPLACE PROCEDURE ELIMINAR_OFICINA_PRINCIPAL (id_oficina IN INTEGER)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	-- empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+--	oficina_reg OFICINA_PRINCIPAL%ROWTYPE;
+	-- tipo_va EMPLEADO_JEFE.tipo%TYPE := 'director_area';
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO ELIMINAR_OFICINA_PRINCIPAL ( % ) ------', NOW();
+	
+	DELETE FROM OFICINA_PRINCIPAL WHERE id = id_oficina; 
+	
+   	RAISE INFO 'OFICINA ELIMINADA CON EXITO!';
+ 
+
+END $$;
+
+
+
+-- CALL ELIMINAR_OFICINA_PRINCIPAL(15);
+
+
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
+
+
+CREATE OR REPLACE PROCEDURE ACTUALIZAR_OFICINA_PRINCIPAL (id_oficina IN integer, nombre_va IN OFICINA_PRINCIPAL.nombre%TYPE, sede_va IN OFICINA_PRINCIPAL.sede%TYPE, id_ciudad IN OFICINA_PRINCIPAL.fk_lugar_ciudad%TYPE, id_director_area IN OFICINA_PRINCIPAL.fk_director_area%TYPE, id_director_ejecutivo IN OFICINA_PRINCIPAL.fk_director_ejecutivo%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	oficina_reg OFICINA_PRINCIPAL%ROWTYPE;
+ 
+BEGIN 
+
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CREAR_OFICINA_PRINCIPAL ( % ) ------', NOW();
+	
+	-------------////////
+	
+	SELECT * INTO oficina_reg FROM OFICINA_PRINCIPAL WHERE id = id_oficina;
+
+	IF (oficina_reg IS NULL) THEN
+		RAISE INFO 'La oficina no existe';
+		RAISE EXCEPTION 'La oficina no existe';
+	END IF;
+
+
+	UPDATE OFICINA_PRINCIPAL SET 
+		nombre = nombre_va,
+		sede = sede_va,
+		fk_director_area = id_director_area,
+		fk_director_ejecutivo = id_director_ejecutivo,
+		fk_lugar_ciudad = id_ciudad 
+
+	WHERE id = id_oficina
+	RETURNING * INTO oficina_reg;
+
+
+   RAISE INFO 'OFICINA MODIFICADA CON EXITO';
+   RAISE INFO 'Datos de la oficina modificada %', oficina_reg ; 
+
+
+
+END $$;
+
+
+-- select VER_OFICINAS();
+-- CALL ACTUALIZAR_OFICINA_PRINCIPAL (13,'nombre1',false, 21, 9, null);
+-- select * from empleado_jefe where id = 9;
+-- select * from lugar where id = 20;
+-- SELECT * FROM empleado_jefe ej order by id desc; 
+
+select VER_DIRECTORES_AREA();
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
 
 
 -- CAMBIAR ROL DE DIRECTOR AREA A JEFE 

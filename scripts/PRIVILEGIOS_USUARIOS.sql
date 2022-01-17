@@ -83,3 +83,15 @@ GRANT SELECT ON VISTA_CUENTAS_AII_OFICINA_GINEBRA TO dir_area_38_ginebra;
 ---- SOLO EL USUARIO 
 --select * from empleado_jefe ;
 
+
+
+
+
+
+
+-----------------------------////////--------///////---------\\\\\\\\---------\\\\\\\\\-----------------------------
+
+
+
+
+
