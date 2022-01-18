@@ -87,22 +87,6 @@ SELECT VER_JEFES_E(2);
 
 
 
-CREATE OR REPLACE FUNCTION VER_JEFES_E (id_empleado_acceso in integer)
-RETURNS setof EMPLEADO_JEFE
-AS $$
-BEGIN
- 	
-	RETURN QUERY 
-		SELECT ej.* FROM EMPLEADO_JEFE ej, ESTACION e WHERE 
-			ej.id = e.fk_empleado_jefe AND e.fk_oficina_principal IN 
-			( SELECT id FROM OFICINA_PRINCIPAL op WHERE op.fk_director_area = id_empleado_acceso );
-
-END;
-$$ LANGUAGE plpgsql;
---
-
-SELECT VER_JEFES_E(2);
-
 
 
 

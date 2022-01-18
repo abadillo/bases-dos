@@ -1,5 +1,14 @@
 
 
+CREATE OR REPLACE FUNCTION VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_AGENTE (id_personal_inteligencia in integer)
+RETURNS setof INFORMANTE
+LANGUAGE sql
+AS $$  
+ 	
+    SELECT * FROM INFORMANTE WHERE fk_personal_inteligencia_confidente = id_personal_inteligencia; 
+$$;
+
+
 --------------------------///////////////////////-----------------------------
 
 
