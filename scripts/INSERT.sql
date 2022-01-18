@@ -1087,101 +1087,12 @@ INSERT INTO INTENTO_NO_AUTORIZADO (fecha_hora, id_pieza,  id_empleado, fk_person
    
    
    
-   
------------------------- FUNCIONES REPORTES -------------------------------
-
-DROP FUNCTION IF EXISTS RESTA_7_DIAS CASCADE;
-
-CREATE OR REPLACE FUNCTION RESTA_7_DIAS ( fecha IN timestamp ) 
-RETURNS timestamp
-LANGUAGE PLPGSQL 
-AS $$
-BEGIN 
-		
-	RETURN fecha - INTERVAL '7 days';
-	
-END $$;
 
 
-DROP FUNCTION IF EXISTS RESTA_6_MESES CASCADE;
-
-CREATE OR REPLACE FUNCTION RESTA_6_MESES ( fecha IN timestamp ) 
-RETURNS timestamp
-LANGUAGE PLPGSQL 
-AS $$
-BEGIN 
-		
-	RETURN fecha - INTERVAL '6 month';
-	
-END $$;
+-------------------------------------- BLOQUE PARA RESTAR 14 AÑOS A TODAS LAS FECHAS ---------------------------------------------
 
 
 
-
-DROP FUNCTION IF EXISTS RESTA_1_YEAR CASCADE;
-
-CREATE OR REPLACE FUNCTION RESTA_1_YEAR ( fecha IN timestamp ) 
-RETURNS timestamp
-LANGUAGE PLPGSQL 
-AS $$
-BEGIN 
-		
-	RETURN fecha - INTERVAL '1 years';
-	
-END $$;
-
-
-DROP FUNCTION IF EXISTS RESTA_1_YEAR_DATE CASCADE;
-
-CREATE OR REPLACE FUNCTION RESTA_1_YEAR_DATE ( fecha IN date ) 
-RETURNS date
-LANGUAGE PLPGSQL 
-AS $$
-BEGIN 
-		
-	RETURN fecha - INTERVAL '1 years';
-	
-END $$;
-
-------- .... -------
-
-
--------------------------------------------------------------------
-   
- 
-
--------------------------//////////ACTUALIZAR TODAS LAS FECHAS - RESTA 14 años  /////////////-------------------------
-
-
-DROP FUNCTION IF EXISTS RESTA_14_FECHA CASCADE;
-
-CREATE OR REPLACE FUNCTION RESTA_14_FECHA ( fecha IN date ) 
-RETURNS date
-LANGUAGE PLPGSQL 
-AS $$
-BEGIN 
-		
-	RETURN fecha - INTERVAL '14 years';
-	
-END $$;
-
-------- .... -------
-
-DROP FUNCTION IF EXISTS RESTA_14_FECHA_HORA CASCADE;
-
-CREATE OR REPLACE FUNCTION RESTA_14_FECHA_HORA ( fecha IN timestamp ) 
-RETURNS timestamp
-LANGUAGE PLPGSQL 
-AS $$
-BEGIN 
-		
-	RETURN fecha - INTERVAL '14 years';
-	
-END $$;
-
-
-
----------.'.'.'.'.'.'.'.---------
 
 WITH 
 	a AS (

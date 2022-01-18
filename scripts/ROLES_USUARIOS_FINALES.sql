@@ -61,23 +61,68 @@ CREATE USER jefe_est_37_gold_coast WITH ENCRYPTED PASSWORD 'jefe_est_37_gold_coa
 
 
 
+-- USUARIOS AGENTE - UN USUARIO POR ESTACION
+
+
+CREATE USER agente_est_dublin WITH ENCRYPTED PASSWORD 'agente_est_dublin_aii' CONNECTION LIMIT 20;     -- id estacion = 1
+CREATE USER agente_est_cork WITH ENCRYPTED PASSWORD 'agente_est_cork_aii' CONNECTION LIMIT 20;     -- id estacion = 2
+CREATE USER agente_est_galway WITH ENCRYPTED PASSWORD 'agente_est_galway_aii' CONNECTION LIMIT 20;     -- id estacion = 3
+CREATE USER agente_est_amsterdam WITH ENCRYPTED PASSWORD 'agente_est_amsterdam_aii' CONNECTION LIMIT 20;     -- id estacion = 4
+CREATE USER agente_est_roterdam WITH ENCRYPTED PASSWORD 'agente_est_roterdam_aii' CONNECTION LIMIT 20;     -- id estacion = 5
+CREATE USER agente_est_haarlam WITH ENCRYPTED PASSWORD 'agente_est_haarlam_aii' CONNECTION LIMIT 20;     -- id estacion = 6
+CREATE USER agente_est_nuuk WITH ENCRYPTED PASSWORD 'agente_est_nuuk_aii' CONNECTION LIMIT 20;     -- id estacion = 7
+CREATE USER agente_est_qaqortoq WITH ENCRYPTED PASSWORD 'agente_est_qaqortoq_aii' CONNECTION LIMIT 20;     -- id estacion = 8
+CREATE USER agente_est_sisimiut WITH ENCRYPTED PASSWORD 'agente_est_sisimiut_aii' CONNECTION LIMIT 20;     -- id estacion = 9
+CREATE USER agente_est_buenos_aires WITH ENCRYPTED PASSWORD 'agente_est_buenos_aires_aii' CONNECTION LIMIT 20;     -- id estacion = 10
+CREATE USER agente_est_ciudad_de_cordoba WITH ENCRYPTED PASSWORD 'agente_est_ciudad_de_cordoba_aii' CONNECTION LIMIT 20;     -- id estacion = 11
+CREATE USER agente_est_rosario WITH ENCRYPTED PASSWORD 'agente_est_rosario_aii' CONNECTION LIMIT 20;     -- id estacion = 12
+CREATE USER agente_est_taipei WITH ENCRYPTED PASSWORD 'agente_est_taipei_aii' CONNECTION LIMIT 20;     -- id estacion = 13
+CREATE USER agente_est_tainan WITH ENCRYPTED PASSWORD 'agente_est_tainan_aii' CONNECTION LIMIT 20;     -- id estacion = 14
+CREATE USER agente_est_kaohsiung WITH ENCRYPTED PASSWORD 'agente_est_kaohsiung_aii' CONNECTION LIMIT 20;     -- id estacion = 15
+CREATE USER agente_est_kuala_lumpur WITH ENCRYPTED PASSWORD 'agente_est_kuala_lumpur_aii' CONNECTION LIMIT 20;     -- id estacion = 16
+CREATE USER agente_est_malaca WITH ENCRYPTED PASSWORD 'agente_est_malaca_aii' CONNECTION LIMIT 20;     -- id estacion = 17
+CREATE USER agente_est_pulau_pinang WITH ENCRYPTED PASSWORD 'agente_est_pulau_pinang_aii' CONNECTION LIMIT 20;     -- id estacion = 18
+CREATE USER agente_est_kampala WITH ENCRYPTED PASSWORD 'agente_est_kampala_aii' CONNECTION LIMIT 20;     -- id estacion = 19
+CREATE USER agente_est_entebbe WITH ENCRYPTED PASSWORD 'agente_est_entebbe_aii' CONNECTION LIMIT 20;     -- id estacion = 20
+CREATE USER agente_est_kasese WITH ENCRYPTED PASSWORD 'agente_est_kasese_aii' CONNECTION LIMIT 20;     -- id estacion = 21
+CREATE USER agente_est_harare WITH ENCRYPTED PASSWORD 'agente_est_harare_aii' CONNECTION LIMIT 20;     -- id estacion = 22
+CREATE USER agente_est_bulawayo WITH ENCRYPTED PASSWORD 'agente_est_bulawayo_aii' CONNECTION LIMIT 20;     -- id estacion = 23
+CREATE USER agente_est_chitungwiza WITH ENCRYPTED PASSWORD 'agente_est_chitungwiza_aii' CONNECTION LIMIT 20;     -- id estacion = 24
+CREATE USER agente_est_sidney WITH ENCRYPTED PASSWORD 'agente_est_sidney_aii' CONNECTION LIMIT 20;     -- id estacion = 25
+CREATE USER agente_est_perth WITH ENCRYPTED PASSWORD 'agente_est_perth_aii' CONNECTION LIMIT 20;     -- id estacion = 26
+CREATE USER agente_est_gold_coast WITH ENCRYPTED PASSWORD 'agente_est_gold_coast_aii' CONNECTION LIMIT 20;     -- id estacion = 27
 
 
 
+-- USUARIOS ANALISTA - UN USUARIO POR ESTACION
 
-
-
-
-
-CREATE USER age01 WITH ENCRYPTED PASSWORD 'age01_aii' CONNECTION LIMIT 5;
-CREATE USER age02 WITH ENCRYPTED PASSWORD 'age02_aii' CONNECTION LIMIT 5;
-CREATE USER age03 WITH ENCRYPTED PASSWORD 'age03_aii' CONNECTION LIMIT 5;
-CREATE USER age04 WITH ENCRYPTED PASSWORD 'age04_aii' CONNECTION LIMIT 5;
-
-CREATE USER ana01 WITH ENCRYPTED PASSWORD 'ana01_aii' CONNECTION LIMIT 5;
-CREATE USER ana02 WITH ENCRYPTED PASSWORD 'ana02_aii' CONNECTION LIMIT 5;
-CREATE USER ana03 WITH ENCRYPTED PASSWORD 'ana03_aii' CONNECTION LIMIT 5;
-CREATE USER ana04 WITH ENCRYPTED PASSWORD 'ana04_aii' CONNECTION LIMIT 5;
+CREATE USER analista_est_dublin WITH ENCRYPTED PASSWORD 'analista_est_dublin_aii' CONNECTION LIMIT 20;     -- id estacion = 1
+CREATE USER analista_est_cork WITH ENCRYPTED PASSWORD 'analista_est_cork_aii' CONNECTION LIMIT 20;     -- id estacion = 2
+CREATE USER analista_est_galway WITH ENCRYPTED PASSWORD 'analista_est_galway_aii' CONNECTION LIMIT 20;     -- id estacion = 3
+CREATE USER analista_est_amsterdam WITH ENCRYPTED PASSWORD 'analista_est_amsterdam_aii' CONNECTION LIMIT 20;     -- id estacion = 4
+CREATE USER analista_est_roterdam WITH ENCRYPTED PASSWORD 'analista_est_roterdam_aii' CONNECTION LIMIT 20;     -- id estacion = 5
+CREATE USER analista_est_haarlam WITH ENCRYPTED PASSWORD 'analista_est_haarlam_aii' CONNECTION LIMIT 20;     -- id estacion = 6
+CREATE USER analista_est_nuuk WITH ENCRYPTED PASSWORD 'analista_est_nuuk_aii' CONNECTION LIMIT 20;     -- id estacion = 7
+CREATE USER analista_est_qaqortoq WITH ENCRYPTED PASSWORD 'analista_est_qaqortoq_aii' CONNECTION LIMIT 20;     -- id estacion = 8
+CREATE USER analista_est_sisimiut WITH ENCRYPTED PASSWORD 'analista_est_sisimiut_aii' CONNECTION LIMIT 20;     -- id estacion = 9
+CREATE USER analista_est_buenos_aires WITH ENCRYPTED PASSWORD 'analista_est_buenos_aires_aii' CONNECTION LIMIT 20;     -- id estacion = 10
+CREATE USER analista_est_ciudad_de_cordoba WITH ENCRYPTED PASSWORD 'analista_est_ciudad_de_cordoba_aii' CONNECTION LIMIT 20;     -- id estacion = 11
+CREATE USER analista_est_rosario WITH ENCRYPTED PASSWORD 'analista_est_rosario_aii' CONNECTION LIMIT 20;     -- id estacion = 12
+CREATE USER analista_est_taipei WITH ENCRYPTED PASSWORD 'analista_est_taipei_aii' CONNECTION LIMIT 20;     -- id estacion = 13
+CREATE USER analista_est_tainan WITH ENCRYPTED PASSWORD 'analista_est_tainan_aii' CONNECTION LIMIT 20;     -- id estacion = 14
+CREATE USER analista_est_kaohsiung WITH ENCRYPTED PASSWORD 'analista_est_kaohsiung_aii' CONNECTION LIMIT 20;     -- id estacion = 15
+CREATE USER analista_est_kuala_lumpur WITH ENCRYPTED PASSWORD 'analista_est_kuala_lumpur_aii' CONNECTION LIMIT 20;     -- id estacion = 16
+CREATE USER analista_est_malaca WITH ENCRYPTED PASSWORD 'analista_est_malaca_aii' CONNECTION LIMIT 20;     -- id estacion = 17
+CREATE USER analista_est_pulau_pinang WITH ENCRYPTED PASSWORD 'analista_est_pulau_pinang_aii' CONNECTION LIMIT 20;     -- id estacion = 18
+CREATE USER analista_est_kampala WITH ENCRYPTED PASSWORD 'analista_est_kampala_aii' CONNECTION LIMIT 20;     -- id estacion = 19
+CREATE USER analista_est_entebbe WITH ENCRYPTED PASSWORD 'analista_est_entebbe_aii' CONNECTION LIMIT 20;     -- id estacion = 20
+CREATE USER analista_est_kasese WITH ENCRYPTED PASSWORD 'analista_est_kasese_aii' CONNECTION LIMIT 20;     -- id estacion = 21
+CREATE USER analista_est_harare WITH ENCRYPTED PASSWORD 'analista_est_harare_aii' CONNECTION LIMIT 20;     -- id estacion = 22
+CREATE USER analista_est_bulawayo WITH ENCRYPTED PASSWORD 'analista_est_bulawayo_aii' CONNECTION LIMIT 20;     -- id estacion = 23
+CREATE USER analista_est_chitungwiza WITH ENCRYPTED PASSWORD 'analista_est_chitungwiza_aii' CONNECTION LIMIT 20;     -- id estacion = 24
+CREATE USER analista_est_sidney WITH ENCRYPTED PASSWORD 'analista_est_sidney_aii' CONNECTION LIMIT 20;     -- id estacion = 25
+CREATE USER analista_est_perth WITH ENCRYPTED PASSWORD 'analista_est_perth_aii' CONNECTION LIMIT 20;     -- id estacion = 26
+CREATE USER analista_est_gold_coast WITH ENCRYPTED PASSWORD 'analista_est_gold_coast_aii' CONNECTION LIMIT 20;     -- id estacion = 27
 
 
 
@@ -140,9 +185,68 @@ GRANT ROL_JEFE_ESTACION TO
 ;
 
 
+GRANT ROL_AGENTE_CAMPO TO 
 
-GRANT ROL_ANALISTA TO ana01, ana02, ana03, ana04;
-GRANT ROL_AGENTE_CAMPO TO age01, age02, age03, age04;
+    agente_est_dublin,
+    agente_est_cork,
+    agente_est_galway,
+    agente_est_amsterdam,
+    agente_est_roterdam,
+    agente_est_haarlam,
+    agente_est_nuuk,
+    agente_est_qaqortoq,
+    agente_est_sisimiut,
+    agente_est_buenos_aires,
+    agente_est_ciudad_de_cordoba,
+    agente_est_rosario,
+    agente_est_taipei,
+    agente_est_tainan,
+    agente_est_kaohsiung,
+    agente_est_kuala_lumpur,
+    agente_est_malaca,
+    agente_est_pulau_pinang,
+    agente_est_kampala,
+    agente_est_entebbe,
+    agente_est_kasese,
+    agente_est_harare,
+    agente_est_bulawayo,
+    agente_est_chitungwiza,
+    agente_est_sidney,
+    agente_est_perth,
+    agente_est_gold_coast
+;
+
+
+GRANT ROL_ANALISTA TO 
+
+    analista_est_dublin,
+    analista_est_cork,
+    analista_est_galway,
+    analista_est_amsterdam,
+    analista_est_roterdam,
+    analista_est_haarlam,
+    analista_est_nuuk,
+    analista_est_qaqortoq,
+    analista_est_sisimiut,
+    analista_est_buenos_aires,
+    analista_est_ciudad_de_cordoba,
+    analista_est_rosario,
+    analista_est_taipei,
+    analista_est_tainan,
+    analista_est_kaohsiung,
+    analista_est_kuala_lumpur,
+    analista_est_malaca,
+    analista_est_pulau_pinang,
+    analista_est_kampala,
+    analista_est_entebbe,
+    analista_est_kasese,
+    analista_est_harare,
+    analista_est_bulawayo,
+    analista_est_chitungwiza,
+    analista_est_sidney,
+    analista_est_perth,
+    analista_est_gold_coast
+;
 
 
 
