@@ -1056,9 +1056,10 @@ LANGUAGE plpgsql AS $$
 DECLARE 
 
 --  ruta text := 'C:\Users\Mickel\BD2\bases-dos\scripts\';
-	ruta text := '/mnt/postgres/';
+--	ruta text := '/mnt/postgres/';
 --  ruta text := 'C:\Users\Mickel\BD2\bases-dos\scripts\';
 
+	ruta text := 'temp_files/';
 	
 BEGIN 
 
@@ -1074,6 +1075,9 @@ INSERT INTO crudo (contenido, tipo_contenido, resumen, fuente, valor_apreciacion
 (FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/images.jpg'), 'imagen', 'Problemas politicos en Vitnam I', 'secreta', 500, 85, 85 , '2034-01-08 01:00:00', '2034-01-06 01:00:00', 2, 1, 1, 1, 1, 1, 1, '2034-01-05 01:00:00', 1);
 
 
+SELECT FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/images.jpg');
+
+SHOW  data_directory;
 --SELECT  * from crudo c ;
 
 

@@ -129,10 +129,10 @@ BEFORE UPDATE EMPLEADO_JEFE
 FOR EACH ROW
 EXECUTE PROCEDURE TRIGGER_EMPLEADO_JEFE();
 
-CREATE TRIGGER TRIGGER_DELETE_EMPLEADO_JEFE
-BEFORE DELETE EMPLEADO_JEFE
-FOR EACH ROW
-EXECUTE PROCEDURE TRIGGER_EMPLEADO_JEFE();
+-- CREATE TRIGGER TRIGGER_DELETE_EMPLEADO_JEFE
+-- BEFORE DELETE EMPLEADO_JEFE
+-- FOR EACH ROW
+-- EXECUTE PROCEDURE TRIGGER_EMPLEADO_JEFE();
 	
 
 -- PRUEBAS
@@ -456,3 +456,130 @@ EXECUTE PROCEDURE TRIGGER_OFICINA_PRINCIPAL();
 
 --drop function fallos cascade
 --drop function verif_hora cascade
+
+
+
+CREATE OR REPLACE FUNCTION TRIGGER_PERSONAL_INTELIGENCIA()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS $$
+DECLARE
+	personal_reg personal_inteligencia%rowtype;
+	i integer;
+BEGIN
+	
+	----INFORMACION A INSERTAR EN PERSONAL INTELIGENCIA
+	
+	IF (TG_OP = 'DELETE') THEN
+        
+		--/
+		RETURN OLD;
+
+	ELSIF (TG_OP = 'UPDATE') THEN
+
+		IF (new.primer_nombre = '') THEN
+			RAISE EXCEPTION 'NO TIENE PRIMER NOMBRE';
+		END IF;
+		
+		IF ((new.primer_apellido = '') OR (new.segundo_apellido = '')) THEN
+			RAISE EXCEPTION 'NO TIENE LOS DOS APELLIDOS COMPLETOS';
+		END IF;
+
+		IF (new.peso_kg <= 0 OR new.altura_cm <= 0 ) THEN
+			RAISE EXCEPTION 'Ni el peso ni la altura pueden ser negativos ni cero';
+		END IF;
+
+
+		---- VALIDAR LA FECHA DEL PERSONAL DE INTELIGENCIA MAYOR DE 26 AÑOS ------
+		IF (FUNCION_EDAD(new.fecha_nacimiento) = FALSE) THEN
+		---MENOR DE 26 AÑOS
+			RAISE EXCEPTION 'NO ES PERMITIDO LA EDAD DEL PERSONAL';
+			RETURN NULL;		
+		END IF;
+		
+		---MAYOR DE 26 AÑOS		
+		RAISE INFO 'EDAD PERMITIDA PARA INGRESO DE PERSONAL';
+		
+		-----VALIDACION DEL FAMILIAR ---------
+
+		---EL PERSONAL DE INTELIGENCIA DEBE TENER DOS FAMILIARES
+		IF (new.familiares[2] IS NULL OR new.familiares[1] IS NULL ) THEN
+			RAISE EXCEPTION 'DEBE TENER DOS FAMILIARES EL PERSONAL DE INTELIGENCIA A INSERTAR';			
+			RETURN NULL;		
+		END IF;			
+
+
+		RAISE INFO 'INFORMACION DEL PERSONAL(NOMBRE COMPLETO Y EDAD): %, %, %, %, %',new.primer_nombre, new.segundo_nombre, new.primer_apellido, new.segundo_apellido, fu_obtener_edad (new.fecha_nacimiento::DATE, NOW()::DATE);
+		
+		RAISE INFO 'INFORMACION DEL PRIMER FAMILIAR (NOMBRE COMPLETO, EDAD, PARENTESCO Y TELEFONO): %, %, %, %, %, %, % ',new.familiares[1].primer_nombre, new.familiares[1].segundo_nombre, new.familiares[1].primer_apellido, new.familiares[1].segundo_apellido,fu_obtener_edad (new.familiares[1].fecha_nacimiento::DATE, NOW()::DATE), new.familiares[1].parentesco, new.familiares[1].telefono;
+
+		RAISE INFO 'INFORMACION DEL SEGUNDO FAMILIAR (NOMBRE COMPLETO, EDAD, PARENTESCO Y TELEFONO): %, %, %, %, %, %, %',new.familiares[2].primer_nombre, new.familiares[2].segundo_nombre, new.familiares[2].primer_apellido, new.familiares[2].segundo_apellido,fu_obtener_edad (new.familiares[2].fecha_nacimiento::DATE, NOW()::DATE), new.familiares[2].parentesco, new.familiares[2].telefono;
+
+		RETURN NEW;
+
+
+	ELSIF (TG_OP = 'INSERT') THEN
+
+
+		IF (new.primer_nombre = '') THEN
+			RAISE EXCEPTION 'NO TIENE PRIMER NOMBRE';
+		END IF;
+		
+		IF ((new.primer_apellido = '') OR (new.segundo_apellido = '')) THEN
+			RAISE EXCEPTION 'NO TIENE LOS DOS APELLIDOS COMPLETOS';
+		END IF;
+
+		IF (new.peso_kg <= 0 OR new.altura_cm <= 0 ) THEN
+			RAISE EXCEPTION 'Ni el peso ni la altura pueden ser negativos ni cero';
+		END IF;
+
+
+		---- VALIDAR LA FECHA DEL PERSONAL DE INTELIGENCIA MAYOR DE 26 AÑOS ------
+		IF (FUNCION_EDAD(new.fecha_nacimiento) = FALSE) THEN
+		---MENOR DE 26 AÑOS
+			RAISE EXCEPTION 'NO ES PERMITIDO LA EDAD DEL PERSONAL';
+			RETURN NULL;		
+		END IF;
+		
+		---MAYOR DE 26 AÑOS		
+		RAISE INFO 'EDAD PERMITIDA PARA INGRESO DE PERSONAL';
+		
+		-----VALIDACION DEL FAMILIAR ---------
+
+		---EL PERSONAL DE INTELIGENCIA DEBE TENER DOS FAMILIARES
+		IF (new.familiares[2] IS NULL OR new.familiares[1] IS NULL ) THEN
+			RAISE EXCEPTION 'DEBE TENER DOS FAMILIARES EL PERSONAL DE INTELIGENCIA A INSERTAR';			
+			RETURN NULL;		
+		END IF;			
+
+
+		RAISE INFO 'INFORMACION DEL PERSONAL(NOMBRE COMPLETO Y EDAD): %, %, %, %, %',new.primer_nombre, new.segundo_nombre, new.primer_apellido, new.segundo_apellido, fu_obtener_edad (new.fecha_nacimiento::DATE, NOW()::DATE);
+		
+		RAISE INFO 'INFORMACION DEL PRIMER FAMILIAR (NOMBRE COMPLETO, EDAD, PARENTESCO Y TELEFONO): %, %, %, %, %, %, % ',new.familiares[1].primer_nombre, new.familiares[1].segundo_nombre, new.familiares[1].primer_apellido, new.familiares[1].segundo_apellido,fu_obtener_edad (new.familiares[1].fecha_nacimiento::DATE, NOW()::DATE), new.familiares[1].parentesco, new.familiares[1].telefono;
+
+		RAISE INFO 'INFORMACION DEL SEGUNDO FAMILIAR (NOMBRE COMPLETO, EDAD, PARENTESCO Y TELEFONO): %, %, %, %, %, %, %',new.familiares[2].primer_nombre, new.familiares[2].segundo_nombre, new.familiares[2].primer_apellido, new.familiares[2].segundo_apellido,fu_obtener_edad (new.familiares[2].fecha_nacimiento::DATE, NOW()::DATE), new.familiares[2].parentesco, new.familiares[2].telefono;
+
+		RETURN NEW;
+
+
+	END IF;
+
+	RETURN NULL;
+
+END
+$$;
+
+
+-- INSERT INTO personal_inteligencia (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, fecha_nacimiento, altura_cm, peso_kg, color_ojos, vision, class_seguridad, fotografia, huella_retina, huella_digital, telefono, licencia_manejo, idiomas, familiares, identificaciones, nivel_educativo, aliases, fk_lugar_ciudad) VALUES
+-- ('Florentina','Mariluz','Landa','Heredia','1993-03-05',189,66,'verde claro','20/25','top_secret','personal_inteligencia_data/foto.png','personal_inteligencia_data/huella_digital.png','personal_inteligencia_data/huella_retina.png',ROW(58,4145866510) ,ROW('75518194','Argentina'),ARRAY['inglés','árabe','portugués','francés']::varchar(50)[], ARRAY[ ROW('Araceli',null,'Alcantara','Candelaria','1960-06-01','tío',ROW(58,4145335249) ), ROW('Calixtrato','Vicente','Quintanilla','Estrada','1960-06-01','hermano',ROW(58,4142583859) )]::familiar_ty[], ARRAY[ ROW('31656053','Irlanda')]::identificacion_ty[], ARRAY[ ROW('Economía','Máster','Finanzas')]::nivel_educativo_ty[],null,'10');
+
+-- DROP FUNCTION TRIGGER_PERSONAL_INTELIGENCIA();
+
+
+CREATE TRIGGER TRIGGER_INSERT_UPDATE_PERSONAL_INTELIGENCIA
+BEFORE INSERT OR UPDATE ON PERSONAL_INTELIGENCIA
+FOR EACH ROW EXECUTE FUNCTION TRIGGER_PERSONAL_INTELIGENCIA();
+
+
+-- DROP TRIGGER TRIGGER_INSERT_UPDATE_PERSONAL_INTELIGENCIA ON PERSONAL_INTELIGENCIA
+
