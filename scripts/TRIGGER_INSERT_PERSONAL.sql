@@ -42,6 +42,9 @@ BEGIN
 END
 $$;
 
+CREATE OR REPLACE PROCEDURE PROCEDIMIENTO_FAMILIARES (primer_nombre varchar, segundo_nombre varchar, primer_apellido varchar, segundo_apellido varchar, fecha_nacimiento timestamp,parentesco varchar,telefono telefono_ty )
+
+
 
 CREATE OR REPLACE FUNCTION TRIGGER_INSERT_PERSONAL()
 RETURNS TRIGGER
@@ -53,6 +56,7 @@ DECLARE
 BEGIN
 	----INFORMACION A INSERTAR EN PERSONAL INTELIGENCIA
 	RAISE INFO 'INFORMACION DEL PERSONAL: %',new;
+	RAISE INFO 'FAMILIARES %',new.familiares[1];
 		
 	IF (FUNCION_EDAD(new.fecha_nacimiento) IS NOT NULL) THEN	
 		RAISE INFO 'EDAD PERMITIDA PARA INGRESO DE PERSONAL';
@@ -67,8 +71,8 @@ BEGIN
 END
 $$;
 
---INSERT INTO personal_inteligencia (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, fecha_nacimiento, altura_cm, peso_kg, color_ojos, vision, class_seguridad, fotografia, huella_retina, huella_digital, telefono, licencia_manejo, idiomas, familiares, identificaciones, nivel_educativo, aliases, fk_lugar_ciudad) VALUES
---('Florentina','Mariluz','Landa','Heredia','2003-03-05',189,66,'verde claro','20/25','top_secret','personal_inteligencia_data/foto.png','personal_inteligencia_data/huella_digital.png','personal_inteligencia_data/huella_retina.png',ROW(58,4145866510) ,ROW('75518194','Argentina'),ARRAY['inglés','árabe','portugués','francés']::varchar(50)[], ARRAY[ ROW('Araceli',null,'Alcantara','Candelaria','1960-06-01','tío',ROW(58,4145335249) ), ROW('Calixtrato','Vicente','Quintanilla','Estrada','1960-06-01','hermano',ROW(58,4142583859) )]::familiar_ty[], ARRAY[ ROW('31656053','Irlanda')]::identificacion_ty[], ARRAY[ ROW('Economía','Máster','Finanzas')]::nivel_educativo_ty[],null,'10');
+INSERT INTO personal_inteligencia (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, fecha_nacimiento, altura_cm, peso_kg, color_ojos, vision, class_seguridad, fotografia, huella_retina, huella_digital, telefono, licencia_manejo, idiomas, familiares, identificaciones, nivel_educativo, aliases, fk_lugar_ciudad) VALUES
+('Florentina','Mariluz','Landa','Heredia','2003-03-05',189,66,'verde claro','20/25','top_secret','personal_inteligencia_data/foto.png','personal_inteligencia_data/huella_digital.png','personal_inteligencia_data/huella_retina.png',ROW(58,4145866510) ,ROW('75518194','Argentina'),ARRAY['inglés','árabe','portugués','francés']::varchar(50)[], ARRAY[ ROW('Araceli',null,'Alcantara','Candelaria','1960-06-01','tío',ROW(58,4145335249) ), ROW('Calixtrato','Vicente','Quintanilla','Estrada','1960-06-01','hermano',ROW(58,4142583859) )]::familiar_ty[], ARRAY[ ROW('31656053','Irlanda')]::identificacion_ty[], ARRAY[ ROW('Economía','Máster','Finanzas')]::nivel_educativo_ty[],null,'10');
 
 DROP FUNCTION TRIGGER_INSERT_PERSONAL()
 
