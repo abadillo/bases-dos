@@ -18,6 +18,58 @@ BEGIN
 END
 $$;
 
+--- FUNCION OBTENER EDAD---
+
+CREATE OR REPLACE FUNCTION fu_obtener_edad(pd_fecha_ini DATE, pd_fecha_fin DATE)
+RETURNS INTEGER
+LANGUAGE 'plpgsql' 
+AS $$
+
+BEGIN
+
+	RETURN FLOOR(((DATE_PART('YEAR',pd_fecha_fin)-DATE_PART('YEAR',pd_fecha_ini))* 372 + (DATE_PART('MONTH',pd_fecha_fin) - DATE_PART('MONTH',pd_fecha_ini))*31 + (DATE_PART('DAY',pd_fecha_fin)-DATE_PART('DAY',pd_fecha_ini)))/372);
+	
+END
+
+$$;
+
+
+
+--SELECT fu_obtener_edad ('1993-03-05',NOW()::DATE)
+
+--- FUNCION VALIDAR EDAD ---
+CREATE OR REPLACE FUNCTION FUNCION_EDAD(fecha_nacimiento date)
+RETURNS BOOLEAN
+LANGUAGE PLPGSQL
+AS $$
+DECLARE
+	
+	fecha_va integer;
+		
+BEGIN
+	
+	fecha_va = fu_obtener_edad (fecha_nacimiento, NOW()::DATE);
+	
+	IF (fecha_va < 26  ) THEN
+	
+		RAISE INFO 'NO ES LA EDAD PERMITIDA PARA SER UN PERSONAL DE INTELIGENCIA, MINIMO DEBES TENER 26 AÑOS DE EDAD';		
+		RAISE EXCEPTION 'NO ES LA EDAD PERMITIDA PARA SER UN PERSONAL DE INTELIGENCIA, MINIMO DEBES TENER 26 AÑOS DE EDAD';		
+		RETURN NULL;
+		
+	ELSIF (fecha_va > 80) THEN
+	
+		RAISE INFO 'EDAD: %', fecha_va;
+		RAISE EXCEPTION 'NO ES POSIBLE EN EL RANGO DE EDADES';
+		RETURN NULL;
+		
+	ELSE 		
+	
+		RETURN TRUE;
+		
+	END IF;
+END
+$$;
+
 ----CREAR TELEFONOO ----
 
 CREATE OR REPLACE FUNCTION CREAR_TELEFONO (codigo numeric(10), numero NUMERIC(15))
@@ -109,8 +161,13 @@ CREATE OR REPLACE FUNCTION CREAR_IDENTIFICACION (documento varchar, pais varchar
 RETURNS identificacion_ty
 LANGUAGE PLPGSQL
 AS $$
+DECLARE
 
+	i integer;
+	
 BEGIN 
+	
+	
 	
 	IF (documento IS NULL OR documento = ' ') THEN
 		RAISE INFO 'NUMERO DE ID DE DOCUMENTO ESTA VACIO';
