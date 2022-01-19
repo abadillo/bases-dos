@@ -224,6 +224,7 @@
 -/ ELIMINAR_PERSONAL_INTELIGENCIA (id_empleado_acceso IN INTEGER, id_personal_inteligencia IN INTEGER)
 -/ ASIGNAR_TEMA_ANALISTA (id_empleado_acceso integer, tema_id integer, analista_id integer)
 
+-/ CAMBIAR_ROL_PERSONAL_INTELIGENCIA (id_empleado_acceso in integer, id_personal_inteligencia IN integer, cargo_va IN HIST_CARGO.cargo%TYPE)
 
 
 

@@ -428,32 +428,33 @@ RETURNS INFORMACION_INFORMANTE
                                     WHERE e.id = resultado.id_estacion LIMIT 1)::varchar(50);
 
     resultado.crudos = (SELECT COUNT(c.id) FROM CRUDO c WHERE c.fk_informante = informante
-                            AND c.fecha_obtencion BETWEEN RESTA_6_MESES(NOW()::timestamp) AND NOW()::timestamp
+                            -- AND c.fecha_obtencion BETWEEN RESTA_6_MESES(NOW()::timestamp) AND NOW()::timestamp
                         )::int;
     resultado.piezas = (SELECT COUNT(cp.fk_pieza_inteligencia) FROM CRUDO_PIEZA cp 
                                 WHERE cp.fk_crudo IN (SELECT c.id FROM CRUDO c WHERE c.fk_informante = informante
-                                    AND c.fecha_obtencion BETWEEN RESTA_6_MESES(NOW()::timestamp) AND NOW()::timestamp)
+                                    -- AND c.fecha_obtencion BETWEEN RESTA_6_MESES(NOW()::timestamp) AND NOW()::timestamp
+                                    )
                             )::int;
 
     resultado.crudos_alt = (SELECT COUNT(c.id) FROM CRUDO_ALT c WHERE c.fk_informante = informante
-                            AND c.fecha_obtencion BETWEEN RESTA_6_MESES(NOW()::timestamp) AND NOW()::timestamp
+                            -- AND c.fecha_obtencion BETWEEN RESTA_6_MESES(NOW()::timestamp) AND NOW()::timestamp
                             )::int;
     resultado.piezas_alt = (SELECT COUNT(cp.fk_pieza_inteligencia) FROM CRUDO_PIEZA_ALT cp 
                                 WHERE cp.fk_crudo IN (SELECT c.id FROM CRUDO_ALT c
                                                         WHERE c.fk_informante = informante
-                                                        AND c.fecha_obtencion 
-                                                        BETWEEN RESTA_6_MESES(NOW()::timestamp) AND NOW()::timestamp)
+                                                        -- AND c.fecha_obtencion BETWEEN RESTA_6_MESES(NOW()::timestamp) AND NOW()::timestamp
+                                                        )
                             )::int;
 
 
     resultado.crudos_usados = ((SELECT COUNT(c.id) FROM CRUDO c WHERE c.fk_informante = informante AND c.id IN 
                                 (SELECT cp.fk_crudo FROM CRUDO_PIEZA cp WHERE cp.fk_crudo = c.id)
-                                AND c.fecha_obtencion BETWEEN RESTA_6_MESES(NOW()::timestamp) AND NOW()::timestamp
+                                -- AND c.fecha_obtencion BETWEEN RESTA_6_MESES(NOW()::timestamp) AND NOW()::timestamp
                                 )::int)
                             + ((SELECT COUNT(c.id) FROM CRUDO c WHERE c.fk_informante = informante AND c.id IN 
                                 (SELECT cp.fk_crudo FROM CRUDO_PIEZA_ALT cp WHERE cp.fk_crudo = c.id)
                                 AND c.id NOT IN (SELECT cp.fk_crudo FROM CRUDO_PIEZA cp WHERE cp.fk_crudo = c.id)
-                                AND c.fecha_obtencion BETWEEN RESTA_6_MESES(NOW()::timestamp) AND NOW()::timestamp
+                                -- AND c.fecha_obtencion BETWEEN RESTA_6_MESES(NOW()::timestamp) AND NOW()::timestamp
                                 )::int);
 
 
