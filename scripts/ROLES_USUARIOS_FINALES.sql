@@ -331,72 +331,139 @@ GRANT SELECT ON VISTA_CUENTAS_AII_OFICINA_GINEBRA TO dir_area_38_ginebra;
 
 -----------------------------////////--------///////---------\\\\\\\\---------\\\\\\\\\-----------------------------
 
+------------------------------ ///////// DIRECTOR AREA ///////- ------------------
 
+
+
+
+
+-- 2. Demostración de la implementación de los requerimientos del
+-- sistema de bases de datos transaccional referidos al proceso de
+-- mantenimiento de empleados y estructura organizacional de la AII,
+-- incluyendo la seguridad correspondiente (roles, cuentas con
+-- privilegios para poder ejecutar los programas y reportes).
+
+
+-- ROL_DIRECTOR_EJECUTIVO
+
+GRANT SELECT ON TABLE EMPLEADO_JEFE TO ROL_DIRECTOR_EJECUTIVO;
 
 
 GRANT EXECUTE ON FUNCTION VER_DIRECTOR_AREA(integer) TO ROL_DIRECTOR_EJECUTIVO;
-
-
-VER_DIRECTOR_AREA (id_director_area in integer)
-VER_DIRECTORES_AREA () RETURNS setof EMPLEADO_JEFE
-VER_LUGAR (id_lugar in integer) RETURNS LUGAR
-VER_LUGARES () RETURNS setof LUGAR
-VER_OFICINA (id_oficina in integer) RETURNS OFICINA_PRINCIPAL
-VER_OFICINAS () RETURNS setof OFICINA_PRINCIPAL
-VER_DIRECTOR_EJECUTIVO (id_director_ejecutivo in integer)
-VER_DIRECTORES_EJECUTIVOS ()
-CREAR_DIRECTOR_AREA (primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE, id_jefe IN EMPLEADO_JEFE.fk_empleado_jefe%TYPE)
-ELIMINAR_DIRECTOR_AREA (id_director_area IN INTEGER)
-ACTUALIZAR_DIRECTOR_AREA (id_director_area IN integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE, id_jefe IN EMPLEADO_JEFE.fk_empleado_jefe%TYPE)
-CREAR_OFICINA_PRINCIPAL (nombre_va IN OFICINA_PRINCIPAL.nombre%TYPE, sede_va IN OFICINA_PRINCIPAL.sede%TYPE, id_ciudad IN OFICINA_PRINCIPAL.fk_lugar_ciudad%TYPE, id_director_area IN OFICINA_PRINCIPAL.fk_director_area%TYPE, id_director_ejecutivo IN OFICINA_PRINCIPAL.fk_director_ejecutivo%TYPE)
-ELIMINAR_OFICINA_PRINCIPAL (id_oficina IN INTEGER)
-ACTUALIZAR_OFICINA_PRINCIPAL (id_oficina IN integer, nombre_va IN OFICINA_PRINCIPAL.nombre%TYPE, sede_va IN OFICINA_PRINCIPAL.sede%TYPE, id_ciudad IN OFICINA_PRINCIPAL.fk_lugar_ciudad%TYPE, id_director_area IN OFICINA_PRINCIPAL.fk_director_area%TYPE, id_director_ejecutivo IN OFICINA_PRINCIPAL.fk_director_ejecutivo%TYPE)
-CREAR_DIRECTOR_EJECUTIVO (primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
-ELIMINAR_DIRECTOR_EJECUTIVO (id_director_ejecutivo IN INTEGER)
-ACTUALIZAR_DIRECTOR_EJECUTIVO (id_director_ejecutivo IN integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
-CAMBIAR_ROL_EMPLEADO (id_empleado IN integer, id_jefe in integer, cargo in integer)
-CREAR_LUGAR (nombre_va IN LUGAR.nombre%TYPE, tipo_va in LUGAR.tipo%TYPE, region_va in LUGAR.region%TYPE, id_lugar_sup IN LUGAR.fk_lugar%TYPE)
-ELIMINAR_LUGAR (id_lugar IN INTEGER)
-ACTUALIZAR_LUGAR (id_lugar IN integer,nombre_va IN LUGAR.nombre%TYPE, tipo_va in LUGAR.tipo%TYPE, region_va in LUGAR.region%TYPE, id_lugar_sup IN LUGAR.fk_lugar%TYPE)
+GRANT EXECUTE ON FUNCTION VER_DIRECTORES_AREA () TO ROL_DIRECTOR_EJECUTIVO;
+GRANT EXECUTE ON FUNCTION VER_LUGAR (integer) TO ROL_DIRECTOR_EJECUTIVO;
+GRANT EXECUTE ON FUNCTION VER_LUGARES () TO ROL_DIRECTOR_EJECUTIVO;
+GRANT EXECUTE ON FUNCTION VER_OFICINA (integer) TO ROL_DIRECTOR_EJECUTIVO;
+GRANT EXECUTE ON FUNCTION VER_OFICINAS () TO ROL_DIRECTOR_EJECUTIVO;
+GRANT EXECUTE ON FUNCTION VER_DIRECTOR_EJECUTIVO (integer) TO ROL_DIRECTOR_EJECUTIVO;
+GRANT EXECUTE ON FUNCTION VER_DIRECTORES_EJECUTIVOS () TO ROL_DIRECTOR_EJECUTIVO;
+GRANT EXECUTE ON PROCEDURE CREAR_DIRECTOR_AREA (varchar, varchar, varchar, varchar, telefono_ty, int) TO ROL_DIRECTOR_EJECUTIVO;
+GRANT EXECUTE ON PROCEDURE ELIMINAR_DIRECTOR_AREA (INTEGER) TO ROL_DIRECTOR_EJECUTIVO;
+GRANT EXECUTE ON PROCEDURE ACTUALIZAR_DIRECTOR_AREA (integer, varchar, varchar, varchar, varchar, telefono_ty, int) TO ROL_DIRECTOR_EJECUTIVO;
+GRANT EXECUTE ON PROCEDURE CREAR_OFICINA_PRINCIPAL (varchar, boolean, int, int, int) TO ROL_DIRECTOR_EJECUTIVO;
+GRANT EXECUTE ON PROCEDURE ELIMINAR_OFICINA_PRINCIPAL (INTEGER) TO ROL_DIRECTOR_EJECUTIVO;
+GRANT EXECUTE ON PROCEDURE ACTUALIZAR_OFICINA_PRINCIPAL (integer, varchar, boolean, int, int, int) TO ROL_DIRECTOR_EJECUTIVO;
+GRANT EXECUTE ON PROCEDURE CREAR_DIRECTOR_EJECUTIVO (varchar, varchar, varchar, varchar, telefono_ty) TO ROL_DIRECTOR_EJECUTIVO;
+GRANT EXECUTE ON PROCEDURE ELIMINAR_DIRECTOR_EJECUTIVO (INTEGER) TO ROL_DIRECTOR_EJECUTIVO;
+GRANT EXECUTE ON PROCEDURE ACTUALIZAR_DIRECTOR_EJECUTIVO (integer, varchar, varchar, varchar, varchar, telefono_ty) TO ROL_DIRECTOR_EJECUTIVO;
+GRANT EXECUTE ON PROCEDURE CAMBIAR_ROL_EMPLEADO (integer, integer, integer) TO ROL_DIRECTOR_EJECUTIVO;
+GRANT EXECUTE ON PROCEDURE CREAR_LUGAR (varchar, varchar, varchar, int) TO ROL_DIRECTOR_EJECUTIVO;
+GRANT EXECUTE ON PROCEDURE ELIMINAR_LUGAR (INTEGER) TO ROL_DIRECTOR_EJECUTIVO;
+GRANT EXECUTE ON PROCEDURE ACTUALIZAR_LUGAR (integer, varchar, varchar, varchar, int) TO ROL_DIRECTOR_EJECUTIVO;
 
 
 
 
+-- ROL_DIRECTOR_AREA
 
-GRANT EXECUTE ON FUNCTION VER_JEFE_E(integer,integer) TO ROL_DIRECTOR_AREA;
-GRANT EXECUTE ON FUNCTION VER_JEFES_E(integer) TO ROL_DIRECTOR_AREA;
+GRANT EXECUTE ON FUNCTION VER_JEFE_E(INTEGER,INTEGER) TO ROL_DIRECTOR_AREA;
+GRANT EXECUTE ON FUNCTION VER_JEFES_E(INTEGER) TO ROL_DIRECTOR_AREA;
 
--/=/- ARCHIVO PROCEDIMIENTOS_DIRECTOR_AREA.sql -/=/-
+GRANT EXECUTE ON FUNCTION VER_JEFE_E (INTEGER, INTEGER) TO  ROL_DIRECTOR_AREA;
+GRANT EXECUTE ON FUNCTION VER_JEFES_E (INTEGER) TO  ROL_DIRECTOR_AREA;
+GRANT EXECUTE ON FUNCTION VER_ESTACION (INTEGER, INTEGER) TO  ROL_DIRECTOR_AREA;
+GRANT EXECUTE ON FUNCTION VER_ESTACIONES (INTEGER) TO  ROL_DIRECTOR_AREA;
+GRANT EXECUTE ON FUNCTION VER_PRESUPUESTO_ESTACION (INTEGER, INTEGER) TO  ROL_DIRECTOR_AREA;
+GRANT EXECUTE ON FUNCTION VER_CLIENTE (INTEGER) TO  ROL_DIRECTOR_AREA;
+GRANT EXECUTE ON FUNCTION VER_CLIENTES () TO  ROL_DIRECTOR_AREA;
 
--/ VER_JEFE_E (id_empleado_acceso in integer, id_jefe in integer)
--/ VER_JEFES_E (id_empleado_acceso in integer)
--/ VER_ESTACION (id_empleado_acceso in integer, id_estacion in integer)
--/ VER_ESTACIONES (id_empleado_acceso in integer)
--/ VER_PRESUPUESTO_ESTACION (id_empleado_acceso in integer, id_estacion in integer)
--/ VER_CLIENTE (id_cliente in integer)
--/ VER_CLIENTES ()
--/ 
+GRANT EXECUTE ON PROCEDURE VALIDAR_ACESSO_DIR_AREA_ESTACION (INTEGER, INTEGER) TO  ROL_DIRECTOR_AREA;
+GRANT EXECUTE ON PROCEDURE VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION(INTEGER, INTEGER) TO  ROL_DIRECTOR_AREA;
 
--/=/- ARCHIVO PROCEDIMIENTOS_DIRECTOR_AREA.sql -/=/-
+GRANT EXECUTE ON PROCEDURE CREAR_JEFE_ESTACION (INTEGER, VARCHAR, VARCHAR, VARCHAR, VARCHAR, telefono_ty) TO  ROL_DIRECTOR_AREA;
+GRANT EXECUTE ON PROCEDURE ACTUALIZAR_JEFE_ESTACION ( INTEGER, INTEGER, VARCHAR, VARCHAR, VARCHAR, VARCHAR, telefono_ty) TO  ROL_DIRECTOR_AREA;
+GRANT EXECUTE ON PROCEDURE ELIMINAR_JEFE_ESTACION (INTEGER, INTEGER) TO  ROL_DIRECTOR_AREA;
 
--- / - REVISAR
--/ VALIDAR_ACESSO_DIR_AREA_ESTACION (id_empleado_acceso in integer, id_estacion in integer)
--/ VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION(id_empleado_acceso in integer, id_jefe_estacion in integer)
+GRANT EXECUTE ON PROCEDURE CREAR_ESTACION (INTEGER, VARCHAR, INTEGER, INTEGER) TO  ROL_DIRECTOR_AREA;
+GRANT EXECUTE ON PROCEDURE ELIMINAR_ESTACION (INTEGER, INTEGER) TO  ROL_DIRECTOR_AREA;
+GRANT EXECUTE ON PROCEDURE ACTUALIZAR_ESTACION (INTEGER, VARCHAR, INTEGER, INTEGER) TO  ROL_DIRECTOR_AREA;
+
+GRANT EXECUTE ON PROCEDURE ASIGNACION_PRESUPUESTO (INTEGER, INTEGER, NUMERIC) TO  ROL_DIRECTOR_AREA;
+
+GRANT EXECUTE ON PROCEDURE CREAR_CLIENTE (VARCHAR, VARCHAR, BOOLEAN, telefono_ty, contacto_ty, INTEGER) TO  ROL_DIRECTOR_AREA;
+GRANT EXECUTE ON PROCEDURE ELIMINAR_CLIENTE (INTEGER) TO  ROL_DIRECTOR_AREA;
+GRANT EXECUTE ON PROCEDURE ACTUALIZAR_CLIENTE (INTEGER, VARCHAR, VARCHAR, BOOLEAN, telefono_ty, contacto_ty, INTEGER) TO  ROL_DIRECTOR_AREA;
+
+GRANT EXECUTE ON PROCEDURE ASIGNAR_TEMA_CLIENTE (INTEGER, INTEGER) TO  ROL_DIRECTOR_AREA;
 
 
--/ CREAR_JEFE_ESTACION (id_empleado_acceso in integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
--/ ACTUALIZAR_JEFE_ESTACION (id_empleado_acceso IN integer, id_jefe_estacion IN integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
--/ ELIMINAR_JEFE_ESTACION (id_empleado_acceso IN INTEGER, id_jefe_estacion IN INTEGER)
 
--/ CREAR_ESTACION (id_empleado_acceso IN integer, nombre_va IN ESTACION.nombre%TYPE, id_ciudad IN ESTACION.fk_lugar_ciudad%TYPE, id_jefe_estacion IN ESTACION.fk_jefe_estacion%TYPE)
--/ ELIMINAR_ESTACION (id_empleado_acceso IN integer, id_estacion IN INTEGER)
--/ ACTUALIZAR_ESTACION (id_empleado_acceso IN integer, nombre_va IN ESTACION.nombre%TYPE, id_ciudad IN ESTACION.fk_lugar_ciudad%TYPE, id_jefe_estacion IN ESTACION.fk_empleado_jefe%TYPE)
+-- ROL EMPLEADO_JEFE
 
--/  ASIGNACION_PRESUPUESTO (id_empleado_acceso integer, estacion_va integer, presupuesto_va numeric)
+GRANT EXECUTE ON PROCEDURE ELIMINAR_PERSONAL_INTELIGENCIA (INTEGER, INTEGER) TO ROL_JEFE_ESTACION;
+GRANT EXECUTE ON PROCEDURE CERRAR_HIST_CARGO (integer, integer) TO ROL_JEFE_ESTACION;
+GRANT EXECUTE ON PROCEDURE ASIGNAR_TRANSFERIR_ESTACION_EMPLEADO (integer, integer, integer, varchar) TO ROL_JEFE_ESTACION;
+GRANT EXECUTE ON PROCEDURE ASIGNAR_TEMA_ANALISTA (integer, integer, integer) TO ROL_JEFE_ESTACION;
+GRANT EXECUTE ON PROCEDURE VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA ( integer, integer) TO ROL_JEFE_ESTACION;
+GRANT EXECUTE ON PROCEDURE VALIDAR_ACESSO_EMPLEADO_ESTACION (integer, integer) TO ROL_JEFE_ESTACION;
+GRANT EXECUTE ON PROCEDURE CREAR_PERSONAL_INTELIGENCIA (varchar, varchar, varchar, varchar, date, numeric(5), numeric(5), varchar, varchar, varchar, bytea, bytea, bytea, telefono_ty, licencia_ty,varchar(50)[], familiar_ty, familiar_ty, identificacion_ty, nivel_educativo_ty, int) TO ROL_JEFE_ESTACION;
+GRANT EXECUTE ON PROCEDURE ACTUALIZAR_PERSONAL_INTELIGENCIA (integer, integer, varchar, varchar, varchar, varchar, date, numeric(5), numeric(5), varchar, varchar, varchar, bytea, bytea, bytea, telefono_ty, licencia_ty,varchar(50)[], familiar_ty, familiar_ty, identificacion_ty, nivel_educativo_ty, int) TO ROL_JEFE_ESTACION;
+GRANT EXECUTE ON PROCEDURE ELIMINAR_PERSONAL_INTELIGENCIA (INTEGER, INTEGER) TO ROL_JEFE_ESTACION;
+GRANT EXECUTE ON PROCEDURE CAMBIAR_ROL_PERSONAL_INTELIGENCIA (integer, integer, varchar) TO ROL_JEFE_ESTACION;
 
--/ CREAR_CLIENTE (nombre_empresa_va IN CLIENTE.nombre_empresa%TYPE, pagina_web_va IN CLIENTE.pagina_web%TYPE, exclusivo_va IN CLIENTE.exclusivo%TYPE, telefono_va IN telefono_ty, contacto_va IN contacto_ty, id_lugar in integer)
--/ ELIMINAR_CLIENTE (id_cliente IN INTEGER)
--/ ACTUALIZAR_CLIENTE (id_cliente IN integer, nombre_empresa_va IN CLIENTE.nombre_empresa%TYPE, pagina_web_va IN CLIENTE.pagina_web%TYPE, exclusivo_va IN CLIENTE.exclusivo%TYPE, telefono_va IN telefono_ty, contacto_va IN contacto_ty, id_lugar in integer)
 
-- / ASIGNAR_TEMA_CLIENTE (tema_id integer,cliente_id integer)
+-- 3. Demostración de la implementación de los requerimientos del
+-- sistema de bases de datos transaccional referidos al proceso de
+-- venta de piezas – actividades de recolección y verificación de
+-- hechos crudos y manejo de informantes, incluyendo la seguridad
+-- correspondiente (roles, cuentas con privilegios para poder ejecutar
+-- los programas y reportes).
 
+
+
+-- ROL_ANALISTA Y ROL_AGENTE
+
+GRANT EXECUTE ON FUNCTION VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_CONFIDENTE (integer) TO ROL_AGENTE_CAMPO, ROL_ANALISTA;
+GRANT EXECUTE ON FUNCTION VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_AGENTE (integer) TO ROL_AGENTE_CAMPO;
+
+GRANT EXECUTE ON PROCEDURE REGISTRO_INFORMANTE (varchar, integer, integer,integer) TO ROL_AGENTE_CAMPO;
+GRANT EXECUTE ON PROCEDURE REGISTRO_CRUDO_SIN_INFORMANTE ( integer, integer, bytea, varchar,  varchar, varchar, numeric, numeric, numeric) TO ROL_AGENTE_CAMPO;
+GRANT EXECUTE ON PROCEDURE REGISTRO_CRUDO_CON_INFORMANTE ( integer, numeric , integer, integer, bytea, varchar,  varchar, numeric, numeric, numeric ) TO ROL_AGENTE_CAMPO;
+
+GRANT EXECUTE ON FUNCTION ANALISTA_VERIFICO_CRUDO ( integer, integer )  TO  ROL_ANALISTA;
+GRANT EXECUTE ON FUNCTION ANALISTA_PUEDE_VERIFICA_CRUDO ( integer, integer )  TO  ROL_ANALISTA;
+GRANT EXECUTE ON PROCEDURE VERIFICAR_CRUDO ( integer, integer, numeric) TO  ROL_ANALISTA;
+GRANT EXECUTE ON PROCEDURE CERRAR_CRUDO ( integer ) TO  ROL_ANALISTA;
+
+
+
+
+
+
+-- 4. Demostración de la implementación de los requerimientos del
+-- sistema de bases de datos transaccional referidos al proceso de
+-- venta de piezas de inteligencia – construcción de piezas de
+-- inteligencia y venta a clientes, incluyendo la seguridad
+-- correspondiente (roles, cuentas con privilegios para poder ejecutar
+-- los programas y reportes).
+
+
+
+
+GRANT EXECUTE ON PROCEDURE REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA (integer, varchar, integer) TO ROL_ANALISTA;
+GRANT EXECUTE ON FUNCTION VER_DATOS_PIEZA (integer, integer) TO ROL_AGENTE_CAMPO, ROL_ANALISTA;
+GRANT EXECUTE ON PROCEDURE AGREGAR_CRUDO_A_PIEZA ( integer, integer ) TO ROL_ANALISTA;
+GRANT EXECUTE ON PROCEDURE REGISTRO_VENTA (integer, integer, numeric) TO ROL_ANALISTA;
+GRANT EXECUTE ON PROCEDURE CERTIFICAR_PIEZA (integer, numeric) TO ROL_ANALISTA;
+GRANT EXECUTE ON PROCEDURE ELIMINACION_REGISTROS_VENTA_EXCLUSIVA ( integer )  TO ROL_ANALISTA;
+GRANT EXECUTE ON FUNCTION VALIDAR_VENTA_EXCLUSIVA ( integer )  TO ROL_ANALISTA;

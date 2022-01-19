@@ -389,7 +389,7 @@ END $$;
 
 
 
-DROP PROCEDURE IF EXISTS CREAR_ESTACION CASCADE;
+-- DROP PROCEDURE IF EXISTS CREAR_ESTACION CASCADE;
 
 CREATE OR REPLACE PROCEDURE CREAR_ESTACION (id_empleado_acceso IN integer, nombre_va IN ESTACION.nombre%TYPE, id_ciudad IN ESTACION.fk_lugar_ciudad%TYPE, id_jefe_estacion IN ESTACION.fk_empleado_jefe%TYPE)
 LANGUAGE plpgsql
