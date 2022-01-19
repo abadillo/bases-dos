@@ -88,7 +88,7 @@ SELECT VER_JEFES_E(2);
 
 
 
-
+----------------------------------//////////////////////-------------------------
 
 
 
@@ -319,6 +319,8 @@ $$ LANGUAGE plpgsql;
 
 
 
+
+
 --DROP FUNCTION VER_ESTACION;
 
 CREATE OR REPLACE FUNCTION VER_ESTACION (id_empleado_acceso in integer, id_estacion in integer)
@@ -351,6 +353,36 @@ $$;
 --
 -- select * FROM VER_ESTACIONES(2);
 -- select * from oficina_principal where fk_director_area = 3;
+
+
+
+-------------------------//////////////---------------------------------------------//////////////--------------------
+
+
+CREATE OR REPLACE FUNCTION VER_CUENTA_ESTACION_DIR_AREA (id_empleado_acceso in integer, id_estacion in INTEGER)
+RETURNS setof CUENTA
+LANGUAGE plpgsql
+AS $$  
+DECLARE 
+	cuenta_reg CUENTA%ROWTYPE;
+BEGIN
+ 	
+	CALL VALIDAR_ACESSO_DIR_AREA_ESTACION(id_empleado_acceso, id_estacion);
+    
+	RETURN QUERY 
+		SELECT * FROM CUENTA WHERE fk_estacion = id_estacion; 
+
+	-- RETURN cuenta_reg;
+
+END $$;
+
+-- SELECT * FROM VER_CUENTA_ESTACION_DIR_AREA(3,5);
+-- SELECT * FROM estacion;
+
+
+
+-------------------------//////////////---------------------------------------------//////////////--------------------
+
 
 
 
@@ -871,5 +903,7 @@ $$;
 
 -- call ASIGNAR_TEMA_CLIENTE (2, 10);
 -- select * from AREA_INTERES;
+
+
 
 

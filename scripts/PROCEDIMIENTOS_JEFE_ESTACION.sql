@@ -10,20 +10,7 @@ DECLARE
 
 BEGIN
 
-	SELECT * INTO jefe_estacion_reg FROM EMPLEADO_JEFE WHERE id = id_empleado_acceso AND tipo = 'jefe';
-	
-	IF (jefe_estacion_reg IS NULL) THEN
-		RAISE EXCEPTION 'El jefe no existe o no es un jefe';
-	END IF;
-
-	SELECT * INTO estacion_reg FROM ESTACION WHERE fk_empleado_jefe = id_empleado_acceso;
-
-	IF (estacion_reg IS NULL) THEN
-		RAISE EXCEPTION 'El jefe no es jefe de ninguna estacion';
-	END IF;
-
-
-	SELECT * INTO hist_cargo_reg FROM HIST_CARGO WHERE fk_estacion = estacion_reg.id and fk_personal_inteligencia = id_personal_inteligencia and fecha_fin is null; 
+	SELECT * INTO hist_cargo_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = id_personal_inteligencia AND fk_estacion IN (SELECT id FROM ESTACION WHERE fk_empleado_jefe = id_empleado_acceso);
 
 	IF (hist_cargo_reg IS NULL) THEN
 		RAISE EXCEPTION 'No tiene acesso a esta informacion';
@@ -34,90 +21,60 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+-- CALL VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA(15,17);
+-- SELECT * FROM HIST_CARGO where fk_personal_inteligencia = 17;
+-- SELECT * FROM VER_ESTACION(3,5);
+
+
+
+-----------------------------////////////////////////-----------------------------------
 
 
 
 
-CREATE OR REPLACE PROCEDURE ASIGNAR_TEMA_ANALISTA (id_empleado_acceso integer, tema_id integer, analista_id integer)
-LANGUAGE PLPGSQL
+CREATE OR REPLACE PROCEDURE VALIDAR_ACESSO_EMPLEADO_ESTACION ( id_empleado_acceso in integer, id_estacion in integer)
 AS $$
-DECLARE 
+DECLARE
 
-	-- estacion_reg estacion%ROWTYPE;
-	hist_cargo_reg hist_cargo%ROWTYPE;	
-	empleado_jefe_reg empleado_jefe%ROWTYPE;
+	estacion_reg ESTACION%ROWTYPE;
+
+BEGIN
+
+	SELECT * INTO jefe_estacion_reg FROM EMPLEADO_JEFE WHERE id = id_empleado_acceso AND tipo = 'jefe';
 	
-	tema_reg CLAS_TEMA%ROWTYPE;
-
-	personal_inteligencia_reg PERSONAL_INTELIGENCIA%ROWTYPE;
-
-	temas_esp_exit TEMAS_ESP%ROWTYPE;
-	
-
-BEGIN 
-
-	-- CALL VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION(id_empleado_acceso, personal_inteligencia);
-
-	
-	SELECT * INTO tema_reg FROM CLAS_TEMA WHERE id = tema_id;
-	
-	---VALIDACION SI EL TEMA ES NULO---		
-	IF (tema_reg IS NULL) THEN
-		
-		RAISE EXCEPTION 'No existe el tema';
+	IF (jefe_estacion_reg IS NULL) THEN
+		RAISE EXCEPTION 'El jefe no existe o no es un jefe';
 	END IF;
 
+	SELECT * INTO estacion_reg FROM ESTACION WHERE fk_empleado_jefe = id_empleado_acceso AND id = id_estacion;
 
-	SELECT * INTO personal_inteligencia_reg FROM PERSONAL_INTELIGENCIA WHERE id = analista_id;
-	
-	---VALIDACION SI EL TEMA ES NULO---		
-	IF (personal_inteligencia_reg IS NULL) THEN
-		
-		RAISE EXCEPTION 'No existe el canalista';
-	END IF;
-
-
-	SELECT * INTO temas_esp_exit FROM TEMAS_ESP WHERE fk_clas_tema = tema_id and fk_personal_inteligencia = analista_id;
-		
-	---VALIDACION SI EL TEMA ES NULO---		
-	IF (temas_esp_exit IS NOT NULL) THEN
-		
-		RAISE EXCEPTION 'Ya el tema fue asignado';
+	IF (estacion_reg IS NULL) THEN
+		RAISE EXCEPTION 'No tiene acesso a esta informacion';
 	END IF;
 		
-	
 
-	SELECT * INTO hist_cargo_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = analista_id LIMIT 1;
-
-	IF (hist_cargo_reg IS NOT NULL) THEN	
-		
-		CALL VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA(id_empleado_acceso, analista_id);
-
-	END IF;
+END;
+$$ LANGUAGE plpgsql;
 
 
-	INSERT INTO TEMAS_ESP (
-		fk_personal_inteligencia,
-		fk_clas_tema
-	) VALUES (
-		analista_id,
-		tema_id				
-	);
-							
-	RAISE INFO 'SE INSERTO EN EL PERSONAL DE INTELIGENCIA CON EL ID: %, EL TEMA CON ID: % Y NOMBRE: %', analista_id, tema_id, tema_reg.nombre;
-	
-END
-$$;
+
+-----------------------------////////////////////////-----------------------------------
 
 
 
 
 
--- call ASIGNAR_TEMA_ANALISTA(16,2,21);
 
 
--- select * from TEMAS_ESP where fk_personal_inteligencia = 21 
 
+
+
+
+
+
+
+
+-----------------------------////////////////////////-----------------------------------
 
 
 
@@ -222,7 +179,7 @@ BEGIN
 	) RETURNING * INTO personal_inteligencia_reg;
 
    RAISE INFO 'PERSONAL DE INTELIGENCIA CREADO CON EXITO!';
-   RAISE INFO 'Datos del personal de inteligencia: %', personal_inteligencia_reg ; 
+--    RAISE INFO 'Datos del personal de inteligencia: %', personal_inteligencia_reg ; 
 
 END $$;
 
@@ -250,6 +207,146 @@ END $$;
 --     CREAR_NIVEL_EDUCATIVO('Economía', 'Master', 'Finanzas'),
 -- 	20
 -- );
+
+
+
+
+--------------------------------------------///////////////////////--------------------------------------
+
+
+
+
+
+
+CREATE OR REPLACE PROCEDURE ACTUALIZAR_PERSONAL_INTELIGENCIA (
+	id_empleado_acceso in integer,
+	id_personal_inteligencia in integer,
+
+    primer_nombre_va IN PERSONAL_INTELIGENCIA.primer_nombre%TYPE, 
+    segundo_nombre_va IN PERSONAL_INTELIGENCIA.segundo_nombre%TYPE, 
+    primer_apellido_va IN PERSONAL_INTELIGENCIA.primer_apellido%TYPE, 
+    segundo_apellido_va IN PERSONAL_INTELIGENCIA.segundo_apellido%TYPE, 
+    fecha_nacimiento_va IN PERSONAL_INTELIGENCIA.fecha_nacimiento%TYPE, 
+    altura_cm_va IN PERSONAL_INTELIGENCIA.altura_cm%TYPE, 
+    peso_kg_va IN PERSONAL_INTELIGENCIA.peso_kg%TYPE, 
+    color_ojos_va IN PERSONAL_INTELIGENCIA.color_ojos%TYPE, 
+    vision_va IN PERSONAL_INTELIGENCIA.vision%TYPE, 
+    class_seguridad_va IN PERSONAL_INTELIGENCIA.class_seguridad%TYPE, 
+
+    fotografia_va IN PERSONAL_INTELIGENCIA.fotografia%TYPE, 
+    huella_retina_va IN PERSONAL_INTELIGENCIA.huella_retina%TYPE, 
+    huella_digital_va IN PERSONAL_INTELIGENCIA.huella_digital%TYPE, 
+
+    telefono_va IN PERSONAL_INTELIGENCIA.telefono%TYPE, 
+    licencia_manejo_va IN PERSONAL_INTELIGENCIA.licencia_manejo%TYPE,
+
+    idiomas_va IN PERSONAL_INTELIGENCIA.idiomas%TYPE, 
+    familiar_1_va IN familiar_ty, 
+    familiar_2_va IN familiar_ty, 
+    
+    identificacion_1_va IN identificacion_ty, 
+    
+    nivel_educativo_1_va IN nivel_educativo_ty, 
+
+    id_ciudad IN PERSONAL_INTELIGENCIA.fk_lugar_ciudad%TYPE
+)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+    personal_inteligencia_reg PERSONAL_INTELIGENCIA%ROWTYPE;
+
+	hist_cargo_reg hist_cargo%ROWTYPE;	
+	-- empleado_jefe_reg empleado_jefe%ROWTYPE;
+	
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CREAR_PERSONAL_INTELIGENCIA ( % ) ------', NOW();
+	
+
+	
+	SELECT * INTO personal_inteligencia_reg FROM PERSONAL_INTELIGENCIA WHERE id = id_personal_inteligencia;
+	
+	---VALIDACION SI EL TEMA ES NULO---		
+	IF (personal_inteligencia_reg IS NULL) THEN
+		
+		RAISE EXCEPTION 'No existe el canalista';
+	END IF;
+
+
+	SELECT * INTO hist_cargo_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = id_personal_inteligencia LIMIT 1;
+
+	IF (hist_cargo_reg IS NOT NULL) THEN	
+		
+		CALL VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA(id_empleado_acceso, id_personal_inteligencia);
+
+
+	END IF;
+
+	-------------////////
+	
+	UPDATE PERSONAL_INTELIGENCIA SET
+		
+        primer_nombre = primer_nombre_va,
+        segundo_nombre = segundo_nombre_va,
+        primer_apellido = primer_apellido_va,
+        segundo_apellido = segundo_apellido_va,
+        fecha_nacimiento = fecha_nacimiento_va,
+        altura_cm = altura_cm_va,
+        peso_kg = peso_kg_va,
+        color_ojos = color_ojos_va,
+        vision = vision_va,
+        class_seguridad = class_seguridad_va,
+        fotografia = fotografia_va,
+        huella_retina = huella_retina_va,
+        huella_digital = huella_digital_va,
+        telefono = telefono_va,
+        licencia_manejo = licencia_manejo_va,
+        idiomas = idiomas_va,
+        familiares = ARRAY [ familiar_1_va, familiar_2_va ],
+        identificaciones = ARRAY [identificacion_1_va ],
+        nivel_educativo = ARRAY [nivel_educativo_1_va ],
+        fk_lugar_ciudad = id_ciudad
+	
+	WHERE id = id_personal_inteligencia;
+	-- RETURNING * INTO personal_inteligencia_reg;
+
+   RAISE INFO 'PERSONAL DE INTELIGENCIA CREADO CON EXITO!';
+--    RAISE INFO 'Datos del personal de inteligencia: %', personal_inteligencia_reg ; 
+
+END $$;
+
+
+-- CALL ACTUALIZAR_PERSONAL_INTELIGENCIA (
+-- 	16,
+-- 	21,
+--     'nombrez',
+--     'nombrez',
+--     'apellidoz',
+--     'apellidoz',
+-- 	'1995-03-09',
+--     170, 
+--     80,
+--     'negro',
+--     '20/20',
+--     'no_clasificado',
+--     FORMATO_ARCHIVO_A_BYTEA('personal_inteligencia_data/foto.png'),
+--     FORMATO_ARCHIVO_A_BYTEA('personal_inteligencia_data/huella_retina.png'),
+--     FORMATO_ARCHIVO_A_BYTEA('personal_inteligencia_data/huella_digital.png'),
+--     CREAR_TELEFONO(0212,2847268),
+--     CREAR_LICENCIA('021390213','Argentina'),
+--     CREAR_ARRAY_IDIOMAS('español','italiano','chino','portugués',null,null),
+--     CREAR_FAMILIAR ('Gabriel','alberto,','manrique','ulacio','1960-06-01','tio',0414,0176620),
+--     CREAR_FAMILIAR ('familiarn2','familiarn2,','familiara2','familiara2','1980-07-01','primo',0416,7876620),
+--     CREAR_IDENTIFICACION('0213120431','Australia'),
+--     CREAR_NIVEL_EDUCATIVO('Economía', 'Master', 'Finanzas'),
+-- 	20
+-- );
+
+
+-- SELECT * FROM VER_TODOS_PERSONAL_INTELIGENCIA_CON_CARGO(16);
 
 -- select * from personal_inteligencia;
 
@@ -320,7 +417,106 @@ END $$;
 
 
 
+
+-----------------------////////////////////-------------------------
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------//////////////////////////////------------------------------------------------------------
+
+
+CREATE OR REPLACE PROCEDURE ASIGNAR_TEMA_ANALISTA (id_empleado_acceso integer, tema_id integer, analista_id integer)
+LANGUAGE PLPGSQL
+AS $$
+DECLARE 
+
+	-- estacion_reg estacion%ROWTYPE;
+	hist_cargo_reg hist_cargo%ROWTYPE;	
+	empleado_jefe_reg empleado_jefe%ROWTYPE;
+	
+	tema_reg CLAS_TEMA%ROWTYPE;
+
+	personal_inteligencia_reg PERSONAL_INTELIGENCIA%ROWTYPE;
+
+	temas_esp_exit TEMAS_ESP%ROWTYPE;
+	
+
+BEGIN 
+
+	-- CALL VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION(id_empleado_acceso, personal_inteligencia);
+
+	
+	SELECT * INTO tema_reg FROM CLAS_TEMA WHERE id = tema_id;
+	
+	---VALIDACION SI EL TEMA ES NULO---		
+	IF (tema_reg IS NULL) THEN
+		
+		RAISE EXCEPTION 'No existe el tema';
+	END IF;
+
+
+	SELECT * INTO personal_inteligencia_reg FROM PERSONAL_INTELIGENCIA WHERE id = analista_id;
+	
+	---VALIDACION SI EL TEMA ES NULO---		
+	IF (personal_inteligencia_reg IS NULL) THEN
+		
+		RAISE EXCEPTION 'No existe el canalista';
+	END IF;
+
+
+	SELECT * INTO temas_esp_exit FROM TEMAS_ESP WHERE fk_clas_tema = tema_id and fk_personal_inteligencia = analista_id;
+		
+	---VALIDACION SI EL TEMA ES NULO---		
+	IF (temas_esp_exit IS NOT NULL) THEN
+		
+		RAISE EXCEPTION 'Ya el tema fue asignado';
+	END IF;
+		
+	
+
+	SELECT * INTO hist_cargo_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = analista_id LIMIT 1;
+
+	IF (hist_cargo_reg IS NOT NULL) THEN	
+		
+		CALL VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA(id_empleado_acceso, analista_id);
+
+	END IF;
+
+
+	INSERT INTO TEMAS_ESP (
+		fk_personal_inteligencia,
+		fk_clas_tema
+	) VALUES (
+		analista_id,
+		tema_id				
+	);
+							
+	RAISE INFO 'SE INSERTO EN EL PERSONAL DE INTELIGENCIA CON EL ID: %, EL TEMA CON ID: % Y NOMBRE: %', analista_id, tema_id, tema_reg.nombre;
+	
+END
+$$;
+
+
+
+
+
+-- call ASIGNAR_TEMA_ANALISTA(16,2,21);
+
+
+-- select * from TEMAS_ESP where fk_personal_inteligencia = 21 
+
+
+
 -------------------------//////////////---------------------------------------------//////////////--------------------
+
+
+
 
 CREATE OR REPLACE FUNCTION VER_TODOS_PERSONAL_INTELIGENCIA_SIN_CARGO ()
 RETURNS setof PERSONAL_INTELIGENCIA
@@ -362,6 +558,9 @@ $$;
 
 
 
+
+------------------------------------------------///////////////////////-----------------------------------------------
+
 CREATE OR REPLACE FUNCTION VER_HISTORICO_CARGO_PERSONAL_INTELIGENCIA (id_empleado_acceso in integer, id_personal_inteligencia in integer)
 RETURNS setof HIST_CARGO
 LANGUAGE sql
@@ -380,7 +579,7 @@ $$;
 -------------------------//////////////---------------------------------------------//////////////--------------------
 
 
-CREATE OR REPLACE FUNCTION VER_CUENTA_ESTACION (id_empleado_acceso in integer, id_estacion in INTEGER)
+CREATE OR REPLACE FUNCTION VER_CUENTA_ESTACION_JEFE_ESTACION (id_empleado_acceso in integer, id_estacion in INTEGER)
 RETURNS setof CUENTA
 LANGUAGE sql
 AS $$  
@@ -393,31 +592,7 @@ $$;
 
 
 
--------------------------//////////////---------------------------------------------//////////////--------------------
 
-
-CREATE OR REPLACE FUNCTION VER_LISTA_INFORMANTES_EMPLEADO_CONFIDENTE (id_empleado_acceso in integer)
-RETURNS setof INFORMANTE
-LANGUAGE sql
-AS $$  
- 	
-    SELECT * FROM INFORMANTE WHERE fk_empleado_jefe_confidente = id_empleado_acceso; 
-$$;
-
--- SELECT * FROM VER_LISTA_INFORMANTES_EMPLEADO_CONFIDENTE(11);
-
-
-CREATE OR REPLACE FUNCTION VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_CONFIDENTE (id_personal_inteligencia in integer)
-RETURNS setof INFORMANTE
-LANGUAGE sql
-AS $$  
- 	
-    SELECT * FROM INFORMANTE WHERE fk_personal_inteligencia_confidente = id_personal_inteligencia; 
-$$;
-
--- SELECT * FROM VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_CONFIDENTE(11);
-
--- SELECT * from informante;
 
 
 
