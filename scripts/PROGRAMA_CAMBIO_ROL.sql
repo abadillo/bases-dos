@@ -1,21 +1,6 @@
+-- DROP PROCEDURE IF EXISTS CAMBIAR_ROL CASCADE;
 
-
-CREATE OR REPLACE FUNCTION VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_AGENTE (id_personal_inteligencia in integer)
-RETURNS setof INFORMANTE
-LANGUAGE sql
-AS $$  
- 	
-    SELECT * FROM INFORMANTE WHERE fk_personal_inteligencia_confidente = id_personal_inteligencia; 
-$$;
-
-
---------------------------///////////////////////-----------------------------
-
-
-
-DROP PROCEDURE IF EXISTS CAMBIAR_ROL CASCADE;
-
-CREATE OR REPLACE PROCEDURE CAMBIAR_ROL (id_personal_inteligencia IN integer, cargo_va IN HIST_CARGO.cargo%TYPE)
+CREATE OR REPLACE PROCEDURE CAMBIAR_ROL_PERSONAL_INTELIGENCIA (id_empleado_acceso in integer, id_personal_inteligencia IN integer, cargo_va IN HIST_CARGO.cargo%TYPE)
 LANGUAGE plpgsql
 AS $$  
 DECLARE
@@ -40,19 +25,24 @@ BEGIN
    	IF (hist_cargo_actual_reg IS NULL) THEN
    		RAISE INFO 'El personal de inteligencia que ingresó no existe o ya no trabaja en AII';
   		RAISE EXCEPTION 'El personal de inteligencia que ingresó no existe o ya no trabaja en AII';
-   	END IF;   	
-  	
-   
-	IF (hist_cargo_actual_reg.cargo = cargo_va) THEN
-		RAISE INFO 'Ya usted es un %', cargo_va;
-		RAISE EXCEPTION 'Ya usted es un %', cargo_va;
+   	
+	ELSE 
+		
+		CALL VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA(id_empleado_acceso, id_personal_inteligencia);
+
 	END IF;
 
 
-	 IF (cargo_va != 'analista' AND cargo_va != 'agente') THEN
-	 	RAISE INFO 'El cargo que ingresó no existe';
-	 	RAISE EXCEPTION 'El cargo que ingresó no existe';
-	 END IF;
+	IF (hist_cargo_actual_reg.cargo = cargo_va) THEN
+		RAISE INFO 'Ya el personal de inteligencia es un %', cargo_va;
+		RAISE EXCEPTION 'Ya el personal de inteligencia es un %', cargo_va;
+	END IF;
+
+
+	IF (cargo_va != 'analista' AND cargo_va != 'agente') THEN
+	RAISE INFO 'El cargo que ingresó no existe';
+	RAISE EXCEPTION 'El cargo que ingresó no existe';
+	END IF;
 	
    
 	fecha_hoy_va = NOW();
@@ -80,9 +70,11 @@ BEGIN
 END $$;
 
 
-CALL CAMBIAR_ROL(1,'agente');
+-- CALL CAMBIAR_ROL_PERSONAL_INTELIGENCIA(14,13,'agente');
 
-select * from hist_cargo where fk_personal_inteligencia = 1;
+-- SELECT * FROM VER_HISTORICO_CARGO_PERSONAL_INTELIGENCIA(14,13);
+
+-- select * from hist_cargo where fk_personal_inteligencia = 1;
 
 
 
