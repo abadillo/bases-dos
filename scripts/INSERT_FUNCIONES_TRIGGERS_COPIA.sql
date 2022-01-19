@@ -128,7 +128,7 @@ $$;
 ----------------CREACION DEL TRIGGER --------------------
 CREATE TRIGGER TRIGGER_COPIA_CRUDO_PIEZA
 BEFORE DELETE ON crudo_pieza
-FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_CRUDO_PIEZA()
+FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_CRUDO_PIEZA();
 ----DROP TRIGGER TRIGGER_CEUDO_PIEZA ON crudo_pieza
 
 
@@ -217,7 +217,7 @@ $$;
 
 CREATE TRIGGER TRIGGER_COPIA_INFO_PIEZA
 BEFORE DELETE ON pieza_inteligencia
-FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_INFO_PIEZA()
+FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_INFO_PIEZA();
 
 ----DROP TRIGGER trigger_copia_pieza ON pieza_inteligencia;
 
@@ -286,6 +286,28 @@ BEGIN
 
 END
 $$;
+
+
+CREATE OR REPLACE FUNCTION TRIGGER_COPIA_INFORMANTE()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS $$
+BEGIN
+
+----SELECT PARA EXTRAER LA INFO DE LA TABLA PIEZA_INTELIGENCIA
+
+	CALL PROCEDIMIENTO_COPIA_INFORMANTE(old.id);
+
+	RETURN old;
+
+END
+$$;
+
+
+CREATE TRIGGER TRIGGER_COPIA_INFORMANTE
+BEFORE DELETE ON INFORMANTE
+FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_INFORMANTE();
+
 ------DROP PROCEDURE PROCEDIMIENTO_COPIA_INFORMANTE(integer, timestamp)
 
 
@@ -379,76 +401,76 @@ FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIAR_TRANSACCION_PAGO();
 
 
 
-----------------------------------------------
----- PROCEDIMIENTO DE COPIA_HISTORICO_CARGO ----
-CREATE OR REPLACE PROCEDURE COPIA_HISTORICO_CARGO(fk_fecha_inicio_va timestamp, fk_personal_inteligencia_va integer, fk_estacion_va integer, fk_oficina_principal_va integer)
-LANGUAGE PLPGSQL
-AS $$
-DECLARE
+-- ----------------------------------------------
+-- ---- PROCEDIMIENTO DE COPIA_HISTORICO_CARGO ----
+-- CREATE OR REPLACE PROCEDURE COPIA_HISTORICO_CARGO(fk_fecha_inicio_va timestamp, fk_personal_inteligencia_va integer, fk_estacion_va integer, fk_oficina_principal_va integer)
+-- LANGUAGE PLPGSQL
+-- AS $$
+-- DECLARE
 
-	HISTORICO hist_cargo%rowtype;
+-- 	HISTORICO hist_cargo%rowtype;
 
-	hist_cargo_alt_reg hist_cargo_alt%rowtype; 
+-- 	hist_cargo_alt_reg hist_cargo_alt%rowtype; 
 
-BEGIN
-
-
---- BUSCA LA INFORMACION EN HIST_CARGO PARA COPIARLA y VALIDACION SI EXISTE EL CARGO EN LA TABLA ALTE
-	RAISE INFO ' ';
-	RAISE INFO '------ EJECUCION DEL PROCEDIMIENTO COPIA_HISTORICO_CARGO ( % ) ------', NOW();
-
-	select * into hist_cargo_alt_reg 
-	from hist_cargo_alt
-	where fecha_inicio = fk_fecha_inicio_va
-	AND fk_personal_inteligencia = fk_personal_inteligencia_va
-	AND fk_estacion = fk_estacion_va
-	AND fk_oficina_principal = fk_oficina_principal_va;
-
-	--- INSERT EN LA TABLA ALTERNATIVA DE HISTORICO CARGO
-
-	IF (hist_cargo_alt_reg IS NULL) THEN
-
-	SELECT * INTO HISTORICO 
-	FROM hist_cargo 
-	WHERE fecha_inicio=fk_fecha_inicio_va
-	AND fk_personal_inteligencia = fk_personal_inteligencia_va
-	AND fk_estacion = fk_estacion_va
-	AND fk_oficina_principal = fk_oficina_principal_va;
+-- BEGIN
 
 
-	RAISE INFO 'DATOS DEL HIST_CARGO BASE A COPIAR: %', HISTORICO;
+-- --- BUSCA LA INFORMACION EN HIST_CARGO PARA COPIARLA y VALIDACION SI EXISTE EL CARGO EN LA TABLA ALTE
+-- 	RAISE INFO ' ';
+-- 	RAISE INFO '------ EJECUCION DEL PROCEDIMIENTO COPIA_HISTORICO_CARGO ( % ) ------', NOW();
+
+-- 	select * into hist_cargo_alt_reg 
+-- 	from hist_cargo_alt
+-- 	where fecha_inicio = fk_fecha_inicio_va
+-- 	AND fk_personal_inteligencia = fk_personal_inteligencia_va
+-- 	AND fk_estacion = fk_estacion_va
+-- 	AND fk_oficina_principal = fk_oficina_principal_va;
+
+-- 	--- INSERT EN LA TABLA ALTERNATIVA DE HISTORICO CARGO
+
+-- 	IF (hist_cargo_alt_reg IS NULL) THEN
+
+-- 	SELECT * INTO HISTORICO 
+-- 	FROM hist_cargo 
+-- 	WHERE fecha_inicio=fk_fecha_inicio_va
+-- 	AND fk_personal_inteligencia = fk_personal_inteligencia_va
+-- 	AND fk_estacion = fk_estacion_va
+-- 	AND fk_oficina_principal = fk_oficina_principal_va;
 
 
-		INSERT INTO hist_cargo_alt (
-			fecha_inicio,
-			fecha_fin,
-			cargo,
+-- 	RAISE INFO 'DATOS DEL HIST_CARGO BASE A COPIAR: %', HISTORICO;
 
-			fk_personal_inteligencia,
-			fk_estacion,
-			fk_oficina_principal
 
-		) VALUES (
-			HISTORICO.fecha_inicio,
-			HISTORICO.fecha_fin, 
-			HISTORICO.cargo, 
-			HISTORICO.fk_personal_inteligencia,
-			HISTORICO.fk_estacion, 
-			HISTORICO.fk_oficina_principal
-		);	
+-- 		INSERT INTO hist_cargo_alt (
+-- 			fecha_inicio,
+-- 			fecha_fin,
+-- 			cargo,
 
-		RAISE INFO 'INSERT DE LA INFORMACION COPIADA EN LA TABLA HISTORICO_CARGO_ALT';
+-- 			fk_personal_inteligencia,
+-- 			fk_estacion,
+-- 			fk_oficina_principal
 
-	ELSE
+-- 		) VALUES (
+-- 			HISTORICO.fecha_inicio,
+-- 			HISTORICO.fecha_fin, 
+-- 			HISTORICO.cargo, 
+-- 			HISTORICO.fk_personal_inteligencia,
+-- 			HISTORICO.fk_estacion, 
+-- 			HISTORICO.fk_oficina_principal
+-- 		);	
 
-		RAISE INFO 'EL HISTORICO CARGO YA ESTA REGISTRADO ';
-		RAISE INFO 'EL HISTORICO CARGO YA ESTA REGISTRADO ';
+-- 		RAISE INFO 'INSERT DE LA INFORMACION COPIADA EN LA TABLA HISTORICO_CARGO_ALT';
 
-	END IF;	
+-- 	ELSE
 
-END
-$$;
-----DROP PROCEDURE COPIA_HISTORICO_CARGO(timestamp, integer, integer, integer)
+-- 		RAISE INFO 'EL HISTORICO CARGO YA ESTA REGISTRADO ';
+-- 		RAISE INFO 'EL HISTORICO CARGO YA ESTA REGISTRADO ';
+
+-- 	END IF;	
+
+-- END
+-- $$;
+-- ----DROP PROCEDURE COPIA_HISTORICO_CARGO(timestamp, integer, integer, integer)
 
 
 
@@ -485,8 +507,8 @@ BEGIN
 	SELECT * INTO crudo_alt_reg FROM crudo_alt
 	WHERE id = old.id;
 
-	RAISE INFO 'INFORMACION DE CRUDO A COPIAR ';
-	RAISE INFO '%: ', old;
+	-- RAISE INFO 'INFORMACION DE CRUDO A COPIAR ';
+	-- RAISE INFO '%: ', old;
 
 	--SELECT PARA COPIAR EL HISTORICO CARGO
 
@@ -674,3 +696,201 @@ FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_ANALISTA_CRUDO();
 
 
 
+
+
+
+
+
+-------------------------- FUNCIONES PARA EL INSERT -----------------------------
+
+CREATE OR REPLACE PROCEDURE ELIMINACION_REGISTROS_VENTA_EXCLUSIVA ( id_pieza IN integer ) 
+LANGUAGE PLPGSQL 
+AS $$
+
+DECLARE 
+
+	id_crudos_asociados integer[] ;	
+
+BEGIN 
+
+	id_crudos_asociados := ARRAY( 
+		SELECT fk_crudo FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza
+	);
+
+	RAISE INFO 'IDs de crudos de la pieza %: %', id_pieza, id_crudos_asociados;
+
+	DELETE FROM ADQUISICION WHERE fk_pieza_inteligencia = id_pieza;
+
+	DELETE FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza;
+
+	DELETE FROM PIEZA_INTELIGENCIA WHERE id = id_pieza;
+
+	DELETE FROM TRANSACCION_PAGO WHERE fk_crudo = ANY(id_crudos_asociados);
+
+	DELETE FROM ANALISTA_CRUDO WHERE fk_crudo = ANY(id_crudos_asociados);
+
+	DELETE FROM CRUDO WHERE id = ANY(id_crudos_asociados);
+
+
+END $$;
+
+
+--------------------------/////////////// FUNCION PARA INSERT EN COLUMNA BYTEA //////////////////---------------------- 
+
+
+CREATE OR REPLACE FUNCTION FORMATO_ARCHIVO_A_BYTEA ( ruta_archivo IN text ) 
+RETURNS bytea 
+LANGUAGE plpgsql AS $$ 
+DECLARE 
+
+--  ruta text := 'C:\Users\Mickel\BD2\bases-dos\scripts\';
+--	ruta text := '/mnt/postgres/';
+--  ruta text := 'C:\Users\Mickel\BD2\bases-dos\scripts\';
+
+	ruta text := 'temp_files/';
+	
+BEGIN 
+
+--	RAISE INFO 'Ruta: %', ruta || ruta_archivo ;
+--	RAISE INFO 'Archivo -> bytea: %', pg_read_binary_file(ruta || ruta_archivo) ;
+    
+	RETURN pg_read_binary_file(ruta || ruta_archivo); 
+	
+END $$;
+
+
+-- INSERT INTO crudo (contenido, tipo_contenido, resumen, fuente, valor_apreciacion, nivel_confiabilidad_inicial, nivel_confiabilidad_final, fecha_obtencion, fecha_verificacion_final, cant_analistas_verifican, fk_clas_tema, fk_informante, fk_estacion_pertenece, fk_oficina_principal_pertenece, fk_estacion_agente, fk_oficina_principal_agente, fk_fecha_inicio_agente, fk_personal_inteligencia_agente) VALUES
+-- (FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/images.jpg'), 'imagen', 'Problemas politicos en Vitnam I', 'secreta', 500, 85, 85 , '2034-01-08 01:00:00', '2034-01-06 01:00:00', 2, 1, 1, 1, 1, 1, 1, '2034-01-05 01:00:00', 1);
+
+
+-- SELECT FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/images.jpg');
+
+-- SHOW  data_directory;
+--SELECT  * from crudo c ;
+
+
+
+
+
+
+----------------------- FUNCIONES REPORTES -------------------------------
+
+DROP FUNCTION IF EXISTS RESTA_7_DIAS CASCADE;
+
+CREATE OR REPLACE FUNCTION RESTA_7_DIAS ( fecha IN timestamp ) 
+RETURNS timestamp
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '7 days';
+	
+END $$;
+
+
+DROP FUNCTION IF EXISTS RESTA_6_MESES CASCADE;
+
+CREATE OR REPLACE FUNCTION RESTA_6_MESES ( fecha IN timestamp ) 
+RETURNS timestamp
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '6 month';
+	
+END $$;
+
+
+
+DROP FUNCTION IF EXISTS RESTA_1_YEAR CASCADE;
+
+CREATE OR REPLACE FUNCTION RESTA_1_YEAR ( fecha IN timestamp ) 
+RETURNS timestamp
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '1 years';
+	
+END $$;
+
+
+DROP FUNCTION IF EXISTS RESTA_1_YEAR_DATE CASCADE;
+
+CREATE OR REPLACE FUNCTION RESTA_1_YEAR_DATE ( fecha IN date ) 
+RETURNS date
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '1 years';
+	
+END $$;
+
+
+
+DROP FUNCTION IF EXISTS RESTA_3_MESES CASCADE;
+
+CREATE OR REPLACE FUNCTION RESTA_3_MESES ( fecha IN timestamp ) 
+RETURNS timestamp
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '3 month';
+	
+END $$;
+
+
+DROP FUNCTION IF EXISTS RESTA_3_MESES_DATE CASCADE;
+
+CREATE OR REPLACE FUNCTION RESTA_3_MESES_DATE ( fecha IN date ) 
+RETURNS date
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '3 month';
+	
+END $$;
+
+
+------- .... -------
+
+
+-------------------------------------------------------------------
+   
+ 
+
+-------------------------//////////ACTUALIZAR TODAS LAS FECHAS - RESTA 14 años  /////////////-------------------------
+
+
+DROP FUNCTION IF EXISTS RESTA_14_FECHA CASCADE;
+
+CREATE OR REPLACE FUNCTION RESTA_14_FECHA ( fecha IN date ) 
+RETURNS date
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '14 years';
+	
+END $$;
+
+------- .... -------
+
+DROP FUNCTION IF EXISTS RESTA_14_FECHA_HORA CASCADE;
+
+CREATE OR REPLACE FUNCTION RESTA_14_FECHA_HORA ( fecha IN timestamp ) 
+RETURNS timestamp
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '14 years';
+	
+END $$;
+
+
+
+---------.'.'.'.'.'.'.'.---------

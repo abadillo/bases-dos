@@ -255,3 +255,148 @@ GRANT ROL_ANALISTA TO
 
 
 
+
+----------///////////- ASIGNACION DE PRIVILEGIOS SOBRE OBJETO A LOS ROLES Y USUARIOS FINALES  -- EJECUTAR COMO DEV -///////////----------
+
+
+
+
+GRANT USAGE ON SCHEMA public TO ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
+
+
+-- MANTENIMIENTO = CREACIÓN, ELIMINACIÓN Y MODIFICACIÓN. 
+
+-- PROCEDIMIENTOS DE MANTENIMIENTO PARA CADA NIVEL DE LA ORGANIZACIÓN.
+
+-- DIRECTOR EJECUTIVO -> MANTENER OFICINAS Y DIRECTORES AREA.
+-- DIRECTOR ÁREA -> MANTENER ESTACIONES Y JEFES DE ESTACIONES.
+-- JEFE ESTACIÓN -> MANTENER ESTACIÓN Y PERSONAL INTELIGENCIA.
+
+
+-- PRIVILEGIOS A ROL: DIRECTOR EJECUTIVO
+GRANT SELECT ON VISTA_DIRECTORES_AREA TO ROL_DIRECTOR_EJECUTIVO;
+GRANT SELECT ON VISTA_OFICINAS TO ROL_DIRECTOR_EJECUTIVO;
+GRANT SELECT ON VISTA_CUENTA_AII TO ROL_DIRECTOR_EJECUTIVO;
+
+-- PRIVILEGIOS A ROL: DIRECTOR EJECUTIVO
+
+
+
+
+-- PRIVILEGIOS A USUARIOS: DIRECTORES DE AREA
+
+-- dir_area_2_dublin
+GRANT SELECT ON VISTA_ESTACIONES_CON_JEFE_OFICINA_DUBLIN TO dir_area_2_dublin;
+GRANT SELECT ON VISTA_CUENTAS_AII_OFICINA_DUBLIN TO dir_area_2_dublin;
+
+-- dir_area_3_amsterdam
+GRANT SELECT ON VISTA_ESTACIONES_CON_JEFE_OFICINA_AMSTERDAM TO dir_area_3_amsterdam;
+GRANT SELECT ON VISTA_CUENTAS_AII_OFICINA_AMSTERDAM TO dir_area_3_amsterdam;
+
+-- dir_area_4_nuuk
+GRANT SELECT ON VISTA_ESTACIONES_CON_JEFE_OFICINA_NUUK TO dir_area_4_nuuk;
+GRANT SELECT ON VISTA_CUENTAS_AII_OFICINA_NUUK TO dir_area_4_nuuk;
+
+-- dir_area_5_buenos_aires
+GRANT SELECT ON VISTA_ESTACIONES_CON_JEFE_OFICINA_BUENOS_AIRES TO dir_area_5_buenos_aires;
+GRANT SELECT ON VISTA_CUENTAS_AII_OFICINA_BUENOS_AIRES TO dir_area_5_buenos_aires;
+
+-- dir_area_6_taipei
+GRANT SELECT ON VISTA_ESTACIONES_CON_JEFE_OFICINA_TAIPEI TO dir_area_6_taipei;
+GRANT SELECT ON VISTA_CUENTAS_AII_OFICINA_TAIPEI TO dir_area_6_taipei;
+
+-- dir_area_7_kuala_lumpur
+GRANT SELECT ON VISTA_ESTACIONES_CON_JEFE_OFICINA_KUALA_LUMPUR TO dir_area_7_kuala_lumpur;
+GRANT SELECT ON VISTA_CUENTAS_AII_OFICINA_KUALA_LUMPUR TO dir_area_7_kuala_lumpur;
+
+-- dir_area_8_kampala
+GRANT SELECT ON VISTA_ESTACIONES_CON_JEFE_OFICINA_KAMPALA TO dir_area_8_kampala;
+GRANT SELECT ON VISTA_CUENTAS_AII_OFICINA_KAMPALA TO dir_area_8_kampala;
+
+-- dir_area_9_harare
+GRANT SELECT ON VISTA_ESTACIONES_CON_JEFE_OFICINA_HARARE TO dir_area_9_harare;
+GRANT SELECT ON VISTA_CUENTAS_AII_OFICINA_HARARE TO dir_area_9_harare;
+
+-- dir_area_10_sidney
+GRANT SELECT ON VISTA_ESTACIONES_CON_JEFE_OFICINA_SIDNEY TO dir_area_10_sidney;
+GRANT SELECT ON VISTA_CUENTAS_AII_OFICINA_SIDNEY TO dir_area_10_sidney;
+
+-- dir_area_38_ginebra
+GRANT SELECT ON VISTA_ESTACIONES_CON_JEFE_OFICINA_GINEBRA TO dir_area_38_ginebra;
+GRANT SELECT ON VISTA_CUENTAS_AII_OFICINA_GINEBRA TO dir_area_38_ginebra;
+
+
+
+
+
+-----------------------------////////--------///////---------\\\\\\\\---------\\\\\\\\\-----------------------------
+
+
+
+
+GRANT EXECUTE ON FUNCTION VER_DIRECTOR_AREA(integer) TO ROL_DIRECTOR_EJECUTIVO;
+
+
+VER_DIRECTOR_AREA (id_director_area in integer)
+VER_DIRECTORES_AREA () RETURNS setof EMPLEADO_JEFE
+VER_LUGAR (id_lugar in integer) RETURNS LUGAR
+VER_LUGARES () RETURNS setof LUGAR
+VER_OFICINA (id_oficina in integer) RETURNS OFICINA_PRINCIPAL
+VER_OFICINAS () RETURNS setof OFICINA_PRINCIPAL
+VER_DIRECTOR_EJECUTIVO (id_director_ejecutivo in integer)
+VER_DIRECTORES_EJECUTIVOS ()
+CREAR_DIRECTOR_AREA (primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE, id_jefe IN EMPLEADO_JEFE.fk_empleado_jefe%TYPE)
+ELIMINAR_DIRECTOR_AREA (id_director_area IN INTEGER)
+ACTUALIZAR_DIRECTOR_AREA (id_director_area IN integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE, id_jefe IN EMPLEADO_JEFE.fk_empleado_jefe%TYPE)
+CREAR_OFICINA_PRINCIPAL (nombre_va IN OFICINA_PRINCIPAL.nombre%TYPE, sede_va IN OFICINA_PRINCIPAL.sede%TYPE, id_ciudad IN OFICINA_PRINCIPAL.fk_lugar_ciudad%TYPE, id_director_area IN OFICINA_PRINCIPAL.fk_director_area%TYPE, id_director_ejecutivo IN OFICINA_PRINCIPAL.fk_director_ejecutivo%TYPE)
+ELIMINAR_OFICINA_PRINCIPAL (id_oficina IN INTEGER)
+ACTUALIZAR_OFICINA_PRINCIPAL (id_oficina IN integer, nombre_va IN OFICINA_PRINCIPAL.nombre%TYPE, sede_va IN OFICINA_PRINCIPAL.sede%TYPE, id_ciudad IN OFICINA_PRINCIPAL.fk_lugar_ciudad%TYPE, id_director_area IN OFICINA_PRINCIPAL.fk_director_area%TYPE, id_director_ejecutivo IN OFICINA_PRINCIPAL.fk_director_ejecutivo%TYPE)
+CREAR_DIRECTOR_EJECUTIVO (primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
+ELIMINAR_DIRECTOR_EJECUTIVO (id_director_ejecutivo IN INTEGER)
+ACTUALIZAR_DIRECTOR_EJECUTIVO (id_director_ejecutivo IN integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
+CAMBIAR_ROL_EMPLEADO (id_empleado IN integer, id_jefe in integer, cargo in integer)
+CREAR_LUGAR (nombre_va IN LUGAR.nombre%TYPE, tipo_va in LUGAR.tipo%TYPE, region_va in LUGAR.region%TYPE, id_lugar_sup IN LUGAR.fk_lugar%TYPE)
+ELIMINAR_LUGAR (id_lugar IN INTEGER)
+ACTUALIZAR_LUGAR (id_lugar IN integer,nombre_va IN LUGAR.nombre%TYPE, tipo_va in LUGAR.tipo%TYPE, region_va in LUGAR.region%TYPE, id_lugar_sup IN LUGAR.fk_lugar%TYPE)
+
+
+
+
+
+GRANT EXECUTE ON FUNCTION VER_JEFE_E(integer,integer) TO ROL_DIRECTOR_AREA;
+GRANT EXECUTE ON FUNCTION VER_JEFES_E(integer) TO ROL_DIRECTOR_AREA;
+
+-/=/- ARCHIVO PROCEDIMIENTOS_DIRECTOR_AREA.sql -/=/-
+
+-/ VER_JEFE_E (id_empleado_acceso in integer, id_jefe in integer)
+-/ VER_JEFES_E (id_empleado_acceso in integer)
+-/ VER_ESTACION (id_empleado_acceso in integer, id_estacion in integer)
+-/ VER_ESTACIONES (id_empleado_acceso in integer)
+-/ VER_PRESUPUESTO_ESTACION (id_empleado_acceso in integer, id_estacion in integer)
+-/ VER_CLIENTE (id_cliente in integer)
+-/ VER_CLIENTES ()
+-/ 
+
+-/=/- ARCHIVO PROCEDIMIENTOS_DIRECTOR_AREA.sql -/=/-
+
+-- / - REVISAR
+-/ VALIDAR_ACESSO_DIR_AREA_ESTACION (id_empleado_acceso in integer, id_estacion in integer)
+-/ VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION(id_empleado_acceso in integer, id_jefe_estacion in integer)
+
+
+-/ CREAR_JEFE_ESTACION (id_empleado_acceso in integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
+-/ ACTUALIZAR_JEFE_ESTACION (id_empleado_acceso IN integer, id_jefe_estacion IN integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
+-/ ELIMINAR_JEFE_ESTACION (id_empleado_acceso IN INTEGER, id_jefe_estacion IN INTEGER)
+
+-/ CREAR_ESTACION (id_empleado_acceso IN integer, nombre_va IN ESTACION.nombre%TYPE, id_ciudad IN ESTACION.fk_lugar_ciudad%TYPE, id_jefe_estacion IN ESTACION.fk_jefe_estacion%TYPE)
+-/ ELIMINAR_ESTACION (id_empleado_acceso IN integer, id_estacion IN INTEGER)
+-/ ACTUALIZAR_ESTACION (id_empleado_acceso IN integer, nombre_va IN ESTACION.nombre%TYPE, id_ciudad IN ESTACION.fk_lugar_ciudad%TYPE, id_jefe_estacion IN ESTACION.fk_empleado_jefe%TYPE)
+
+-/  ASIGNACION_PRESUPUESTO (id_empleado_acceso integer, estacion_va integer, presupuesto_va numeric)
+
+-/ CREAR_CLIENTE (nombre_empresa_va IN CLIENTE.nombre_empresa%TYPE, pagina_web_va IN CLIENTE.pagina_web%TYPE, exclusivo_va IN CLIENTE.exclusivo%TYPE, telefono_va IN telefono_ty, contacto_va IN contacto_ty, id_lugar in integer)
+-/ ELIMINAR_CLIENTE (id_cliente IN INTEGER)
+-/ ACTUALIZAR_CLIENTE (id_cliente IN integer, nombre_empresa_va IN CLIENTE.nombre_empresa%TYPE, pagina_web_va IN CLIENTE.pagina_web%TYPE, exclusivo_va IN CLIENTE.exclusivo%TYPE, telefono_va IN telefono_ty, contacto_va IN contacto_ty, id_lugar in integer)
+
+- / ASIGNAR_TEMA_CLIENTE (tema_id integer,cliente_id integer)
+
