@@ -13,6 +13,12 @@
 -- select current_user;
 -------------------------////////////////-----------------------------
 
+------- ------- ---- ---- -- -- IMPORTANTE --- -- - -- - -- -- - -- - - -- 
+
+select pg_terminate_backend(pid) from pg_stat_activity where datname='aii';
+
+
+
 
 ----------///////////- CREACION DE LA BASE DE DATOS CON USUARIOS ADMINISTRADORES Y DESARROLLADORES  -///////////----------
 
@@ -59,8 +65,6 @@ GRANT ALL ON ALL TABLES IN SCHEMA public TO dev01 ;
 GRANT EXECUTE ON FUNCTION pg_read_binary_file(text,bigint,bigint,boolean) TO dev01;
 GRANT EXECUTE ON FUNCTION pg_read_binary_file(text,bigint,bigint) TO dev01; 
 GRANT EXECUTE ON FUNCTION pg_read_binary_file(text) TO dev01;
-
-
 
 
 

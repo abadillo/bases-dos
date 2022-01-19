@@ -792,3 +792,347 @@ END $$;
 
 -- SELECT * FROM VER_HISTORICO_CARGO_PERSONAL_INTELIGENCIA(20,109);
 
+
+---------------------------------------------////////////////////-----------------------------
+
+
+-- DROP PROCEDURE IF EXISTS CAMBIAR_ROL CASCADE;
+
+CREATE OR REPLACE PROCEDURE CAMBIAR_ROL_PERSONAL_INTELIGENCIA (id_empleado_acceso in integer, id_personal_inteligencia IN integer, cargo_va IN HIST_CARGO.cargo%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+   hist_cargo_actual_reg HIST_CARGO%ROWTYPE;
+   
+   fecha_hoy_va timestamp;
+  
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CAMBIAR_ROL ( % ) ------', NOW();
+	
+	-------------///////////--------------	
+   
+   	SELECT * INTO hist_cargo_actual_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = id_personal_inteligencia AND fecha_fin IS NULL; 
+   	RAISE INFO 'datos de hist_cargo actual: %', hist_cargo_actual_reg;
+
+    
+   --------
+
+   	IF (hist_cargo_actual_reg IS NULL) THEN
+   		RAISE INFO 'El personal de inteligencia que ingresó no existe o ya no trabaja en AII';
+  		RAISE EXCEPTION 'El personal de inteligencia que ingresó no existe o ya no trabaja en AII';
+   	
+	ELSE 
+		
+		CALL VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA(id_empleado_acceso, id_personal_inteligencia);
+
+	END IF;
+
+
+	IF (hist_cargo_actual_reg.cargo = cargo_va) THEN
+		RAISE INFO 'Ya el personal de inteligencia es un %', cargo_va;
+		RAISE EXCEPTION 'Ya el personal de inteligencia es un %', cargo_va;
+	END IF;
+
+
+	IF (cargo_va != 'analista' AND cargo_va != 'agente') THEN
+	RAISE INFO 'El cargo que ingresó no existe';
+	RAISE EXCEPTION 'El cargo que ingresó no existe';
+	END IF;
+	
+   
+	fecha_hoy_va = NOW();
+
+
+	UPDATE HIST_CARGO SET fecha_fin = fecha_hoy_va WHERE fk_personal_inteligencia = id_personal_inteligencia AND fecha_fin IS NULL;
+		
+	INSERT INTO HIST_CARGO (
+		fecha_inicio,
+		cargo,
+		fk_personal_inteligencia,
+		fk_estacion,
+		fk_oficina_principal
+	) VALUES (
+		fecha_hoy_va,
+		cargo_va,
+		hist_cargo_actual_reg.fk_personal_inteligencia,
+		hist_cargo_actual_reg.fk_estacion,
+		hist_cargo_actual_reg.fk_oficina_principal
+	);
+
+	RAISE INFO 'CAMBIO DE CARGO EXITOSO!';
+ 	
+
+END $$;
+
+
+-- CALL CAMBIAR_ROL_PERSONAL_INTELIGENCIA(14,13,'agente');
+
+-- SELECT * FROM VER_HISTORICO_CARGO_PERSONAL_INTELIGENCIA(14,13);
+
+-- select * from hist_cargo where fk_personal_inteligencia = 1;
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------//////////////////////--------------------------------
+
+
+-- DROP PROCEDURE IF EXISTS CAMBIAR_ROL CASCADE;
+
+-- DROP FUNCTION IF EXISTS ELIMINACION_REGISTROS_VENTA_EXCLUSIVA CASCADE;
+
+CREATE OR REPLACE PROCEDURE ELIMINACION_REGISTROS_INFORMANTE ( id_personal_inteligencia IN integer ) 
+LANGUAGE PLPGSQL 
+AS $$
+DECLARE 
+
+	id_crudos_asociados integer[] ;	
+	-- id_informantes_asociados integer[] ;
+	id_piezas_asociadas integer[];	
+
+BEGIN 
+
+	id_crudos_asociados := ARRAY( 
+		SELECT id FROM CRUDO WHERE fk_personal_inteligencia_agente = id_personal_inteligencia AND fuente = 'secreta' OR fk_informante IS NOT NULL
+	);
+
+	DELETE FROM TRANSACCION_PAGO WHERE fk_informante IN (SELECT id FROM INFORMANTE WHERE fk_personal_inteligencia_encargado = id_personal_inteligencia);
+--
+	DELETE FROM ANALISTA_CRUDO WHERE fk_crudo = ANY(id_crudos_asociados);
+
+	id_piezas_asociadas := ARRAY(
+		SELECT fk_pieza_inteligencia FROM CRUDO_PIEZA WHERE fk_crudo = ANY(id_crudos_asociados)
+	);
+
+
+	DELETE FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = ANY(id_piezas_asociadas);
+
+	DELETE FROM ADQUISICION WHERE fk_pieza_inteligencia = ANY(id_piezas_asociadas);
+
+	DELETE FROM PIEZA_INTELIGENCIA WHERE id = ANY(id_piezas_asociadas);
+
+	DELETE FROM CRUDO WHERE id = ANY(id_crudos_asociados);
+--
+	DELETE FROM INFORMANTE WHERE fk_personal_inteligencia_encargado = id_personal_inteligencia;
+
+END $$;
+
+
+
+
+-- CALL NUMERO_REGISTROS();   
+-- SELECT fk_personal_inteligencia_encargado, count(*) FROM INFORMANTE GROUP BY fk_personal_inteligencia_encargado; 
+
+
+-- SELECT * FROM VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_AGENTE(13); 
+
+
+-- select * from transaccion_pago tp  where fk_informante  = 7;
+-- select * from crudo where fk_informante  = 7;
+-- SELECT * FROM INFORMACION_INFORMANTES(7);
+
+-- nombre_clave,agente_encargado,id_estacion,nombre_estacion,crudos,piezas,crudos_alt,piezas_alt,total_crudos,total_piezas,crudos_usados,eficacia
+-- Traccion,13,4,Est. Amsterdam,1,8,0,0,1,8,1,100.0000
+
+-- CALL ELIMINACION_REGISTROS_INFORMANTE(7);
+-- SELECT * FROM INFORMACION_INFORMANTES(7);
+
+
+-- select * from informante where 
+
+-- select * from transaccion_pago tp  where fk_informante  = 19;
+-- select * from crudo where fk_informante  = 19;
+-- SELECT * FROM INFORMACION_INFORMANTES(19);
+
+
+-- CALL ELIMINACION_REGISTROS_INFORMANTE(13);
+
+-----------------------------//////////////////------------------------
+
+
+
+
+CREATE OR REPLACE PROCEDURE DESPIDO_RENUNCIA_PERSONAL_INTELIGENCIA (id_empleado_acceso in integer, id_personal_inteligencia IN integer)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+   hist_cargo_actual_reg HIST_CARGO%ROWTYPE;
+   
+  
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO DESPIDO_RENUNCIA_PERSONAL_INTELIGENCIA ( % ) ------', NOW();
+	
+	-------------///////////--------------	
+	
+
+   	SELECT * INTO hist_cargo_actual_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = id_personal_inteligencia AND fecha_fin IS NULL; 
+   	RAISE INFO 'datos de hist_cargo actual: %', hist_cargo_actual_reg;
+
+   --------
+
+   	IF (hist_cargo_actual_reg IS NOT NULL) THEN
+   			
+		CALL VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA(id_empleado_acceso, id_personal_inteligencia);
+		CALL CERRAR_HIST_CARGO(id_empleado_acceso,id_personal_inteligencia);
+
+	END IF;
+
+   
+	CALL ELIMINACION_REGISTROS_INFORMANTE(id_personal_inteligencia);
+
+
+	RAISE INFO 'DESPIDO / RENUNCIA EXITOSA!';
+ 	
+
+END $$;
+
+
+-- CALL CAMBIAR_ROL_PERSONAL_INTELIGENCIA(14,13,'agente');
+
+-- SELECT * FROM VER_HISTORICO_CARGO_PERSONAL_INTELIGENCIA(14,13);
+
+-- select * from hist_cargo where fk_personal_inteligencia = 1;
+
+--
+--CALL NUMERO_REGISTROS(); 
+--
+--CLIENTE_n: 20
+--LUGAR_n: 38
+--EMPLEADO_JEFE_n: 38
+--OFICINA_PRINCIPAL_n: 10
+--ESTACION_n: 27
+--CUENTA_n: 81
+--PERSONAL_INTELIGENCIA_n: 102
+--INTENTO_NO_AUTORIZADO_n: 10
+--CLAS_TEMA_n: 9
+--AREA_INTERES_n: 20
+--TEMAS_ESP_n: 0
+--HIST_CARGO_n: 204
+--INFORMANTE_n: 21
+--TRANSACCION_PAGO_n: 0
+--CRUDO_n: 6
+--ANALISTA_CRUDO_n: 13
+--PIEZA_INTELIGENCIA_n: 17
+--CRUDO_PIEZA_n: 48
+--ADQUISICION_n: 20
+--HIST_CARGO_ALT_n: 0
+--INFORMANTE_ALT_n: 0
+--TRANSACCION_PAGO_ALT_n: 12
+--CRUDO_ALT_n: 23
+--ANALISTA_CRUDO_ALT_n: 51
+--PIEZA_INTELIGENCIA_ALT_n: 10
+--CRUDO_PIEZA_ALT_n: 23
+--ADQUISICION_ALT_n: 10
+-- TOTAL 813 
+-- 
+--CALL DESPIDO_RENUNCIA_PERSONAL_INTELIGENCIA(14,15);
+--CALL NUMERO_REGISTROS();
+--CLIENTE_n: 20
+--LUGAR_n: 38
+--EMPLEADO_JEFE_n: 38
+--OFICINA_PRINCIPAL_n: 10
+--ESTACION_n: 27
+--CUENTA_n: 81
+--PERSONAL_INTELIGENCIA_n: 102
+--INTENTO_NO_AUTORIZADO_n: 10
+--CLAS_TEMA_n: 9
+--AREA_INTERES_n: 20
+--TEMAS_ESP_n: 0
+--HIST_CARGO_n: 204
+--INFORMANTE_n: 19
+--TRANSACCION_PAGO_n: 0
+--CRUDO_n: 2
+--ANALISTA_CRUDO_n: 5
+--PIEZA_INTELIGENCIA_n: 0
+--CRUDO_PIEZA_n: 0
+--ADQUISICION_n: 0
+--HIST_CARGO_ALT_n: 0
+--INFORMANTE_ALT_n: 2
+--TRANSACCION_PAGO_ALT_n: 12
+--CRUDO_ALT_n: 27
+--ANALISTA_CRUDO_ALT_n: 59
+--PIEZA_INTELIGENCIA_ALT_n: 27
+--CRUDO_PIEZA_ALT_n: 71
+--ADQUISICION_ALT_n: 30
+-- TOTAL 813 
+--
+-- 
+--CALL DESPIDO_RENUNCIA_PERSONAL_INTELIGENCIA(10,7);
+--CALL NUMERO_REGISTROS();
+--
+--
+--CLIENTE_n: 20
+--LUGAR_n: 38
+--EMPLEADO_JEFE_n: 38
+--OFICINA_PRINCIPAL_n: 10
+--ESTACION_n: 27
+--CUENTA_n: 81
+--PERSONAL_INTELIGENCIA_n: 102
+--INTENTO_NO_AUTORIZADO_n: 10
+--CLAS_TEMA_n: 9
+--AREA_INTERES_n: 20
+--TEMAS_ESP_n: 0
+--HIST_CARGO_n: 204
+--INFORMANTE_n: 17
+--TRANSACCION_PAGO_n: 0
+--CRUDO_n: 2
+--ANALISTA_CRUDO_n: 5
+--PIEZA_INTELIGENCIA_n: 0
+--CRUDO_PIEZA_n: 0
+--ADQUISICION_n: 0
+--HIST_CARGO_ALT_n: 0
+--INFORMANTE_ALT_n: 4
+--TRANSACCION_PAGO_ALT_n: 12
+--CRUDO_ALT_n: 27
+--ANALISTA_CRUDO_ALT_n: 59
+--PIEZA_INTELIGENCIA_ALT_n: 27
+--CRUDO_PIEZA_ALT_n: 71
+--ADQUISICION_ALT_n: 30
+-- TOTAL 813 
+
+
+
+
+-----------------------------
+
+
+
+
+
+
+--------------------------------/////////////////////---------------------
+
+
+CREATE OR REPLACE PROCEDURE CREAR_TEMA (nombre_va varchar, descripcion_va varchar, topico_va varchar)
+LANGUAGE PLPGSQL
+AS $$
+
+BEGIN
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CREAR_LUGAR ( % ) ------', NOW();
+	
+	INSERT INTO clas_tema (
+		nombre,
+		descripcion,
+		topico
+	)	VALUES (
+		nombre_va,
+		descripcion_va,
+		topico_va		
+		);
+
+END;
+$$;
+
