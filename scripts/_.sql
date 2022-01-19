@@ -1,4 +1,31 @@
 
+
+CREATE OR REPLACE FUNCTION CREAR_CONTACTO (primer_nombre varchar,segundo_nombre varchar, primer_apellido varchar, segundo_apellido varchar, direccion varchar, codigo numeric, numero numeric)
+RETURNS contacto_ty
+LANGUAGE PLPGSQL
+AS $$
+DECLARE
+	
+	telefono telefono_ty;
+BEGIN
+
+	IF (primer_nombre IS NULL OR primer_nombre = ' ') THEN
+		RAISE EXCEPTION 'NO TIENE PRIMER NOMBRE CONTACTO';
+	END IF;
+	
+	IF ((primer_apellido IS NULL OR primer_apellido = ' ') AND (segundo_apellido IS NULL OR segundo_apellido = ' ')) THEN
+		RAISE EXCEPTION 'NO TIENE LOS DOS APELLIDOS COMPLETOS';
+	END IF;
+	
+	IF (direccion = ' ' OR direccion IS NULL) THEN
+		RAISE EXCEPTION 'EL CONTACTO DEBE DIRECCION';
+	END IF;
+	
+	telefono = CREAR_TELEFONO(codigo,numero);
+	
+	RETURN ROW(primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, direccion, telefono)::contacto_ty;
+	
+END $$;
 --DROP FUNCTION VER_CLIENTE;
 
 CREATE OR REPLACE FUNCTION VER_CLIENTE (id_cliente in integer)
@@ -69,8 +96,8 @@ BEGIN
 END $$;
 
 
--- CALL CREAR_CLIENTE('nombre_empresa','pagina_web', true,'apellido2',CREAR_TELEFONO(0212,2847213), CREAR_TELEFONO(0212,2847213) , 5);
--- SELECT * FROM VER_CLIENTES();
+ CALL CREAR_CLIENTE('nombre_empresa','pagina_web', true,'apellido2',CREAR_TELEFONO(0212,2847213), CREAR_TELEFONO(0212,2847213), CREAR_CONTACTO('gabriel','alberto','manrique','ulacio','calle_tal',CREAR_TELEFONO(0414,0176620)), 5);
+ SELECT * FROM VER_CLIENTES();
 
 
 -------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
