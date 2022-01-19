@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="INFORMACION_INFORMANTES" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="36acf737-d915-45a5-8650-c7d87d069b25">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Proyecto BD2"/>
+	<parameter name="id_enlace" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM INTENTOS_NO_AUTORIZADOS($P{id_enlace});]]>
+	</queryString>
+	<field name="primer_nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="primer_nombre"/>
+		<property name="com.jaspersoft.studio.field.label" value="primer_nombre"/>
+	</field>
+	<field name="segundo_nombre2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="segundo_nombre2"/>
+		<property name="com.jaspersoft.studio.field.label" value="segundo_nombre2"/>
+	</field>
+	<field name="primer_apellido" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="primer_apellido"/>
+		<property name="com.jaspersoft.studio.field.label" value="primer_apellido"/>
+	</field>
+	<field name="segundo_apellido" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="segundo_apellido"/>
+		<property name="com.jaspersoft.studio.field.label" value="segundo_apellido"/>
+	</field>
+	<field name="id_empleado" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_empleado"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_empleado"/>
+	</field>
+	<field name="id_pieza" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_pieza"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_pieza"/>
+	</field>
+	<field name="clasificacion_pieza" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="clasificacion_pieza"/>
+		<property name="com.jaspersoft.studio.field.label" value="clasificacion_pieza"/>
+	</field>
+	<field name="fecha" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="fecha"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="99" forecolor="#FFFFFF" backcolor="rgba(0, 102, 153, 0.9254902)" uuid="72315390-292d-43af-b6f2-721c1aef2e19"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None">
+					<font size="22" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[   INTENTOS NO AUTORIZADOS]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="400" y="14" width="144" height="30" forecolor="#FFFFFF" uuid="03dc8acd-ca17-4549-bcf0-9e90b9fec7cb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Estación:      " + $P{id_enlace}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="370" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement mode="Opaque" x="210" y="0" width="340" height="49" forecolor="#006699" backcolor="#E6E6E6" uuid="27eb8828-015f-4826-8c3e-4ac8d09958cd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id_empleado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="210" height="49" forecolor="#666666" backcolor="#E6E6E6" uuid="0ae8a193-03a7-4d1c-96ea-175ba9792aba"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Identificacion Empleado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="49" width="210" height="49" forecolor="#666666" backcolor="#E6E6E6" uuid="7892cec5-4b41-44e1-965f-1e606155a4e4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Primer Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="98" width="210" height="49" forecolor="#666666" backcolor="#E6E6E6" uuid="d092a634-e55d-46d9-b1dd-acb91ea7fa2a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Segundo Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="147" width="210" height="49" forecolor="#666666" backcolor="#E6E6E6" uuid="aa9bfc5b-c51f-4b5a-8bef-cc3defb9c281"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Primer Apellido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="196" width="210" height="49" forecolor="#666666" backcolor="#E6E6E6" uuid="aeba0040-8ba5-4242-b092-eea814e2fc83"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Segundo Apellido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="245" width="130" height="49" forecolor="#666666" backcolor="#E6E6E6" uuid="749a1a0c-7c0f-4fed-9596-7ca908ae34e1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[ID Pieza]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="247" y="245" width="140" height="49" forecolor="#666666" backcolor="#E6E6E6" uuid="c5e1f5ee-a4bd-4ea6-bf9d-90bf67e91d1e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[  Clasificación Pieza]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="220" y="98" width="330" height="49" forecolor="#006699" backcolor="#E6E6E6" uuid="63c5165a-8d39-4c83-963b-56fb20b8ffec"/>
+				<textElement verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{segundo_nombre2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="220" y="49" width="330" height="49" forecolor="#006699" backcolor="#E6E6E6" uuid="0ad1a172-c346-48c1-9c68-ffb3b28704cb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{primer_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="220" y="147" width="330" height="49" forecolor="#006699" backcolor="#E6E6E6" uuid="d68cbc24-ea2b-4956-a69f-a19d06bebeac"/>
+				<textElement verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{primer_apellido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="220" y="196" width="330" height="49" forecolor="#006699" backcolor="#E6E6E6" uuid="cab2eb85-4518-4e61-ab78-27c09b17fc47"/>
+				<textElement verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{segundo_apellido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="140" y="245" width="80" height="49" forecolor="#006699" backcolor="#E6E6E6" uuid="9da1ef7b-a51c-4bd4-a7d5-430171d25b83"/>
+				<textElement verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id_pieza}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="410" y="245" width="140" height="49" forecolor="#006699" backcolor="#E6E6E6" uuid="7e4e5cc0-e8e3-4598-98c9-828d1d13424e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{clasificacion_pieza}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="-5" y="351" width="555" height="1" uuid="b9efd56c-c75f-4584-ab5e-8e7ac494aadc"/>
+			</line>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="295" width="210" height="49" forecolor="#666666" backcolor="#E6E6E6" uuid="626cc9d5-3188-4509-b44e-32d95d7c230d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Fecha Intento de Acceso]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="210" y="295" width="340" height="49" forecolor="#006699" backcolor="#E6E6E6" uuid="52229b5c-2aa3-4a86-9e9f-15cb2fec24db"/>
+				<textElement verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

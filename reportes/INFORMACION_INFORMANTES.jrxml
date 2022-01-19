@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="INFORMACION_INFORMANTES" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="36acf737-d915-45a5-8650-c7d87d069b25">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Proyecto BD2"/>
+	<parameter name="id_enlace" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM INFORMACION_INFORMANTES($P{id_enlace});]]>
+	</queryString>
+	<field name="nombre_clave" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_clave"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_clave"/>
+	</field>
+	<field name="agente_encargado" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="agente_encargado"/>
+		<property name="com.jaspersoft.studio.field.label" value="agente_encargado"/>
+	</field>
+	<field name="id_estacion" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_estacion"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_estacion"/>
+	</field>
+	<field name="nombre_estacion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_estacion"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_estacion"/>
+	</field>
+	<field name="crudos" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="crudos"/>
+		<property name="com.jaspersoft.studio.field.label" value="crudos"/>
+	</field>
+	<field name="piezas" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="piezas"/>
+		<property name="com.jaspersoft.studio.field.label" value="piezas"/>
+	</field>
+	<field name="crudos_alt" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="crudos_alt"/>
+		<property name="com.jaspersoft.studio.field.label" value="crudos_alt"/>
+	</field>
+	<field name="piezas_alt" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="piezas_alt"/>
+		<property name="com.jaspersoft.studio.field.label" value="piezas_alt"/>
+	</field>
+	<field name="total_crudos" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="total_crudos"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_crudos"/>
+	</field>
+	<field name="total_piezas" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="total_piezas"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_piezas"/>
+	</field>
+	<field name="crudos_usados" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="crudos_usados"/>
+		<property name="com.jaspersoft.studio.field.label" value="crudos_usados"/>
+	</field>
+	<field name="eficacia" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="eficacia"/>
+		<property name="com.jaspersoft.studio.field.label" value="eficacia"/>
+	</field>
+	<group name="agente_encargado">
+		<groupExpression><![CDATA[$F{agente_encargado}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="99" forecolor="#FFFFFF" backcolor="rgba(0, 102, 153, 0.9254902)" uuid="72315390-292d-43af-b6f2-721c1aef2e19"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None">
+					<font size="22" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[    INFORMACION DEL INFORMANTE]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="400" y="14" width="144" height="30" forecolor="#FFFFFF" uuid="03dc8acd-ca17-4549-bcf0-9e90b9fec7cb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Informante:      " + $P{id_enlace}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="444" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement mode="Opaque" x="210" y="0" width="340" height="49" forecolor="#006699" backcolor="#E6E6E6" uuid="27eb8828-015f-4826-8c3e-4ac8d09958cd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_clave}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="210" height="49" forecolor="#666666" backcolor="#E6E6E6" uuid="0ae8a193-03a7-4d1c-96ea-175ba9792aba"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Nombre Clave]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="49" width="210" height="49" forecolor="#666666" backcolor="#E6E6E6" uuid="7892cec5-4b41-44e1-965f-1e606155a4e4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Agente Encargado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="98" width="210" height="49" forecolor="#666666" backcolor="#E6E6E6" uuid="d092a634-e55d-46d9-b1dd-acb91ea7fa2a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Estacion de Agente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="147" width="210" height="49" forecolor="#666666" backcolor="#E6E6E6" uuid="aa9bfc5b-c51f-4b5a-8bef-cc3defb9c281"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Identificacion de Estacion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="196" width="210" height="49" forecolor="#666666" backcolor="#E6E6E6" uuid="aeba0040-8ba5-4242-b092-eea814e2fc83"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Crudos Aportados]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="245" width="210" height="49" forecolor="#666666" backcolor="#E6E6E6" uuid="f7cd2aee-46b7-48d2-8d99-dd1da68a88b9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Piezas Creadas por Crudos aportados]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="294" width="210" height="49" forecolor="#666666" backcolor="#E6E6E6" uuid="fe2c266e-982e-4773-a710-0e937bd255e9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Crudos usados en Piezas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="344" width="210" height="49" forecolor="#666666" backcolor="#E6E6E6" uuid="648fcbde-84a9-45ac-908b-e691d36c0f0e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="15" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Eficacia del Informante (%)]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="220" y="98" width="330" height="49" forecolor="#006699" backcolor="#E6E6E6" uuid="63c5165a-8d39-4c83-963b-56fb20b8ffec"/>
+				<textElement verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_estacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="220" y="49" width="330" height="49" forecolor="#006699" backcolor="#E6E6E6" uuid="0ad1a172-c346-48c1-9c68-ffb3b28704cb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{agente_encargado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="220" y="147" width="330" height="49" forecolor="#006699" backcolor="#E6E6E6" uuid="d68cbc24-ea2b-4956-a69f-a19d06bebeac"/>
+				<textElement verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id_estacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="220" y="196" width="330" height="49" forecolor="#006699" backcolor="#E6E6E6" uuid="cab2eb85-4518-4e61-ab78-27c09b17fc47"/>
+				<textElement verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_crudos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="220" y="245" width="330" height="49" forecolor="#006699" backcolor="#E6E6E6" uuid="8d15ba0d-77e3-41f9-af71-4440e47d8ad4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_piezas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="220" y="294" width="330" height="49" forecolor="#006699" backcolor="#E6E6E6" uuid="62b0a9cb-3f8d-4d44-a82c-ae125640c630"/>
+				<textElement verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{crudos_usados}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="220" y="344" width="330" height="49" forecolor="#006699" backcolor="#E6E6E6" uuid="125f0c26-e6d4-4cd1-9936-99796e3bfc4d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{eficacia}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="420" width="555" height="1" uuid="b9efd56c-c75f-4584-ab5e-8e7ac494aadc"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>
