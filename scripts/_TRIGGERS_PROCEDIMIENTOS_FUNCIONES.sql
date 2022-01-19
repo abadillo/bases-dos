@@ -148,6 +148,15 @@
 -//-//-//-//- PROCEDIMIENTOS -//-//-//-//-
 
 
+
+-/=/- ARCHIVO VALIDACIONES_TRIGGER.sql -/=/- 
+
+-/ VALIDAR_JERARQUIA_EMPLEADO_JEFE (id_empleado_sup IN integer, tipo_va IN EMPLEADO_JEFE.tipo%TYPE)
+-/ VALIDAR_TIPO_EMPLEADO_JEFE(id_empleado IN integer, tipo_va IN EMPLEADO_JEFE.tipo%TYPE)
+-/ VALIDAR_TIPO_LUGAR(id_lugar IN integer, tipo_va IN LUGAR.tipo%TYPE)
+
+
+
 -/=/- ARCHIVO PROCEDIMIENTOS_DIRECTOR_EJECUTIVO.sql -/=/- 
 
 -/ CREAR_DIRECTOR_AREA (primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE, id_jefe IN EMPLEADO_JEFE.fk_empleado_jefe%TYPE)
@@ -165,12 +174,6 @@
 -/ CAMBIAR_ROL_EMPLEADO (id_empleado IN integer, id_jefe in integer, cargo in integer)
 
 
--/=/- ARCHIVO VALIDACIONES_TRIGGER.sql -/=/- 
-
--/ VALIDAR_JERARQUIA_EMPLEADO_JEFE (id_empleado_sup IN integer, tipo_va IN EMPLEADO_JEFE.tipo%TYPE)
--/ VALIDAR_TIPO_EMPLEADO_JEFE(id_empleado IN integer, tipo_va IN EMPLEADO_JEFE.tipo%TYPE)
--/ VALIDAR_TIPO_LUGAR(id_lugar IN integer, tipo_va IN LUGAR.tipo%TYPE)
-
 
 
 -/=/- ARCHIVO PROCEDIMIENTOS_DIRECTOR_AREA.sql -/=/-
@@ -186,6 +189,7 @@
 -/ CREAR_ESTACION (id_empleado_acceso IN integer, nombre_va IN ESTACION.nombre%TYPE, id_ciudad IN ESTACION.fk_lugar_ciudad%TYPE, id_jefe_estacion IN ESTACION.fk_jefe_estacion%TYPE)
 -/ ELIMINAR_ESTACION (id_empleado_acceso IN integer, id_estacion IN INTEGER)
 -/ ACTUALIZAR_ESTACION (id_empleado_acceso IN integer, nombre_va IN ESTACION.nombre%TYPE, id_ciudad IN ESTACION.fk_lugar_ciudad%TYPE, id_jefe_estacion IN ESTACION.fk_empleado_jefe%TYPE)
+
 
 
 -/=/- ARCHIVO PROCEDIMIENTOS_JEFE_ESTACION.sql -/=/- 
