@@ -3,17 +3,75 @@
 /*  Los jefes de las estaciones y los directores correspondientes monitorean el uso de este presupuesto a traves de
     revisiones trimestrales y al final del año.
     Cada estacion debe generar un informe con su balance:
-        Pago otorgado.
-        Fecha.
+        Pago otorgado (Presupuesto). --
+        Fecha. 
         Hechos crudo recolectados.
         Pieza de Inteligencia que lo utiliza (si aplica).
         Valor de la pieza.
-        Ganancia o perdida alcanzada
+        Ganancia o perdida alcanzada (TOTAL) --
     Y los totales generales:
-        Total pagado.
-        Total obtenido por ventas de las piezas de inteligencia logradas por estos hechos aportados por informantes.
+        Total pagado. (A INFORMANTES) --
+        Total obtenido por ventas de las piezas de inteligencia logradas por estos hechos aportados por informantes. --
 */
 
+
+DROP TYPE IF EXISTS REPORTE_BALANCE CASCADE;
+
+CREATE TYPE REPORTE_BALANCE as (pago_informantes int, pago_informantes_alt int, total_informantes int,
+                                piezas_vendidas int, piezas_vendidas_exclusivas int, total_piezas int,
+                                presupuesto_estaciones int, total_balance int
+                                );
+
+
+DROP TYPE IF EXISTS REPORTE_BALANCE_GENERAL CASCADE;
+
+CREATE TYPE REPORTE_BALANCE_GENERAL as 
+    (fecha date, crudos_piezas integer[][], valor_pieza INT, 
+    balance REPORTE_BALANCE
+    );
+
+
+
+DROP FUNCTION IF EXISTS BALANCE_GENERAL CASCADE;
+
+CREATE OR REPLACE FUNCTION BALANCE_GENERAL (estacion int)
+RETURNS REPORTE_BALANCE_GENERAL
+    AS $$
+     DECLARE    resultado REPORTE_BALANCE_GENERAL;
+                X REPORTE_BALANCE;
+	BEGIN
+	X = resultado.balance;
+    X.presupuesto_estaciones = SUMAR_PRESUPUESTO(estacion);
+    resultado.fecha = (SELECT c.año FROM CUENTA c WHERE c.fk_estacion = estacion)::date;
+    resultado.crudos_piezas = ENLACE
+
+    resultado.balance = X;
+    RETURN resultado; 
+	END
+$$ LANGUAGE plpgsql;
+
+
+---
+
+DROP FUNCTION PRUEBA;
+
+CREATE OR REPLACE FUNCTION PRUEBA ()
+RETURNS integer[]
+    AS $$
+    DECLARE resultado integer[];
+            rec RECORD;
+            contador int;
+	BEGIN
+    contador = (SELECT COUNT(c.id) FROM CRUDO c)::int;
+	for i in 1..contador loop
+    resultado[i] = (SELECT c.id from CRUDO c limit 1 offset (i-1))::int;
+	END loop;
+    RETURN resultado; 
+	END
+$$ LANGUAGE plpgsql;
+
+
+-- SELECT * FROM PRUEBA();
 
 
 
@@ -22,13 +80,6 @@
 /*  El Director Ejecutivo debe poder consultar en cualquier momento de cuantos fondos dispone la All.
     Asi como cada Jefe de Estacion debe poder saber a tiempo las ganancias netas anuales de cada estacion.
 */
-
-DROP TYPE IF EXISTS REPORTE_BALANCE CASCADE;
-
-CREATE TYPE REPORTE_BALANCE as (pago_informantes int, pago_informantes_alt int, total_informantes int,
-                                piezas_vendidas int, piezas_vendidas_exclusivas int, total_piezas int,
-                                presupuesto_estaciones int, total_balance int
-                                );
 
 
 
@@ -183,48 +234,75 @@ $$ LANGUAGE plpgsql;
 
 
 ----------------------------------- INFORMACION DE SUS INFORMANTES -------------------------------------
-
+--
 /*  Se debe llevar un control sobre la eficacia de estos tratos.
     Saber el % de su eficacia, en proporcion de los hechos crudos aportados por tal informante y se han convertido
     en piezas de inteligencia.
-    Los precios base para registro e informes de desempeño son en dolares.
-    Se debe saber la fecha de:
-        Obtencion del crudo.
-        Verificacion de dicho crudo.
-        Pago a informante.
-        Contruccion de la pieza.
-        Venta de la pieza.
     Esta medida se genera semestralmente y se usa en combinacion con la productividad de los agentes.
 */
 
+-- 
+
+DROP TYPE IF EXISTS INFORMACION_INFORMANTE CASCADE;
+
+CREATE TYPE INFORMACION_INFORMANTE as 
+    (   nombre_clave varchar(50), agente_encargado int, id_estacion int, nombre_estacion varchar(50), 
+        crudos int, piezas int, crudos_alt int, piezas_alt int, 
+        total_crudos int, total_piezas int, crudos_usados int, eficacia numeric(20,4)
+                                );
 
 
--- DROP FUNCTION INFORMACION_INFORMANTES CASCADE;
---NO
-CREATE OR REPLACE FUNCTION INFORMACION_INFORMANTES ()
-RETURNS TABLE(  id_informante int, nombre_clave varchar(50), agente_encargado int, crudo int, pieza int) 
+DROP FUNCTION IF EXISTS INFORMACION_INFORMANTES CASCADE;
+
+CREATE OR REPLACE FUNCTION INFORMACION_INFORMANTES (informante int)
+RETURNS INFORMACION_INFORMANTE
     AS $$
-    SELECT  i.id, i.nombre_clave, i.fk_personal_inteligencia_encargado, c.id, cp.fk_pieza_inteligencia,
-            (COUNT(a.fk_pieza_inteligencia) + COUNT (aa.fk_pieza_inteligencia)/(COUNT()))
-        FROM    PERSONAL_INTELIGENCIA e, INFORMANTE i, PIEZA_INTELIGENCIA p, CRUDO c, CRUDO_PIEZA cp, ADQUISICION a
-                ADQUISICION_ALT aa
-        WHERE   e.id = i.fk_personal_inteligencia_encargado AND i.id = c.fk_informante AND c.id = cp.fk_crudo
-                AND (   cp.fk_pieza_inteligencia = a.fk_pieza_inteligencia 
-                        OR cp.fk_pieza_inteligencia = aa.fk_pieza_inteligencia  ) --SI EL ID ESTA EN ADQUICISION Y ALT
-                AND 
+    DECLARE resultado INFORMACION_INFORMANTE;
+	BEGIN
+	resultado.nombre_clave = (SELECT i.nombre_clave FROM INFORMANTE i WHERE i.id = informante LIMIT 1)::varchar(50);
+    resultado.agente_encargado = (SELECT i.fk_personal_inteligencia_encargado FROM INFORMANTE i 
+                                    WHERE i.id = informante LIMIT 1):: int;
+    resultado.id_estacion = (SELECT i.fk_estacion_encargado FROM INFORMANTE i WHERE i.id = informante LIMIT 1)::int;
+    resultado.nombre_estacion = (SELECT e.nombre FROM ESTACION e 
+                                    WHERE e.id = resultado.id_estacion LIMIT 1)::varchar(50);
 
-		GROUP BY i.id, c.id, cp.fk_pieza_inteligencia
-		ORDER BY i.id
-$$ LANGUAGE SQL;
+    resultado.crudos = (SELECT COUNT(c.id) FROM CRUDO c WHERE c.fk_informante = informante)::int;
+    resultado.piezas = (SELECT COUNT(cp.fk_pieza_inteligencia) FROM CRUDO_PIEZA cp 
+                                WHERE cp.fk_crudo IN (SELECT c.id FROM CRUDO c WHERE c.fk_informante = informante)
+                            )::int;
 
--- LLAMADA:     SELECT * FROM INFORMACION_INFORMANTES();
+    resultado.crudos_alt = (SELECT COUNT(c.id) FROM CRUDO_ALT c WHERE c.fk_informante = informante)::int;
+    resultado.piezas_alt = (SELECT COUNT(cp.fk_pieza_inteligencia) FROM CRUDO_PIEZA_ALT cp 
+                                WHERE cp.fk_crudo IN (SELECT c.id FROM CRUDO_ALT c
+                                                        WHERE c.fk_informante = informante)
+                            )::int;
 
 
+    resultado.crudos_usados = ((SELECT COUNT(c.id) FROM CRUDO c WHERE c.fk_informante = informante AND c.id IN 
+                                (SELECT cp.fk_crudo FROM CRUDO_PIEZA cp WHERE cp.fk_crudo = c.id))::int)
+                            + ((SELECT COUNT(c.id) FROM CRUDO c WHERE c.fk_informante = informante AND c.id IN 
+                                (SELECT cp.fk_crudo FROM CRUDO_PIEZA_ALT cp WHERE cp.fk_crudo = c.id)
+                                AND c.id NOT IN (SELECT cp.fk_crudo FROM CRUDO_PIEZA cp WHERE cp.fk_crudo = c.id)
+                                )::int);
+
+
+    resultado.total_crudos = resultado.crudos + resultado.crudos_alt;
+    resultado.total_piezas = resultado.piezas + resultado.piezas_alt;
+    IF resultado.total_crudos > 0 THEN
+    resultado.eficacia = ((resultado.crudos_usados * 100) / resultado.total_crudos):: NUMERIC(20,4);
+    ELSE
+        resultado.eficacia = 0;
+    END IF;
+    RETURN resultado; 
+	END
+$$ LANGUAGE plpgsql;
+
+-- SELECT * FROM INFORMACION_INFORMANTES (1);
 
 
 
 ------------------------------- INTENTOS NO AUTORIZADOS ------------------------------------
-
+--LISTO
 /*  Cuando algun empleado trate de acceder a una pieza de inteligencia se debe quedar registrado y emitir una alerta
     al jefe de la estacion.
     Cada semana se debe emitir el reporte para el jefe de su estacion.
@@ -232,26 +310,29 @@ $$ LANGUAGE SQL;
 
 DROP FUNCTION IF EXISTS INTENTOS_NO_AUTORIZADOS CASCADE;
 
-CREATE OR REPLACE FUNCTION INTENTOS_NO_AUTORIZADOS (lugar int)
+CREATE OR REPLACE FUNCTION INTENTOS_NO_AUTORIZADOS (estacion int)
 RETURNS TABLE(  primer_nombre varchar(50), segundo_nombre2 varchar(50), primer_apellido varchar(50), 
-                segundo_apellido varchar(50), id_Empleado integer, id_Pieza integer, Clasificacion_Pieza varchar(50)) 
+                segundo_apellido varchar(50), id_Empleado integer, id_Pieza integer, 
+                clasificacion_Pieza varchar(50), fecha TIMESTAMP) 
     AS $$
-    SELECT  e.primer_nombre, e.segundo_nombre, e.primer_apellido, e.segundo_apellido, e.id as EmpleadoID, 
-                    p.id as PiezaID, p.class_seguridad as NivelPieza
-        FROM PERSONAL_INTELIGENCIA e, PIEZA_INTELIGENCIA p, INTENTO_NO_AUTORIZADO i
-        WHERE e.fk_lugar_ciudad = lugar AND e.id = i.fk_personal_inteligencia AND i.id_pieza = p.id 
-        AND i.fecha_hora BETWEEN RESTA_7_DIAS(NOW()::timestamp) AND NOW()::timestamp;
+        SELECT p.primer_nombre, p.segundo_nombre, p.primer_apellido, p.segundo_apellido, p.id,
+                    pz.id, pz.class_seguridad, i.fecha_hora
+            FROM PERSONAL_INTELIGENCIA p, INTENTO_NO_AUTORIZADO i, PIEZA_INTELIGENCIA pz 
+            WHERE p.id = i.fk_personal_inteligencia AND pz.id = i.id_pieza AND p.id IN 
+                (SELECT DISTINCT hc.fk_personal_inteligencia from HIST_CARGO hc, ESTACION e WHERE 
+                    e.id=3 AND e.id = hc.fk_estacion)
 $$ LANGUAGE SQL;
 
--- PARAMETRO: fk_lugar_ciudad (id del lugar de la estacion)
--- LLAMADA:     SELECT * FROM INTENTOS_NO_AUTORIZADOS(19);
+
+-- PARAMETRO:  id de la estacion.
+-- LLAMADA:     SELECT * FROM INTENTOS_NO_AUTORIZADOS(3);
 
 
 
 --------------------------------------- LISTA DE INFORMANTES ----------------------------------------
-
+-- LISTO
 /*  Es importante que otro empleado de All pueda acceder a la lista de informantes de un agente.    */
-
+--LISTO
 
 
 DROP FUNCTION IF EXISTS LISTA_INFORMANTES CASCADE;
