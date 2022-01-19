@@ -1,21 +1,5 @@
 
-DROP FUNCTION IF EXISTS NUMERO_ANALISTAS_VERIFICAN_CRUDO CASCADE;
 
-CREATE OR REPLACE FUNCTION NUMERO_ANALISTAS_VERIFICAN_CRUDO ( id_crudo IN integer ) 
-RETURNS integer
-LANGUAGE PLPGSQL 
-AS $$
-DECLARE 
-
-	numero_analistas_va integer;	
-
-BEGIN 
-	
-	SELECT count(*) INTO numero_analistas_va FROM ANALISTA_CRUDO WHERE fk_crudo = id_crudo;
-	
-	RETURN numero_analistas_va;
-	
-END $$;
 
 
 -------------////////.........^^^^^^^^^^^^^^^^^^^^^..........\\\\\\\\\\-------------
@@ -192,7 +176,7 @@ BEGIN
    	END IF; 
 
 
-	IF (crudo_reg.nivel_confiabilidad_final IS NOT NULL OR crudo_reg.fecha_verificacion_final IS NOT NULL OR NUMERO_ANALISTAS_VERIFICAN_CRUDO(id_crudo) >= crudo_reg.cant_analistas_verifican) THEN
+	IF (crudo_reg.nivel_confiabilidad_final IS NOT NULL OR crudo_reg.fecha_verificacion_final IS NOT NULL OR VALIDAR_CANT_ANALISTAS_VERIFICAN_CRUDO(id_crudo) >= crudo_reg.cant_analistas_verifican) THEN
    		RAISE INFO 'El crudo ya fue verificado, puede que falte cerrar el crudo';
   		RAISE EXCEPTION 'El crudo ya fue verificado, puede que falte cerrar el crudo';
    	END IF; 
@@ -234,7 +218,7 @@ BEGIN
    RAISE INFO 'CRUDO VERIFICADO CREADO CON EXITO!';
    RAISE INFO 'Datos del registro: %', analista_crudo_reg ; 
 
-   RAISE INFO 'Faltan % verificaciones para poder cerrar el crudo', ( crudo_reg.cant_analistas_verifican - NUMERO_ANALISTAS_VERIFICAN_CRUDO(id_crudo)) ;
+   RAISE INFO 'Faltan % verificaciones para poder cerrar el crudo', ( crudo_reg.cant_analistas_verifican - VALIDAR_CANT_ANALISTAS_VERIFICAN_CRUDO(id_crudo)) ;
 
 
 
@@ -288,9 +272,9 @@ BEGIN
    	END IF; 
 
 
-	IF ( NUMERO_ANALISTAS_VERIFICAN_CRUDO(id_crudo) < crudo_reg.cant_analistas_verifican ) THEN
-   		RAISE INFO 'No se cumple el número mínimo de verificaciones, faltan: %', ( crudo_reg.cant_analistas_verifican - NUMERO_ANALISTAS_VERIFICAN_CRUDO(id_crudo)) ;
-  		RAISE EXCEPTION 'No se cumple el número mínimo de verificaciones, faltan: %', ( crudo_reg.cant_analistas_verifican - NUMERO_ANALISTAS_VERIFICAN_CRUDO(id_crudo)) ;
+	IF ( VALIDAR_CANT_ANALISTAS_VERIFICAN_CRUDO(id_crudo) < crudo_reg.cant_analistas_verifican ) THEN
+   		RAISE INFO 'No se cumple el número mínimo de verificaciones, faltan: %', ( crudo_reg.cant_analistas_verifican - VALIDAR_CANT_ANALISTAS_VERIFICAN_CRUDO(id_crudo)) ;
+  		RAISE EXCEPTION 'No se cumple el número mínimo de verificaciones, faltan: %', ( crudo_reg.cant_analistas_verifican - VALIDAR_CANT_ANALISTAS_VERIFICAN_CRUDO(id_crudo)) ;
    	END IF;   	
 
 	

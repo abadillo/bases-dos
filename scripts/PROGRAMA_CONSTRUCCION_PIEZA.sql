@@ -86,7 +86,7 @@ BEGIN
   		RAISE EXCEPTION 'El crudo que ingresó no está registrado o no cumple con los requerimientos necesarios';
    	END IF;   	
   
-   	IF ( NUMERO_ANALISTAS_VERIFICAN_CRUDO(id_crudo_base) != crudo_base_reg.cant_analistas_verifican ) THEN
+   	IF ( VALIDAR_CANT_ANALISTAS_VERIFICAN_CRUDO(id_crudo_base) != crudo_base_reg.cant_analistas_verifican ) THEN
    		RAISE INFO 'El crudo que ingresó no ha sido verificado';
   		RAISE EXCEPTION 'El crudo que ingresó no ha sido verificado';
    	END IF;   	
@@ -174,9 +174,6 @@ LANGUAGE plpgsql
 AS $$  
 DECLARE
 
-	pieza_reg PIEZA_INTELIGENCIA%ROWTYPE;
-	crudo_reg CRUDO%ROWTYPE;
-
 	crudo_pieza_reg CRUDO_PIEZA%ROWTYPE;
     
 BEGIN 
@@ -187,54 +184,7 @@ BEGIN
 	-------------///////////--------------	
 
 
-	SELECT * INTO pieza_reg FROM PIEZA_INTELIGENCIA WHERE id = id_pieza AND precio_base IS NULL;
-    RAISE INFO 'datos de la pieza de inteligencia %', pieza_reg;
-
-	SELECT * INTO crudo_reg FROM CRUDO WHERE id = id_crudo;
-    RAISE INFO 'datos del crudo: %', crudo_reg;
-    
-    SELECT * INTO crudo_pieza_reg FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza AND fk_crudo = id_crudo;
-	RAISE INFO 'datos de crudo_pieza: %', crudo_pieza_reg;
-   
-	--------
-
-
-	IF (pieza_reg IS NULL) THEN
-   		RAISE INFO 'La pieza que ingresó no esta registrado o no cumple con los requerimientos necesarios';
-  		RAISE EXCEPTION 'La pieza que ingresó no esta registrado o no cumple con los requerimientos necesarios';
-   	END IF;   
  
-	IF (crudo_reg IS NULL) THEN
-   		RAISE INFO 'El crudo que ingresó no esta registrado o no cumple con los requerimientos necesarios';
-  		RAISE EXCEPTION 'El crudo que ingresó no esta registrado o no cumple con los requerimientos necesarios';
-   	END IF;   	
-   
-   IF (crudo_pieza_reg IS NOT NULL) THEN
-   		RAISE INFO 'El crudo que intenta asociar ya está asociado a esta pieza';
-  		RAISE EXCEPTION 'El crudo que intenta asociar ya está asociado a esta pieza';
-   	END IF;   	
-   
-   	IF ( NUMERO_ANALISTAS_VERIFICAN_CRUDO(id_crudo) != crudo_reg.cant_analistas_verifican ) THEN
-   		RAISE INFO 'El crudo que ingresó no ha sido verificado';
-  		RAISE EXCEPTION 'El crudo que ingresó no ha sido verificado';
-   	END IF;   	
-
-	IF (crudo_reg.nivel_confiabilidad_final < 85 ) THEN
-   		RAISE INFO 'El crudo que ingresó no tiene el nivel de confiabilidad necesario ( > 85 porciento )';
-  		RAISE EXCEPTION 'El crudo que ingresó no tiene el nivel de confiabilidad necesario ( > 85 porciento )';
-   	END IF;   	
-
-   
---   IF (pieza_reg.fk_personal_inteligencia_analista !=  id_analista_encargado ) THEN
---   		RAISE INFO 'El analista que ingresó no es el analista encargado de la pieza';
---  		RAISE EXCEPTION 'El analista que ingresó no es el analista encargado de la pieza';
---   	END IF;  
-   
-  
---   CALL VALIDAR_ACCESO_PIEZA(id_pieza, id_analista_encargado);
-   
-   -------------///////////--------------	
-	
 
 	INSERT INTO CRUDO_PIEZA (fk_pieza_inteligencia, fk_crudo) VALUES (
    		pieza_reg.id,

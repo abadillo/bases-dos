@@ -231,7 +231,7 @@ DECLARE
 	hist_cargo_agente_encargado_reg HIST_CARGO%ROWTYPE;
 
 	-- informante_reg INFORMANTE%ROWTYPE;
-	tema_reg CLAS_TEMA%ROWTYPE;
+	-- tema_reg CLAS_TEMA%ROWTYPE;
 	crudo_reg CRUDO%ROWTYPE;
 
 	fecha_obtencion_va CRUDO.fecha_obtencion%TYPE;
@@ -243,82 +243,29 @@ BEGIN
 	
 	-------------/////////// VALIDACIONES DE LLAVES
 
-	
-	IF (contenido_va IS NULL OR contenido_va = '') THEN
-   		RAISE INFO 'Debe ingresar el contenido del crudo que quiere crear';
-  		RAISE EXCEPTION 'Debe ingresar el contenido del crudo que quiere crear';
-   	END IF;  
 
-	IF (tipo_contenido_va != 'texto' AND tipo_contenido_va != 'imagen' AND tipo_contenido_va != 'sonido' AND tipo_contenido_va != 'video') THEN
-   		RAISE INFO 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video), %', tipo_contenido_va;
-  		RAISE EXCEPTION 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video)';
-   	END IF;   	
-
-	IF (resumen_va IS NULL OR resumen_va = '') THEN
-   		RAISE INFO 'Debe ingresar el resumen del crudo que quiere crear';
-  		RAISE EXCEPTION 'Debe ingresar el resumen del crudo que quiere crear';
-   	END IF;   
-
-	IF (fuente_va != 'abierta' AND fuente_va != 'secreta' AND fuente_va != 'tecnica') THEN
-   		RAISE INFO 'Debe ingresar un tipo de fuente valido (abierta, secreta, tecnica)';
-  		RAISE EXCEPTION 'Debe ingresar un tipo de fuente valido (abierta, secreta, tecnica)';
-   	END IF;  
-
-	IF (fuente_va = 'secreta') THEN
+	IF (fuente_va != 'abierta' AND fuente_va != 'tecnica') THEN
 		RAISE INFO 'Para el registro de crudos con fuente secreta, por favor use el programa "REGISTRO_CRUDO_CON_INFORMANTE" ';
   		RAISE EXCEPTION 'Para el registro de crudos con fuente secreta, por favor use el programa "REGISTRO_CRUDO_CON_INFORMANTE" ';
 	END IF;
 
-	IF (valor_apreciacion_va IS NOT NULL AND valor_apreciacion_va <= 0) THEN
-   		RAISE INFO 'El valor de apreciacion del crudo debe ser mayor a 0$';
-  		RAISE EXCEPTION 'El valor de apreciacion del crudo debe ser mayor a 0$';
-   	END IF; 
 
-	IF (nivel_confiabilidad_inicial_va IS NULL OR nivel_confiabilidad_inicial_va < 0 OR nivel_confiabilidad_inicial_va > 100 ) THEN
-   		RAISE INFO 'El nivel de confiabilidad del crudo debe estar entre el rango de 0 y 100';
-  		RAISE EXCEPTION 'El nivel de confiabilidad del crudo debe estar entre el rango de 0 y 100';
-   	END IF; 
-	   
-	IF (cant_analistas_verifican_va IS NULL OR cant_analistas_verifican_va < 2) THEN	
-   		RAISE INFO 'Debe ingresar un número valido de analistas requeridos para la verificación';
-  		RAISE EXCEPTION 'Debe ingresar un número valido de analistas requeridos para la verificación';
-   	END IF;   
+	SELECT * INTO agente_campo_encargado_reg FROM PERSONAL_INTELIGENCIA WHERE id = id_agente_campo;
+	RAISE INFO 'datos del agente de campo encargado: %', agente_campo_encargado_reg;
 
+	SELECT * INTO hist_cargo_agente_encargado_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = id_agente_campo AND fecha_fin IS NULL; 
+	RAISE INFO 'datos de hist_cargo del agente encargado: %', hist_cargo_agente_encargado_reg;
 
-	------- ///////
-
-	SELECT * INTO tema_reg FROM CLAS_TEMA WHERE id = id_tema;
-
-	RAISE INFO 'DATOS DE TEMA %:', tema_reg;
-	
-	IF (tema_reg IS NULL) THEN
-		RAISE INFO 'El tema que ingresó no se encuetra registrado';
-  		RAISE EXCEPTION 'El tema que ingresó no se encuetra registrado';
-	END IF;
-	
-	
-	
-	-------------////  BUSQUEDA DEL AGENTE ENCARGADO
-
-    SELECT * INTO agente_campo_encargado_reg FROM PERSONAL_INTELIGENCIA WHERE id = id_agente_campo;
-    RAISE INFO 'datos del agente de campo encargado: %', agente_campo_encargado_reg;
-   
-   	SELECT * INTO hist_cargo_agente_encargado_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = id_agente_campo AND fecha_fin IS NULL; 
-   	RAISE INFO 'datos de hist_cargo del agente encargado: %', hist_cargo_agente_encargado_reg;
-
-	
 	IF (hist_cargo_agente_encargado_reg IS NULL) THEN
-   		RAISE INFO 'El agente de campo que ingresó no existe o ya no trabaja en AII';
-  		RAISE EXCEPTION 'El agente de campo que ingresó no existe o ya no trabaja en AII';
-   	END IF;   	
-  	
+		RAISE INFO 'El agente de campo que ingresó no existe o ya no trabaja en AII';
+		RAISE EXCEPTION 'El agente de campo que ingresó no existe o ya no trabaja en AII';
+	END IF;   	
+	
 	IF (hist_cargo_agente_encargado_reg.cargo != 'agente') THEN
 		RAISE INFO 'El agente de campo que ingresó no es un agente de campo en su cargo actual';
 		RAISE EXCEPTION 'El agente de campo que ingresó no es un agente de campo en su cargo actual';
 	END IF;
 
-
-	-------------////////
 
 	fecha_obtencion_va = NOW();
    
@@ -411,7 +358,7 @@ DECLARE
 	hist_cargo_agente_encargado_reg HIST_CARGO%ROWTYPE;
 
 	informante_reg INFORMANTE%ROWTYPE;
-	tema_reg CLAS_TEMA%ROWTYPE;
+	-- tema_reg CLAS_TEMA%ROWTYPE;
 	crudo_reg CRUDO%ROWTYPE;
 	transaccion_pago_reg TRANSACCION_PAGO%ROWTYPE;
 
@@ -425,43 +372,11 @@ BEGIN
 	
 	-------------/////////// VALIDACIONES DE LLAVES
 
-	
-	IF (contenido_va IS NULL OR contenido_va = '') THEN
-   		RAISE INFO 'Debe ingresar el contenido del crudo que quiere crear';
-  		RAISE EXCEPTION 'Debe ingresar el contenido del crudo que quiere crear';
-   	END IF;  
 
-	IF (tipo_contenido_va != 'texto' AND tipo_contenido_va != 'imagen' AND tipo_contenido_va != 'sonido' AND tipo_contenido_va != 'video') THEN
-   		RAISE INFO 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video), %', tipo_contenido_va;
-  		RAISE EXCEPTION 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video)';
-   	END IF;   	
-
-	IF (resumen_va IS NULL OR resumen_va = '') THEN
-   		RAISE INFO 'Debe ingresar el resumen del crudo que quiere crear';
-  		RAISE EXCEPTION 'Debe ingresar el resumen del crudo que quiere crear';
-   	END IF;   
-
-
-	IF (valor_apreciacion_va IS NOT NULL AND valor_apreciacion_va <= 0) THEN
-   		RAISE INFO 'El valor de apreciacion del crudo debe ser mayor a 0$';
-  		RAISE EXCEPTION 'El valor de apreciacion del crudo debe ser mayor a 0$';
-   	END IF; 
-	   
 	IF (monto_pago_va IS NULL OR monto_pago_va <= 0) THEN
    		RAISE INFO 'El monto pagado por el crudo al informante debe ser mayor a 0$';
   		RAISE EXCEPTION 'El monto pagado por el crudo al informante debe ser mayor a 0$';
    	END IF; 
-
-	IF (nivel_confiabilidad_inicial_va IS NULL OR nivel_confiabilidad_inicial_va < 0 OR nivel_confiabilidad_inicial_va > 100 ) THEN
-   		RAISE INFO 'El nivel de confiabilidad del crudo debe estar entre el rango de 0 y 100';
-  		RAISE EXCEPTION 'El nivel de confiabilidad del crudo debe estar entre el rango de 0 y 100';
-   	END IF; 
-	   
-	IF (cant_analistas_verifican_va IS NULL OR cant_analistas_verifican_va < 2) THEN	
-   		RAISE INFO 'Debe ingresar un número valido de analistas requeridos para la verificación';
-  		RAISE EXCEPTION 'Debe ingresar un número valido de analistas requeridos para la verificación';
-   	END IF;   
-
 
 
 	SELECT * INTO informante_reg FROM INFORMANTE WHERE id = id_informante AND fk_personal_inteligencia_encargado = id_agente_campo;
@@ -473,16 +388,6 @@ BEGIN
   		RAISE EXCEPTION 'El informante que ingresó no se encuetra registrado o no le pertenece al agente que ingresó';
 	END IF;
 
-
-	SELECT * INTO tema_reg FROM CLAS_TEMA WHERE id = id_tema;
-
-	RAISE INFO 'DATOS DE TEMA %:', tema_reg;
-	
-	IF (tema_reg IS NULL) THEN
-		RAISE INFO 'El tema que ingresó no se encuetra registrado';
-  		RAISE EXCEPTION 'El tema que ingresó no se encuetra registrado';
-	END IF;
-	
 	
 	
 	-------------////  BUSQUEDA DEL AGENTE ENCARGADO
