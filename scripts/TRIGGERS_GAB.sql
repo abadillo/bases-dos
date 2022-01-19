@@ -1,4 +1,4 @@
-
+﻿
 ---- 	TRIGGER PARA VALIDAR LOS ARCOS EXCLUSIVOS ---------
 
 
@@ -11,40 +11,40 @@ DECLARE
 	informante_check_reg informante%rowtype;
 	
 BEGIN
-
+	---SI EL TRIGGER ES DISPARADO POR INSERT ---
  	IF (TG_OP = 'INSERT') THEN
         
-		---- VALIDACIONES DE NOMBRE CLAVE 
+		---- VALIDACIONES DE NOMBRE CLAVE DE INFORMANTE ---
 
 		IF(new.nombre_clave IS NULL OR new.nombre_clave = '') THEN
 			RAISE INFO 'Ingrese un nombre clave para el informante';
 			RAISE EXCEPTION 'Ingrese un nombre clave para el informante';
 			RETURN NULL;
 		END IF;
-		
+		--- BUSQUEDA DE LOS DATOS DEL INFORMANTE CON EL NOMBRE CLAVE ---
 		
 		SELECT * INTO informante_check_reg FROM informante 
 		WHERE nombre_clave = new.nombre_clave;
 
 		RAISE INFO 'DATOS DE INFORMANTE %:', informante_check_reg;
-		
+		--- SI EXISTE EL NOMBRE CLAVE DEL INFORMANTE NO INSERTA ---
 		IF (informante_check_reg.id IS NOT NULL) THEN
 			RAISE INFO 'El nombre clave que ingresó ya se encuentra en uso';
 			RAISE EXCEPTION 'El nombre clave que ingresó ya se encuentra en uso: %', new.nombre_clave;
 			RETURN NULL;
 		END IF;		
-
+		--- FUNCION VALIDAR ARCO EXCLUSIVO ---
 		CALL VALIDAR_ARCO_EXCLUSIVO();
 		
 		RAISE INFO 'INFORMANTE CREADO CON EXITO!';
 		RAISE INFO 'Datos del informante: %', NEW ; 
-
+		--- RETURN NEW = INSERTA EL REGISTRO---
 		RETURN NEW;
 
-
+	--- SI EL TRIGGER ES DISPARADO POR UPDATE ---
 	ELSIF (TG_OP = 'UPDATE') THEN
 		
-		---- VALIDACIONES DE NOMBRE CLAVE 
+		---- VALIDACIONES DE NOMBRE CLAVE DE INFORMANTE ---
 
 		IF(new.nombre_clave IS NULL OR new.nombre_clave = '') THEN
 			RAISE INFO 'Ingrese un nombre clave para el informante';
@@ -57,19 +57,19 @@ BEGIN
 		WHERE nombre_clave = new.nombre_clave;
 
 		RAISE INFO 'DATOS DE INFORMANTE %:', informante_check_reg;
-		
+		--- SI EXISTE EL NOMBRE CLAVE DEL INFORMANTE NO INSERTA ---
 		IF (informante_check_reg.id IS NOT NULL) THEN
 			RAISE INFO 'El nombre clave que ingresó ya se encuentra en uso';
 			RAISE EXCEPTION 'El nombre clave que ingresó ya se encuentra en uso: %', new.nombre_clave;
 			RETURN NULL;
 		END IF;		
-
+		--- FUNCION VALIDAR ARCO EXCLUSIVO ---
 		CALL VALIDAR_ARCO_EXCLUSIVO();
 
 
 		RAISE INFO 'INFORMANTE CREADO CON EXITO!';
 		RAISE INFO 'Datos del informante: %', NEW ; 
-
+		--- RETURN NEW = INSERTA EL REGISTRO---
 		RETURN NEW;
 
 	END IF;
@@ -115,9 +115,9 @@ DECLARE
 
 BEGIN
 	
-
+	--- SI EL TRIGGER ES DISPARADO POR INSERT ---
 	IF (TG_OP = 'INSERT') THEN
-
+		--- VALIDACIÓN DE TODOS LOS ATRIBUTOS DEL CRUDO ---
 		IF (new.contenido_va IS NULL OR new.contenido_va = '') THEN
 			RAISE INFO 'Debe ingresar el contenido del crudo que quiere crear';
 			RAISE EXCEPTION 'Debe ingresar el contenido del crudo que quiere crear';
@@ -152,13 +152,13 @@ BEGIN
 			RAISE INFO 'Debe ingresar un número valido de analistas requeridos para la verificación';
 			RAISE EXCEPTION 'Debe ingresar un número valido de analistas requeridos para la verificación';
 		END IF;   
-
-
-		CALL VALIDAR_EXIT_TEMA(id_tema);
 		
+			
+		CALL VALIDAR_EXIT_TEMA(id_tema);
+		--- RETURN NEW = INSERTA EL REGISTRO---
 		RETURN NEW;
 
-
+	
 	ELSIF (TG_OP = 'UPDATE') THEN
 
 
@@ -351,7 +351,7 @@ DECLARE
 	-- nivel_confiabilidad_va CRUDO.nivel_confiabilidad_final%ROWTYPE;
 		
 BEGIN
-
+	---SI EL TRIGGER ES DISPARADO POR INSERT---
 	IF (TG_OP = 'INSERT') THEN
         
 		SELECT * INTO pieza_reg FROM PIEZA_INTELIGENCIA WHERE id = id_pieza AND precio_base IS NULL;
@@ -392,7 +392,7 @@ BEGIN
 
 		RETURN NEW;
 
-
+	---SI EL TRIGGER ES DISPARADO POR UPDATE---
 	ELSIF (TG_OP = 'UPDATE') THEN
 
 		SELECT * INTO pieza_reg FROM PIEZA_INTELIGENCIA WHERE id = id_pieza AND precio_base IS NULL;

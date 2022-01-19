@@ -1,31 +1,4 @@
 
-
-CREATE OR REPLACE FUNCTION CREAR_CONTACTO (primer_nombre varchar,segundo_nombre varchar, primer_apellido varchar, segundo_apellido varchar, direccion varchar, codigo numeric, numero numeric)
-RETURNS contacto_ty
-LANGUAGE PLPGSQL
-AS $$
-DECLARE
-	
-	telefono telefono_ty;
-BEGIN
-
-	IF (primer_nombre IS NULL OR primer_nombre = ' ') THEN
-		RAISE EXCEPTION 'NO TIENE PRIMER NOMBRE CONTACTO';
-	END IF;
-	
-	IF ((primer_apellido IS NULL OR primer_apellido = ' ') AND (segundo_apellido IS NULL OR segundo_apellido = ' ')) THEN
-		RAISE EXCEPTION 'NO TIENE LOS DOS APELLIDOS COMPLETOS';
-	END IF;
-	
-	IF (direccion = ' ' OR direccion IS NULL) THEN
-		RAISE EXCEPTION 'EL CONTACTO DEBE DIRECCION';
-	END IF;
-	
-	telefono = CREAR_TELEFONO(codigo,numero);
-	
-	RETURN ROW(primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, direccion, telefono)::contacto_ty;
-	
-END $$;
 --DROP FUNCTION VER_CLIENTE;
 
 CREATE OR REPLACE FUNCTION VER_CLIENTE (id_cliente in integer)
@@ -56,7 +29,7 @@ $$;
 -- DROP PROCEDURE IF EXISTS CREAR_CLIENTE CASCADE;
 
 
-CREATE OR REPLACE PROCEDURE CREAR_CLIENTE (nombre_empresa_va IN CLIENTE.nombre_empresa%TYPE, pagina_web_va IN CLIENTE.pagina_web%TYPE, exclusivo_va IN CLIENTE.exclusivo%TYPE, telefono_va IN telefono_ty, contacto_va IN contacto_ty, id_lugar in integer)
+CREATE OR REPLACE PROCEDURE CREAR_CLIENTE (nombre_empresa_va IN CLIENTE.nombre_empresa%TYPE, pagina_web_va IN CLIENTE.pagina_web%TYPE, exclusivo_va IN CLIENTE.exclusivo%TYPE, telefono_va IN telefono_ty, contacto_va IN contacto_ty, fk_lugar_pais in integer)
 LANGUAGE plpgsql
 AS $$  
 DECLARE
@@ -96,8 +69,8 @@ BEGIN
 END $$;
 
 
- CALL CREAR_CLIENTE('nombre_empresa','pagina_web', true,'apellido2',CREAR_TELEFONO(0212,2847213), CREAR_TELEFONO(0212,2847213), CREAR_CONTACTO('gabriel','alberto','manrique','ulacio','calle_tal',CREAR_TELEFONO(0414,0176620)), 5);
- SELECT * FROM VER_CLIENTES();
+-- CALL CREAR_CLIENTE('nombre_empresa','pagina_web', true,CREAR_TELEFONO(0212,2847213), CREAR_CONTACTO('gabriel','alberto','manrique','ulacio','calle_tal',0414,0176620), 5);
+-- SELECT * FROM VER_CLIENTES(); 
 
 
 -------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
@@ -112,7 +85,8 @@ DECLARE
     --	oficina_reg OFICINA_PRINCIPAL%ROWTYPE;
 	-- tipo_va CLIENTE.tipo%TYPE := 'cliente';
     numero_registro_compra integer;
-
+	area_interes_reg area_interes%ROWTYPE;
+	
 BEGIN 
 
 	RAISE INFO ' ';
@@ -130,10 +104,16 @@ BEGIN
     SELECT count(*) INTO numero_registro_compra FROM ADQUISICION WHERE fk_cliente = id_cliente;
 
     IF (numero_registro_compra) THEN
-        RAISE EXCEPTION 'No se puede borrar el cliente ya que hay registro de venta que dependen de el'
+        RAISE EXCEPTION 'No se puede borrar el cliente ya que hay registro de venta que dependen de el';
     END IF;
-
-
+	
+	SELECT * INTO area_interes_reg FROM area_interes
+	WHERE fk_cliente = cliente_reg.id;
+	
+	IF (area_interes_reg IS NOT NULL) THEN
+		RAISE EXCEPTION 'No se puede borrar el cliente ya que hay un registro de area interes que depende del cliente';
+	END IF;
+	
 	DELETE FROM CLIENTE WHERE id = id_cliente; 
 	
    RAISE INFO 'CLIENTE ELIMINADO CON EXITO!';
@@ -141,9 +121,7 @@ BEGIN
 
 END $$;
 
-
-
--- CALL eliminar_cliente(5);
+-- CALL eliminar_cliente(11);
 -- SELECT * FROM cliente ej order by id desc; 
 
 
@@ -172,19 +150,20 @@ BEGIN
 		RAISE EXCEPTION 'El cliente no existe';
 	END IF;
 
-
+	IF (contacto_va IS NULL) THEN
+		RAISE INFO 'El cliente no tiene contacto';
+		RAISE EXCEPTION 'El cliente no tiene contacto';
 
 	-------------////////
 	
 	UPDATE CLIENTE SET 
 	
-		primer_nombre = nombre_empresa_va,
-		segundo_nombre = pagina_web_va, 
-		primer_apellido = exclusivo_va,  
-		segundo_apellido = segundo_apellido_va, 
-		telefonos = tARRAY[telefono_va],
+		nombre_empresa = nombre_empresa_va,
+		pagina_web = pagina_web_va, 
+		exclusivo = exclusivo_va,  
+		telefonos = ARRAY[telefono_va],
         contactos = ARRAY [contacto_va],
-		fk_lugar_pais = id_lugar 
+		fk_lugar_pais = id_lugar; 
 		
 	WHERE id = id_cliente
 	RETURNING * INTO cliente_reg;
@@ -196,8 +175,8 @@ BEGIN
 
 END $$;
 
-
--- CALL actualizar_cliente (2,'nombre1','nombre2','apellido1','apellido2',CREAR_TELEFONO(0212,2847213), 5);
+(id_cliente IN integer, nombre_empresa_va IN CLIENTE.nombre_empresa%TYPE, pagina_web_va IN CLIENTE.pagina_web%TYPE, exclusivo_va IN CLIENTE.exclusivo%TYPE, telefono_va IN telefono_ty, contacto_va IN contacto_ty, id_lugar in integer)
+CALL actualizar_cliente (2,'nombre_empresa','pagina_web',false,CREAR_TELEFONO(0212,2847213),null, 5);
 -- SELECT * FROM cliente ej order by id desc; 
 
 
