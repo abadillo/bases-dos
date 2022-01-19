@@ -511,3 +511,92 @@ END $$;
 
 
 -- SELECCIONAR, CREAR, MODIFICAR y ELIMINAR OFICINAS
+
+
+
+
+
+
+------------------------////////////////---------------------------
+
+
+
+CREATE OR REPLACE PROCEDURE PROCEDIMIENTO_ASIGNACION_PRESUPUESTO (id_empleado_acceso integer, estacion_va integer, presupuesto_va numeric)
+LANGUAGE PLPGSQL
+AS $$
+DECLARE 	
+
+	estacion_reg estacion%rowtype;
+	oficina_reg oficina_principal%rowtype;
+	jefe_reg empleado_jefe%rowtype;
+	cuenta_reg CUENTA%ROWTYPE;
+	
+BEGIN 
+	
+		RAISE INFO '------ EJECUCION DEL PROCEDIMINETO PARA ASIGNAR PRESUPUESTO EN ESTACIONES ( % ) ------', NOW();
+		
+		---PROCEDIMIENTO QUE VALIDA SI EL DIRECTOR DE AREA TIENE ACCESO A LA ESTACION---
+		
+		CALL VALIDAR_ACESSO_DE_DIR_AREA_A_ESTACION(id_empleado_acceso, estacion_va);
+		
+		---SE VALIDA QUE EL DIRECCTOR DE AREA PERTENESCA A LA OFICINA_PRINCIPAL---
+		SELECT * INTO oficina_reg FROM oficina_principal WHERE fk_director_area = id_empleado_acceso; ---MIRAR 
+		
+		---SE VALIDA SI LA OFICINA EXISTE--
+		
+		IF (oficina_reg IS NULL) THEN
+			RAISE INFO 'La oficina no existe';
+			RAISE EXCEPTION 'La oficina no existe';
+		END IF;
+	
+		SELECT * INTO estacion_reg FROM estacion WHERE id = estacion_va;
+		
+		IF (estacion_reg IS NULL) THEN
+			RAISE INFO 'La estacion no existe';
+			RAISE EXCEPTION 'La estacion no existe';
+		END IF;
+		
+
+		select * into cuenta_reg from cuenta where 
+			año = NOW()::DATE
+			and fk_estacion = estacion_va;
+
+
+		IF (cuenta_reg IS NULL) THEN
+			
+			INSERT INTO cuenta (
+				año,
+				presupuesto,
+				fk_estacion,
+				fk_oficina_principal		
+				
+			) VALUES (
+				NOW()::DATE, 
+				presupuesto_va,
+				estacion_va,
+				oficina_reg.id
+			);	
+
+		ELSE 
+
+			UPDATE cuenta SET 
+				presupuesto = presupuesto_va
+			WHERE 
+				año = NOW()::DATE and 
+				fk_estacion = estacion_va;
+
+		END IF;
+
+END
+$$;
+
+
+-- CALL PROCEDIMIENTO_ASIGNACION_PRESUPUESTO(2, 2, 5000);
+-- select * from cuenta where fk_estacion = 2;
+
+-- PROCEDIMIENTO DE DIRECTOR DE AREA, 
+-- ASIGNAR LOS PRESUPUESTOS DE ESTACIONES,
+-- REFERENCIA:: ACTUALIZAR ESTACIÓN,
+-- VALIDAR QUE EL DIRECTOR TENGA ACCESO,
+-- id_empleado_acceso, ES EL ID DEL DIRECTOR DE AREA.
+

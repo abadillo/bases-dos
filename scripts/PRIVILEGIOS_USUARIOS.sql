@@ -67,21 +67,6 @@ GRANT SELECT ON VISTA_CUENTAS_AII_OFICINA_GINEBRA TO dir_area_38_ginebra;
 
 
 
---GRANT SELECT ON EMPLEADO_JEFE TO ROL_EMPLEADO_JEFE;
-
-
-
-----------///////////- 
-
--- PROBAR CON DISTINTOS USUARIOS.
-
-
-
--- SOLO EL USUARIO admin01 y dev01 PUEDE CREAR TABLAS
---create table empleado_jefe (id integer);
---
----- SOLO EL USUARIO 
---select * from empleado_jefe ;
 
 
 

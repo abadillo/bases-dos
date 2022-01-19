@@ -1,6 +1,38 @@
 
 -------------------------- FUNCIONES PARA EL INSERT -----------------------------
 
+CREATE OR REPLACE FUNCTION ELIMINACION_REGISTROS_VENTA_EXCLUSIVA ( id_pieza IN integer ) 
+RETURNS void
+LANGUAGE PLPGSQL 
+AS $$
+
+DECLARE 
+
+	id_crudos_asociados integer[] ;	
+
+BEGIN 
+
+	id_crudos_asociados := ARRAY( 
+		SELECT fk_crudo FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza
+	);
+
+	RAISE INFO 'IDs de crudos de la pieza %: %', id_pieza, id_crudos_asociados;
+
+	DELETE FROM ADQUISICION WHERE fk_pieza_inteligencia = id_pieza;
+
+	DELETE FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza;
+
+	DELETE FROM PIEZA_INTELIGENCIA WHERE id = id_pieza;
+
+	DELETE FROM TRANSACCION_PAGO WHERE fk_crudo = ANY(id_crudos_asociados);
+
+	DELETE FROM ANALISTA_CRUDO WHERE fk_crudo = ANY(id_crudos_asociados);
+
+	DELETE FROM CRUDO WHERE id = ANY(id_crudos_asociados);
+
+
+END $$;
+
 
 --------------------------/////////////// FUNCION PARA INSERT EN COLUMNA BYTEA //////////////////---------------------- 
 
