@@ -162,6 +162,7 @@ $$;
 
 
 
+
 ----CREAR TELEFONOO ----
 
 CREATE OR REPLACE FUNCTION CREAR_TELEFONO (codigo numeric(10), numero NUMERIC(15))

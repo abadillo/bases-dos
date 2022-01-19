@@ -1,140 +1,143 @@
-DROP PROCEDURE VALIDAR_JEFE_PERSONAL (integer, integer);
 
-CREATE OR REPLACE PROCEDURE VALIDAR_JEFE_PERSONAL (jefe integer, personal integer)
-LANGUAGE PLPGSQL
-AS $$
-DECLARE
-	estacion_reg estacion%ROWTYPE;
-	hist_cargo_reg hist_cargo%ROWTYPE;
-	
-BEGIN
-
-	SELECT * INTO estacion_reg 
-	FROM estacion
-	WHERE fk_empleado_jefe = jefe;
-		
-	SELECT * INTO hist_cargo_reg 
-	FROM hist_cargo 
-	WHERE fk_estacion = estacion_reg.id;
-	
-	
-	IF(estacion_reg IS NOT NULL AND hist_cargo_reg IS NOT NULL) THEN
-		RAISE INFO 'EL DIRECTOR DE AREA CON ID: % ES JEFE DEL EMPLEADO DE ID: % ',jefe, hist_cargo_reg.fk_personal_inteligencia;
-	
-	
-	ELSE
-		RAISE EXCEPTION 'EL DIRECTOR DE AREA NO ES JEFE DEL PERSONAL INSERTADO';
-	
-	END IF;
-
-END
-
-$$;
+-- DROP PROCEDURE ASIGNAR_TEMA_CLIENTE;
 
 
-
-
-
-DROP PROCEDURE PROCEDIMIENTO_ASIGNAR_TEMAS(integer,integer,integer,integer)
-
-CREATE OR REPLACE PROCEDURE PROCEDIMIENTO_ASIGNAR_TEMAS (id_empleado_acceso integer, tema integer, personal_inteligencia integer, cliente_va integer)
+CREATE OR REPLACE PROCEDURE ASIGNAR_TEMA_CLIENTE (tema_id integer,cliente_id integer)
 LANGUAGE PLPGSQL
 AS $$
 DECLARE 
 
-	estacion_reg estacion%ROWTYPE;
-	hist_cargo_reg hist_cargo%ROWTYPE;	
-	empleado_jefe_reg empleado_jefe%ROWTYPE;
-	tema_nombre record;
-	cliente_nombre record;
-	
+	tema_reg TEMA%ROWTYPE;
+	cliente_reg CLIENTE%ROWTYPE;
+
+	area_interes_exit AREA_INTERES%ROWTYPE;
 
 BEGIN 
 	
-		---SELECT EL DIRECTOR DE AREA---
-		SELECT * INTO empleado_jefe_reg 
-		FROM empleado_jefe 
-		WHERE id = id_empleado_acceso
-		AND tipo = 'director_area';		
+	SELECT * INTO tema_reg FROM CLAS_TEMA WHERE id = tema_id;
+	
+	---VALIDACION SI EL TEMA ES NULO---		
+	IF (tema_reg IS NULL) THEN
 		
-		---VALIDACION SI EXISTE EL DIRECTOR DE AREA---
-		IF (empleado_jefe_reg IS NULL) THEN
-			
-			RAISE EXCEPTION 'SE REQUIERE UN DIRECTOR DE AREA PARA ASIGNAR LOS TEMAS';
-		
-		END IF;
-		
-		---VALIDACION SI EL TEMA ES NULO---		
-		IF (tema IS NULL) THEN
-			
-			RAISE EXCEPTION 'TIENE QUE INSERTAR UN TEMA PARA LA ASIGNACION DE TEMAS';
-		
-		END IF;
-		---BUSCAR NOMBRE DEL TEMA---
-		SELECT nombre INTO tema_nombre
-				FROM clas_tema 
-				WHERE id = tema;				
-		
-		---VALIDACION DEL PERSONAL DE INTELIGENCIA Y DEL CLIENTE QUE NO SEAN NULOS---
-		IF (personal_inteligencia IS NULL AND cliente_va IS NULL) THEN
-			RAISE EXCEPTION 'DEBE ESPECIFICAR UN PERSONAL DE INTELIGENCIA O UN CLIENTE PARA ASIGNAR UN TEMA';
-		
-		--- SI EXISTE EL PERSONAL ---
-		ELSIF (personal_inteligencia IS NOT NULL) THEN
-			
-			--- VALIDACION DEL DIRECTOR EJECUTIVO SEA JEFE DEL PERSONAL DE INTELIGENCIA ---
-			CALL VALIDAR_JEFE_PERSONAL(id_empleado_acceso, personal_inteligencia);
-			
-			
-			--- INSERT EN LA TABLA TEMAS DE PERSONAL DE INTELIGENCIA ---
-			INSERT INTO temas_esp (
-				fk_personal_inteligencia,
-				fk_clas_tema
-				)	VALUES (
-					personal_inteligencia,
-					tema				
-				);
-								
-				RAISE INFO 'SE INSERTO EN EL PERSONAL DE INTELIGENCIA CON EL ID: %, EL TEMA CON ID: % Y NOMBRE: %', personal_inteligencia, tema, tema_nombre;
-		--- SI EXISTE EL CLIENTE ---
-		ELSIF (cliente_va IS NOT NULL) THEN
-				
-				--- INSERT EN LA TABLA TEMAS DE CLIENTE ---
-				INSERT INTO area_interes (
-					fk_clas_tema,
-					fk_cliente				
-				) 	VALUES (
-					tema, 
-					cliente					
-				);
-			
-				--- BUSCA NOMBRE DEL CLIENTE ---			
-				SELECT nombre INTO cliente_nombre
-				FROM cliente
-				WHERE id = cliente_va;
-		
-				RAISE INFO 'SE INSERTO EN EL CLIENTE CON EL ID: % Y EL NOMBRE: %, EL TEMA CON ID: % Y NOMBRE: %', cliente_va, cliente_nombre, tema, tema_nombre;   
-		
-		END IF;			
+		RAISE EXCEPTION 'No existe el tema';
+	END IF;
 
+
+	SELECT * INTO cliente_reg FROM CLIENTE WHERE id = cliente_id;
+	
+	---VALIDACION SI EL TEMA ES NULO---		
+	IF (cliente_reg IS NULL) THEN
+		
+		RAISE EXCEPTION 'No existe el cliente';
+	END IF;
+
+
+	SELECT * INTO area_interes_exit FROM AREA_INTERES WHERE fk_clas_tema = tema_id and fk_cliente = cliente_id;
+		
+	---VALIDACION SI EL TEMA ES NULO---		
+	IF (area_interes_exit IS NOT NULL) THEN
+		
+		RAISE EXCEPTION 'Ya el tema fue asignado';
+	END IF;
+
+
+	INSERT INTO AREA_INTERES (
+		fk_clas_tema,
+		fk_cliente				
+	) VALUES (
+		tema_id, 
+		cliente_id					
+	);
+	
+
+	RAISE INFO 'SE INSERTO EN EL CLIENTE CON EL ID: % Y EL NOMBRE: %, EL TEMA CON ID: % Y NOMBRE: %', cliente_reg.id, cliente_reg.nombre, tema_reg.id, tema_reg.nombre;   
+		
 END
 $$;
 
-					DIRECTOR_AREA, TEMA, PERSONAL O CLIENTE
-CALL PROCEDIMIENTO_ASIGNAR_TEMAS(1, 4,1,0)
 
 
 
-SELECT * FROM empleado_jefe
-ID_JEFE: 11 --> 
-ESTACION: 1
-
-SELECT * FROM hist_cargo
-
-SELECT * FROM estacion
 
 
 
-SELECT * FROM cuenta
+CREATE OR REPLACE PROCEDURE ASIGNAR_TEMAS_ANALISTA (id_empleado_acceso integer, tema_id integer, analista_id integer)
+LANGUAGE PLPGSQL
+AS $$
+DECLARE 
+
+	-- estacion_reg estacion%ROWTYPE;
+	hist_cargo_reg hist_cargo%ROWTYPE;	
+	empleado_jefe_reg empleado_jefe%ROWTYPE;
+	
+	tema_reg CLAS_TEMA%ROWTYPE;
+
+	personal_inteligencia_reg PERSONAL_INTELIGENCIA%ROWTYPE;
+
+	temas_esp_exit TEMAS_ESP%ROWTYPE;
+	
+
+BEGIN 
+
+	-- CALL VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION(id_empleado_acceso, personal_inteligencia);
+
+	
+	SELECT * INTO tema_reg FROM CLAS_TEMA WHERE id = tema_id;
+	
+	---VALIDACION SI EL TEMA ES NULO---		
+	IF (tema_reg IS NULL) THEN
+		
+		RAISE EXCEPTION 'No existe el tema';
+	END IF;
+
+
+	SELECT * INTO personal_inteligencia_reg FROM PERSONAL_INTELIGENCIA WHERE id = analista_id;
+	
+	---VALIDACION SI EL TEMA ES NULO---		
+	IF (personal_inteligencia_reg IS NULL) THEN
+		
+		RAISE EXCEPTION 'No existe el canalista';
+	END IF;
+
+
+	SELECT * INTO temas_esp_exit FROM TEMAS_ESP WHERE fk_clas_tema = tema_id and fk_personal_inteligencia = analista_id;
+		
+	---VALIDACION SI EL TEMA ES NULO---		
+	IF (temas_esp_exit IS NOT NULL) THEN
+		
+		RAISE EXCEPTION 'Ya el tema fue asignado';
+	END IF;
+		
+	
+
+	SELECT * INTO hist_cargo_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = analista_id LIMIT 1;
+
+	IF (hist_cargo_reg IS NOT NULL) THEN	
+		
+		CALL VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION(id_empleado_acceso, id_analista);
+
+	END IF;
+
+
+	INSERT INTO TEMAS_ESP (
+		fk_personal_inteligencia,
+		fk_clas_tema
+	) VALUES (
+		analista_id,
+		tema_id				
+	);
+							
+	RAISE INFO 'SE INSERTO EN EL PERSONAL DE INTELIGENCIA CON EL ID: %, EL TEMA CON ID: % Y NOMBRE: %', analista_id, tema_id, tema_reg.nombre;
+	
+END
+$$;
+
+
+
+
+
+
+
+
 
 

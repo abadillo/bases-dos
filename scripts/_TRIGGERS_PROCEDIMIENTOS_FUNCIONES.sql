@@ -42,6 +42,7 @@
 
 -/ TRIGGER_UPDATE_PIEZA BEFORE UPDATE ON PIEZA_INTELIGENCIA FOR EACH ROW TRIGGER_UPDATE_PIEZA();
 
+
 --//-//-- CRUDO_PIEZA
 
 -/ TRIGGER_INSERT_UPDATE_CRUDO_PIEZA BEFORE INSERT OR UPDATE FOR EACH ROW TRIGGER_INSERT_UPDATE_CRUDO_PIEZA();
@@ -85,8 +86,6 @@
 
 -/=/- ARCHIVO PROCEDIMIENTOS_DIRECTOR_EJECUTIVO.sql -/=/- 
 
--/ CREAR_TELEFONO (codigo numeric(10), numero NUMERIC(15)) RETURNS telefono_ty
-
 -/ VER_DIRECTOR_AREA (id_director_area in integer) RETURNS EMPLEADO_JEFE
 -/ VER_DIRECTORES_AREA () RETURNS setof EMPLEADO_JEFE
 
@@ -109,7 +108,9 @@
 -/ VER_ESTACION (id_empleado_acceso in integer, id_estacion in integer)
 -/ VER_ESTACIONES (id_empleado_acceso in integer)
 -/ VER_PRESUPUESTO_ESTACION (id_empleado_acceso in integer, id_estacion in integer)
-
+-/ VER_CLIENTE (id_cliente in integer)
+-/ VER_CLIENTES ()
+-/ 
 
 
 
@@ -124,6 +125,8 @@
 -/ VER_LISTA_INFORMANTES_EMPLEADO_CONFIDENTE (id_empleado_acceso in integer)
 -/ VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_CONFIDENTE (id_personal_inteligencia in integer)
 
+
+-/=/- ARCHIVO PROCEDIMIENTOS_TYPE.sql -/=/- 
 
 
 
@@ -143,6 +146,9 @@
 -/ VALIDAR_JERARQUIA_EMPLEADO_JEFE (id_empleado_sup IN integer, tipo_va IN EMPLEADO_JEFE.tipo%TYPE)
 -/ VALIDAR_TIPO_EMPLEADO_JEFE(id_empleado IN integer, tipo_va IN EMPLEADO_JEFE.tipo%TYPE)
 -/ VALIDAR_TIPO_LUGAR(id_lugar IN integer, tipo_va IN LUGAR.tipo%TYPE)
+-/ VALIDAR_ARCO_EXCLUSIVO()
+-/ VALIDAR_EXIT_TEMA(id_tema IN integer)
+-/ VALIDAR_CANT_ANALISTAS_VERIFICAN_CRUDO ( id_crudo IN integer ) 
 
 
 
@@ -162,38 +168,43 @@
 
 -/ CAMBIAR_ROL_EMPLEADO (id_empleado IN integer, id_jefe in integer, cargo in integer)
 
+-/ CREAR_LUGAR (nombre_va IN LUGAR.nombre%TYPE, tipo_va in LUGAR.tipo%TYPE, region_va in LUGAR.region%TYPE, id_lugar_sup IN LUGAR.fk_lugar%TYPE)
+-/ ELIMINAR_LUGAR (id_lugar IN INTEGER)
+-/ ACTUALIZAR_LUGAR (id_lugar IN integer,nombre_va IN LUGAR.nombre%TYPE, tipo_va in LUGAR.tipo%TYPE, region_va in LUGAR.region%TYPE, id_lugar_sup IN LUGAR.fk_lugar%TYPE)
+
 
 
 
 -/=/- ARCHIVO PROCEDIMIENTOS_DIRECTOR_AREA.sql -/=/-
 
---REVISAR-/ VALIDAR_ACESSO_DE_DIR_AREA(id_empleado_acceso in integer, id_jefe_estacion in integer)
+--REVISAR-/ VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION(id_empleado_acceso in integer, id_jefe_estacion in integer)
 
 -/ CREAR_JEFE_ESTACION (id_empleado_acceso in integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
 -/ ACTUALIZAR_JEFE_ESTACION (id_empleado_acceso IN integer, id_jefe_estacion IN integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
 -/ ELIMINAR_JEFE_ESTACION (id_empleado_acceso IN INTEGER, id_jefe_estacion IN INTEGER)
 
---REVISAR-/ VALIDAR_ACESSO_DE_DIR_AREA_A_ESTACION(id_empleado_acceso in integer, id_estacion in integer)
+--REVISAR-/ VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION_A_ESTACION(id_empleado_acceso in integer, id_estacion in integer)
 
 -/ CREAR_ESTACION (id_empleado_acceso IN integer, nombre_va IN ESTACION.nombre%TYPE, id_ciudad IN ESTACION.fk_lugar_ciudad%TYPE, id_jefe_estacion IN ESTACION.fk_jefe_estacion%TYPE)
 -/ ELIMINAR_ESTACION (id_empleado_acceso IN integer, id_estacion IN INTEGER)
 -/ ACTUALIZAR_ESTACION (id_empleado_acceso IN integer, nombre_va IN ESTACION.nombre%TYPE, id_ciudad IN ESTACION.fk_lugar_ciudad%TYPE, id_jefe_estacion IN ESTACION.fk_empleado_jefe%TYPE)
 
-
--- MANEJO DE PRESUPUESTO ( CUENTA )
-
 -/  ASIGNACION_PRESUPUESTO (id_empleado_acceso integer, estacion_va integer, presupuesto_va numeric)
 
--- MANEJO DE CLIENTES 
-
--/ 
-
--- MANEJO DE TEMAS 
-
--- MANEJO DE TEMAS DE CLIENTES 
+-/ CREAR_CLIENTE (nombre_empresa_va IN CLIENTE.nombre_empresa%TYPE, pagina_web_va IN CLIENTE.pagina_web%TYPE, exclusivo_va IN CLIENTE.exclusivo%TYPE, telefono_va IN telefono_ty, contacto_va IN contacto_ty, id_lugar in integer)
+-/ ELIMINAR_CLIENTE (id_cliente IN INTEGER)
+-/ ACTUALIZAR_CLIENTE (id_cliente IN integer, nombre_empresa_va IN CLIENTE.nombre_empresa%TYPE, pagina_web_va IN CLIENTE.pagina_web%TYPE, exclusivo_va IN CLIENTE.exclusivo%TYPE, telefono_va IN telefono_ty, contacto_va IN contacto_ty, id_lugar in integer)
 
 
--- MANEJO DE LUGARES
+-- MANEJO DE TEMAS  DE CLIENTES -/ -- POR REVISAR
+- / ASIGNAR_TEMA_CLIENTE (tema_id integer,cliente_id integer)
+
+
+-- MANEJO DE TEMAS
+
+-/
+
+
 
 
 -/=/- ARCHIVO PROCEDIMIENTOS_JEFE_ESTACION.sql -/=/- 
@@ -201,3 +212,18 @@
 -/ ELIMINAR_PERSONAL_INTELIGENCIA (id_empleado_acceso IN INTEGER, id_personal_inteligencia IN INTEGER)
 -/ CERRAR_HIST_CARGO (id_empleado_acceso in integer, id_personal_inteligencia IN integer)
 -/ ASIGNAR_TRANSFERIR_ESTACION_EMPLEADO (id_empleado_acceso in integer, id_personal_inteligencia IN integer, id_estacion in integer, cargo_va IN HIST_CARGO.cargo%TYPE)
+
+
+-- POR REVISAR 
+-/ ASIGNAR_TEMAS_ANALISTA (id_empleado_acceso integer, tema_id integer, analista_id integer)
+
+
+
+-/=/- ARCHIVO PROCEDIMIENTOS_TYPE.sql -/=/- 
+
+-/ CREAR_TELEFONO (codigo numeric(10), numero NUMERIC(15))
+-/ CREAR_LICENCIA (numero varchar, pais varchar)
+-/ CREAR_FAMILIAR (primer_nombre varchar,segundo_nombre varchar, primer_apellido varchar, segundo_apellido varchar,fecha_nacimiento timestamp, parentesco varchar, codigo numeric, numero numeric)
+-/ CREAR_IDENTIFICACION (documento varchar, pais varchar)
+-/ CREAR_NIVEL_EDUCATIVO (pregrado_titulo varchar, postgrado_tipo varchar, postgrado_titulo varchar)
+-/ CREAR_ARRAY_IDIOMAS (idioma_1 IN varchar(50),idioma_2 IN varchar(50),idioma_3 IN varchar(50),idioma_4 IN varchar(50),idioma_5 IN varchar(50),idioma_6 IN varchar(50))

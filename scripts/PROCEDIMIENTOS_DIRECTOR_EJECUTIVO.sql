@@ -23,56 +23,118 @@ LANGUAGE sql
 AS $$  
  	SELECT * FROM LUGAR; 
 $$;
---
---
---select VER_DIRECTOR_AREA(8);
-
-
--- SELECCIONAR, CREAR, MODIFICAR y ELIMINAR EMPLEADOS_AREA
-
-
--- CREATE TABLE EMPLEADO_JEFE (
-
---     id serial NOT NULL,
-
---     primer_nombre varchar(50) NOT NULL,
---     segundo_nombre varchar(50) ,
---     primer_apellido varchar(50) NOT NULL,
---     segundo_apellido varchar(50) NOT NULL,
---     telefono telefono_ty,
---     tipo varchar(50) NOT NULL, -- 'director_area, jefe, director_ejecutivo'
---     fk_empleado_jefe integer,
-
---     CONSTRAINT EMPLEADO_JEFE_PK PRIMARY KEY (id),
---     CONSTRAINT EMPLEADO_JEFE_FK FOREIGN KEY (fk_empleado_jefe) REFERENCES EMPLEADO_JEFE (id),
---     CONSTRAINT EMPLEADO_JEFE_CH_tipo CHECK ( tipo IN ('director_area', 'jefe', 'director_ejecutivo') )
--- );
 
 
 
 
-CREATE OR REPLACE FUNCTION CREAR_TELEFONO (codigo numeric(10), numero NUMERIC(15))
-RETURNS telefono_ty
+CREATE OR REPLACE PROCEDURE CREAR_LUGAR (nombre_va IN LUGAR.nombre%TYPE, tipo_va in LUGAR.tipo%TYPE, region_va in LUGAR.region%TYPE, id_lugar_sup IN LUGAR.fk_lugar%TYPE)
 LANGUAGE plpgsql
-AS $$ 
-BEGIN
+AS $$  
 
-	IF (codigo IS NULL OR codigo = 0) THEN
-		RAISE EXCEPTION 'El codigo del telefono no puede ser nulo';
-	END IF;
+BEGIN 
 
-	IF (numero IS NULL OR numero = 0) THEN
-		RAISE EXCEPTION 'El numero del telefono no puede ser nulo';
-	END IF;
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CREAR_LUGAR ( % ) ------', NOW();
+	
 
- 	RETURN ROW(codigo,numero)::telefono_ty; 
+	INSERT INTO LUGAR (
+		nombre,
+		tipo,
+		region,
+		fk_lugar
+	) VALUES (
+		nombre_va,
+		tipo_va,
+		region_va,
+		id_lugar_sup
+	);
 
 END $$;
---
---
--- select crear_telefono(0,0120301230);
 
------------------------------///////////////-------------------------------
+-- call CREAR_LUGAR('Perú','pais','america_sur',null);
+-- select * from ver_lugares();
+-- CALL CREAR_LUGAR('prueba',20, 2);
+-- SELECT * FROM lugar order by id desc; 
+-- select * from lugar where id = 2;
+-- select * from EMPLEADO_JEFE where id = 20;
+
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
+
+
+CREATE OR REPLACE PROCEDURE ELIMINAR_LUGAR (id_lugar IN INTEGER)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	-- empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+--	lugar_reg LUGAR%ROWTYPE;
+	-- tipo_va EMPLEADO_JEFE.tipo%TYPE := 'jefe';
+
+BEGIN 
+
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO ELIMINAR_LUGAR ( % ) ------', NOW();
+	
+	DELETE FROM LUGAR WHERE id = id_lugar; 
+	
+   	RAISE INFO 'LUGAR ELIMINADA CON EXITO!';
+ 
+
+END $$;
+
+
+
+-- CALL ELIMINAR_LUGAR(15);
+
+
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
+
+CREATE OR REPLACE PROCEDURE ACTUALIZAR_LUGAR (id_lugar IN integer,nombre_va IN LUGAR.nombre%TYPE, tipo_va in LUGAR.tipo%TYPE, region_va in LUGAR.region%TYPE, id_lugar_sup IN LUGAR.fk_lugar%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	lugar_reg LUGAR%ROWTYPE;
+ 
+BEGIN 
+
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO ACTUALIZAR_LUGAR ( % ) ------', NOW();
+	
+	SELECT * INTO lugar_reg FROM LUGAR WHERE id = id_lugar;
+
+	IF (lugar_reg IS NULL) THEN
+		RAISE INFO 'La lugar no existe';
+		RAISE EXCEPTION 'La lugar no existe';
+	END IF;
+
+
+	UPDATE LUGAR SET 
+		nombre = nombre_va,
+		tipo = tipo_va,
+		region = region_va,
+		fk_lugar = id_lugar_sup
+	
+	WHERE id = id_lugar
+	RETURNING * INTO lugar_reg;
+	
+	-------------////////
+
+
+   RAISE INFO 'LUGAR MODIFICADA CON EXITO';
+   RAISE INFO 'Datos de la lugar modificada %', lugar_reg ; 
+
+END $$;
+
+
+
+
+---------------------///////////////////-------------------------
+
 
 
 --DROP FUNCTION VER_DIRECTOR_AREA;
