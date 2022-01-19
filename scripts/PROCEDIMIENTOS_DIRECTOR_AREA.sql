@@ -521,7 +521,7 @@ END $$;
 
 
 
-CREATE OR REPLACE PROCEDURE PROCEDIMIENTO_ASIGNACION_PRESUPUESTO (id_empleado_acceso integer, estacion_va integer, presupuesto_va numeric)
+CREATE OR REPLACE PROCEDURE ASIGNACION_PRESUPUESTO (id_empleado_acceso integer, estacion_va integer, presupuesto_va numeric)
 LANGUAGE PLPGSQL
 AS $$
 DECLARE 	
@@ -591,7 +591,7 @@ END
 $$;
 
 
--- CALL PROCEDIMIENTO_ASIGNACION_PRESUPUESTO(2, 2, 5000);
+-- CALL ASIGNACION_PRESUPUESTO(2, 2, 5000);
 -- select * from cuenta where fk_estacion = 2;
 
 -- PROCEDIMIENTO DE DIRECTOR DE AREA, 
@@ -600,3 +600,19 @@ $$;
 -- VALIDAR QUE EL DIRECTOR TENGA ACCESO,
 -- id_empleado_acceso, ES EL ID DEL DIRECTOR DE AREA.
 
+
+CREATE OR REPLACE FUNCTION VER_PRESUPUESTO_ESTACION (id_empleado_acceso in integer, id_estacion in integer)
+RETURNS setof CUENTA
+LANGUAGE plpgsql
+AS $$  
+
+BEGIN
+	CALL VALIDAR_ACESSO_DE_DIR_AREA_A_ESTACION(id_empleado_acceso, id_estacion);
+
+ 	RETURN QUERY
+	 	SELECT * FROM CUENTA WHERE fk_estacion = id_estacion; 
+
+END $$;
+
+-- select * from VER_PRESUPUESTO_ESTACION(3,4);
+-- select * from cuenta where fk_estacion = 4;

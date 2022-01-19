@@ -108,6 +108,8 @@
 -/ VER_JEFES_E (id_empleado_acceso in integer)
 -/ VER_ESTACION (id_empleado_acceso in integer, id_estacion in integer)
 -/ VER_ESTACIONES (id_empleado_acceso in integer)
+-/ VER_PRESUPUESTO_ESTACION (id_empleado_acceso in integer, id_estacion in integer)
+
 
 
 
@@ -177,6 +179,21 @@
 -/ ELIMINAR_ESTACION (id_empleado_acceso IN integer, id_estacion IN INTEGER)
 -/ ACTUALIZAR_ESTACION (id_empleado_acceso IN integer, nombre_va IN ESTACION.nombre%TYPE, id_ciudad IN ESTACION.fk_lugar_ciudad%TYPE, id_jefe_estacion IN ESTACION.fk_empleado_jefe%TYPE)
 
+
+-- MANEJO DE PRESUPUESTO ( CUENTA )
+
+-/  ASIGNACION_PRESUPUESTO (id_empleado_acceso integer, estacion_va integer, presupuesto_va numeric)
+
+-- MANEJO DE CLIENTES 
+
+-/ 
+
+-- MANEJO DE TEMAS 
+
+-- MANEJO DE TEMAS DE CLIENTES 
+
+
+-- MANEJO DE LUGARES
 
 
 -/=/- ARCHIVO PROCEDIMIENTOS_JEFE_ESTACION.sql -/=/- 
