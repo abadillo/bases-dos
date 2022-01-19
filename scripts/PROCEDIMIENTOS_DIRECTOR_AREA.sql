@@ -1,6 +1,4 @@
-
-
-CREATE OR REPLACE PROCEDURE VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION(id_empleado_acceso in integer, id_jefe_estacion in integer)
+﻿CREATE OR REPLACE PROCEDURE VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION(id_empleado_acceso in integer, id_jefe_estacion in integer)
 AS $$
 DECLARE
 
@@ -56,7 +54,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-select * from empleado_jefe
+--select * from empleado_jefe
 
 -- SELECT VER_JEFE_E(2,20);
 
@@ -83,7 +81,7 @@ END;
 $$ LANGUAGE plpgsql;
 --
 
-SELECT VER_JEFES_E(2);
+--SELECT VER_JEFES_E(2);
 
 
 
@@ -200,8 +198,8 @@ BEGIN
 END $$;
 
 
-SELECT VER_JEFES_E(2);
-CALL eliminar_jefe_estacion(2,44);
+--SELECT VER_JEFES_E(2);
+--CALL eliminar_jefe_estacion(2,44);
 
 
 
@@ -390,7 +388,7 @@ END $$;
 
 DROP PROCEDURE IF EXISTS CREAR_ESTACION CASCADE;
 
-CREATE OR REPLACE PROCEDURE CREAR_ESTACION (id_empleado_acceso IN integer, nombre_va IN ESTACION.nombre%TYPE, id_ciudad IN ESTACION.fk_lugar_ciudad%TYPE, id_jefe_estacion IN ESTACION.fk_jefe_estacion%TYPE)
+CREATE OR REPLACE PROCEDURE CREAR_ESTACION (id_empleado_acceso IN integer, nombre_va IN ESTACION.nombre%TYPE, id_ciudad IN ESTACION.fk_lugar_ciudad%TYPE, id_jefe_estacion IN ESTACION.fk_empleado_jefe%TYPE)
 LANGUAGE plpgsql
 AS $$  
 DECLARE
@@ -781,7 +779,7 @@ BEGIN
 
 END $$;
 
-CALL eliminar_cliente(11);
+-- CALL eliminar_cliente(11);
 -- SELECT * FROM cliente ej order by id desc; 
 
 
