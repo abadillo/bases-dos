@@ -10,49 +10,44 @@
  
 -/=/- ARCHIVO TRIGGERS.sql -/=/-    -/=/- ARCHIVO TRIGGERS_GAB.sql -/=/- 
 
---////-- TABLA EMPLEADO_JEFE
 
+--////-- TABLA EMPLEADO_JEFE
 -/ TRIGGER_EMPLEADO_JEFE BEFORE INSERT OR UPDATE OR DELETE ON EMPLEADO_JEFE FOR EACH ROW TRIGGER_EMPLEADO_JEFE();
 
 --////-- TABLA CLIENTE
-
 -/ TRIGGER_CLIENTE BEFORE INSERT OR UPDATE OR DELETE ON CLIENTE FOR EACH ROW TRIGGER_CLIENTE();
 
 --//-//-- OFICINA_PRINCIPAL
-
 -/ TRIGGER_OFICINA_PRINCIPAL BEFORE INSERT OR UPDATE OR DELETE FOR EACH ROW TRIGGER_OFICINA_PRINCIPAL();
 
 
 --//-//-- PERSONAL_INTELIGENCIA
-
 -/ TRIGGER_INSERT_UPDATE_PERSONAL_INTELIGENCIA BEFORE INSERT OR UPDATE ON PERSONAL_INTELIGENCIA FOR EACH ROW TRIGGER_PERSONAL_INTELIGENCIA()
 
 
 --//-//-- INFORMANTE
-
 -/ TRIGGER_INSERT_UPDATE_INFORMANTE BEFORE INSERT OR UPDATE FOR EACH ROW TRIGGER_INSERT_UPDATE_INFORMANTE();
 
 
 --//-//-- CRUDO
-
 -/ TRIGGER_UPDATE_INSERT_CRUDO BEFORE INSERT OR UPDATE FOR EACH ROW TRIGGER_UPDATE_INSERT_CRUDO()
 
 
 --//-//-- PIEZA_INTELIGENCIA
-
 -/ TRIGGER_UPDATE_PIEZA BEFORE UPDATE ON PIEZA_INTELIGENCIA FOR EACH ROW TRIGGER_UPDATE_PIEZA();
 
 
 --//-//-- CRUDO_PIEZA
-
 -/ TRIGGER_INSERT_UPDATE_CRUDO_PIEZA BEFORE INSERT OR UPDATE FOR EACH ROW TRIGGER_INSERT_UPDATE_CRUDO_PIEZA();
 
 
 --//-//-- ADQUISICION
-
 -/ TRIGGER_REGISTRO_TEMAS_CLIENTE_ADQUISICION AFTER INSERT FOR EACH ROW TRIGGER_REGISTRO_TEMAS_CLIENTE_ADQUISICION();
 
 --//-//-- LUGAR
+-/ TRIGGER_INSERT_LUGAR BEFORE INSERT OR UPDATE ON LUGAR FOR EACH ROW TRIGGER_FUNCTION_VERIF_JERARQUIA_LUGAR();
+
+
 --//-//-- ESTACION
 --//-//-- CUENTA
 --//-//-- INTENTO_NO_AUTORIZADO
@@ -177,13 +172,14 @@
 
 -/=/- ARCHIVO PROCEDIMIENTOS_DIRECTOR_AREA.sql -/=/-
 
---REVISAR-/ VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION(id_empleado_acceso in integer, id_jefe_estacion in integer)
+-- / - REVISAR
+-/ VALIDAR_ACESSO_DIR_AREA_ESTACION (id_empleado_acceso in integer, id_estacion in integer)
+-/ VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION(id_empleado_acceso in integer, id_jefe_estacion in integer)
+
 
 -/ CREAR_JEFE_ESTACION (id_empleado_acceso in integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
 -/ ACTUALIZAR_JEFE_ESTACION (id_empleado_acceso IN integer, id_jefe_estacion IN integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
 -/ ELIMINAR_JEFE_ESTACION (id_empleado_acceso IN INTEGER, id_jefe_estacion IN INTEGER)
-
---REVISAR-/ VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION_A_ESTACION(id_empleado_acceso in integer, id_estacion in integer)
 
 -/ CREAR_ESTACION (id_empleado_acceso IN integer, nombre_va IN ESTACION.nombre%TYPE, id_ciudad IN ESTACION.fk_lugar_ciudad%TYPE, id_jefe_estacion IN ESTACION.fk_jefe_estacion%TYPE)
 -/ ELIMINAR_ESTACION (id_empleado_acceso IN integer, id_estacion IN INTEGER)
@@ -195,14 +191,11 @@
 -/ ELIMINAR_CLIENTE (id_cliente IN INTEGER)
 -/ ACTUALIZAR_CLIENTE (id_cliente IN integer, nombre_empresa_va IN CLIENTE.nombre_empresa%TYPE, pagina_web_va IN CLIENTE.pagina_web%TYPE, exclusivo_va IN CLIENTE.exclusivo%TYPE, telefono_va IN telefono_ty, contacto_va IN contacto_ty, id_lugar in integer)
 
-
--- MANEJO DE TEMAS  DE CLIENTES -/ -- POR REVISAR
 - / ASIGNAR_TEMA_CLIENTE (tema_id integer,cliente_id integer)
 
 
 -- MANEJO DE TEMAS
 
--/
 
 
 
@@ -213,9 +206,11 @@
 -/ CERRAR_HIST_CARGO (id_empleado_acceso in integer, id_personal_inteligencia IN integer)
 -/ ASIGNAR_TRANSFERIR_ESTACION_EMPLEADO (id_empleado_acceso in integer, id_personal_inteligencia IN integer, id_estacion in integer, cargo_va IN HIST_CARGO.cargo%TYPE)
 
+-/ ASIGNAR_TEMA_ANALISTA (id_empleado_acceso integer, tema_id integer, analista_id integer)
 
--- POR REVISAR 
--/ ASIGNAR_TEMAS_ANALISTA (id_empleado_acceso integer, tema_id integer, analista_id integer)
+-/ VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA ( id_empleado_acceso in integer, id_personal_inteligencia in integer)
+
+
 
 
 
@@ -227,3 +222,15 @@
 -/ CREAR_IDENTIFICACION (documento varchar, pais varchar)
 -/ CREAR_NIVEL_EDUCATIVO (pregrado_titulo varchar, postgrado_tipo varchar, postgrado_titulo varchar)
 -/ CREAR_ARRAY_IDIOMAS (idioma_1 IN varchar(50),idioma_2 IN varchar(50),idioma_3 IN varchar(50),idioma_4 IN varchar(50),idioma_5 IN varchar(50),idioma_6 IN varchar(50))
+
+
+
+
+
+--- FALTA:
+
+-- PROCEDIMIENTO DE DESPIDO / RENUNCIA
+-- REVISAR TRIGGERS DE COPIA ALT
+-- IMPORTANTE! AGREGAR VALIDACION DE ACCESO DE PERSONAL INTELIGENCIA Y REVISAR TODOS LOS PROCESOS DEL PUNTO 3 Y 4 DE LA RUBRICA 
+-- IMPORTANTE! ASIGNAR PERMISOS DE FUNCIONES CON LOS ROLES. PROBAR CADA ROL Y CADA PROCEDIMIENTO 
+-- MANEJO DE OO

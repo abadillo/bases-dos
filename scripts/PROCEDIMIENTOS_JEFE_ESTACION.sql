@@ -1,5 +1,129 @@
 
 
+CREATE OR REPLACE PROCEDURE VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA ( id_empleado_acceso in integer, id_personal_inteligencia in integer)
+AS $$
+DECLARE
+
+	jefe_estacion_reg EMPLEADO_JEFE%ROWTYPE;
+	hist_cargo_reg HIST_CARGO%ROWTYPE;
+	estacion_reg ESTACION%ROWTYPE;
+
+BEGIN
+
+	SELECT * INTO jefe_estacion_reg FROM EMPLEADO_JEFE WHERE id = id_empleado_acceso AND tipo = 'jefe';
+	
+	IF (jefe_estacion_reg IS NULL) THEN
+		RAISE EXCEPTION 'El jefe no existe o no es un jefe';
+	END IF;
+
+	SELECT * INTO estacion_reg FROM ESTACION WHERE fk_empleado_jefe = id_empleado_acceso;
+
+	IF (estacion_reg IS NULL) THEN
+		RAISE EXCEPTION 'El jefe no es jefe de ninguna estacion';
+	END IF;
+
+
+	SELECT * INTO hist_cargo_reg FROM HIST_CARGO WHERE fk_estacion = estacion_reg.id and fk_personal_inteligencia = id_personal_inteligencia and fecha_fin is null; 
+
+	IF (hist_cargo_reg IS NULL) THEN
+		RAISE EXCEPTION 'No tiene acesso a esta informacion';
+	END IF;
+		
+
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+
+
+
+CREATE OR REPLACE PROCEDURE ASIGNAR_TEMA_ANALISTA (id_empleado_acceso integer, tema_id integer, analista_id integer)
+LANGUAGE PLPGSQL
+AS $$
+DECLARE 
+
+	-- estacion_reg estacion%ROWTYPE;
+	hist_cargo_reg hist_cargo%ROWTYPE;	
+	empleado_jefe_reg empleado_jefe%ROWTYPE;
+	
+	tema_reg CLAS_TEMA%ROWTYPE;
+
+	personal_inteligencia_reg PERSONAL_INTELIGENCIA%ROWTYPE;
+
+	temas_esp_exit TEMAS_ESP%ROWTYPE;
+	
+
+BEGIN 
+
+	-- CALL VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION(id_empleado_acceso, personal_inteligencia);
+
+	
+	SELECT * INTO tema_reg FROM CLAS_TEMA WHERE id = tema_id;
+	
+	---VALIDACION SI EL TEMA ES NULO---		
+	IF (tema_reg IS NULL) THEN
+		
+		RAISE EXCEPTION 'No existe el tema';
+	END IF;
+
+
+	SELECT * INTO personal_inteligencia_reg FROM PERSONAL_INTELIGENCIA WHERE id = analista_id;
+	
+	---VALIDACION SI EL TEMA ES NULO---		
+	IF (personal_inteligencia_reg IS NULL) THEN
+		
+		RAISE EXCEPTION 'No existe el canalista';
+	END IF;
+
+
+	SELECT * INTO temas_esp_exit FROM TEMAS_ESP WHERE fk_clas_tema = tema_id and fk_personal_inteligencia = analista_id;
+		
+	---VALIDACION SI EL TEMA ES NULO---		
+	IF (temas_esp_exit IS NOT NULL) THEN
+		
+		RAISE EXCEPTION 'Ya el tema fue asignado';
+	END IF;
+		
+	
+
+	SELECT * INTO hist_cargo_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = analista_id LIMIT 1;
+
+	IF (hist_cargo_reg IS NOT NULL) THEN	
+		
+		CALL VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA(id_empleado_acceso, analista_id);
+
+	END IF;
+
+
+	INSERT INTO TEMAS_ESP (
+		fk_personal_inteligencia,
+		fk_clas_tema
+	) VALUES (
+		analista_id,
+		tema_id				
+	);
+							
+	RAISE INFO 'SE INSERTO EN EL PERSONAL DE INTELIGENCIA CON EL ID: %, EL TEMA CON ID: % Y NOMBRE: %', analista_id, tema_id, tema_reg.nombre;
+	
+END
+$$;
+
+
+
+
+
+-- call ASIGNAR_TEMA_ANALISTA(16,2,21);
+
+
+-- select * from TEMAS_ESP where fk_personal_inteligencia = 21 
+
+
+
+
+
+
+
 CREATE OR REPLACE PROCEDURE CREAR_PERSONAL_INTELIGENCIA (
 
     primer_nombre_va IN PERSONAL_INTELIGENCIA.primer_nombre%TYPE, 

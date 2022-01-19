@@ -162,77 +162,73 @@ EXECUTE PROCEDURE TRIGGER_EMPLEADO_JEFE();
 
 -- A. Triggers para validar las jerarquías en lugar (si aplica); para validar tipo ciudad o país si aplica;
 
--- CREATE OR REPLACE function TRIGGER_FUNCTION_VERIF_JERARQUIA_LUGAR()
--- RETURNS TRIGGER AS $$
--- DECLARE  
+CREATE OR REPLACE function TRIGGER_FUNCTION_VERIF_JERARQUIA_LUGAR()
+RETURNS TRIGGER AS $$
+DECLARE  
 
--- 	fk_lugar_temp_va LUGAR.fk_lugar%type ;
--- 	lugar_superior_registro LUGAR := NULL ;
+	fk_lugar_temp_va LUGAR.fk_lugar%type ;
+	lugar_superior_registro LUGAR := NULL ;
 
--- BEGIN
+BEGIN
 	
--- 	-- VALIDACION DE JEREAQUIA DE LUGAR
+	-- VALIDACION DE JEREAQUIA DE LUGAR
 	
--- 	raise notice '-------%------', NOW();
--- 	raise notice 'old.tipo %', old.tipo;
--- 	raise notice 'new.tipo %', new.tipo;
--- 	raise notice 'old.region %', old.region;
--- 	raise notice 'new.region %', new.region;
--- 	raise notice 'old.fk_lugar %', old.fk_lugar;
--- 	raise notice 'new.fk_lugar %', new.fk_lugar;
+	raise notice '-------%------', NOW();
+	raise notice 'old.tipo %', old.tipo;
+	raise notice 'new.tipo %', new.tipo;
+	raise notice 'old.region %', old.region;
+	raise notice 'new.region %', new.region;
+	raise notice 'old.fk_lugar %', old.fk_lugar;
+	raise notice 'new.fk_lugar %', new.fk_lugar;
 
 
--- 	IF (new.fk_lugar is NOT NULL) then
+	IF (new.fk_lugar is NOT NULL) then
 	
--- 		fk_lugar_temp_va = new.fk_lugar;
+		fk_lugar_temp_va = new.fk_lugar;
 	
--- 		select * into lugar_superior_registro from LUGAR where id = fk_lugar_temp_va;
--- 	END IF;
+		select * into lugar_superior_registro from LUGAR where id = fk_lugar_temp_va;
+	END IF;
 	
 
--- 	case new.tipo
+	case new.tipo
 	
--- 		when 'pais' then 
+		when 'pais' then 
 					
--- 			IF (lugar_superior_registro is null and new.region is not null) then
--- 				RETURN new;
--- 			ELSE 
--- 				RAISE EXCEPTION 'La referencia a la región del país es solo a través del atributo "region"';
--- 				RETURN null;	
--- 			END IF;	
+			IF (lugar_superior_registro is null and new.region is not null) then
+				RETURN new;
+			ELSE 
+				RAISE EXCEPTION 'La referencia a la región del país es solo a través del atributo "region"';
+				RETURN null;	
+			END IF;	
 		
--- 		when 'ciudad' then
+		when 'ciudad' then
 		
--- 			IF (lugar_superior_registro.tipo = 'pais' and new.region is null) then
--- 				RETURN new;
--- 			ELSE 
--- 				RAISE EXCEPTION 'Las ciudades no tiene región asignada y deben referenciar a un país';
--- 				RETURN null;	
+			IF (lugar_superior_registro.tipo = 'pais' and new.region is null) then
+				RETURN new;
+			ELSE 
+				RAISE EXCEPTION 'Las ciudades no tiene región asignada y deben referenciar a un país';
+				RETURN null;	
 				
--- 			END IF;
+			END IF;
 			
--- 		ELSE 
--- 			RETURN null;
--- 	end case;
+		ELSE 
+			RETURN null;
+	end case;
 
 	
--- END;
--- $$ LANGUAGE plpgsql;
+END;
+$$ LANGUAGE plpgsql;
 
 
 -- DROP TRIGGER IF EXISTS TRIGGER_INSERT_LUGAR ON LUGAR CASCADE;	
 -- DROP TRIGGER IF EXISTS TRIGGER_UPDATE_LUGAR_TIPO_FK_LUGAR_REGION ON LUGAR CASCADE;
 
 
--- CREATE TRIGGER TRIGGER_INSERT_LUGAR 
--- BEFORE INSERT ON LUGAR 
--- FOR EACH ROW
--- EXECUTE PROCEDURE TRIGGER_FUNCTION_VERIF_JERARQUIA_LUGAR();
+CREATE TRIGGER TRIGGER_INSERT_LUGAR 
+BEFORE INSERT OR UPDATE ON LUGAR 
+FOR EACH ROW
+EXECUTE PROCEDURE TRIGGER_FUNCTION_VERIF_JERARQUIA_LUGAR();
 
--- CREATE TRIGGER TRIGGER_UPDATE_LUGAR_TIPO_FK_LUGAR_REGION
--- BEFORE UPDATE OF tipo, fk_lugar, region ON LUGAR
--- FOR EACH ROW
--- EXECUTE PROCEDURE TRIGGER_FUNCTION_VERIF_JERARQUIA_LUGAR();
 	
 -- -- PRUEBAS
 

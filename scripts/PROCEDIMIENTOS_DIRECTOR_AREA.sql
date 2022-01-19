@@ -291,7 +291,7 @@ END $$;
 
 	
 
-CREATE OR REPLACE PROCEDURE VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION_A_ESTACION(id_empleado_acceso in integer, id_estacion in integer)
+CREATE OR REPLACE PROCEDURE VALIDAR_ACESSO_DIR_AREA_ESTACION (id_empleado_acceso in integer, id_estacion in integer)
 AS $$
 DECLARE
 
@@ -329,7 +329,7 @@ DECLARE
 
 	estacion_reg ESTACION%ROWTYPE;
 BEGIN
-	CALL VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION_A_ESTACION(id_empleado_acceso, id_estacion);
+	CALL VALIDAR_ACESSO_DIR_AREA_ESTACION(id_empleado_acceso, id_estacion);
 
  	SELECT * INTO estacion_reg FROM ESTACION WHERE id = id_estacion; 
 
@@ -423,7 +423,7 @@ DECLARE
 
 BEGIN 
 
-	CALL VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION_A_ESTACION(id_empleado_acceso,id_estacion);
+	CALL VALIDAR_ACESSO_DIR_AREA_ESTACION(id_empleado_acceso,id_estacion);
 
 	RAISE INFO ' ';
 	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO ELIMINAR_ESTACION ( % ) ------', NOW();
@@ -537,7 +537,7 @@ BEGIN
 		
 		---PROCEDIMIENTO QUE VALIDA SI EL DIRECTOR DE AREA TIENE ACCESO A LA ESTACION---
 		
-		CALL VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION_A_ESTACION(id_empleado_acceso, estacion_va);
+		CALL VALIDAR_ACESSO_DIR_AREA_ESTACION(id_empleado_acceso, estacion_va);
 		
 		---SE VALIDA QUE EL DIRECCTOR DE AREA PERTENESCA A LA OFICINA_PRINCIPAL---
 		SELECT * INTO oficina_reg FROM oficina_principal WHERE fk_director_area = id_empleado_acceso; ---MIRAR 
@@ -607,7 +607,7 @@ LANGUAGE plpgsql
 AS $$  
 
 BEGIN
-	CALL VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION_A_ESTACION(id_empleado_acceso, id_estacion);
+	CALL VALIDAR_ACESSO_DIR_AREA_ESTACION(id_empleado_acceso, id_estacion);
 
  	RETURN QUERY
 	 	SELECT * FROM CUENTA WHERE fk_estacion = id_estacion; 
@@ -806,4 +806,70 @@ END $$;
 -- (id_cliente IN integer, nombre_empresa_va IN CLIENTE.nombre_empresa%TYPE, pagina_web_va IN CLIENTE.pagina_web%TYPE, exclusivo_va IN CLIENTE.exclusivo%TYPE, telefono_va IN telefono_ty, contacto_va IN contacto_ty, id_lugar in integer)
 -- CALL actualizar_cliente (2,'nombre_empresa','pagina_web',false,CREAR_TELEFONO(0212,2847213),null, 5);
 -- -- SELECT * FROM cliente ej order by id desc; 
+
+
+
+--------------------//////////////////--------------------
+
+
+
+-- DROP PROCEDURE ASIGNAR_TEMA_CLIENTE;
+
+
+CREATE OR REPLACE PROCEDURE ASIGNAR_TEMA_CLIENTE (tema_id integer,cliente_id integer)
+LANGUAGE PLPGSQL
+AS $$
+DECLARE 
+
+	tema_reg CLAS_TEMA%ROWTYPE;
+	cliente_reg CLIENTE%ROWTYPE;
+
+	area_interes_exit AREA_INTERES%ROWTYPE;
+
+BEGIN 
+	
+	SELECT * INTO tema_reg FROM CLAS_TEMA WHERE id = tema_id;
+	
+	---VALIDACION SI EL TEMA ES NULO---		
+	IF (tema_reg IS NULL) THEN
+		
+		RAISE EXCEPTION 'No existe el tema';
+	END IF;
+
+
+	SELECT * INTO cliente_reg FROM CLIENTE WHERE id = cliente_id;
+	
+	---VALIDACION SI EL TEMA ES NULO---		
+	IF (cliente_reg IS NULL) THEN
+		
+		RAISE EXCEPTION 'No existe el cliente';
+	END IF;
+
+
+	SELECT * INTO area_interes_exit FROM AREA_INTERES WHERE fk_clas_tema = tema_id and fk_cliente = cliente_id;
+		
+	---VALIDACION SI EL TEMA ES NULO---		
+	IF (area_interes_exit IS NOT NULL) THEN
+		
+		RAISE EXCEPTION 'Ya el tema fue asignado';
+	END IF;
+
+
+	INSERT INTO AREA_INTERES (
+		fk_clas_tema,
+		fk_cliente				
+	) VALUES (
+		tema_id, 
+		cliente_id					
+	);
+	
+
+	RAISE INFO 'SE INSERTO EN EL CLIENTE CON EL ID: % Y EL NOMBRE: %, EL TEMA CON ID: % Y NOMBRE: %', cliente_reg.id, cliente_reg.nombre_empresa, tema_reg.id, tema_reg.nombre;   
+		
+END
+$$;
+
+-- call ASIGNAR_TEMA_CLIENTE (2, 10);
+-- select * from AREA_INTERES;
+
 
