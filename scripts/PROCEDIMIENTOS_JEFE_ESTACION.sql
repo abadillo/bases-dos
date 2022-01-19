@@ -4,13 +4,13 @@ CREATE OR REPLACE PROCEDURE VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA ( id_e
 AS $$
 DECLARE
 
-	jefe_estacion_reg EMPLEADO_JEFE%ROWTYPE;
+	-- jefe_estacion_reg EMPLEADO_JEFE%ROWTYPE;
 	hist_cargo_reg HIST_CARGO%ROWTYPE;
-	estacion_reg ESTACION%ROWTYPE;
+	-- estacion_reg ESTACION%ROWTYPE;
 
 BEGIN
 
-	SELECT * INTO hist_cargo_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = id_personal_inteligencia AND fk_estacion IN (SELECT id FROM ESTACION WHERE fk_empleado_jefe = id_empleado_acceso);
+	SELECT * INTO hist_cargo_reg FROM HIST_CARGO WHERE fecha_fin IS NULL AND fk_personal_inteligencia = id_personal_inteligencia AND fk_estacion IN (SELECT id FROM ESTACION WHERE fk_empleado_jefe = id_empleado_acceso);
 
 	IF (hist_cargo_reg IS NULL) THEN
 		RAISE EXCEPTION 'No tiene acesso a esta informacion';
@@ -37,6 +37,7 @@ AS $$
 DECLARE
 
 	estacion_reg ESTACION%ROWTYPE;
+    jefe_estacion_reg EMPLEADO_JEFE%ROWTYPE;
 
 BEGIN
 
@@ -276,7 +277,7 @@ BEGIN
 	END IF;
 
 
-	SELECT * INTO hist_cargo_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = id_personal_inteligencia LIMIT 1;
+	SELECT * INTO hist_cargo_reg FROM HIST_CARGO WHERE fecha_fin IS NULL AND fk_personal_inteligencia = id_personal_inteligencia LIMIT 1;
 
 	IF (hist_cargo_reg IS NOT NULL) THEN	
 		
@@ -480,7 +481,7 @@ BEGIN
 		
 	
 
-	SELECT * INTO hist_cargo_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = analista_id LIMIT 1;
+	SELECT * INTO hist_cargo_reg FROM HIST_CARGO WHERE fecha_fin IS NULL AND fk_personal_inteligencia = analista_id LIMIT 1;
 
 	IF (hist_cargo_reg IS NOT NULL) THEN	
 		
@@ -603,6 +604,35 @@ $$;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------/////////////////////------------------------------
+
+
+
+
+
+
+
 -- DROP PROCEDURE IF EXISTS CERRAR_HIST_CARGO CASCADE;
 
 CREATE OR REPLACE PROCEDURE CERRAR_HIST_CARGO (id_empleado_acceso in integer, id_personal_inteligencia IN integer)
@@ -620,17 +650,16 @@ BEGIN
 	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CERRAR_HIST_CARGO ( % ) ------', NOW();
 	
 	-------------///////////--------------	
-   
-   	SELECT * INTO hist_cargo_actual_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = id_personal_inteligencia AND fecha_fin IS NULL AND fk_estacion IN ( SELECT id FROM ESTACION WHERE fk_empleado_jefe = id_empleado_acceso); 
-   	RAISE INFO 'datos de hist_cargo actual: %', hist_cargo_actual_reg;
 
-   --------
 
-   	IF (hist_cargo_actual_reg IS NULL) THEN
-   		RAISE INFO 'El personal de inteligencia que ingresó no existe, ya no trabaja en AII o no le pertenece';
-  		RAISE EXCEPTION 'El personal de inteligencia que ingresó no existe, ya no trabaja en AII o no le pertenece';
-   	END IF;   	
-  	
+	SELECT * INTO hist_cargo_actual_reg FROM HIST_CARGO WHERE fecha_fin IS NULL AND fk_personal_inteligencia = id_personal_inteligencia;
+
+	IF (hist_cargo_actual_reg IS NOT NULL) THEN	
+		
+		CALL VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA(id_empleado_acceso, analista_id);
+
+	END IF;
+    
 	fecha_hoy_va = NOW();
 
 	UPDATE HIST_CARGO SET fecha_fin = fecha_hoy_va WHERE fk_personal_inteligencia = id_personal_inteligencia AND fecha_fin IS NULL;
