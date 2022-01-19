@@ -1,17 +1,8 @@
--------------------------------------- BALANCE GENERAL --------------------------------------------
 
-/*  Los jefes de las estaciones y los directores correspondientes monitorean el uso de este presupuesto a traves de
-    revisiones trimestrales y al final del año.
-    Cada estacion debe generar un informe con su balance:
-        Pago otorgado (Presupuesto). --
-        Fecha. 
-        Hechos crudo recolectados.
-        Pieza de Inteligencia que lo utiliza (si aplica).
-        Valor de la pieza.
-        Ganancia o perdida alcanzada (TOTAL) --
-    Y los totales generales:
-        Total pagado. (A INFORMANTES) --
-        Total obtenido por ventas de las piezas de inteligencia logradas por estos hechos aportados por informantes. --
+------------------------------- FONDOS DE ALL Y APORTE DE ESTACION ------------------------------------------
+--LISTO
+/*  El Director Ejecutivo debe poder consultar en cualquier momento de cuantos fondos dispone la All.
+    Asi como cada Jefe de Estacion debe poder saber a tiempo las ganancias netas anuales de cada estacion.
 */
 
 
@@ -21,66 +12,6 @@ CREATE TYPE REPORTE_BALANCE as (pago_informantes int, pago_informantes_alt int, 
                                 piezas_vendidas int, piezas_vendidas_exclusivas int, total_piezas int,
                                 presupuesto_estaciones int, total_balance int
                                 );
-
-
-DROP TYPE IF EXISTS REPORTE_BALANCE_GENERAL CASCADE;
-
-CREATE TYPE REPORTE_BALANCE_GENERAL as 
-    (fecha date, crudos_piezas integer[][], valor_pieza INT, 
-    balance REPORTE_BALANCE
-    );
-
-
-
-DROP FUNCTION IF EXISTS BALANCE_GENERAL CASCADE;
-
-CREATE OR REPLACE FUNCTION BALANCE_GENERAL (estacion int)
-RETURNS REPORTE_BALANCE_GENERAL
-    AS $$
-     DECLARE    resultado REPORTE_BALANCE_GENERAL;
-                X REPORTE_BALANCE;
-	BEGIN
-	X = resultado.balance;
-    X.presupuesto_estaciones = SUMAR_PRESUPUESTO(estacion);
-    resultado.fecha = (SELECT c.año FROM CUENTA c WHERE c.fk_estacion = estacion)::date;
-    resultado.crudos_piezas = ENLACE
-
-    resultado.balance = X;
-    RETURN resultado; 
-	END
-$$ LANGUAGE plpgsql;
-
-
----
-
-DROP FUNCTION PRUEBA;
-
-CREATE OR REPLACE FUNCTION PRUEBA ()
-RETURNS integer[]
-    AS $$
-    DECLARE resultado integer[];
-            rec RECORD;
-            contador int;
-	BEGIN
-    contador = (SELECT COUNT(c.id) FROM CRUDO c)::int;
-	for i in 1..contador loop
-    resultado[i] = (SELECT c.id from CRUDO c limit 1 offset (i-1))::int;
-	END loop;
-    RETURN resultado; 
-	END
-$$ LANGUAGE plpgsql;
-
-
--- SELECT * FROM PRUEBA();
-
-
-
-------------------------------- FONDOS DE ALL Y APORTE DE ESTACION ------------------------------------------
-
-/*  El Director Ejecutivo debe poder consultar en cualquier momento de cuantos fondos dispone la All.
-    Asi como cada Jefe de Estacion debe poder saber a tiempo las ganancias netas anuales de cada estacion.
-*/
-
 
 
 DROP FUNCTION IF EXISTS SUMAR_PAGO_INFORMANTES CASCADE;
@@ -230,6 +161,236 @@ $$ LANGUAGE plpgsql;
 
 
 -- LLAMADA:     SELECT * FROM FONDOS_ALL_Y_APORTE_ESTACION(0);
+
+
+
+
+-------------------------------------- BALANCE GENERAL --------------------------------------------
+
+/*  Los jefes de las estaciones y los directores correspondientes monitorean el uso de este presupuesto a traves de
+    revisiones trimestrales y al final del año.
+    Cada estacion debe generar un informe con su balance:
+        Pago otorgado (Presupuesto). -- BG
+        Fecha. -- RBG (Trimestral y otro reporte anual)
+        --------------- REPORTE PARTE 2 -------------------
+        Hecho crudo recolectado. 
+        Pieza de Inteligencia que lo utiliza (si aplica).
+        Valor de la pieza.
+        ---------------------------------------------------
+        Ganancia o perdida alcanzada (TOTAL) --
+    Y los totales generales:
+        Total pagado. (A INFORMANTES) --
+        Total obtenido por ventas de las piezas de inteligencia logradas por estos hechos aportados por informantes. --
+*/
+
+
+
+DROP TYPE IF EXISTS REPORTE_BALANCE_GENERAL CASCADE;
+
+CREATE TYPE REPORTE_BALANCE_GENERAL as 
+    (fecha_inicio date, fecha_fin date, pago_informantes int, pago_informantes_alt int, 
+    total_informantes int, piezas_vendidas int, piezas_vendidas_exclusivas int, total_piezas int, 
+    presupuesto_estaciones int, total_balance int
+    );
+
+
+DROP FUNCTION IF EXISTS SUMAR_PAGO_INFORMANTES_TRIMESTRAL CASCADE;
+DROP FUNCTION IF EXISTS SUMAR_PAGO_INFORMANTES_ALT_TRIMESTRAL CASCADE;
+
+DROP FUNCTION IF EXISTS SUMAR_PIEZAS_TRIMESTRAL CASCADE;
+DROP FUNCTION IF EXISTS SUMAR_PIEZAS_ALT_TRIMESTRAL CASCADE;
+
+DROP FUNCTION IF EXISTS SUMAR_PRESUPUESTO_TRIMESTRAL CASCADE;
+
+DROP FUNCTION IF EXISTS FONDOS_ALL_Y_APORTE_ESTACION_TRIMESTRAL CASCADE;
+
+
+CREATE OR REPLACE FUNCTION SUMAR_PAGO_INFORMANTES_TRIMESTRAL (estacion int) --CHECK
+RETURNS int 
+    AS $$
+	DECLARE
+	resultado int;
+    BEGIN
+    IF (estacion>0) THEN
+        resultado = (SELECT COALESCE(SUM(t.monto_pago),0) as pago_informantes FROM TRANSACCION_PAGO t
+        WHERE t.fk_informante IN (SELECT i.id FROM INFORMANTE i WHERE i.fk_estacion_encargado = estacion)
+        AND t.fecha_hora BETWEEN RESTA_3_MESES(NOW()::timestamp) AND NOW()::timestamp
+        )::int;
+    ELSE 
+        resultado = (SELECT COALESCE(SUM(t.monto_pago),0) as pago_informantes FROM TRANSACCION_PAGO t)::int;
+    END IF;
+	RETURN resultado;
+    END
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION SUMAR_PAGO_INFORMANTES_ALT_TRIMESTRAL (estacion int) --CHECK
+RETURNS int 
+    AS $$
+	DECLARE
+	resultado int;
+    BEGIN
+    IF (estacion>0) THEN
+        resultado = (SELECT COALESCE(SUM(t.monto_pago),0) as pago_informantes FROM TRANSACCION_PAGO_ALT t
+        WHERE t.fk_informante IN (SELECT i.id FROM INFORMANTE i WHERE i.fk_estacion_encargado = estacion)
+        AND t.fecha_hora BETWEEN RESTA_3_MESES(NOW()::timestamp) AND NOW()::timestamp
+        )::int;
+    ELSE 
+        resultado = (SELECT COALESCE(SUM(t.monto_pago),0) as pago_informantes FROM TRANSACCION_PAGO_ALT t)::int;
+    END IF;
+	RETURN resultado;
+    END
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION SUMAR_PIEZAS_TRIMESTRAL (estacion int) --CHECK
+RETURNS int 
+    AS $$
+    DECLARE
+	resultado int;
+    BEGIN
+    IF (estacion > 0) THEN
+        resultado = (SELECT COALESCE(SUM(a.precio_vendido),0) as precio_venta_pieza FROM ADQUISICION a
+        WHERE a.fk_pieza_inteligencia IN 
+            (SELECT cp.fk_pieza_inteligencia FROM CRUDO_PIEZA cp WHERE cp.fk_pieza_inteligencia IN 
+                (SELECT p.id FROM PIEZA_INTELIGENCIA p WHERE p.fk_personal_inteligencia_analista IN
+                    (SELECT pa.id FROM PERSONAL_INTELIGENCIA pa WHERE pa.fk_lugar_ciudad IN 
+                        (SELECT e.fk_lugar_ciudad FROM ESTACION e WHERE e.id = estacion)
+                    )
+                )
+            )
+        AND a.fecha_hora_venta BETWEEN RESTA_3_MESES(NOW()::timestamp) AND NOW()::timestamp
+        )::int;
+    ELSE 
+        resultado = (SELECT COALESCE(SUM(a.precio_vendido),0) as precio_venta_pieza FROM ADQUISICION a)::int;
+    END IF;
+	RETURN resultado;
+    END
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION SUMAR_PIEZAS_ALT_TRIMESTRAL (estacion int) --CHECK
+RETURNS int 
+    AS $$
+    DECLARE
+	resultado int;
+    BEGIN
+    IF (estacion > 0) THEN
+        resultado = (SELECT COALESCE(SUM(a.precio_vendido),0) as precio_venta_pieza FROM ADQUISICION_ALT a
+        WHERE a.fk_pieza_inteligencia IN 
+            (SELECT cp.fk_pieza_inteligencia FROM CRUDO_PIEZA cp WHERE cp.fk_pieza_inteligencia IN 
+                (SELECT p.id FROM PIEZA_INTELIGENCIA p WHERE p.fk_personal_inteligencia_analista IN
+                    (SELECT pa.id FROM PERSONAL_INTELIGENCIA pa WHERE pa.fk_lugar_ciudad IN 
+                        (SELECT e.fk_lugar_ciudad FROM ESTACION e WHERE e.id = estacion)
+                    )
+                )
+            )
+        AND a.fecha_hora_venta BETWEEN RESTA_3_MESES(NOW()::timestamp) AND NOW()::timestamp
+        )::int;
+    ELSE 
+        resultado = (SELECT COALESCE(SUM(a.precio_vendido),0) as precio_venta_pieza FROM ADQUISICION_ALT a)::int;
+    END IF;
+	RETURN resultado;
+    END
+$$ LANGUAGE plpgsql;
+
+
+
+
+CREATE OR REPLACE FUNCTION SUMAR_PRESUPUESTO_TRIMESTRAL (estacion int) --CHECK
+RETURNS int 
+    AS $$
+    DECLARE
+	resultado int;
+    BEGIN
+    IF (estacion > 0) THEN
+        resultado = (SELECT c.presupuesto as presupuesto_estacion FROM CUENTA c
+        WHERE c.fk_estacion = estacion 
+        AND c.año BETWEEN RESTA_3_MESES_DATE(NOW()::date) AND NOW()::date 
+        LIMIT 1)::int;
+    ELSE 
+        resultado = (SELECT COALESCE(SUM(c.presupuesto),0) FROM CUENTA c)::int;
+    END IF;
+	RETURN resultado;
+    END
+$$ LANGUAGE plpgsql;
+
+
+
+
+DROP FUNCTION IF EXISTS BALANCE_GENERAL_TRIMESTRAL CASCADE;
+
+CREATE OR REPLACE FUNCTION BALANCE_GENERAL_TRIMESTRAL (estacion int)
+RETURNS REPORTE_BALANCE_GENERAL
+    AS $$
+    DECLARE    resultado REPORTE_BALANCE_GENERAL;
+	BEGIN
+    resultado.presupuesto_estaciones = SUMAR_PRESUPUESTO_TRIMESTRAL(estacion);
+    resultado.fecha_inicio = (RESTA_3_MESES_DATE(NOW()::date))::date;
+    resultado.fecha_fin = NOW()::date;
+    resultado.pago_informantes = SUMAR_PAGO_INFORMANTES_TRIMESTRAL(estacion);
+    resultado.pago_informantes_alt = SUMAR_PAGO_INFORMANTES_ALT_TRIMESTRAL(estacion); 
+    resultado.total_informantes = resultado.pago_informantes_alt + resultado.pago_informantes;
+    resultado.piezas_vendidas = SUMAR_PIEZAS_TRIMESTRAL(estacion);
+    resultado.piezas_vendidas_exclusivas = SUMAR_PIEZAS_ALT_TRIMESTRAL(estacion);
+    resultado.total_piezas = resultado.piezas_vendidas + resultado.piezas_vendidas_exclusivas;
+    resultado.total_balance = resultado.total_piezas + resultado.presupuesto_estaciones 
+                                - resultado.total_informantes;
+    RETURN resultado; 
+	END
+$$ LANGUAGE plpgsql;
+
+
+
+DROP FUNCTION IF EXISTS BALANCE_GENERAL_TRIMESTRAL_PARTE2 CASCADE;
+
+CREATE OR REPLACE FUNCTION BALANCE_GENERAL_TRIMESTRAL_PARTE2 (estacion int)
+RETURNS TABLE (id_crudo int, id_pieza int, costo_pieza int)
+    AS $$
+    SELECT cp.fk_crudo, cp.fk_pieza_inteligencia, p.precio_base FROM CRUDO_PIEZA cp, PIEZA_INTELIGENCIA p
+    WHERE cp.fk_pieza_inteligencia = p.id AND cp.fk_crudo IN 
+        (SELECT c.id FROM CRUDO c WHERE c.fk_estacion_pertenece = estacion 
+            AND c.id IN (SELECT t.fk_crudo FROM TRANSACCION_PAGO t 
+                WHERE t.fecha_hora BETWEEN RESTA_3_MESES(NOW()::timestamp) AND NOW()::timestamp))  
+$$ LANGUAGE SQL;
+
+----------------
+
+DROP FUNCTION IF EXISTS BALANCE_GENERAL_ANUAL CASCADE;
+
+CREATE OR REPLACE FUNCTION BALANCE_GENERAL_ANUAL (estacion int)
+RETURNS REPORTE_BALANCE_GENERAL
+    AS $$
+     DECLARE    resultado REPORTE_BALANCE_GENERAL;
+	BEGIN
+    resultado.presupuesto_estaciones = SUMAR_PRESUPUESTO(estacion);
+    resultado.fecha_inicio = (RESTA_1_YEAR_DATE(NOW()::date))::date;
+    resultado.fecha_fin = NOW()::date;
+    resultado.pago_informantes = SUMAR_PAGO_INFORMANTES(estacion);
+    resultado.pago_informantes_alt = SUMAR_PAGO_INFORMANTES_ALT(estacion); 
+    resultado.total_informantes = resultado.pago_informantes_alt + resultado.pago_informantes;
+    resultado.piezas_vendidas = SUMAR_PIEZAS(estacion);
+    resultado.piezas_vendidas_exclusivas = SUMAR_PIEZAS_ALT(estacion);
+    resultado.total_piezas = resultado.piezas_vendidas + resultado.piezas_vendidas_exclusivas;
+    resultado.total_balance = resultado.total_piezas + resultado.presupuesto_estaciones 
+                                - resultado.total_informantes;
+    RETURN resultado; 
+	END
+$$ LANGUAGE plpgsql;
+
+
+
+DROP FUNCTION IF EXISTS BALANCE_GENERAL_ANUAL_PARTE2 CASCADE;
+
+CREATE OR REPLACE FUNCTION BALANCE_GENERAL_ANUAL_PARTE2 (estacion int)
+RETURNS TABLE (id_crudo int, id_pieza int, costo_pieza int)
+    AS $$
+    SELECT cp.fk_crudo, cp.fk_pieza_inteligencia, p.precio_base FROM CRUDO_PIEZA cp, PIEZA_INTELIGENCIA p
+    WHERE cp.fk_pieza_inteligencia = p.id AND cp.fk_crudo IN 
+        (SELECT c.id FROM CRUDO c WHERE c.fk_estacion_pertenece = estacion 
+            AND c.id IN (SELECT t.fk_crudo FROM TRANSACCION_PAGO t 
+                WHERE t.fecha_hora BETWEEN RESTA_1_YEAR(NOW()::timestamp) AND NOW()::timestamp))  
+$$ LANGUAGE SQL;
 
 
 

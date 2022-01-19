@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="INFORMACION_INFORMANTES" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="36acf737-d915-45a5-8650-c7d87d069b25">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Proyecto BD2"/>
+	<parameter name="id_enlace" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM BALANCE_GENERAL_ANUAL_PARTE2($P{id_enlace});]]>
+	</queryString>
+	<field name="id_crudo" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_crudo"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_crudo"/>
+	</field>
+	<field name="id_pieza" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_pieza"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_pieza"/>
+	</field>
+	<field name="costo_pieza" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="costo_pieza"/>
+		<property name="com.jaspersoft.studio.field.label" value="costo_pieza"/>
+	</field>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="99" forecolor="#FFFFFF" backcolor="rgba(0, 102, 153, 0.9254902)" uuid="72315390-292d-43af-b6f2-721c1aef2e19"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None">
+					<font size="22" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[     LISTA CRUDOS ANUALES]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="400" y="14" width="144" height="30" forecolor="#FFFFFF" uuid="03dc8acd-ca17-4549-bcf0-9e90b9fec7cb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Estacion:      " + $P{id_enlace}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="49" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="360" y="0" width="195" height="49" forecolor="#666666" backcolor="#E6E6E6" uuid="43203e0d-70c8-4478-b852-d4b7ab4ebe1f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Valor Pieza de Inteligencia ($)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="180" y="0" width="180" height="49" forecolor="#666666" backcolor="#E6E6E6" uuid="92fff988-e9b3-45bd-877a-cd3150c99197"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Pieza de Inteligencia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="180" height="49" forecolor="#666666" backcolor="#E6E6E6" uuid="0ae8a193-03a7-4d1c-96ea-175ba9792aba"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Crudo]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="49" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement mode="Transparent" x="360" y="0" width="194" height="49" forecolor="#006699" backcolor="#E6E6E6" uuid="0ad1a172-c346-48c1-9c68-ffb3b28704cb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{costo_pieza}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="0" width="180" height="49" forecolor="#006699" backcolor="#E6E6E6" uuid="e06cec99-ab0a-4158-9db6-64b13e25ce11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id_crudo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="180" y="0" width="180" height="49" forecolor="#006699" backcolor="#E6E6E6" uuid="2503ab7d-4dd4-4ffc-a057-f405f4167844"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id_pieza}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
