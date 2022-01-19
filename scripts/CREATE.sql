@@ -545,7 +545,7 @@ CREATE TABLE ADQUISICION (
 
 
 
-DROP TABLE IF EXISTS HIST_CARGO_ALT CASCADE;
+-- DROP TABLE IF EXISTS HIST_CARGO_ALT CASCADE;
 DROP TABLE IF EXISTS INFORMANTE_ALT CASCADE;
 DROP TABLE IF EXISTS TRANSACCION_PAGO_ALT CASCADE;
 DROP TABLE IF EXISTS CRUDO_ALT CASCADE;
@@ -558,20 +558,20 @@ DROP TABLE IF EXISTS ADQUISICION_ALT CASCADE;
 
 
 
-CREATE TABLE HIST_CARGO_ALT (
+-- CREATE TABLE HIST_CARGO_ALT (
 
-    fecha_inicio timestamp NOT NULL,
-    fecha_fin timestamp,
-    cargo varchar(20) NOT NULL, -- 'analista agente'
+--     fecha_inicio timestamp NOT NULL,
+--     fecha_fin timestamp,
+--     cargo varchar(20) NOT NULL, -- 'analista agente'
 
-    fk_personal_inteligencia integer NOT NULL,
-    fk_estacion integer NOT NULL,
-    fk_oficina_principal integer NOT NULL,
+--     fk_personal_inteligencia integer NOT NULL,
+--     fk_estacion integer NOT NULL,
+--     fk_oficina_principal integer NOT NULL,
 
-    CONSTRAINT HIST_CARGO_ALT_PK PRIMARY KEY (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal)
+--     CONSTRAINT HIST_CARGO_ALT_PK PRIMARY KEY (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal)
 
-    -- CONSTRAINT HIST_CARGO_ALT_CH_cargo CHECK ( cargo IN ('analista', 'agente') )
-);
+--     -- CONSTRAINT HIST_CARGO_ALT_CH_cargo CHECK ( cargo IN ('analista', 'agente') )
+-- );
 
 
 CREATE TABLE INFORMANTE_ALT (

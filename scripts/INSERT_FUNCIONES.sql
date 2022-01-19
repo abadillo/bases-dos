@@ -50,8 +50,8 @@ DECLARE
 	
 BEGIN 
 
-	RAISE INFO 'Ruta: %', ruta || ruta_archivo ;
-	RAISE INFO 'Archivo -> bytea: %', pg_read_binary_file(ruta || ruta_archivo) ;
+--	RAISE INFO 'Ruta: %', ruta || ruta_archivo ;
+--	RAISE INFO 'Archivo -> bytea: %', pg_read_binary_file(ruta || ruta_archivo) ;
     
 	RETURN pg_read_binary_file(ruta || ruta_archivo); 
 	
