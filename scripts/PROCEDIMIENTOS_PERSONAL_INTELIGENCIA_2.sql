@@ -167,10 +167,6 @@ END $$;
 
 COMMIT;
 
---CALL AGREGAR_CRUDO_A_PIEZA( id_pieza, id_crudo , id_analista);
-
---CALL AGREGAR_CRUDO_A_PIEZA( 9, 10 , 11);
-
 
 --SELECT id_pieza,fk_personal_inteligencia FROM intento_no_autorizado ina order by fecha_hora desc;
 
@@ -362,22 +358,6 @@ BEGIN
     );
 	
 	
---	RAISE INFO ' ';
---	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO VER_DATOS_PIEZA ( % ) ------', NOW();
---	
---	IF (VALIDAR_ACCESO_PIEZA(id_pieza, id_personal_inteligencia) = TRUE) THEN 
---		
---		RAISE INFO 'ACCESO CONCEBIDO';
---	
---		RETURN QUERY 
---			SELECT * FROM PIEZA_INTELIGENCIA WHERE id = id_pieza;
---	
---	ELSE
---		
---		RAISE INFO 'NO TIENE ACCESO A LA PIEZA. ESTA ACCIÓN SERÁ NOTIFICADA';
---		RAISE EXCEPTION 'NO TIENE ACCESO A LA PIEZA. ESTA ACCIÓN SERÁ NOTIFICADA';
---	
---	END IF;
    
 END $$;
 

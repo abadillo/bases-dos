@@ -28,7 +28,21 @@
 
 
 
+--/ CAMBIAR A agente_est_amsterdam
+--/- REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA (id_analista_encargado IN integer, descripcion IN PIEZA_INTELIGENCIA.descripcion%TYPE, id_crudo_base IN integer)
 
+CALL REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA( 1 , 'descripcion pieza prueba', 1 );
+
+
+--CALL AGREGAR_CRUDO_A_PIEZA( id_pieza, id_crudo , id_analista);
+
+--CALL AGREGAR_CRUDO_A_PIEZA( 9, 10 , 11);
+
+
+--CALL CERTIFICAR_PIEZA( 37, 1 );
+
+
+--CALL REGISTRO_VENTA( 1,  1, 10000.0 );
 
 
 
