@@ -338,8 +338,6 @@ BEGIN
     END IF;
 
    
---    RAISE INFO 'ACCESO DENEGADO A LA PIEZA. ESTA ACCIÓN SERÁ NOTIFICADA';
-   
  	------///- 
    
    	SELECT fk_empleado_jefe INTO id_empleado_va FROM ESTACION WHERE id = hist_cargo_reg.fk_estacion ; 
@@ -360,6 +358,8 @@ BEGIN
 	
    
 END $$;
+
+
 
 --
 -- SELECT VER_DATOS_PIEZA(2,10);
