@@ -744,3 +744,22 @@ BEGIN
 
 END $$;
 
+
+
+
+
+--------------------------//////////////////////////-------------------------\\
+
+-------------------------//////////////---------------------------------------------//////////////--------------------
+
+
+CREATE OR REPLACE FUNCTION VER_LISTA_INFORMANTES_EMPLEADO_CONFIDENTE (id_empleado_acceso in integer)
+RETURNS setof INFORMANTE
+LANGUAGE sql
+AS $$  
+ 	
+    SELECT * FROM INFORMANTE WHERE fk_empleado_jefe_confidente = id_empleado_acceso; 
+$$;
+
+-- SELECT * FROM VER_LISTA_INFORMANTES_EMPLEADO_CONFIDENTE(11);
+
