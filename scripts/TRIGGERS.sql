@@ -42,6 +42,11 @@ BEGIN
 
 	ELSIF (TG_OP = 'UPDATE') THEN
 		
+		IF (new.tipo = old.tipo ) THEN
+			RAISE INFO 'El cargo nuevo y el cargo viejo son iguales';
+        	RAISE EXCEPTION 'El cargo nuevo y el cargo viejo son iguales';
+		END IF;
+
 		CASE new.tipo
 		
 			WHEN 'director_ejecutivo' THEN 

@@ -102,7 +102,7 @@ $$;
 
 
 
-DROP PROCEDURE IF EXISTS CREAR_DIRECTOR_AREA CASCADE;
+-- DROP PROCEDURE IF EXISTS CREAR_DIRECTOR_AREA CASCADE;
 
 
 CREATE OR REPLACE PROCEDURE CREAR_DIRECTOR_AREA (primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE, id_jefe IN EMPLEADO_JEFE.fk_empleado_jefe%TYPE)
@@ -150,8 +150,8 @@ BEGIN
 END $$;
 
 
-CALL CREAR_DIRECTOR_AREA('nombre1','nombre2','apellido1','apellido2',CREAR_TELEFONO(0212,2847213), 5);
-SELECT * FROM empleado_jefe ej order by id desc; 
+-- CALL CREAR_DIRECTOR_AREA('nombre1','nombre2','apellido1','apellido2',CREAR_TELEFONO(0212,2847213), 5);
+-- SELECT * FROM empleado_jefe ej order by id desc; 
 
 
 
@@ -198,8 +198,8 @@ END $$;
 
 
 
-CALL eliminar_director_area(5);
-SELECT * FROM empleado_jefe ej order by id desc; 
+-- CALL eliminar_director_area(5);
+-- SELECT * FROM empleado_jefe ej order by id desc; 
 
 
 
@@ -441,13 +441,244 @@ END $$;
 -- select * from lugar where id = 20;
 -- SELECT * FROM empleado_jefe ej order by id desc; 
 
-select VER_DIRECTORES_AREA();
+-- select VER_DIRECTORES_AREA();
 
 
 -------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
 
 
--- CAMBIAR ROL DE DIRECTOR AREA A JEFE 
+
 
 
 -- SELECCIONAR, CREAR, MODIFICAR y ELIMINAR OFICINAS
+
+
+CREATE OR REPLACE FUNCTION VER_DIRECTOR_EJECUTIVO (id_director_ejecutivo in integer)
+RETURNS EMPLEADO_JEFE
+LANGUAGE sql
+AS $$  
+ 	SELECT * FROM EMPLEADO_JEFE WHERE id = id_director_ejecutivo AND tipo = 'director_ejecutivo' ; 
+$$;
+--
+--
+--select VER_DIRECTOR_EJECUTIVO(8);
+
+--DROP FUNCTION VER_DIRECTOR_EJECUTIVO;
+
+CREATE OR REPLACE FUNCTION VER_DIRECTORES_EJECUTIVOS ()
+RETURNS setof EMPLEADO_JEFE
+LANGUAGE sql
+AS $$  
+ 	SELECT * FROM EMPLEADO_JEFE WHERE tipo = 'director_ejecutivo' ; 
+$$;
+--
+--
+--select VER_DIRECTOR_EJECUTIVO(8);
+
+
+
+
+-- DROP PROCEDURE IF EXISTS CREAR_DIRECTOR_EJECUTIVO CASCADE;
+
+
+CREATE OR REPLACE PROCEDURE CREAR_DIRECTOR_EJECUTIVO (primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+
+	tipo_va EMPLEADO_JEFE.tipo%TYPE := 'director_ejecutivo';
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMIENTO CREAR_DIRECTOR_EJECUTIVO ( % ) ------', NOW();
+	
+
+	-------------////////
+	
+	INSERT INTO EMPLEADO_JEFE (
+		primer_nombre,
+		segundo_nombre, 
+		primer_apellido, 
+		segundo_apellido, 
+		telefono,
+		tipo,
+		fk_empleado_jefe 
+	
+	) VALUES (
+		primer_nombre_va,
+		segundo_nombre_va, 
+		primer_apellido_va, 
+		segundo_apellido_va, 
+		telefono_va,
+		tipo_va,
+		null 
+
+	) RETURNING * INTO empleado_jefe_reg;
+
+   RAISE INFO 'DIRECTOR EJECUTIVO CREADO CON EXITO!';
+   RAISE INFO 'Datos del director ejecutivo: %', empleado_jefe_reg ; 
+
+
+
+END $$;
+
+
+-- CALL CREAR_DIRECTOR_EJECUTIVO('nombre1','nombre2','apellido1','apellido2',CREAR_TELEFONO(0212,2847213), 5);
+-- SELECT * FROM empleado_jefe ej order by id desc; 
+
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
+
+
+CREATE OR REPLACE PROCEDURE ELIMINAR_DIRECTOR_EJECUTIVO (id_director_ejecutivo IN INTEGER)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+--	oficina_reg OFICINA_PRINCIPAL%ROWTYPE;
+	tipo_va EMPLEADO_JEFE.tipo%TYPE := 'director_ejecutivo';
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMIENTO ELIMINAR_DIRECTOR_EJECUTIVO ( % ) ------', NOW();
+	
+
+	-------------////////
+	SELECT * INTO empleado_jefe_reg FROM empleado_jefe WHERE id = id_director_ejecutivo;
+
+	IF (empleado_jefe_reg IS NULL) THEN
+		RAISE INFO 'El empleado no existe';
+		RAISE EXCEPTION 'El empleado no existe';
+	END IF;
+
+	IF (empleado_jefe_reg.tipo != tipo_va) THEN
+		RAISE INFO 'El empleado no es un director ejecutivo';
+		RAISE EXCEPTION 'El empleado no es un director ejecutivo';
+	END IF;
+
+	UPDATE oficina_principal SET fk_director_ejecutivo = null WHERE fk_director_ejecutivo = id_director_ejecutivo;
+	UPDATE empleado_jefe SET fk_empleado_jefe = null WHERE fk_empleado_jefe = id_director_ejecutivo;
+
+	DELETE FROM EMPLEADO_JEFE WHERE id = id_director_ejecutivo; 
+	
+   RAISE INFO 'DIRECTOR EJECUTIVO ELIMINADO CON EXITO!';
+ 
+
+END $$;
+
+
+
+-- CALL eliminar_director_ejecutivo(5);
+-- SELECT * FROM empleado_jefe ej order by id desc; 
+
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
+
+
+CREATE OR REPLACE PROCEDURE ACTUALIZAR_DIRECTOR_EJECUTIVO (id_director_ejecutivo IN integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+
+	tipo_va EMPLEADO_JEFE.tipo%TYPE := 'director_ejecutivo';
+
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMIENTO ACTUALIZAR_DIRECTOR_EJECUTIVO ( % ) ------', NOW();
+	
+
+	-------------////////
+	SELECT * INTO empleado_jefe_reg FROM empleado_jefe WHERE id = id_director_ejecutivo;
+
+	IF (empleado_jefe_reg IS NULL) THEN
+		RAISE INFO 'El empleado no existe';
+		RAISE EXCEPTION 'El empleado no existe';
+	END IF;
+
+	IF (empleado_jefe_reg.tipo != tipo_va) THEN
+		RAISE INFO 'El empleado no es un director ejecutivo';
+		RAISE EXCEPTION 'El empleado no es un director ejecutivo';
+	END IF;
+	
+
+	-------------////////
+	
+	UPDATE EMPLEADO_JEFE SET 
+	
+		primer_nombre = primer_nombre_va,
+		segundo_nombre = segundo_nombre_va, 
+		primer_apellido = primer_apellido_va,  
+		segundo_apellido = segundo_apellido_va, 
+		telefono = telefono_va
+
+	WHERE id = id_director_ejecutivo
+	RETURNING * INTO empleado_jefe_reg;
+
+   RAISE INFO 'DIRECTOR EJECUTIVO ACTUALIZADO CON EXITO!';
+   RAISE INFO 'Datos del director ejecutivo: %', empleado_jefe_reg ; 
+
+
+
+END $$;
+
+
+-- CALL actualizar_director_ejecutivo (2,'nombre1','nombre2','apellido1','apellido2',CREAR_TELEFONO(0212,2847213), 5);
+-- SELECT * FROM empleado_jefe ej order by id desc; 
+
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------
+
+CREATE OR REPLACE PROCEDURE CAMBIAR_ROL_EMPLEADO (id_empleado IN integer, id_jefe in integer, cargo in integer)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMIENTO CAMBIAR_ROL_EMPLEADO ( % ) ------', NOW();
+	
+
+    SELECT * INTO empleado_jefe_reg FROM empleado_jefe WHERE id = id_empleado;
+
+    IF (empleado_jefe_reg IS NULL) THEN
+        RAISE INFO 'El empleado no existe';
+        RAISE EXCEPTION 'El empleado no existe';
+    END IF;
+
+
+	-------------////////
+	
+	UPDATE EMPLEADO_JEFE SET 
+	
+		primer_nombre = primer_nombre_va,
+		segundo_nombre = segundo_nombre_va, 
+		primer_apellido = primer_apellido_va,  
+		segundo_apellido = segundo_apellido_va, 
+		telefono = telefono_va,
+        tipo = cargo,
+        fk_empleado_jefe = id_jefe
+        
+	WHERE id = id_empleado
+	RETURNING * INTO empleado_jefe_reg;
+
+   RAISE INFO 'DIRECTOR EJECUTIVO ACTUALIZADO CON EXITO!';
+   RAISE INFO 'Datos del director ejecutivo: %', empleado_jefe_reg ; 
+
+END $$;
+

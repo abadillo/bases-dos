@@ -53,6 +53,9 @@ CALL ELIMINACION_REGISTROS_VENTA_EXCLUSIVA (4);
 -- select * from CRUDO_ALT  order by 
 
 
+SELECT  * from personal_inteligencia p, intento_no_autorizado i, PIEZA_INTELIGENCIA pz WHERE p.id = i.fk_personal_inteligencia and pz.id = i.id_pieza and p.id IN (select distinct fk_personal_inteligencia from hist_cargo hc, estacion e where e.id=3 and e.id = hc.fk_estacion);
+
+
 
 
 

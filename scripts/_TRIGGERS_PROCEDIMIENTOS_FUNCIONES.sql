@@ -109,6 +109,11 @@
 -/ VER_OFICINA (id_oficina in integer) RETURNS OFICINA_PRINCIPAL
 -/ VER_OFICINAS () RETURNS setof OFICINA_PRINCIPAL
 
+-/ VER_DIRECTOR_EJECUTIVO (id_director_ejecutivo in integer)
+-/ VER_DIRECTORES_EJECUTIVOS ()
+
+
+
 
 -/=/- ARCHIVO PROCEDIMIENTOS_DIRECTOR_AREA.sql -/=/-
 
@@ -116,6 +121,8 @@
 -/ VER_JEFES_E (id_empleado_acceso in integer)
 -/ VER_ESTACION (id_empleado_acceso in integer, id_estacion in integer)
 -/ VER_ESTACIONES (id_empleado_acceso in integer)
+
+
 
 -/=/- ARCHIVO PROCEDIMIENTOS_JEFE_ESTACION.sql -/=/- 
 
@@ -150,6 +157,12 @@
 -/ CREAR_OFICINA_PRINCIPAL (nombre_va IN OFICINA_PRINCIPAL.nombre%TYPE, sede_va IN OFICINA_PRINCIPAL.sede%TYPE, id_ciudad IN OFICINA_PRINCIPAL.fk_lugar_ciudad%TYPE, id_director_area IN OFICINA_PRINCIPAL.fk_director_area%TYPE, id_director_ejecutivo IN OFICINA_PRINCIPAL.fk_director_ejecutivo%TYPE)
 -/ ELIMINAR_OFICINA_PRINCIPAL (id_oficina IN INTEGER)
 -/ ACTUALIZAR_OFICINA_PRINCIPAL (id_oficina IN integer, nombre_va IN OFICINA_PRINCIPAL.nombre%TYPE, sede_va IN OFICINA_PRINCIPAL.sede%TYPE, id_ciudad IN OFICINA_PRINCIPAL.fk_lugar_ciudad%TYPE, id_director_area IN OFICINA_PRINCIPAL.fk_director_area%TYPE, id_director_ejecutivo IN OFICINA_PRINCIPAL.fk_director_ejecutivo%TYPE)
+
+-/ CREAR_DIRECTOR_EJECUTIVO (primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
+-/ ELIMINAR_DIRECTOR_EJECUTIVO (id_director_ejecutivo IN INTEGER)
+-/ ACTUALIZAR_DIRECTOR_EJECUTIVO (id_director_ejecutivo IN integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
+
+-/ CAMBIAR_ROL_EMPLEADO (id_empleado IN integer, id_jefe in integer, cargo in integer)
 
 
 -/=/- ARCHIVO VALIDACIONES_TRIGGER.sql -/=/- 
