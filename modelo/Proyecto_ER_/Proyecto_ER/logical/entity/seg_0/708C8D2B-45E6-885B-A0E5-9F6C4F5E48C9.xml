@@ -84,18 +84,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="fecha_inicio" id="7EA58C09-BAED-56C5-1906-3A590B4D0E8F">
-<createdBy>alex</createdBy>
-<createdTime>2021-12-25 17:49:52 UTC</createdTime>
-<generatorID>BFF77D0E-2DE2-80E4-9740-ECA5D3721038</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>32B5CB5B-1989-2397-FB8B-7C33937E2191</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="fk_estacion" id="801D87D0-695C-AB24-B6D2-272423873025">
 <createdBy>alex</createdBy>
 <createdTime>2021-12-25 18:05:00 UTC</createdTime>

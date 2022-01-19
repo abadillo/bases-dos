@@ -47,18 +47,6 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="fecha_inicio" id="BDF789F0-32CE-DD5C-B87D-C281533515B8">
-<createdBy>alex</createdBy>
-<createdTime>2021-12-25 17:49:52 UTC</createdTime>
-<generatorID>5736D466-5BCC-2314-6366-C5423A4ACC9C</generatorID>
-<ownerDesignName>Proyecto_ER</ownerDesignName>
-<engineerTo>
-<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
-</engineerTo>
-<referedAttribute>32B5CB5B-1989-2397-FB8B-7C33937E2191</referedAttribute>
-<use>0</use>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
 <Attribute name="fk_tema" id="65E33C5E-2583-6D8D-92C2-65DC6256DAD5">
 <createdBy>alex</createdBy>
 <createdTime>2021-12-25 18:22:06 UTC</createdTime>
