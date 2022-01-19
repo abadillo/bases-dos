@@ -31,20 +31,52 @@ BEGIN
 	---VALIDACIONES DE ATRIBUTOS---
 	---TIENE NOMBRE LA EMPRESA----
 	
-	IF (new.nombre_empresa IS NULL OR new.nombre_empresa = ' ') THEN
+	IF (TG_OP = 'DELETE') THEN
+		
+		RETURN OLD;
+	
+	ELSIF (TG_OP = 'UPDATE') THEN
+	
+		IF (new.nombre_empresa IS NULL OR new.nombre_empresa = ' ') THEN
 		RAISE EXCEPTION 'EL NOMBRE DEL CLIENTE ESTA VACIO';
+		END IF;
+	
+		---TIENE PAGINA WEB LA EMPRESA---
+	
+		IF (new.pagina_web IS NULL OR new.pagina_web =' ') THEN
+			RAISE EXCEPTION 'DEBE INSERTAR UNA PAGINA WEB';
+		END IF;
+
+		---VALIDA EL TIPO DE LUGAR (PAIS) DONDE SE REGISTRÓ EL CLIENTE---
+		CALL  VALIDAR_TIPO_LUGAR(new.fk_lugar_pais,'pais');
+		
+		RAISE INFO 'MODIFICÓ EL CLIENTE';
+		
+		RETURN new;	
+		
+	ELSIF (TG_OP = 'INSERT') THEN
+	
+		IF (new.nombre_empresa IS NULL OR new.nombre_empresa = ' ') THEN
+		RAISE EXCEPTION 'EL NOMBRE DEL CLIENTE ESTA VACIO';
+		END IF;
+	
+		---TIENE PAGINA WEB LA EMPRESA---
+	
+		IF (new.pagina_web IS NULL OR new.pagina_web =' ') THEN
+			RAISE EXCEPTION 'DEBE INSERTAR UNA PAGINA WEB';
+		END IF;
+
+		---VALIDA EL TIPO DE LUGAR (PAIS) DONDE SE REGISTRÓ EL CLIENTE---
+		CALL  VALIDAR_TIPO_LUGAR(new.fk_lugar_pais,'pais');
+		
+		RAISE INFO 'SE INSERTÓ EL CLIENTE';
+		
+		RETURN new;	
+	
 	END IF;
 	
-	---TIENE PAGINA WEB LA EMPRESA---
+	RETURN NULL;
 	
-	IF (new.pagina_web IS NULL OR new.pagina_web =' ') THEN
-		RAISE EXCEPTION 'DEBE INSERTAR UNA PAGINA WEB';
-	END IF;
-	
-	---VALIDA EL TIPO DE LUGAR (PAIS) DONDE SE REGISTRÓ EL CLIENTE---
-	call  VALIDAR_TIPO_LUGAR(new.fk_lugar_pais,'pais');
-	
-	RETURN new;
 
 END
 
@@ -59,5 +91,14 @@ DROP FUNCTION TRIGGER_CREAR_CLIENTE()
 DROP TRIGGER TRIGGER_CREAR_CLIENTE on cliente
 
 CREATE TRIGGER TRIGGER_CREAR_CLIENTE
-BEFORE INSERT on cliente
+BEFORE INSERT OR UPDATE OR DELETE on cliente
 FOR EACH ROW EXECUTE FUNCTION TRIGGER_CREAR_CLIENTE()
+
+
+CREATE OR REPLACE CREAR_CONTACTO (primer_nombre varchar, segundo_nombre varchar, primer_apellido varchar, segundo_apellido varchar, direccion varchar)
+LANGUAGE PLPGSQL
+AS $$
+
+
+
+$$;
