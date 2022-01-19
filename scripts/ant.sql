@@ -11,7 +11,7 @@ GRANT EXECUTE ON PROCEDURE REGISTRO_CRUDO_CON_INFORMANTE ( integer, numeric , in
 GRANT EXECUTE ON PROCEDURE VERIFICAR_CRUDO ( integer, integer, numeric) TO  ROL_ANALISTA;
 GRANT EXECUTE ON PROCEDURE CERRAR_CRUDO ( integer ) TO  ROL_ANALISTA;
 
-Select pg_terminate_backend(pid) from pg_stat_activity where datname='aii';
+-- Select pg_terminate_backend(pid) from pg_stat_activity where datname='aii';
 
 -- ROLES 
 
@@ -42,7 +42,9 @@ Select pg_terminate_backend(pid) from pg_stat_activity where datname='aii';
 -- GRANT EXECUTE ON FUNCTION VALIDAR_VENTA_EXCLUSIVA ( integer )  TO ROL_AGENTE_CAMPO, ROL_ANALISTA;
 
 -- CRUDOS DISP
-24, 25, 26, 27, 28, 29
+--24, 25, 26, 27, 28, 29
+
+SELECT * FROM CRUDO;
 
 --/ CAMBIAR A agente_est_amsterdam
 --/- REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA (id_analista_encargado IN integer, descripcion IN PIEZA_INTELIGENCIA.descripcion%TYPE, id_crudo_base IN integer)
@@ -61,6 +63,7 @@ CALL REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA( 15 , 'descripcion pieza prueba', 
 --CALL REGISTRO_VENTA( 1,  1, 10000.0 );
 
 
+select * from informante where fk_personal_inteligencia_agente
 
 
 
