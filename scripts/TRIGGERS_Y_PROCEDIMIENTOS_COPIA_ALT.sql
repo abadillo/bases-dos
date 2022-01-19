@@ -319,7 +319,7 @@ BEGIN
 	RAISE INFO ' ';
 	RAISE INFO '------ EJECUCION DEL TRIGGER TRIGGER_COPIAR_TRANSACCION_PAGO ( % ) ------', NOW(); 
 
-	CALL PROCEDIMIENTO_COPIA_INFORMANTE(old.fk_informante);
+	-- CALL PROCEDIMIENTO_COPIA_INFORMANTE(old.fk_informante);
 
 	SELECT * INTO transaccion_alt_reg FROM transaccion_pago_alt
 	WHERE fk_crudo = old.fk_crudo 
@@ -502,7 +502,7 @@ BEGIN
 
 	--  RAISE INFO 'INFORMACION DEL HISTORICO CARGO A COPIAR %:', old;
 
-	CALL COPIA_HISTORICO_CARGO(old.fk_fecha_inicio_agente, old.fk_personal_inteligencia_agente, old.fk_estacion_agente, old.fk_oficina_principal_agente);
+	-- CALL COPIA_HISTORICO_CARGO(old.fk_fecha_inicio_agente, old.fk_personal_inteligencia_agente, old.fk_estacion_agente, old.fk_oficina_principal_agente);
 
 
 	IF (crudo_alt_reg IS NULL) THEN
