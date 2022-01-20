@@ -6564,6 +6564,21 @@ END $$;
 
 
 
+CREATE OR REPLACE FUNCTION VER_LISTA_PIEZAS_ESTACION (id_estacion in integer)
+RETURNS setof PIEZA_INTELIGENCIA
+LANGUAGE sql
+SECURITY DEFINER
+AS $$  
+ 	
+    SELECT * FROM PIEZA_INTELIGENCIA WHERE fk_estacion_analista = id_estacion; 
+$$;
+
+-- SELECT * FROM VER_LISTA_PIEZAS_ESTACION(4);
+
+
+
+
+
 
 
 -- DROP PROCEDURE IF EXISTS REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA CASCADE;
@@ -6719,7 +6734,7 @@ BEGIN
 END $$;
 
 
-COMMIT;
+-- COMMIT;
 
 
 
@@ -6862,35 +6877,34 @@ BEGIN
     IF (personal_inteligencia_reg.class_seguridad = 'top_secret') THEN 
         RETURN QUERY 
 			SELECT * FROM PIEZA_INTELIGENCIA WHERE id = id_pieza;
-    END IF;
-
-    IF (personal_inteligencia_reg.class_seguridad = 'confidencial' AND (pieza_reg.class_seguridad = 'confidencial' OR pieza_reg.class_seguridad = 'no_clasificado')) THEN
+    
+	ELSIF (personal_inteligencia_reg.class_seguridad = 'confidencial' AND (pieza_reg.class_seguridad = 'confidencial' OR pieza_reg.class_seguridad = 'no_clasificado')) THEN
        RETURN QUERY 
 			SELECT * FROM PIEZA_INTELIGENCIA WHERE id = id_pieza;
-    END IF;
-
-    IF (personal_inteligencia_reg.class_seguridad = 'no_clasificado' AND pieza_reg.class_seguridad = 'no_clasificado') THEN
+	
+	ELSIF (personal_inteligencia_reg.class_seguridad = 'no_clasificado' AND pieza_reg.class_seguridad = 'no_clasificado') THEN
         RETURN QUERY 
 			SELECT * FROM PIEZA_INTELIGENCIA WHERE id = id_pieza;
+	
+	ELSE 
+		SELECT fk_empleado_jefe INTO id_empleado_va FROM ESTACION WHERE id = hist_cargo_reg.fk_estacion ; 
+		RAISE INFO 'id del jefe de la estacion del personal inteligencia: %', id_empleado_va;
+	
+		INSERT INTO INTENTO_NO_AUTORIZADO (
+			fecha_hora,
+			id_pieza,
+			id_empleado,
+			fk_personal_inteligencia
+		) VALUES (
+			fecha_hora_va,
+			id_pieza,
+			id_empleado_va,
+			hist_cargo_reg.fk_personal_inteligencia
+		);
     END IF;
-
-   
  	------///- 
    
-   	SELECT fk_empleado_jefe INTO id_empleado_va FROM ESTACION WHERE id = hist_cargo_reg.fk_estacion ; 
-   	RAISE INFO 'id del jefe de la estacion del personal inteligencia: %', id_empleado_va;
-   
-    INSERT INTO INTENTO_NO_AUTORIZADO (
-        fecha_hora,
-        id_pieza,
-        id_empleado,
-        fk_personal_inteligencia
-    ) VALUES (
-        fecha_hora_va,
-        id_pieza,
-        id_empleado_va,
-        hist_cargo_reg.fk_personal_inteligencia
-    );
+   	
 	
 	
    
@@ -7591,7 +7605,7 @@ RETURNS TABLE(  primer_nombre varchar(50), segundo_nombre2 varchar(50), primer_a
             FROM PERSONAL_INTELIGENCIA p, INTENTO_NO_AUTORIZADO i, PIEZA_INTELIGENCIA pz 
             WHERE p.id = i.fk_personal_inteligencia AND pz.id = i.id_pieza AND p.id IN 
                 (SELECT DISTINCT hc.fk_personal_inteligencia from HIST_CARGO hc, ESTACION e WHERE 
-                    e.id=3 AND e.id = hc.fk_estacion)
+                    e.id=estacion AND e.id = hc.fk_estacion)
 $$ LANGUAGE SQL
 SECURITY DEFINER;
 
@@ -8860,7 +8874,7 @@ BEFORE INSERT OR UPDATE ON CRUDO_PIEZA
 FOR EACH ROW EXECUTE FUNCTION TRIGGER_INSERT_UPDATE_CRUDO_PIEZA();
 
 
--- DROP TRIGGER TRIGGER_INSERT_UPDATE_CRUDO_PIEZA on crudo_pieza;
+DROP TRIGGER TRIGGER_INSERT_UPDATE_CRUDO_PIEZA on crudo_pieza;
 -- DROP TRIGGER trigger_update_pieza ON PIEZA_INTELIGENCIA;
 ---------ELIMINACION DEL TRIGGER-----
 ---DROP TRIGGER TRIGGER_CRUDO_PIEZA
@@ -9181,16 +9195,18 @@ GRANT EXECUTE ON FUNCTION VER_LISTA_CRUDOS_ESTACION (integer) TO ROL_JEFE_ESTACI
 GRANT EXECUTE ON FUNCTION VER_LISTA_CRUDOS_PERSONAL (integer) TO ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO, ROL_ANALISTA;
 
 
+GRANT EXECUTE ON FUNCTION VER_LISTA_PIEZAS_ESTACION (integer) TO ROL_JEFE_ESTACION;
 
 
 
 
 
+
+-----///////- Probado con PostgreSQL 13.4 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 11.1.0, 64-bit-\\\\\\\\\------
 
 ----------///////////---------------------------------------------------------------------------\\\\\\\\\\\----------
 ----------///////////- SCRIPTS DE CREACION DE LA BASES DE DATOS DOS - PROYECTO AII - GRUPO 09  -\\\\\\\\\\\----------
 ----------///////////----------- ANTONIO BADILLO - GABRIEL MANRIQUE - MICKEL ARROZ -------------\\\\\\\\\\\----------
 ----------///////////---------------------------------------------------------------------------\\\\\\\\\\\-----------
-
 
 

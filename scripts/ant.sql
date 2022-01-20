@@ -1,22 +1,13 @@
+-- jefe_est_14_amsterdam PASSWORD 'jefe_est_14_amsterdam_aii'    -- id empleado_jefe = 14    -- id estacion = 4
 
 
--- agente_est_amsterdam PASSWORD 'agente_est_amsterdam_aii'   -- id estacion = 4   -- id_personal = 16
+-- agente_est_amsterdam PASSWORD 'agente_est_amsterdam_aii'   -- id estacion = 4   -- id_personal = 16/confidencial
 -- agente_est_roterdam PASSWORD 'agente_est_roterdam_aii'     -- id estacion = 5
 -- agente_est_haarlam PASSWORD 'agente_est_haarlam_aii'	     -- id estacion = 6
 
--- analista_est_amsterdam PASSWORD 'analista_est_amsterdam_aii'     -- id estacion = 4  -- id_personal = 13, 15
--- analista_est_roterdam PASSWORD 'analista_est_roterdam_aii'     -- id estacion = 5
--- analista_est_haarlam PASSWORD 'analista_est_haarlam_aii'      -- id estacion = 6
 
 
 select current_user;
-
-4. Demostración de la implementación de los requerimientos del
-sistema de bases de datos transaccional referidos al proceso de
-venta de piezas de inteligencia – construcción de piezas de
-inteligencia y venta a clientes, incluyendo la seguridad
-correspondiente (roles, cuentas con privilegios para poder ejecutar
-los programas y reportes).
 
 
 -- SOY AGENTE 16 , ESTACION 4
@@ -25,7 +16,7 @@ los programas y reportes).
 CALL registro_informante('informante_prueba', 16, 15, null);
 
 --/ call ver_lista_informantes_personal_inteligencia_agente(:id_personal_inteligencia) 
-SELECT * FROM  ver_lista_informantes_personal_inteligencia_agente(16) ;
+SELECT * FROM  ver_lista_informantes_personal_inteligencia_agente(16);
 
 --SELECT * FROM  ver_lista_informantes_empleado_confidente(15) ;
 
@@ -41,22 +32,88 @@ SELECT * FROM VER_LISTA_CRUDOS_PERSONAL(16);
 
 
 
+
+
+
+--////////////-
+
+
+-- analista_est_amsterdam PASSWORD 'analista_est_amsterdam_aii'     -- id estacion = 4  -- id_personal = 13/top_secret , 15/no_clasificado
+-- analista_est_roterdam PASSWORD 'analista_est_roterdam_aii'     -- id estacion = 5``	-- id_personal = 17/top_secret
+-- analista_est_haarlam PASSWORD 'analista_est_haarlam_aii'      -- id estacion = 6		-- id_personal = 21/top_secret, 23/no_clasificado
+
+
 -- CAMBIO A ANALISTA PARA VERIFICAR 
 
 -- SOY ANALISTA 13, ESTACION 4
 
 --call verificar_crudo(:id_analista, :id_crudo, :nivel_confiabilidad_va) 
-CALL VERIFICAR_CRUDO ( 13, 33, 80);
+--CALL VERIFICAR_CRUDO ( 13, 32, 80);
+-- PROBAR CON ROL DE AGENTE 
+
+-- ESTE NO DA PQ EL ANALISTA ES DE LA MISMA ESTACION QUE EL CRUDO
+--CALL VERIFICAR_CRUDO ( 13, 32, 80);
+
+-- SOY ANALISTA 17, ESTACION 5
+CALL VERIFICAR_CRUDO ( 17, 32, 80);
+-- SI SE CORRE DOS VECES NO SE PUEDE VERIFICAR POR EL MISMO ANALISTA
+
+-- SOY ANALISTA 21, ESTACION 6
+CALL VERIFICAR_CRUDO ( 21, 32, 95);
+
+-- SOY ANALISTA 23, ESTACION 6
+CALL VERIFICAR_CRUDO( 23, 32, 90); 
+
+-- FALTAN MAS VERIFICACIONES
+CALL CERRAR_CRUDO(32);
+
+--------//////---
+
+
+-- SOY ANALISTA 21, ESTACION 6
+CALL VERIFICAR_CRUDO ( 21, 31, 95);
+
+-- SOY ANALISTA 17, ESTACION 5
+CALL VERIFICAR_CRUDO ( 17, 31, 80);
+
+CALL CERRAR_CRUDO(31);
+
+---- CRUDO CERRADO - AHORA CREAR PIEZA 
+
+
+------------///////---------
+
+-- SOY  ANALISTA -- id estacion = 4  -- id_personal = 13
+--call registro_verificacion_pieza_inteligencia(:id_analista_encargado, :descripcion, :id_crudo_base) 
+--CALL REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA(13,'descripcion pieza',30);
+
+CALL REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA(13,'descripcion pieza',31);
+
+
+---------//////// QUITE TRIGGER_INSERT_UPDATE_CRUDO_PIEZA /////////--------------------
+
+-- SOY jefe_est_14_amsterdam -- id empleado_jefe = 14    -- id estacion = 4
+--call ver_lista_piezas_estacion(:id_estacion);
+SELECT * FROM VER_LISTA_PIEZAS_ESTACION(4);
+SELECT * FROM INTENTOS_NO_AUTORIZADOS (4);
+
+
+-- SOY  AGENTE --id_estacion = 4 -- id_personal = 16/confidencial
+--select ver_datos_pieza(:id_pieza, :id_personal_inteligencia) 
+SELECT * FROM VER_DATOS_PIEZA(30,16);
+
+
+-- SOY  ANALISTA --id_estacion = 4 -- id_personal = 13/top_secret
+--select ver_datos_pieza(:id_pieza, :id_personal_inteligencia) 
+SELECT * FROM VER_DATOS_PIEZA(30,13);
 
 
 
 
+----------------///////////-------------
 
-
-
-
-
-
+--call agregar_crudo_a_pieza(:id_crudo, :id_pieza) 
+CALL AGREGAR_CRUDO_A_PIEZA(4,30);
 
 
 
