@@ -15,7 +15,8 @@ select current_user;
 --/ CALL registro_informante(:nombre_clave_va, :id_agente_campo, :id_empleado_jefe_confidente, :id_personal_inteligencia_confidente) 
 CALL registro_informante('informante_prueba', 16, 15, null);
 
-CALL registro_informante('PRUEBA INFORMANTE', 16, null, 3);
+CALL registro_informante('Manuelitaaa', 20, null, 3);
+
 
 --/ call ver_lista_informantes_personal_inteligencia_agente(:id_personal_inteligencia) 
 SELECT * FROM  ver_lista_informantes_personal_inteligencia_agente(16);

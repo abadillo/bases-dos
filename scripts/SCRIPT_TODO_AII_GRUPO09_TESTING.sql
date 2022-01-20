@@ -8380,7 +8380,7 @@ BEGIN
 			SELECT * INTO hist_cargo_personal_inteligencia_reg FROM hist_cargo
 			WHERE fk_personal_inteligencia = new.fk_personal_inteligencia_confidente
 			AND fecha_fin IS NULL;
-			RAISE INFO 'datos de hist_cargo del personal de inteligencia confidente: %', hist_cargo_personal_confidente_reg;
+			RAISE INFO 'datos de hist_cargo del personal de inteligencia confidente: %', hist_cargo_personal_inteligencia_reg;
 			
 			IF (hist_agente_encargado_reg IS NULL) THEN
 				RAISE INFO 'El confidente personal de inteligencia que ingresó no existe o ya no trabaja en AII';
@@ -8489,7 +8489,7 @@ BEGIN
 			SELECT * INTO hist_cargo_personal_inteligencia_reg FROM hist_cargo
 			WHERE fk_personal_inteligencia = new.fk_personal_inteligencia_confidente
 			AND fecha_fin IS NULL;
-			RAISE INFO 'datos de hist_cargo del personal de inteligencia confidente: %', hist_cargo_personal_confidente_reg;
+			RAISE INFO 'datos de hist_cargo del personal de inteligencia confidente: %', hist_cargo_personal_inteligencia_reg;
 			
 			IF (hist_agente_encargado_reg IS NULL) THEN
 				RAISE INFO 'El confidente personal de inteligencia que ingresó no existe o ya no trabaja en AII';
