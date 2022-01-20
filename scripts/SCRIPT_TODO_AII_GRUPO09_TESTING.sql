@@ -1,5 +1,32 @@
 
 
+-------------------------------------- EJECUTAR COMO ADMINISTRADOR -------------------------------------------------
+
+
+GRANT EXECUTE ON FUNCTION pg_read_binary_file(text,bigint,bigint,boolean) TO dev01, ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
+GRANT EXECUTE ON FUNCTION pg_read_binary_file(text,bigint,bigint) TO dev01, ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
+GRANT EXECUTE ON FUNCTION pg_read_binary_file(text) TO dev01, ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
+
+
+-- EJECUTAR COMO SUPERUSUARIO admin01 USAGE ES PARA VER LOS OBJECTOS DEL ESQUEMA. CREATE ES PARA CREAR OBJETOS EN EL ESQUEMA 
+REVOKE ALL PRIVILEGES ON SCHEMA public FROM PUBLIC, ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
+REVOKE ALL ON ALL TABLES IN SCHEMA public FROM PUBLIC, ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
+
+REVOKE ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public FROM PUBLIC, ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
+REVOKE ALL PRIVILEGES ON ALL PROCEDURES IN SCHEMA public FROM PUBLIC, ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
+    
+
+GRANT ALL PRIVILEGES ON SCHEMA public TO dev01;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO dev01;
+
+GRANT USAGE ON SCHEMA public TO ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
+
+----------///////////- ------------------------------------------------------------ ///////////----------
+----------//////////////////- CREACION DE TABLAS   -- EJECUTAR COMO DEV -///////////////////////----------
+----------///////////- ------------------------------------------------------------ ///////////----------
+
+
+
 -- CREATE Y DROP TYPES
 
 DROP TYPE IF EXISTS nivel_educativo_ty CASCADE;
@@ -5669,6 +5696,33 @@ END $$;
 
 
 
+
+CREATE OR REPLACE FUNCTION VER_LISTA_CRUDOS_ESTACION (id_estacion in integer)
+RETURNS setof CRUDO
+LANGUAGE sql
+SECURITY DEFINER
+AS $$  
+ 	
+    SELECT * FROM CRUDO WHERE fk_estacion_pertenece = id_estacion; 
+$$;
+
+-- SELECT * FROM VER_LISTA_CRUDOS_ESTACION(4);
+
+
+CREATE OR REPLACE FUNCTION VER_LISTA_CRUDOS_PERSONAL (id_personal_inteligencia in integer)
+RETURNS setof CRUDO
+LANGUAGE sql
+SECURITY DEFINER
+AS $$  
+ 	
+    SELECT * FROM CRUDO WHERE fk_personal_inteligencia_agente = id_personal_inteligencia; 
+$$;
+
+-- SELECT * FROM VER_LISTA_CRUDOS_PERSONAL(16);
+
+
+
+
 CREATE OR REPLACE FUNCTION VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_CONFIDENTE (id_personal_inteligencia in integer)
 RETURNS setof INFORMANTE
 LANGUAGE sql
@@ -8495,43 +8549,43 @@ BEGIN
 	--- SI EL TRIGGER ES DISPARADO POR INSERT ---
 	IF (TG_OP = 'INSERT') THEN
 		--- VALIDACIÓN DE TODOS LOS ATRIBUTOS DEL CRUDO ---
-		IF (new.contenido_va IS NULL OR new.contenido_va = '') THEN
+		IF (new.contenido IS NULL OR new.contenido = '') THEN
 			RAISE INFO 'Debe ingresar el contenido del crudo que quiere crear';
 			RAISE EXCEPTION 'Debe ingresar el contenido del crudo que quiere crear';
 		END IF;  
 
-		IF (new.tipo_contenido_va != 'texto' AND new.tipo_contenido_va != 'imagen' AND tipo_contenido_va != 'sonido' AND tipo_contenido_va != 'video') THEN
-			RAISE INFO 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video), %', tipo_contenido_va;
+		IF (new.tipo_contenido != 'texto' AND new.tipo_contenido != 'imagen' AND new.tipo_contenido != 'sonido' AND new.tipo_contenido != 'video') THEN
+			RAISE INFO 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video), %', new.tipo_contenido;
 			RAISE EXCEPTION 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video)';
 		END IF;   	
 
-		IF (new.fuente_va != 'abierta' AND new.fuente_va != 'secreta' AND fuente_va != 'tecnica') THEN
+		IF (new.fuente != 'abierta' AND new.fuente != 'secreta' AND new.fuente != 'tecnica') THEN
 			RAISE INFO 'Debe ingresar un tipo de fuente valido (abierta, secreta, tecnica)';
 			RAISE EXCEPTION 'Debe ingresar un tipo de fuente valido (abierta, secreta, tecnica)';
 		END IF;  
 
-		IF (new.resumen_va IS NULL OR new.resumen_va = '') THEN
+		IF (new.resumen IS NULL OR new.resumen = '') THEN
 			RAISE INFO 'Debe ingresar el resumen del crudo que quiere crear';
 			RAISE EXCEPTION 'Debe ingresar el resumen del crudo que quiere crear';
 		END IF;   
 
-		IF (new.valor_apreciacion_va IS NOT NULL AND new.valor_apreciacion_va <= 0) THEN
+		IF (new.valor_apreciacion IS NOT NULL AND new.valor_apreciacion <= 0) THEN
 			RAISE INFO 'El valor de apreciacion del crudo debe ser mayor a 0$';
 			RAISE EXCEPTION 'El valor de apreciacion del crudo debe ser mayor a 0$';
 		END IF; 
 
-		IF (new.nivel_confiabilidad_inicial_va IS NULL OR new.nivel_confiabilidad_inicial_va < 0 OR nivel_confiabilidad_inicial_va > 100 ) THEN
+		IF (new.nivel_confiabilidad_inicial IS NULL OR new.nivel_confiabilidad_inicial < 0 OR new.nivel_confiabilidad_inicial > 100 ) THEN
 			RAISE INFO 'El nivel de confiabilidad del crudo debe estar entre el rango de 0 y 100';
 			RAISE EXCEPTION 'El nivel de confiabilidad del crudo debe estar entre el rango de 0 y 100';
 		END IF; 
 		
-		IF (new.cant_analistas_verifican_va IS NULL OR new.cant_analistas_verifican_va < 2) THEN	
+		IF (new.cant_analistas_verifican IS NULL OR new.cant_analistas_verifican < 2) THEN	
 			RAISE INFO 'Debe ingresar un número valido de analistas requeridos para la verificación';
 			RAISE EXCEPTION 'Debe ingresar un número valido de analistas requeridos para la verificación';
 		END IF;   
 		
 			
-		CALL VALIDAR_EXIT_TEMA(id_tema);
+		CALL VALIDAR_EXIT_TEMA(new.fk_clas_tema);
 		--- RETURN NEW = INSERTA EL REGISTRO---
 		RETURN NEW;
 
@@ -8539,44 +8593,45 @@ BEGIN
 	ELSIF (TG_OP = 'UPDATE') THEN
 
 
-		IF (new.contenido_va IS NULL OR new.contenido_va = '') THEN
+		IF (new.contenido IS NULL OR new.contenido = '') THEN
 			RAISE INFO 'Debe ingresar el contenido del crudo que quiere crear';
 			RAISE EXCEPTION 'Debe ingresar el contenido del crudo que quiere crear';
 		END IF;  
 
-		IF (new.tipo_contenido_va != 'texto' AND new.tipo_contenido_va != 'imagen' AND tipo_contenido_va != 'sonido' AND tipo_contenido_va != 'video') THEN
-			RAISE INFO 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video), %', tipo_contenido_va;
+		IF (new.tipo_contenido != 'texto' AND new.tipo_contenido != 'imagen' AND new.tipo_contenido != 'sonido' AND new.tipo_contenido != 'video') THEN
+			RAISE INFO 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video), %', new.tipo_contenido;
 			RAISE EXCEPTION 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video)';
 		END IF;   	
 
-		IF (new.fuente_va != 'abierta' AND new.fuente_va != 'secreta' AND fuente_va != 'tecnica') THEN
+		IF (new.fuente != 'abierta' AND new.fuente != 'secreta' AND new.fuente != 'tecnica') THEN
 			RAISE INFO 'Debe ingresar un tipo de fuente valido (abierta, secreta, tecnica)';
 			RAISE EXCEPTION 'Debe ingresar un tipo de fuente valido (abierta, secreta, tecnica)';
 		END IF;  
 
-		IF (new.resumen_va IS NULL OR new.resumen_va = '') THEN
+		IF (new.resumen IS NULL OR new.resumen = '') THEN
 			RAISE INFO 'Debe ingresar el resumen del crudo que quiere crear';
 			RAISE EXCEPTION 'Debe ingresar el resumen del crudo que quiere crear';
 		END IF;   
 
-		IF (new.valor_apreciacion_va IS NOT NULL AND new.valor_apreciacion_va <= 0) THEN
+		IF (new.valor_apreciacion IS NOT NULL AND new.valor_apreciacion <= 0) THEN
 			RAISE INFO 'El valor de apreciacion del crudo debe ser mayor a 0$';
 			RAISE EXCEPTION 'El valor de apreciacion del crudo debe ser mayor a 0$';
 		END IF; 
 
-		IF (new.nivel_confiabilidad_inicial_va IS NULL OR new.nivel_confiabilidad_inicial_va < 0 OR nivel_confiabilidad_inicial_va > 100 ) THEN
+		IF (new.nivel_confiabilidad_inicial IS NULL OR new.nivel_confiabilidad_inicial < 0 OR new.nivel_confiabilidad_inicial > 100 ) THEN
 			RAISE INFO 'El nivel de confiabilidad del crudo debe estar entre el rango de 0 y 100';
 			RAISE EXCEPTION 'El nivel de confiabilidad del crudo debe estar entre el rango de 0 y 100';
 		END IF; 
 		
-		IF (new.cant_analistas_verifican_va IS NULL OR new.cant_analistas_verifican_va < 2) THEN	
+		IF (new.cant_analistas_verifican IS NULL OR new.cant_analistas_verifican < 2) THEN	
 			RAISE INFO 'Debe ingresar un número valido de analistas requeridos para la verificación';
 			RAISE EXCEPTION 'Debe ingresar un número valido de analistas requeridos para la verificación';
 		END IF;   
-
-
-		CALL VALIDAR_EXIT_TEMA(id_tema);
-
+		
+			
+		CALL VALIDAR_EXIT_TEMA(new.fk_clas_tema);
+		--- RETURN NEW = INSERTA EL REGISTRO---
+	
 		RETURN NEW;
 
 	END IF;
@@ -9121,6 +9176,10 @@ GRANT EXECUTE ON FUNCTION VALIDAR_VENTA_EXCLUSIVA ( integer )  TO ROL_ANALISTA;
 
 
 
+
+GRANT EXECUTE ON FUNCTION VER_LISTA_CRUDOS_ESTACION (integer) TO ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO, ROL_ANALISTA;
+GRANT EXECUTE ON FUNCTION FORMATO_ARCHIVO_A_BYTEA(text) TO ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO, ROL_ANALISTA;
+GRANT EXECUTE ON FUNCTION VER_LISTA_CRUDOS_ESTACION (integer) TO ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO, ROL_ANALISTA;
 
 
 
