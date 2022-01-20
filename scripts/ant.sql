@@ -113,12 +113,24 @@ SELECT * FROM VER_DATOS_PIEZA(30,13);
 ----------------///////////-------------
 
 --call agregar_crudo_a_pieza(:id_crudo, :id_pieza) 
-CALL AGREGAR_CRUDO_A_PIEZA(4,30);
+
+--CALL AGREGAR_CRUDO_A_PIEZA(4,31);
 
 
 
+--call certificar_pieza(:id_pieza, :precio_base_va) 
+CALL CERTIFICAR_PIEZA(30,150);
 
 
+SELECT * FROM ver_clientes();
+
+--CALL REGISTRO_VENTA (id_pieza, id_cliente, precio_vendido_va)
+CALL REGISTRO_VENTA(30,5,250);
 
 
+SELECT * FROM VER_DATOS_PIEZA(30,13);
+
+
+SELECT * FROM pieza_inteligencia_alt;
+SELECT * FROM crudo_alt;
 

@@ -6724,7 +6724,7 @@ BEGIN
  
 
 	INSERT INTO CRUDO_PIEZA (fk_pieza_inteligencia, fk_crudo) VALUES (
-   		iid_pieza,
+   		id_pieza,
    		id_crudo
     );
    
@@ -6967,7 +6967,7 @@ SECURITY DEFINER
 
 
 
-DROP PROCEDURE IF EXISTS REGISTRO_VENTA CASCADE;
+-- DROP PROCEDURE IF EXISTS REGISTRO_VENTA CASCADE;
 
 
 CREATE OR REPLACE PROCEDURE REGISTRO_VENTA (id_pieza IN integer, id_cliente IN integer, precio_vendido_va IN ADQUISICION.precio_vendido%TYPE)
@@ -7045,9 +7045,9 @@ BEGIN
 			RAISE INFO 'VENTA EXCLUSIVA EXITOSA!';
 	  		RAISE INFO 'Datos de la venta: %', adquisicion_reg ; 
 	  	
-	  		CALL REGISTRO_TEMA_VENTA(id_cliente,id_tema);
+	  		-- CALL REGISTRO_TEMA_VENTA(id_cliente,id_tema);
 
-	  		SELECT ELIMINACION_REGISTROS_VENTA_EXCLUSIVA(pieza_reg.id);	
+	  		CALL ELIMINACION_REGISTROS_VENTA_EXCLUSIVA(pieza_reg.id);	
 			
 		
 		ELSE
@@ -7070,7 +7070,7 @@ BEGIN
 			
 		) RETURNING * INTO adquisicion_reg;
 	
-		CALL REGISTRO_TEMA_VENTA(id_cliente,id_tema);
+		-- CALL REGISTRO_TEMA_VENTA(id_cliente,id_tema);
 
 		RAISE INFO 'VENTA EXITOSA!';
    		RAISE INFO 'Datos de la venta: %', adquisicion_reg ; 	
@@ -8892,6 +8892,7 @@ DROP TRIGGER TRIGGER_INSERT_UPDATE_CRUDO_PIEZA on crudo_pieza;
 
 
 
+
 CREATE OR REPLACE FUNCTION TRIGGER_UPDATE_PIEZA()
 RETURNS TRIGGER
 LANGUAGE PLPGSQL
@@ -8899,27 +8900,27 @@ SECURITY DEFINER
 AS $$
 DECLARE
 	
-	pieza pieza_inteligencia%rowtype;
+	-- pieza pieza_inteligencia%rowtype;
 	
 BEGIN
 
 	---SELECT PARA BUSCAR LAS PIEZAS VENDIDAS EN LA TABLA ADQUISICION
 	---PUEDE SER VENDIDA VARIAS VECES LA PIEZA
 	
-	SELECT * INTO pieza
-	FROM PIEZA_INTELIGENCIA p, ADQUISICION a
-	WHERE p.id = a.fk_pieza_inteligencia
-	AND p.id = old.id;
+	-- SELECT * INTO pieza
+	-- FROM PIEZA_INTELIGENCIA p, ADQUISICION a
+	-- WHERE p.id = a.fk_pieza_inteligencia
+	-- AND p.id = old.id;
 	
-	IF (old.precio_base IS NOT NULL) THEN
-		RAISE INFO 'DATOS DE LA PIEZA DE INTELIGENCIA: %',pieza;
-		RAISE EXCEPTION 'LA PIEZA DE INTELIGENCIA HA SIDO REGISTRADA';	
-		return null;
-	ELSE
+	IF (old.precio_base IS NULL) THEN
 		RAISE INFO 'SE ACTUALIZO LA PIEZA DE INTELIGENCIA';
 		RETURN new;
+	ELSE
+		RAISE INFO 'DATOS DE LA PIEZA DE INTELIGENCIA: %',old;
+		RAISE EXCEPTION 'LA PIEZA DE INTELIGENCIA YA FUE CERTIFICADA';	
+		return null;
+		
 	END IF;
-
 
 END
 $$;
@@ -8932,6 +8933,9 @@ $$;
 CREATE TRIGGER TRIGGER_UPDATE_PIEZA
 BEFORE UPDATE ON PIEZA_INTELIGENCIA
 FOR EACH ROW EXECUTE FUNCTION TRIGGER_UPDATE_PIEZA();
+
+
+DROP TRIGGER TRIGGER_UPDATE_PIEZA ON PIEZA_INTELIGENCIA;
 
 
 
