@@ -79,10 +79,10 @@ DESPIDO_RENUNCIA_PERSONAL_INTELIGENCIA (id_empleado_acceso in integer, id_person
 
 
 -- INFORMANTES DEL CONFIDENTE
-VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_CONFIDENTE (id_personal_inteligencia in integer)
+SELECT * FROM VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_CONFIDENTE (id_personal_inteligencia in integer)
 
 -- INFORMANTES DEL PERSONAL
-VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_AGENTE (id_personal_inteligencia in integer)
+SELECT * FROM VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_AGENTE (id_personal_inteligencia in integer)
 
 -- REGISTRAR INFORMANTE
 REGISTRO_INFORMANTE (nombre_clave_va IN INFORMANTE.nombre_clave%TYPE, id_agente_campo IN integer, 
@@ -111,7 +111,7 @@ REGISTRO_CRUDO_CON_INFORMANTE ( id_informante IN integer, monto_pago_va IN TRANS
 VERIFICAR_CRUDO ( id_analista IN integer, id_crudo IN integer, 
                     nivel_confiabilidad_va IN ANALISTA_CRUDO.nivel_confiabilidad%TYPE )
 
--- CERRAR CRUDO (CRUDO YA VERIFICADO)
+-- CERRAR CRUDO (VERIFICA EL CRUDO, QUE CUMPLA CON LAS CONDICIONES PARA CERRARLO Y NO VOLVER A MODIFICARLO)
 CERRAR_CRUDO ( id_crudo IN integer )
 
 
@@ -126,4 +126,62 @@ VER_DATOS_PIEZA (id_pieza IN integer, id_personal_inteligencia IN integer)
 -- VENTA DE PIEZA
 REGISTRO_VENTA (id_pieza IN integer, id_cliente IN integer, 
             precio_vendido_va IN ADQUISICION.precio_vendido%TYPE)
+
+
+-----------------------------------------------------
+
+-- RUTA
+
+
+-- Agente 16 Amsterdan
+-- Analista 17
+-- Analista NO VERIFICACION 13 Amsterdam
+
+-- CREATE USER agente_est_amsterdam WITH ENCRYPTED PASSWORD 'agente_est_amsterdam_aii' CONNECTION LIMIT 20;     -- id estacion = 4
+-- CREATE USER analista_est_amsterdam WITH ENCRYPTED PASSWORD 'analista_est_amsterdam_aii' CONNECTION LIMIT 20;     -- id estacion = 4
+-- CREATE USER analista_est_roterdam WITH ENCRYPTED PASSWORD 'analista_est_roterdam_aii' CONNECTION LIMIT 20;     -- id estacion = 5
+
+-- INFORMANTE
+-- SELECT * FROM INFORMANTE; -- PERMISO DENEGADO
+-- SELECT * FROM PERSONAL_INTELIGENCIA;
+-- SELECT * FROM VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_AGENTE (17);
+-- SELECT * FROM VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_AGENTE (20);
+-- SELECT * FROM VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_CONFIDENTE (17);
+-- SELECT * FROM VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_CONFIDENTE (20);
+-- CALL registro_informante('Manuelitaaa', 20, 3, null);
+-- SELECT * FROM VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_AGENTE (20);
+-- SELECT * FROM VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_CONFIDENTE (20);
+
+--CREAR CRUDO
+-- registro_crudo_con_informante(:id_informante, :monto_pago_va,
+--			:id_agente_campo,  :id_tema,  :contenido_va,  :tipo_contenido_va,
+--			:resumen_va, :valor_apreciacion_va, :nivel_confiabilidad_inicial_va, :cant_analistas_verifican_va);
+
+-- CALL registro_crudo_con_informante (23, 200, 20, 4, 'crudo_contenido/texto2.txt', 'texto','Ejemplo conflicto', 550, 88, 2);
+-- SELECT * FROM VER_LISTA_CRUDOS_PERSONAL (20);
+
+-- SELECT * FROM VER_LISTA_CRUDOS_PERSONAL (20);
+
+-- ANALISTA----
+-- VERIFICAR CRUDO
+--VERIFICAR_CRUDO ( id_analista IN integer, id_crudo IN integer, nivel_confiabilidad_va IN ANALISTA_CRUDO.nivel_confiabilidad%TYPE )
+
+-- CALL verificar_crudo(17, 30, 90); -- ERROR AL YA ESTAR VERIFICADO.
+-- CALL verificar_crudo(15, 30, 90); -- ANALIZADO 1.
+-- CALL verificar_crudo(17, 30, 90); -- ANALIZADO 2 -- ERROR ANALISTA DE LA MISMA ESTACION.
+-- CALL verificar_crudo(21, 30, 99); -- ANALIZADO 2.
+-- CALL verificar_crudo(23, 30, 91); -- ANALIZADO 3. ERROR CRUDO YA VERIFICADO
+-- CALL CERRAR_CRUDO ( 30 );
+-- PASAR A AGENTE PARA CONFIRMAR
+
+
+
+-- JEFE ESTACION
+
+-- ELIMINAR EMPLEADOS
+-- SELECT * FROM VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_AGENTE (20); -- MOSTRAR INFORMANTES DEL EMPLEADO
+-- CALL DESPIDO_RENUNCIA_PERSONAL_INTELIGENCIA (id_empleado_acceso in integer, id_personal_inteligencia IN integer)
+-- CALL DESPIDO_RENUNCIA_PERSONAL_INTELIGENCIA (15, 20);
+
+
 
