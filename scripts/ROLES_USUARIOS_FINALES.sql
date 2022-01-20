@@ -9,7 +9,6 @@ CREATE ROLE ROL_ANALISTA;
 CREATE ROLE ROL_AGENTE_CAMPO;
 
 
-
 -- USUARIOS DIRECTOR EJECUTIVO
 CREATE USER dir_ejec_1_ginebra WITH ENCRYPTED PASSWORD 'dir_ejec_1_ginebra_aii' CONNECTION LIMIT 5;    -- id empleado_jefe = 1    -- id oficina = 10
 
