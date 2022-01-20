@@ -272,36 +272,27 @@ GRANT ROL_ANALISTA TO
 ;
 
 
+
 -------------------------------------- EJECUTAR COMO ADMINISTRADOR -------------------------------------------------
 
 
-GRANT EXECUTE ON FUNCTION pg_read_binary_file(text,bigint,bigint,boolean) TO dev01;
-GRANT EXECUTE ON FUNCTION pg_read_binary_file(text,bigint,bigint) TO dev01; 
-GRANT EXECUTE ON FUNCTION pg_read_binary_file(text) TO dev01;
-
-GRANT EXECUTE ON FUNCTION pg_read_binary_file(text,bigint,bigint,boolean) TO ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
-GRANT EXECUTE ON FUNCTION pg_read_binary_file(text,bigint,bigint) TO ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
-GRANT EXECUTE ON FUNCTION pg_read_binary_file(text) TO ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
-
-
-GRANT SELECT ON ALL TABLES IN SCHEMA public TO ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO, ROL_ANALISTA;
--- GRANT SELECT ON TABLE EMPLEADO_JEFE TO ROL_DIRECTOR_EJECUTIVO;
--- GRANT SELECT ON TABLE CRUDO TO ROL_AGENTE_CAMPO, ROL_ANALISTA;
-
-GRANT USAGE ON SCHEMA public TO ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
-GRANT SELECT ON ALL TABLES IN SCHEMA public TO ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO, ROL_ANALISTA;
-GRANT SELECT ON ALL TABLES IN SCHEMA public TO PUBLIC;
-
+GRANT EXECUTE ON FUNCTION pg_read_binary_file(text,bigint,bigint,boolean) TO dev01, ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
+GRANT EXECUTE ON FUNCTION pg_read_binary_file(text,bigint,bigint) TO dev01, ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
+GRANT EXECUTE ON FUNCTION pg_read_binary_file(text) TO dev01, ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
 
 
 -- EJECUTAR COMO SUPERUSUARIO admin01 USAGE ES PARA VER LOS OBJECTOS DEL ESQUEMA. CREATE ES PARA CREAR OBJETOS EN EL ESQUEMA 
---REVOKE CREATE ON SCHEMA public FROM PUBLIC;
---REVOKE ALL ON ALL TABLES IN SCHEMA public FROM PUBLIC;
+REVOKE ALL PRIVILEGES ON SCHEMA public FROM PUBLIC, ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
+REVOKE ALL ON ALL TABLES IN SCHEMA public FROM PUBLIC, ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
 
-GRANT USAGE ON SCHEMA public TO PUBLIC;
+REVOKE ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public FROM PUBLIC, ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
+REVOKE ALL PRIVILEGES ON ALL PROCEDURES IN SCHEMA public FROM PUBLIC, ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
+    
 
-GRANT CREATE ON SCHEMA public TO dev01;
-GRANT ALL ON ALL TABLES IN SCHEMA public TO dev01 ;
+GRANT ALL PRIVILEGES ON SCHEMA public TO dev01;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO dev01;
+
+GRANT USAGE ON SCHEMA public TO ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
 
 
 ----------///////////- ------------------------------------------------------------ ///////////----------
@@ -1084,6 +1075,7 @@ CREATE OR REPLACE VIEW VISTA_CUENTAS_AII_OFICINA_GINEBRA AS
 CREATE OR REPLACE FUNCTION TRIGGER_COPIA_ADQUISICION()
 RETURNS TRIGGER
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE
 
@@ -1156,6 +1148,7 @@ FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_ADQUISICION();
 CREATE OR REPLACE FUNCTION TRIGGER_COPIA_CRUDO_PIEZA()
 RETURNS TRIGGER
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE
 
@@ -1213,6 +1206,7 @@ FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_CRUDO_PIEZA();
 CREATE OR REPLACE FUNCTION TRIGGER_COPIA_INFO_PIEZA()
 RETURNS TRIGGER
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE 
 
@@ -1281,6 +1275,7 @@ FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_INFO_PIEZA();
 ------CREACION DE PROCEDIMIENTO PARA LA COPIA DE DATOS DEL INFORMANTE
 CREATE OR REPLACE PROCEDURE PROCEDIMIENTO_COPIA_INFORMANTE (id_informante integer)
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE 
 
@@ -1337,6 +1332,7 @@ $$;
 CREATE OR REPLACE FUNCTION TRIGGER_COPIA_INFORMANTE()
 RETURNS TRIGGER
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 BEGIN
 
@@ -1365,6 +1361,7 @@ FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_INFORMANTE();
 CREATE OR REPLACE FUNCTION TRIGGER_COPIAR_TRANSACCION_PAGO()
 RETURNS TRIGGER
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE
 
@@ -1435,6 +1432,7 @@ FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIAR_TRANSACCION_PAGO();
 CREATE OR REPLACE FUNCTION TRIGGER_COPIA_CRUDO()
 RETURNS TRIGGER
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE
 
@@ -1521,6 +1519,7 @@ FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_CRUDO();
 CREATE OR REPLACE FUNCTION TRIGGER_COPIA_ANALISTA_CRUDO()
 RETURNS TRIGGER
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE
 
@@ -1596,7 +1595,8 @@ FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_ANALISTA_CRUDO();
 -------------------------- FUNCIONES NECESARIAS PARA EL PARA EL INSERT -----------------------------
 
 CREATE OR REPLACE PROCEDURE ELIMINACION_REGISTROS_VENTA_EXCLUSIVA ( id_pieza IN integer ) 
-LANGUAGE PLPGSQL 
+LANGUAGE PLPGSQL
+SECURITY DEFINER 
 AS $$
 
 DECLARE 
@@ -1632,7 +1632,8 @@ END $$;
 
 CREATE OR REPLACE FUNCTION FORMATO_ARCHIVO_A_BYTEA ( ruta_archivo IN text ) 
 RETURNS bytea 
-LANGUAGE plpgsql AS $$ 
+LANGUAGE plpgsql
+SECURITY DEFINER AS $$ 
 DECLARE 
 
 --  ruta text := 'C:\Users\Mickel\BD2\bases-dos\scripts\';
@@ -1666,7 +1667,8 @@ DROP FUNCTION IF EXISTS RESTA_7_DIAS CASCADE;
 
 CREATE OR REPLACE FUNCTION RESTA_7_DIAS ( fecha IN timestamp ) 
 RETURNS timestamp
-LANGUAGE PLPGSQL 
+LANGUAGE PLPGSQL
+SECURITY DEFINER 
 AS $$
 BEGIN 
 		
@@ -1679,7 +1681,8 @@ DROP FUNCTION IF EXISTS RESTA_6_MESES CASCADE;
 
 CREATE OR REPLACE FUNCTION RESTA_6_MESES ( fecha IN timestamp ) 
 RETURNS timestamp
-LANGUAGE PLPGSQL 
+LANGUAGE PLPGSQL
+SECURITY DEFINER 
 AS $$
 BEGIN 
 		
@@ -1693,7 +1696,8 @@ DROP FUNCTION IF EXISTS RESTA_1_YEAR CASCADE;
 
 CREATE OR REPLACE FUNCTION RESTA_1_YEAR ( fecha IN timestamp ) 
 RETURNS timestamp
-LANGUAGE PLPGSQL 
+LANGUAGE PLPGSQL
+SECURITY DEFINER 
 AS $$
 BEGIN 
 		
@@ -1706,7 +1710,8 @@ DROP FUNCTION IF EXISTS RESTA_1_YEAR_DATE CASCADE;
 
 CREATE OR REPLACE FUNCTION RESTA_1_YEAR_DATE ( fecha IN date ) 
 RETURNS date
-LANGUAGE PLPGSQL 
+LANGUAGE PLPGSQL
+SECURITY DEFINER 
 AS $$
 BEGIN 
 		
@@ -1720,7 +1725,8 @@ DROP FUNCTION IF EXISTS RESTA_3_MESES CASCADE;
 
 CREATE OR REPLACE FUNCTION RESTA_3_MESES ( fecha IN timestamp ) 
 RETURNS timestamp
-LANGUAGE PLPGSQL 
+LANGUAGE PLPGSQL
+SECURITY DEFINER 
 AS $$
 BEGIN 
 		
@@ -1733,7 +1739,8 @@ DROP FUNCTION IF EXISTS RESTA_3_MESES_DATE CASCADE;
 
 CREATE OR REPLACE FUNCTION RESTA_3_MESES_DATE ( fecha IN date ) 
 RETURNS date
-LANGUAGE PLPGSQL 
+LANGUAGE PLPGSQL
+SECURITY DEFINER 
 AS $$
 BEGIN 
 		
@@ -1749,7 +1756,8 @@ DROP FUNCTION IF EXISTS RESTA_14_FECHA CASCADE;
 
 CREATE OR REPLACE FUNCTION RESTA_14_FECHA ( fecha IN date ) 
 RETURNS date
-LANGUAGE PLPGSQL 
+LANGUAGE PLPGSQL
+SECURITY DEFINER 
 AS $$
 BEGIN 
 		
@@ -1763,7 +1771,8 @@ DROP FUNCTION IF EXISTS RESTA_14_FECHA_HORA CASCADE;
 
 CREATE OR REPLACE FUNCTION RESTA_14_FECHA_HORA ( fecha IN timestamp ) 
 RETURNS timestamp
-LANGUAGE PLPGSQL 
+LANGUAGE PLPGSQL
+SECURITY DEFINER 
 AS $$
 BEGIN 
 		
@@ -2960,6 +2969,7 @@ $$;
 CREATE OR REPLACE FUNCTION FUNCION_EDAD(fecha_nacimiento date)
 RETURNS BOOLEAN
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE
 	
@@ -2997,6 +3007,7 @@ $$;
 CREATE OR REPLACE FUNCTION CREAR_CONTACTO (primer_nombre varchar,segundo_nombre varchar, primer_apellido varchar, segundo_apellido varchar, direccion varchar, codigo numeric, numero numeric)
 RETURNS contacto_ty
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE
 	
@@ -3029,6 +3040,7 @@ END $$;
 CREATE OR REPLACE FUNCTION CREAR_ALIAS(primer_nombre varchar, segundo_nombre varchar, primer_apellido varchar, segundo_apellido varchar, foto bytea, fecha timestamp, pais varchar, documento numeric, color_ojos varchar, direccion varchar, ultimo_uso timestamp)
 RETURNS alias_ty[]
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE
 	ATRIBUTOS_ALIAS alias_ty;
@@ -3111,6 +3123,7 @@ $$;
 CREATE OR REPLACE FUNCTION CREAR_TELEFONO (codigo numeric(10), numero NUMERIC(15))
 RETURNS telefono_ty
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$ 
 BEGIN
 
@@ -3134,6 +3147,7 @@ END $$;
 CREATE OR REPLACE FUNCTION CREAR_LICENCIA (numero varchar, pais varchar)
 RETURNS licencia_ty
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 BEGIN
 	IF (numero IS NULL OR numero = ' ') THEN
@@ -3155,6 +3169,7 @@ $$;
 CREATE OR REPLACE FUNCTION CREAR_FAMILIAR (primer_nombre varchar,segundo_nombre varchar, primer_apellido varchar, segundo_apellido varchar,fecha_nacimiento timestamp, parentesco varchar, codigo numeric, numero numeric)
 RETURNS familiar_ty
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE
 	fecha_va integer;
@@ -3198,6 +3213,7 @@ $$;
 CREATE OR REPLACE FUNCTION CREAR_IDENTIFICACION (documento varchar, pais varchar)
 RETURNS identificacion_ty
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 BEGIN 
 	
@@ -3222,6 +3238,7 @@ $$;
 CREATE OR REPLACE FUNCTION CREAR_NIVEL_EDUCATIVO (pregrado_titulo varchar, postgrado_tipo varchar, postgrado_titulo varchar)
 RETURNS nivel_educativo_ty
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS 
 $$
 BEGIN
@@ -3255,6 +3272,7 @@ $$;
 CREATE OR REPLACE FUNCTION CREAR_ARRAY_IDIOMAS (idioma_1 IN varchar(50),idioma_2 IN varchar(50),idioma_3 IN varchar(50),idioma_4 IN varchar(50),idioma_5 IN varchar(50),idioma_6 IN varchar(50))
 RETURNS varchar(50)[] 
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$
 DECLARE
 
@@ -3306,6 +3324,7 @@ END $$;
 CREATE OR REPLACE FUNCTION VER_LUGAR (id_lugar in integer)
 RETURNS LUGAR
 LANGUAGE sql
+SECURITY DEFINER
 AS $$  
  	SELECT * FROM LUGAR WHERE id = id_lugar; 
 $$;
@@ -3319,6 +3338,7 @@ $$;
 CREATE OR REPLACE FUNCTION VER_LUGARES ()
 RETURNS setof LUGAR
 LANGUAGE sql
+SECURITY DEFINER
 AS $$  
  	SELECT * FROM LUGAR; 
 $$;
@@ -3328,6 +3348,7 @@ $$;
 
 CREATE OR REPLACE PROCEDURE CREAR_LUGAR (nombre_va IN LUGAR.nombre%TYPE, tipo_va in LUGAR.tipo%TYPE, region_va in LUGAR.region%TYPE, id_lugar_sup IN LUGAR.fk_lugar%TYPE)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 
 BEGIN 
@@ -3361,6 +3382,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE ELIMINAR_LUGAR (id_lugar IN INTEGER)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -3390,6 +3412,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE ACTUALIZAR_LUGAR (id_lugar IN integer,nombre_va IN LUGAR.nombre%TYPE, tipo_va in LUGAR.tipo%TYPE, region_va in LUGAR.region%TYPE, id_lugar_sup IN LUGAR.fk_lugar%TYPE)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -3433,6 +3456,7 @@ END $$;
 CREATE OR REPLACE FUNCTION VER_DIRECTOR_AREA (id_director_area in integer)
 RETURNS EMPLEADO_JEFE
 LANGUAGE sql
+SECURITY DEFINER
 AS $$  
  	SELECT * FROM EMPLEADO_JEFE WHERE id = id_director_area AND tipo = 'director_area' ; 
 $$;
@@ -3445,6 +3469,7 @@ $$;
 CREATE OR REPLACE FUNCTION VER_DIRECTORES_AREA ()
 RETURNS setof EMPLEADO_JEFE
 LANGUAGE sql
+SECURITY DEFINER
 AS $$  
  	SELECT * FROM EMPLEADO_JEFE WHERE tipo = 'director_area' ; 
 $$;
@@ -3459,6 +3484,7 @@ $$;
 
 CREATE OR REPLACE PROCEDURE CREAR_DIRECTOR_AREA (primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE, id_jefe IN EMPLEADO_JEFE.fk_empleado_jefe%TYPE)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -3509,6 +3535,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE ELIMINAR_DIRECTOR_AREA (id_director_area IN INTEGER)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -3554,6 +3581,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE ACTUALIZAR_DIRECTOR_AREA (id_director_area IN integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE, id_jefe IN EMPLEADO_JEFE.fk_empleado_jefe%TYPE)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -3615,6 +3643,7 @@ END $$;
 CREATE OR REPLACE FUNCTION VER_OFICINA (id_oficina in integer)
 RETURNS OFICINA_PRINCIPAL
 LANGUAGE sql
+SECURITY DEFINER
 AS $$  
  	SELECT * FROM OFICINA_PRINCIPAL WHERE id = id_oficina; 
 $$;
@@ -3627,6 +3656,7 @@ $$;
 CREATE OR REPLACE FUNCTION VER_OFICINAS ()
 RETURNS setof OFICINA_PRINCIPAL
 LANGUAGE sql
+SECURITY DEFINER
 AS $$  
  	SELECT * FROM OFICINA_PRINCIPAL; 
 $$;
@@ -3640,6 +3670,7 @@ $$;
 
 CREATE OR REPLACE PROCEDURE CREAR_OFICINA_PRINCIPAL (nombre_va IN OFICINA_PRINCIPAL.nombre%TYPE, sede_va IN OFICINA_PRINCIPAL.sede%TYPE, id_ciudad IN OFICINA_PRINCIPAL.fk_lugar_ciudad%TYPE, id_director_area IN OFICINA_PRINCIPAL.fk_director_area%TYPE, id_director_ejecutivo IN OFICINA_PRINCIPAL.fk_director_ejecutivo%TYPE)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -3685,6 +3716,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE ELIMINAR_OFICINA_PRINCIPAL (id_oficina IN INTEGER)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -3716,6 +3748,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE ACTUALIZAR_OFICINA_PRINCIPAL (id_oficina IN integer, nombre_va IN OFICINA_PRINCIPAL.nombre%TYPE, sede_va IN OFICINA_PRINCIPAL.sede%TYPE, id_ciudad IN OFICINA_PRINCIPAL.fk_lugar_ciudad%TYPE, id_director_area IN OFICINA_PRINCIPAL.fk_director_area%TYPE, id_director_ejecutivo IN OFICINA_PRINCIPAL.fk_director_ejecutivo%TYPE)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -3768,6 +3801,7 @@ END $$;
 CREATE OR REPLACE FUNCTION VER_DIRECTOR_EJECUTIVO (id_director_ejecutivo in integer)
 RETURNS EMPLEADO_JEFE
 LANGUAGE sql
+SECURITY DEFINER
 AS $$  
  	SELECT * FROM EMPLEADO_JEFE WHERE id = id_director_ejecutivo AND tipo = 'director_ejecutivo' ; 
 $$;
@@ -3780,6 +3814,7 @@ $$;
 CREATE OR REPLACE FUNCTION VER_DIRECTORES_EJECUTIVOS ()
 RETURNS setof EMPLEADO_JEFE
 LANGUAGE sql
+SECURITY DEFINER
 AS $$  
  	SELECT * FROM EMPLEADO_JEFE WHERE tipo = 'director_ejecutivo' ; 
 $$;
@@ -3795,6 +3830,7 @@ $$;
 
 CREATE OR REPLACE PROCEDURE CREAR_DIRECTOR_EJECUTIVO (primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -3848,6 +3884,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE ELIMINAR_DIRECTOR_EJECUTIVO (id_director_ejecutivo IN INTEGER)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -3896,6 +3933,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE ACTUALIZAR_DIRECTOR_EJECUTIVO (id_director_ejecutivo IN integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -3954,6 +3992,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE CAMBIAR_ROL_EMPLEADO (id_empleado IN integer, id_jefe in integer, cargo in integer)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -4006,6 +4045,7 @@ END $$;
 CREATE OR REPLACE FUNCTION VER_LISTA_INFORMANTES_EMPLEADO_CONFIDENTE (id_empleado_acceso in integer)
 RETURNS setof INFORMANTE
 LANGUAGE sql
+SECURITY DEFINER
 AS $$  
  	
     SELECT * FROM INFORMANTE WHERE fk_empleado_jefe_confidente = id_empleado_acceso; 
@@ -4050,7 +4090,8 @@ BEGIN
   END IF;
     
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 -- CALL VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION()
@@ -4078,7 +4119,8 @@ BEGIN
   RETURN jefe_estacion;
 
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 --select * from empleado_jefe
 
@@ -4104,7 +4146,8 @@ BEGIN
     
 
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 --
 
 --SELECT VER_JEFES_E(2);
@@ -4120,6 +4163,7 @@ $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE PROCEDURE CREAR_JEFE_ESTACION (id_empleado_acceso in integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -4174,6 +4218,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE ELIMINAR_JEFE_ESTACION (id_empleado_acceso IN INTEGER, id_jefe_estacion IN INTEGER)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -4233,6 +4278,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE ACTUALIZAR_JEFE_ESTACION (id_empleado_acceso IN integer, id_jefe_estacion IN integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -4321,7 +4367,8 @@ IF (dir_area_reg IS NULL OR dir_area_reg.tipo != 'director_area') THEN
   END IF;
     
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 
@@ -4332,6 +4379,7 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION VER_ESTACION (id_empleado_acceso in integer, id_estacion in integer)
 RETURNS ESTACION
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE 
 
@@ -4352,6 +4400,7 @@ END $$;
 CREATE OR REPLACE FUNCTION VER_ESTACIONES (id_empleado_acceso in integer)
 RETURNS setof ESTACION
 LANGUAGE sql
+SECURITY DEFINER
 AS $$  
    SELECT * FROM ESTACION WHERE fk_oficina_principal IN (SELECT id FROM OFICINA_PRINCIPAL WHERE fk_director_area = id_empleado_acceso); 
 $$;
@@ -4368,6 +4417,7 @@ $$;
 CREATE OR REPLACE FUNCTION VER_CUENTA_ESTACION_DIR_AREA (id_empleado_acceso in integer, id_estacion in INTEGER)
 RETURNS setof CUENTA
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE 
   cuenta_reg CUENTA%ROWTYPE;
@@ -4397,6 +4447,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE CREAR_ESTACION (id_empleado_acceso IN integer, nombre_va IN ESTACION.nombre%TYPE, id_ciudad IN ESTACION.fk_lugar_ciudad%TYPE, id_jefe_estacion IN ESTACION.fk_empleado_jefe%TYPE)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -4451,6 +4502,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE ELIMINAR_ESTACION (id_empleado_acceso IN integer, id_estacion IN INTEGER)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -4481,6 +4533,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE ACTUALIZAR_ESTACION (id_empleado_acceso IN integer, nombre_va IN ESTACION.nombre%TYPE, id_ciudad IN ESTACION.fk_lugar_ciudad%TYPE, id_jefe_estacion IN ESTACION.fk_empleado_jefe%TYPE)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -4558,6 +4611,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE ASIGNACION_PRESUPUESTO (id_empleado_acceso integer, estacion_va integer, presupuesto_va numeric)
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE   
 
@@ -4639,6 +4693,7 @@ $$;
 CREATE OR REPLACE FUNCTION VER_PRESUPUESTO_ESTACION (id_empleado_acceso in integer, id_estacion in integer)
 RETURNS setof CUENTA
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 
 BEGIN
@@ -4660,6 +4715,7 @@ END $$;
 CREATE OR REPLACE FUNCTION VER_CLIENTE (id_cliente in integer)
 RETURNS CLIENTE
 LANGUAGE sql
+SECURITY DEFINER
 AS $$  
    SELECT * FROM CLIENTE WHERE id = id_cliente; 
 $$;
@@ -4672,6 +4728,7 @@ $$;
 CREATE OR REPLACE FUNCTION VER_CLIENTES ()
 RETURNS setof CLIENTE
 LANGUAGE sql
+SECURITY DEFINER
 AS $$  
    SELECT * FROM CLIENTE; 
 $$;
@@ -4687,6 +4744,7 @@ $$;
 
 CREATE OR REPLACE PROCEDURE CREAR_CLIENTE (nombre_empresa_va IN CLIENTE.nombre_empresa%TYPE, pagina_web_va IN CLIENTE.pagina_web%TYPE, exclusivo_va IN CLIENTE.exclusivo%TYPE, telefono_va IN telefono_ty, contacto_va IN contacto_ty, fk_lugar_pais in integer)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -4734,6 +4792,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE ELIMINAR_CLIENTE (id_cliente IN INTEGER)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -4787,6 +4846,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE ACTUALIZAR_CLIENTE (id_cliente IN integer, nombre_empresa_va IN CLIENTE.nombre_empresa%TYPE, pagina_web_va IN CLIENTE.pagina_web%TYPE, exclusivo_va IN CLIENTE.exclusivo%TYPE, telefono_va IN telefono_ty, contacto_va IN contacto_ty, id_lugar in integer)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -4848,6 +4908,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE ASIGNAR_TEMA_CLIENTE (tema_id integer,cliente_id integer)
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE 
 
@@ -4911,6 +4972,7 @@ $$;
 
 CREATE OR REPLACE PROCEDURE CREAR_TEMA (nombre_va varchar, descripcion_va varchar, topico_va varchar)
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 
 BEGIN
@@ -4949,7 +5011,8 @@ BEGIN
 		
 
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 -- CALL VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA(15,17);
@@ -4986,7 +5049,8 @@ BEGIN
 		
 
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 
@@ -5026,6 +5090,7 @@ CREATE OR REPLACE PROCEDURE CREAR_PERSONAL_INTELIGENCIA (
     id_ciudad IN PERSONAL_INTELIGENCIA.fk_lugar_ciudad%TYPE
 )
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -5160,6 +5225,7 @@ CREATE OR REPLACE PROCEDURE ACTUALIZAR_PERSONAL_INTELIGENCIA (
     id_ciudad IN PERSONAL_INTELIGENCIA.fk_lugar_ciudad%TYPE
 )
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -5269,6 +5335,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE ELIMINAR_PERSONAL_INTELIGENCIA (id_empleado_acceso IN INTEGER, id_personal_inteligencia IN INTEGER)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -5334,6 +5401,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE ASIGNAR_TEMA_ANALISTA (id_empleado_acceso integer, tema_id integer, analista_id integer)
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE 
 
@@ -5416,6 +5484,7 @@ $$;
 CREATE OR REPLACE FUNCTION VER_TODOS_PERSONAL_INTELIGENCIA_SIN_CARGO ()
 RETURNS setof PERSONAL_INTELIGENCIA
 LANGUAGE sql
+SECURITY DEFINER
 AS $$  
  	
     SELECT * FROM PERSONAL_INTELIGENCIA WHERE id NOT IN (SELECT fk_personal_inteligencia FROM HIST_CARGO); 
@@ -5425,6 +5494,7 @@ $$;
 CREATE OR REPLACE FUNCTION VER_TODOS_PERSONAL_INTELIGENCIA_CON_CARGO (id_empleado_acceso in integer)
 RETURNS setof PERSONAL_INTELIGENCIA
 LANGUAGE sql
+SECURITY DEFINER
 AS $$  
  	
     SELECT * FROM PERSONAL_INTELIGENCIA WHERE id IN (SELECT fk_personal_inteligencia FROM HIST_CARGO WHERE fk_estacion IN (SELECT id FROM ESTACION WHERE fk_empleado_jefe = id_empleado_acceso)); 
@@ -5435,6 +5505,7 @@ $$;
 CREATE OR REPLACE FUNCTION VER_PERSONAL_INTELIGENCIA_SIN_CARGO (id_personal_inteligencia in integer)
 RETURNS PERSONAL_INTELIGENCIA
 LANGUAGE sql
+SECURITY DEFINER
 AS $$  
  	
     SELECT * FROM PERSONAL_INTELIGENCIA WHERE id = id_personal_inteligencia AND id NOT IN (SELECT fk_personal_inteligencia FROM HIST_CARGO); 
@@ -5444,6 +5515,7 @@ $$;
 CREATE OR REPLACE FUNCTION VER_PERSONAL_INTELIGENCIA_CON_CARGO (id_empleado_acceso in integer, id_personal_inteligencia in integer)
 RETURNS PERSONAL_INTELIGENCIA
 LANGUAGE sql
+SECURITY DEFINER
 AS $$  
  	
     SELECT * FROM PERSONAL_INTELIGENCIA WHERE id = id_personal_inteligencia AND id IN (SELECT fk_personal_inteligencia FROM HIST_CARGO WHERE fk_estacion IN (SELECT id FROM ESTACION WHERE fk_empleado_jefe = id_empleado_acceso)); 
@@ -5459,6 +5531,7 @@ $$;
 CREATE OR REPLACE FUNCTION VER_HISTORICO_CARGO_PERSONAL_INTELIGENCIA (id_empleado_acceso in integer, id_personal_inteligencia in integer)
 RETURNS setof HIST_CARGO
 LANGUAGE sql
+SECURITY DEFINER
 AS $$  
  	
     SELECT * FROM HIST_CARGO WHERE fk_personal_inteligencia = id_personal_inteligencia AND fk_estacion IN (SELECT id FROM ESTACION WHERE fk_empleado_jefe = id_empleado_acceso); 
@@ -5477,6 +5550,7 @@ $$;
 CREATE OR REPLACE FUNCTION VER_CUENTA_ESTACION_JEFE_ESTACION (id_empleado_acceso in integer, id_estacion in INTEGER)
 RETURNS setof CUENTA
 LANGUAGE sql
+SECURITY DEFINER
 AS $$  
  	
     SELECT * FROM CUENTA WHERE fk_estacion = id_estacion AND fk_estacion IN (SELECT id FROM ESTACION WHERE fk_empleado_jefe = id_empleado_acceso); 
@@ -5497,6 +5571,7 @@ $$;
 
 CREATE OR REPLACE PROCEDURE CERRAR_HIST_CARGO (id_empleado_acceso in integer, id_personal_inteligencia IN integer)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -5545,6 +5620,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE ASIGNAR_TRANSFERIR_ESTACION_EMPLEADO (id_empleado_acceso in integer, id_personal_inteligencia IN integer, id_estacion in integer, cargo_va IN HIST_CARGO.cargo%TYPE)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -5654,6 +5730,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE CAMBIAR_ROL_PERSONAL_INTELIGENCIA (id_empleado_acceso in integer, id_personal_inteligencia IN integer, cargo_va IN HIST_CARGO.cargo%TYPE)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -5745,7 +5822,8 @@ END $$;
 -- DROP FUNCTION IF EXISTS ELIMINACION_REGISTROS_VENTA_EXCLUSIVA CASCADE;
 
 CREATE OR REPLACE PROCEDURE ELIMINACION_REGISTROS_INFORMANTE ( id_personal_inteligencia IN integer ) 
-LANGUAGE PLPGSQL 
+LANGUAGE PLPGSQL
+SECURITY DEFINER 
 AS $$
 DECLARE 
 
@@ -5813,6 +5891,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE DESPIDO_RENUNCIA_PERSONAL_INTELIGENCIA (id_empleado_acceso in integer, id_personal_inteligencia IN integer)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -5891,9 +5970,37 @@ END $$;
 
 
 
+
+CREATE OR REPLACE FUNCTION VER_LISTA_CRUDOS_ESTACION (id_estacion in integer)
+RETURNS setof CRUDO
+LANGUAGE sql
+SECURITY DEFINER
+AS $$  
+ 	
+    SELECT * FROM CRUDO WHERE fk_estacion_pertenece = id_estacion; 
+$$;
+
+-- SELECT * FROM VER_LISTA_CRUDOS_ESTACION(4);
+
+
+CREATE OR REPLACE FUNCTION VER_LISTA_CRUDOS_PERSONAL (id_personal_inteligencia in integer)
+RETURNS setof CRUDO
+LANGUAGE sql
+SECURITY DEFINER
+AS $$  
+ 	
+    SELECT * FROM CRUDO WHERE fk_personal_inteligencia_agente = id_personal_inteligencia; 
+$$;
+
+-- SELECT * FROM VER_LISTA_CRUDOS_PERSONAL(16);
+
+
+
+
 CREATE OR REPLACE FUNCTION VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_CONFIDENTE (id_personal_inteligencia in integer)
 RETURNS setof INFORMANTE
 LANGUAGE sql
+SECURITY DEFINER
 AS $$  
  	
     SELECT * FROM INFORMANTE WHERE fk_personal_inteligencia_confidente = id_personal_inteligencia; 
@@ -5911,6 +6018,7 @@ $$;
 CREATE OR REPLACE FUNCTION VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_AGENTE (id_personal_inteligencia in integer)
 RETURNS setof INFORMANTE
 LANGUAGE sql
+SECURITY DEFINER
 AS $$  
  	
     SELECT * FROM INFORMANTE WHERE fk_personal_inteligencia_encargado = id_personal_inteligencia; 
@@ -5925,6 +6033,7 @@ $$;
 
 CREATE OR REPLACE PROCEDURE REGISTRO_INFORMANTE (nombre_clave_va IN INFORMANTE.nombre_clave%TYPE, id_agente_campo IN integer, id_empleado_jefe_confidente IN integer, id_personal_inteligencia_confidente IN integer)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -6103,6 +6212,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE REGISTRO_CRUDO_SIN_INFORMANTE (id_agente_campo IN integer, id_tema IN integer, contenido_va IN CRUDO.contenido%TYPE, tipo_contenido_va IN CRUDO.tipo_contenido%TYPE, resumen_va IN CRUDO.resumen%TYPE, fuente_va IN CRUDO.fuente%TYPE, valor_apreciacion_va IN CRUDO.valor_apreciacion%TYPE, nivel_confiabilidad_inicial_va IN CRUDO.nivel_confiabilidad_inicial%TYPE, cant_analistas_verifican_va IN CRUDO.cant_analistas_verifican%TYPE )
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -6222,6 +6332,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE REGISTRO_CRUDO_CON_INFORMANTE ( id_informante IN integer, monto_pago_va IN TRANSACCION_PAGO.monto_pago%TYPE, id_agente_campo IN integer, id_tema IN integer, contenido_va IN CRUDO.contenido%TYPE, tipo_contenido_va IN CRUDO.tipo_contenido%TYPE, resumen_va IN CRUDO.resumen%TYPE, valor_apreciacion_va IN CRUDO.valor_apreciacion%TYPE, nivel_confiabilidad_inicial_va IN CRUDO.nivel_confiabilidad_inicial%TYPE, cant_analistas_verifican_va IN CRUDO.cant_analistas_verifican%TYPE )
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -6391,7 +6502,8 @@ END $$;
 
 CREATE OR REPLACE FUNCTION ANALISTA_VERIFICO_CRUDO ( id_crudo IN integer, id_analista IN integer ) 
 RETURNS boolean
-LANGUAGE PLPGSQL 
+LANGUAGE PLPGSQL
+SECURITY DEFINER 
 AS $$
 DECLARE 
 
@@ -6418,7 +6530,8 @@ END $$;
 
 CREATE OR REPLACE FUNCTION ANALISTA_PUEDE_VERIFICA_CRUDO ( id_crudo IN integer, id_analista IN integer ) 
 RETURNS boolean
-LANGUAGE PLPGSQL 
+LANGUAGE PLPGSQL
+SECURITY DEFINER 
 AS $$
 DECLARE 
 
@@ -6499,6 +6612,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE VERIFICAR_CRUDO ( id_analista IN integer, id_crudo IN integer, nivel_confiabilidad_va IN ANALISTA_CRUDO.nivel_confiabilidad%TYPE )
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -6619,6 +6733,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE CERRAR_CRUDO ( id_crudo IN integer )
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -6723,12 +6838,28 @@ END $$;
 
 
 
+CREATE OR REPLACE FUNCTION VER_LISTA_PIEZAS_ESTACION (id_estacion in integer)
+RETURNS setof PIEZA_INTELIGENCIA
+LANGUAGE sql
+SECURITY DEFINER
+AS $$  
+ 	
+    SELECT * FROM PIEZA_INTELIGENCIA WHERE fk_estacion_analista = id_estacion; 
+$$;
+
+-- SELECT * FROM VER_LISTA_PIEZAS_ESTACION(4);
+
+
+
+
+
 
 
 -- DROP PROCEDURE IF EXISTS REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA CASCADE;
 
 CREATE OR REPLACE PROCEDURE REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA (id_analista_encargado IN integer, descripcion IN PIEZA_INTELIGENCIA.descripcion%TYPE, id_crudo_base IN integer)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -6850,6 +6981,7 @@ END $$;
 
 CREATE OR REPLACE PROCEDURE AGREGAR_CRUDO_A_PIEZA (id_crudo IN integer, id_pieza IN integer)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -6866,8 +6998,8 @@ BEGIN
  
 
 	INSERT INTO CRUDO_PIEZA (fk_pieza_inteligencia, fk_crudo) VALUES (
-   		pieza_reg.id,
-   		crudo_reg.id
+   		id_pieza,
+   		id_crudo
     );
    
    	RAISE INFO 'CRUDO DE ID = %, FUE AGREGADO A LA PIEZA ID = % EXITOSAMENTE', id_crudo, id_pieza;
@@ -6876,7 +7008,7 @@ BEGIN
 END $$;
 
 
-COMMIT;
+-- COMMIT;
 
 
 
@@ -6889,6 +7021,7 @@ COMMIT;
 
 CREATE OR REPLACE PROCEDURE CERTIFICAR_PIEZA (id_pieza IN integer, precio_base_va IN PIEZA_INTELIGENCIA.precio_base%TYPE)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -6969,6 +7102,7 @@ END $$;
 CREATE OR REPLACE FUNCTION VER_DATOS_PIEZA (id_pieza IN integer, id_personal_inteligencia IN integer)
 RETURNS setof PIEZA_INTELIGENCIA
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -7017,35 +7151,34 @@ BEGIN
     IF (personal_inteligencia_reg.class_seguridad = 'top_secret') THEN 
         RETURN QUERY 
 			SELECT * FROM PIEZA_INTELIGENCIA WHERE id = id_pieza;
-    END IF;
-
-    IF (personal_inteligencia_reg.class_seguridad = 'confidencial' AND (pieza_reg.class_seguridad = 'confidencial' OR pieza_reg.class_seguridad = 'no_clasificado')) THEN
+    
+	ELSIF (personal_inteligencia_reg.class_seguridad = 'confidencial' AND (pieza_reg.class_seguridad = 'confidencial' OR pieza_reg.class_seguridad = 'no_clasificado')) THEN
        RETURN QUERY 
 			SELECT * FROM PIEZA_INTELIGENCIA WHERE id = id_pieza;
-    END IF;
-
-    IF (personal_inteligencia_reg.class_seguridad = 'no_clasificado' AND pieza_reg.class_seguridad = 'no_clasificado') THEN
+	
+	ELSIF (personal_inteligencia_reg.class_seguridad = 'no_clasificado' AND pieza_reg.class_seguridad = 'no_clasificado') THEN
         RETURN QUERY 
 			SELECT * FROM PIEZA_INTELIGENCIA WHERE id = id_pieza;
+	
+	ELSE 
+		SELECT fk_empleado_jefe INTO id_empleado_va FROM ESTACION WHERE id = hist_cargo_reg.fk_estacion ; 
+		RAISE INFO 'id del jefe de la estacion del personal inteligencia: %', id_empleado_va;
+	
+		INSERT INTO INTENTO_NO_AUTORIZADO (
+			fecha_hora,
+			id_pieza,
+			id_empleado,
+			fk_personal_inteligencia
+		) VALUES (
+			fecha_hora_va,
+			id_pieza,
+			id_empleado_va,
+			hist_cargo_reg.fk_personal_inteligencia
+		);
     END IF;
-
-   
  	------///- 
    
-   	SELECT fk_empleado_jefe INTO id_empleado_va FROM ESTACION WHERE id = hist_cargo_reg.fk_estacion ; 
-   	RAISE INFO 'id del jefe de la estacion del personal inteligencia: %', id_empleado_va;
-   
-    INSERT INTO INTENTO_NO_AUTORIZADO (
-        fecha_hora,
-        id_pieza,
-        id_empleado,
-        fk_personal_inteligencia
-    ) VALUES (
-        fecha_hora_va,
-        id_pieza,
-        id_empleado_va,
-        hist_cargo_reg.fk_personal_inteligencia
-    );
+   	
 	
 	
    
@@ -7066,7 +7199,8 @@ END $$;
 
  CREATE OR REPLACE FUNCTION VALIDAR_VENTA_EXCLUSIVA ( id_pieza IN integer ) 
  RETURNS boolean
- LANGUAGE PLPGSQL 
+ LANGUAGE PLPGSQL
+SECURITY DEFINER 
  AS $$
  DECLARE 
 
@@ -7107,11 +7241,12 @@ END $$;
 
 
 
-DROP PROCEDURE IF EXISTS REGISTRO_VENTA CASCADE;
+-- DROP PROCEDURE IF EXISTS REGISTRO_VENTA CASCADE;
 
 
 CREATE OR REPLACE PROCEDURE REGISTRO_VENTA (id_pieza IN integer, id_cliente IN integer, precio_vendido_va IN ADQUISICION.precio_vendido%TYPE)
 LANGUAGE plpgsql
+SECURITY DEFINER
 AS $$  
 DECLARE
 
@@ -7184,9 +7319,9 @@ BEGIN
 			RAISE INFO 'VENTA EXCLUSIVA EXITOSA!';
 	  		RAISE INFO 'Datos de la venta: %', adquisicion_reg ; 
 	  	
-	  		CALL REGISTRO_TEMA_VENTA(id_cliente,id_tema);
+	  		-- CALL REGISTRO_TEMA_VENTA(id_cliente,id_tema);
 
-	  		SELECT ELIMINACION_REGISTROS_VENTA_EXCLUSIVA(pieza_reg.id);	
+	  		CALL ELIMINACION_REGISTROS_VENTA_EXCLUSIVA(pieza_reg.id);	
 			
 		
 		ELSE
@@ -7209,7 +7344,7 @@ BEGIN
 			
 		) RETURNING * INTO adquisicion_reg;
 	
-		CALL REGISTRO_TEMA_VENTA(id_cliente,id_tema);
+		-- CALL REGISTRO_TEMA_VENTA(id_cliente,id_tema);
 
 		RAISE INFO 'VENTA EXITOSA!';
    		RAISE INFO 'Datos de la venta: %', adquisicion_reg ; 	
@@ -7277,7 +7412,8 @@ RETURNS int
     END IF;
 	RETURN resultado;
     END
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 CREATE OR REPLACE FUNCTION SUMAR_PAGO_INFORMANTES_ALT (estacion int) --CHECK
@@ -7296,7 +7432,8 @@ RETURNS int
     END IF;
 	RETURN resultado;
     END
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 CREATE OR REPLACE FUNCTION SUMAR_PIEZAS (estacion int) --CHECK
@@ -7322,7 +7459,8 @@ RETURNS int
     END IF;
 	RETURN resultado;
     END
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 CREATE OR REPLACE FUNCTION SUMAR_PIEZAS_ALT (estacion int) --CHECK
@@ -7348,7 +7486,8 @@ RETURNS int
     END IF;
 	RETURN resultado;
     END
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 
@@ -7369,7 +7508,8 @@ RETURNS int
     END IF;
 	RETURN resultado;
     END
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 -- - - - - - - --
 
@@ -7393,7 +7533,8 @@ RETURNS REPORTE_BALANCE
     resultado.total_balance = resultado.total_piezas + resultado.presupuesto_estaciones - resultado.total_informantes;
     RETURN resultado; 
 	END
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 -- LLAMADA:     SELECT * FROM FONDOS_ALL_Y_APORTE_ESTACION(0);
@@ -7457,7 +7598,8 @@ RETURNS int
     END IF;
 	RETURN resultado;
     END
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 CREATE OR REPLACE FUNCTION SUMAR_PAGO_INFORMANTES_ALT_TRIMESTRAL (estacion int) --CHECK
@@ -7476,7 +7618,8 @@ RETURNS int
     END IF;
 	RETURN resultado;
     END
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 CREATE OR REPLACE FUNCTION SUMAR_PIEZAS_TRIMESTRAL (estacion int) --CHECK
@@ -7502,7 +7645,8 @@ RETURNS int
     END IF;
 	RETURN resultado;
     END
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 CREATE OR REPLACE FUNCTION SUMAR_PIEZAS_ALT_TRIMESTRAL (estacion int) --CHECK
@@ -7528,7 +7672,8 @@ RETURNS int
     END IF;
 	RETURN resultado;
     END
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 
@@ -7549,7 +7694,8 @@ RETURNS int
     END IF;
 	RETURN resultado;
     END
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 
@@ -7574,7 +7720,8 @@ RETURNS REPORTE_BALANCE_GENERAL
                                 - resultado.total_informantes;
     RETURN resultado; 
 	END
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 
@@ -7588,7 +7735,8 @@ RETURNS TABLE (id_crudo int, id_pieza int, costo_pieza int)
         (SELECT c.id FROM CRUDO c WHERE c.fk_estacion_pertenece = estacion 
             AND c.id IN (SELECT t.fk_crudo FROM TRANSACCION_PAGO t 
                 WHERE t.fecha_hora BETWEEN RESTA_3_MESES(NOW()::timestamp) AND NOW()::timestamp))  
-$$ LANGUAGE SQL;
+$$ LANGUAGE SQL
+SECURITY DEFINER;
 
 ----------------
 
@@ -7612,7 +7760,8 @@ RETURNS REPORTE_BALANCE_GENERAL
                                 - resultado.total_informantes;
     RETURN resultado; 
 	END
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 
@@ -7626,7 +7775,8 @@ RETURNS TABLE (id_crudo int, id_pieza int, costo_pieza int)
         (SELECT c.id FROM CRUDO c WHERE c.fk_estacion_pertenece = estacion 
             AND c.id IN (SELECT t.fk_crudo FROM TRANSACCION_PAGO t 
                 WHERE t.fecha_hora BETWEEN RESTA_1_YEAR(NOW()::timestamp) AND NOW()::timestamp))  
-$$ LANGUAGE SQL;
+$$ LANGUAGE SQL
+SECURITY DEFINER;
 
 
 
@@ -7703,7 +7853,8 @@ RETURNS INFORMACION_INFORMANTE
     END IF;
     RETURN resultado; 
 	END
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 -- SELECT * FROM INFORMACION_INFORMANTES (1);
 
@@ -7728,8 +7879,9 @@ RETURNS TABLE(  primer_nombre varchar(50), segundo_nombre2 varchar(50), primer_a
             FROM PERSONAL_INTELIGENCIA p, INTENTO_NO_AUTORIZADO i, PIEZA_INTELIGENCIA pz 
             WHERE p.id = i.fk_personal_inteligencia AND pz.id = i.id_pieza AND p.id IN 
                 (SELECT DISTINCT hc.fk_personal_inteligencia from HIST_CARGO hc, ESTACION e WHERE 
-                    e.id=3 AND e.id = hc.fk_estacion)
-$$ LANGUAGE SQL;
+                    e.id=estacion AND e.id = hc.fk_estacion)
+$$ LANGUAGE SQL
+SECURITY DEFINER;
 
 
 -- PARAMETRO:  id de la estacion.
@@ -7756,7 +7908,8 @@ RETURNS TABLE(  nombre_clave varchar(50), agente_encargado int, fecha_inicio_age
             i.fk_fecha_inicio_confidente, i.fk_estacion_confidente, i.fk_oficina_principal_confidente 
         FROM PERSONAL_INTELIGENCIA e, INFORMANTE i
         WHERE e.id = agente AND e.id = i.fk_personal_inteligencia_encargado
-$$ LANGUAGE SQL;
+$$ LANGUAGE SQL
+SECURITY DEFINER;
 
 -- PARAMETRO:  fk_personal_inteligencia_encargado (id del agente o confidente)
 -- LLAMADA:     SELECT * FROM LISTA_INFORMANTES(13);
@@ -7793,7 +7946,8 @@ BEGIN
 	END IF;
 		
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 ---------/-///-/-/-/--/---/-/-/-/-/-/-/--/--//---//-/-/-/-/-/-/-/-/-/-/-/-/--/----//////--------------------
@@ -7815,7 +7969,8 @@ BEGIN
 	END IF;
 		
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 ---------/-///-/-/-/--/---/-/-/-/-/-/-/--/--//---//-/-/-/-/-/-/-/-/-/-/-/-/--/----//////--------------------
@@ -7837,7 +7992,8 @@ BEGIN
 	END IF;
 		
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 
@@ -7867,7 +8023,8 @@ BEGIN
 	END IF;
 		
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 
@@ -7875,7 +8032,8 @@ $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION VALIDAR_CANT_ANALISTAS_VERIFICAN_CRUDO ( id_crudo IN integer ) 
 RETURNS integer
-LANGUAGE PLPGSQL 
+LANGUAGE PLPGSQL
+SECURITY DEFINER 
 AS $$
 DECLARE 
 
@@ -7990,7 +8148,8 @@ BEGIN
 
 
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 -- DROP TRIGGER IF EXISTS TRIGGER_INSERT_EMPLEADO_JEFE ON EMPLEADO_JEFE CASCADE;	
@@ -8089,7 +8248,8 @@ BEGIN
 
 	
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 -- DROP TRIGGER IF EXISTS TRIGGER_INSERT_LUGAR ON LUGAR CASCADE;	
@@ -8179,7 +8339,8 @@ BEGIN
 	RETURN NULL;
 
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SECURITY DEFINER;
 
 
 
@@ -8200,6 +8361,7 @@ EXECUTE PROCEDURE TRIGGER_OFICINA_PRINCIPAL();
 CREATE OR REPLACE FUNCTION TRIGGER_PERSONAL_INTELIGENCIA()
 RETURNS TRIGGER
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE
 
@@ -8332,6 +8494,7 @@ FOR EACH ROW EXECUTE FUNCTION TRIGGER_PERSONAL_INTELIGENCIA();
 CREATE OR REPLACE FUNCTION TRIGGER_REGISTRO_TEMAS_CLIENTE_ADQUISICION()
 RETURNS TRIGGER
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE
 
@@ -8399,6 +8562,7 @@ FOR EACH ROW EXECUTE FUNCTION TRIGGER_REGISTRO_TEMAS_CLIENTE_ADQUISICION();
 CREATE OR REPLACE FUNCTION TRIGGER_INSERT_UPDATE_INFORMANTE()
 RETURNS TRIGGER
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE 
 
@@ -8490,7 +8654,7 @@ BEGIN
 			SELECT * INTO hist_cargo_personal_inteligencia_reg FROM hist_cargo
 			WHERE fk_personal_inteligencia = new.fk_personal_inteligencia_confidente
 			AND fecha_fin IS NULL;
-			RAISE INFO 'datos de hist_cargo del personal de inteligencia confidente: %', hist_cargo_personal_confidente_reg;
+			RAISE INFO 'datos de hist_cargo del personal de inteligencia confidente: %', hist_cargo_personal_inteligencia_reg;
 			
 			IF (hist_agente_encargado_reg IS NULL) THEN
 				RAISE INFO 'El confidente personal de inteligencia que ingresó no existe o ya no trabaja en AII';
@@ -8599,7 +8763,7 @@ BEGIN
 			SELECT * INTO hist_cargo_personal_inteligencia_reg FROM hist_cargo
 			WHERE fk_personal_inteligencia = new.fk_personal_inteligencia_confidente
 			AND fecha_fin IS NULL;
-			RAISE INFO 'datos de hist_cargo del personal de inteligencia confidente: %', hist_cargo_personal_confidente_reg;
+			RAISE INFO 'datos de hist_cargo del personal de inteligencia confidente: %', hist_cargo_personal_inteligencia_reg;
 			
 			IF (hist_agente_encargado_reg IS NULL) THEN
 				RAISE INFO 'El confidente personal de inteligencia que ingresó no existe o ya no trabaja en AII';
@@ -8666,49 +8830,50 @@ EXECUTE FUNCTION TRIGGER_INSERT_UPDATE_INFORMANTE();  --SIEMPRE FOR EACH ROW
 CREATE OR REPLACE FUNCTION TRIGGER_UPDATE_INSERT_CRUDO()
 RETURNS TRIGGER
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 BEGIN
 	
 	--- SI EL TRIGGER ES DISPARADO POR INSERT ---
 	IF (TG_OP = 'INSERT') THEN
 		--- VALIDACIÓN DE TODOS LOS ATRIBUTOS DEL CRUDO ---
-		IF (new.contenido_va IS NULL OR new.contenido_va = '') THEN
+		IF (new.contenido IS NULL OR new.contenido = '') THEN
 			RAISE INFO 'Debe ingresar el contenido del crudo que quiere crear';
 			RAISE EXCEPTION 'Debe ingresar el contenido del crudo que quiere crear';
 		END IF;  
 
-		IF (new.tipo_contenido_va != 'texto' AND new.tipo_contenido_va != 'imagen' AND tipo_contenido_va != 'sonido' AND tipo_contenido_va != 'video') THEN
-			RAISE INFO 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video), %', tipo_contenido_va;
+		IF (new.tipo_contenido != 'texto' AND new.tipo_contenido != 'imagen' AND new.tipo_contenido != 'sonido' AND new.tipo_contenido != 'video') THEN
+			RAISE INFO 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video), %', new.tipo_contenido;
 			RAISE EXCEPTION 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video)';
 		END IF;   	
 
-		IF (new.fuente_va != 'abierta' AND new.fuente_va != 'secreta' AND fuente_va != 'tecnica') THEN
+		IF (new.fuente != 'abierta' AND new.fuente != 'secreta' AND new.fuente != 'tecnica') THEN
 			RAISE INFO 'Debe ingresar un tipo de fuente valido (abierta, secreta, tecnica)';
 			RAISE EXCEPTION 'Debe ingresar un tipo de fuente valido (abierta, secreta, tecnica)';
 		END IF;  
 
-		IF (new.resumen_va IS NULL OR new.resumen_va = '') THEN
+		IF (new.resumen IS NULL OR new.resumen = '') THEN
 			RAISE INFO 'Debe ingresar el resumen del crudo que quiere crear';
 			RAISE EXCEPTION 'Debe ingresar el resumen del crudo que quiere crear';
 		END IF;   
 
-		IF (new.valor_apreciacion_va IS NOT NULL AND new.valor_apreciacion_va <= 0) THEN
+		IF (new.valor_apreciacion IS NOT NULL AND new.valor_apreciacion <= 0) THEN
 			RAISE INFO 'El valor de apreciacion del crudo debe ser mayor a 0$';
 			RAISE EXCEPTION 'El valor de apreciacion del crudo debe ser mayor a 0$';
 		END IF; 
 
-		IF (new.nivel_confiabilidad_inicial_va IS NULL OR new.nivel_confiabilidad_inicial_va < 0 OR nivel_confiabilidad_inicial_va > 100 ) THEN
+		IF (new.nivel_confiabilidad_inicial IS NULL OR new.nivel_confiabilidad_inicial < 0 OR new.nivel_confiabilidad_inicial > 100 ) THEN
 			RAISE INFO 'El nivel de confiabilidad del crudo debe estar entre el rango de 0 y 100';
 			RAISE EXCEPTION 'El nivel de confiabilidad del crudo debe estar entre el rango de 0 y 100';
 		END IF; 
 		
-		IF (new.cant_analistas_verifican_va IS NULL OR new.cant_analistas_verifican_va < 2) THEN	
+		IF (new.cant_analistas_verifican IS NULL OR new.cant_analistas_verifican < 2) THEN	
 			RAISE INFO 'Debe ingresar un número valido de analistas requeridos para la verificación';
 			RAISE EXCEPTION 'Debe ingresar un número valido de analistas requeridos para la verificación';
 		END IF;   
 		
 			
-		CALL VALIDAR_EXIT_TEMA(id_tema);
+		CALL VALIDAR_EXIT_TEMA(new.fk_clas_tema);
 		--- RETURN NEW = INSERTA EL REGISTRO---
 		RETURN NEW;
 
@@ -8716,44 +8881,45 @@ BEGIN
 	ELSIF (TG_OP = 'UPDATE') THEN
 
 
-		IF (new.contenido_va IS NULL OR new.contenido_va = '') THEN
+		IF (new.contenido IS NULL OR new.contenido = '') THEN
 			RAISE INFO 'Debe ingresar el contenido del crudo que quiere crear';
 			RAISE EXCEPTION 'Debe ingresar el contenido del crudo que quiere crear';
 		END IF;  
 
-		IF (new.tipo_contenido_va != 'texto' AND new.tipo_contenido_va != 'imagen' AND tipo_contenido_va != 'sonido' AND tipo_contenido_va != 'video') THEN
-			RAISE INFO 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video), %', tipo_contenido_va;
+		IF (new.tipo_contenido != 'texto' AND new.tipo_contenido != 'imagen' AND new.tipo_contenido != 'sonido' AND new.tipo_contenido != 'video') THEN
+			RAISE INFO 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video), %', new.tipo_contenido;
 			RAISE EXCEPTION 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video)';
 		END IF;   	
 
-		IF (new.fuente_va != 'abierta' AND new.fuente_va != 'secreta' AND fuente_va != 'tecnica') THEN
+		IF (new.fuente != 'abierta' AND new.fuente != 'secreta' AND new.fuente != 'tecnica') THEN
 			RAISE INFO 'Debe ingresar un tipo de fuente valido (abierta, secreta, tecnica)';
 			RAISE EXCEPTION 'Debe ingresar un tipo de fuente valido (abierta, secreta, tecnica)';
 		END IF;  
 
-		IF (new.resumen_va IS NULL OR new.resumen_va = '') THEN
+		IF (new.resumen IS NULL OR new.resumen = '') THEN
 			RAISE INFO 'Debe ingresar el resumen del crudo que quiere crear';
 			RAISE EXCEPTION 'Debe ingresar el resumen del crudo que quiere crear';
 		END IF;   
 
-		IF (new.valor_apreciacion_va IS NOT NULL AND new.valor_apreciacion_va <= 0) THEN
+		IF (new.valor_apreciacion IS NOT NULL AND new.valor_apreciacion <= 0) THEN
 			RAISE INFO 'El valor de apreciacion del crudo debe ser mayor a 0$';
 			RAISE EXCEPTION 'El valor de apreciacion del crudo debe ser mayor a 0$';
 		END IF; 
 
-		IF (new.nivel_confiabilidad_inicial_va IS NULL OR new.nivel_confiabilidad_inicial_va < 0 OR nivel_confiabilidad_inicial_va > 100 ) THEN
+		IF (new.nivel_confiabilidad_inicial IS NULL OR new.nivel_confiabilidad_inicial < 0 OR new.nivel_confiabilidad_inicial > 100 ) THEN
 			RAISE INFO 'El nivel de confiabilidad del crudo debe estar entre el rango de 0 y 100';
 			RAISE EXCEPTION 'El nivel de confiabilidad del crudo debe estar entre el rango de 0 y 100';
 		END IF; 
 		
-		IF (new.cant_analistas_verifican_va IS NULL OR new.cant_analistas_verifican_va < 2) THEN	
+		IF (new.cant_analistas_verifican IS NULL OR new.cant_analistas_verifican < 2) THEN	
 			RAISE INFO 'Debe ingresar un número valido de analistas requeridos para la verificación';
 			RAISE EXCEPTION 'Debe ingresar un número valido de analistas requeridos para la verificación';
 		END IF;   
-
-
-		CALL VALIDAR_EXIT_TEMA(id_tema);
-
+		
+			
+		CALL VALIDAR_EXIT_TEMA(new.fk_clas_tema);
+		--- RETURN NEW = INSERTA EL REGISTRO---
+	
 		RETURN NEW;
 
 	END IF;
@@ -8786,6 +8952,7 @@ FOR EACH ROW EXECUTE FUNCTION TRIGGER_UPDATE_INSERT_CRUDO();
 CREATE OR REPLACE FUNCTION TRIGGER_CLIENTE ()
 RETURNS TRIGGER
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE
 	
@@ -8872,6 +9039,7 @@ FOR EACH ROW EXECUTE FUNCTION TRIGGER_CLIENTE();
 CREATE OR REPLACE FUNCTION TRIGGER_INSERT_UPDATE_CRUDO_PIEZA()
 RETURNS TRIGGER
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE
 
@@ -8980,7 +9148,7 @@ BEFORE INSERT OR UPDATE ON CRUDO_PIEZA
 FOR EACH ROW EXECUTE FUNCTION TRIGGER_INSERT_UPDATE_CRUDO_PIEZA();
 
 
--- DROP TRIGGER TRIGGER_INSERT_UPDATE_CRUDO_PIEZA on crudo_pieza;
+DROP TRIGGER TRIGGER_INSERT_UPDATE_CRUDO_PIEZA on crudo_pieza;
 -- DROP TRIGGER trigger_update_pieza ON PIEZA_INTELIGENCIA;
 ---------ELIMINACION DEL TRIGGER-----
 ---DROP TRIGGER TRIGGER_CRUDO_PIEZA
@@ -8998,33 +9166,35 @@ FOR EACH ROW EXECUTE FUNCTION TRIGGER_INSERT_UPDATE_CRUDO_PIEZA();
 
 
 
+
 CREATE OR REPLACE FUNCTION TRIGGER_UPDATE_PIEZA()
 RETURNS TRIGGER
 LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE
 	
-	pieza pieza_inteligencia%rowtype;
+	-- pieza pieza_inteligencia%rowtype;
 	
 BEGIN
 
 	---SELECT PARA BUSCAR LAS PIEZAS VENDIDAS EN LA TABLA ADQUISICION
 	---PUEDE SER VENDIDA VARIAS VECES LA PIEZA
 	
-	SELECT * INTO pieza
-	FROM PIEZA_INTELIGENCIA p, ADQUISICION a
-	WHERE p.id = a.fk_pieza_inteligencia
-	AND p.id = old.id;
+	-- SELECT * INTO pieza
+	-- FROM PIEZA_INTELIGENCIA p, ADQUISICION a
+	-- WHERE p.id = a.fk_pieza_inteligencia
+	-- AND p.id = old.id;
 	
-	IF (old.precio_base IS NOT NULL) THEN
-		RAISE INFO 'DATOS DE LA PIEZA DE INTELIGENCIA: %',pieza;
-		RAISE EXCEPTION 'LA PIEZA DE INTELIGENCIA HA SIDO REGISTRADA';	
-		return null;
-	ELSE
+	IF (old.precio_base IS NULL) THEN
 		RAISE INFO 'SE ACTUALIZO LA PIEZA DE INTELIGENCIA';
 		RETURN new;
+	ELSE
+		RAISE INFO 'DATOS DE LA PIEZA DE INTELIGENCIA: %',old;
+		RAISE EXCEPTION 'LA PIEZA DE INTELIGENCIA YA FUE CERTIFICADA';	
+		return null;
+		
 	END IF;
-
 
 END
 $$;
@@ -9039,12 +9209,16 @@ BEFORE UPDATE ON PIEZA_INTELIGENCIA
 FOR EACH ROW EXECUTE FUNCTION TRIGGER_UPDATE_PIEZA();
 
 
+DROP TRIGGER TRIGGER_UPDATE_PIEZA ON PIEZA_INTELIGENCIA;
+
+
 
 
 
 
 CREATE OR REPLACE FUNCTION TRIGGER_CLAS_TEMA()
 RETURNS TRIGGER LANGUAGE PLPGSQL
+SECURITY DEFINER
 AS $$
 DECLARE
 	pieza_reg record;
@@ -9294,16 +9468,23 @@ GRANT EXECUTE ON FUNCTION VALIDAR_VENTA_EXCLUSIVA ( integer )  TO ROL_ANALISTA;
 
 
 
+GRANT EXECUTE ON FUNCTION FORMATO_ARCHIVO_A_BYTEA(text) TO ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO, ROL_ANALISTA;
+GRANT EXECUTE ON FUNCTION VER_LISTA_CRUDOS_ESTACION (integer) TO ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO, ROL_ANALISTA;
+GRANT EXECUTE ON FUNCTION VER_LISTA_CRUDOS_PERSONAL (integer) TO ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO, ROL_ANALISTA;
+
+
+GRANT EXECUTE ON FUNCTION VER_LISTA_PIEZAS_ESTACION (integer) TO ROL_JEFE_ESTACION;
 
 
 
 
 
 
-
+-----///////- Probado con PostgreSQL 13.4 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 11.1.0, 64-bit-\\\\\\\\\------
 
 ----------///////////---------------------------------------------------------------------------\\\\\\\\\\\----------
 ----------///////////- SCRIPTS DE CREACION DE LA BASES DE DATOS DOS - PROYECTO AII - GRUPO 09  -\\\\\\\\\\\----------
 ----------///////////----------- ANTONIO BADILLO - GABRIEL MANRIQUE - MICKEL ARROZ -------------\\\\\\\\\\\----------
 ----------///////////---------------------------------------------------------------------------\\\\\\\\\\\-----------
+
 
