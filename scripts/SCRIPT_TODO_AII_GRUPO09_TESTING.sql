@@ -6564,6 +6564,21 @@ END $$;
 
 
 
+CREATE OR REPLACE FUNCTION VER_LISTA_PIEZAS_ESTACION (id_estacion in integer)
+RETURNS setof PIEZA_INTELIGENCIA
+LANGUAGE sql
+SECURITY DEFINER
+AS $$  
+ 	
+    SELECT * FROM PIEZA_INTELIGENCIA WHERE fk_estacion_analista = id_estacion; 
+$$;
+
+-- SELECT * FROM VER_LISTA_PIEZAS_ESTACION(4);
+
+
+
+
+
 
 
 -- DROP PROCEDURE IF EXISTS REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA CASCADE;
@@ -6709,8 +6724,8 @@ BEGIN
  
 
 	INSERT INTO CRUDO_PIEZA (fk_pieza_inteligencia, fk_crudo) VALUES (
-   		pieza_reg.id,
-   		crudo_reg.id
+   		id_pieza,
+   		id_crudo
     );
    
    	RAISE INFO 'CRUDO DE ID = %, FUE AGREGADO A LA PIEZA ID = % EXITOSAMENTE', id_crudo, id_pieza;
@@ -6719,7 +6734,7 @@ BEGIN
 END $$;
 
 
-COMMIT;
+-- COMMIT;
 
 
 
@@ -6862,35 +6877,34 @@ BEGIN
     IF (personal_inteligencia_reg.class_seguridad = 'top_secret') THEN 
         RETURN QUERY 
 			SELECT * FROM PIEZA_INTELIGENCIA WHERE id = id_pieza;
-    END IF;
-
-    IF (personal_inteligencia_reg.class_seguridad = 'confidencial' AND (pieza_reg.class_seguridad = 'confidencial' OR pieza_reg.class_seguridad = 'no_clasificado')) THEN
+    
+	ELSIF (personal_inteligencia_reg.class_seguridad = 'confidencial' AND (pieza_reg.class_seguridad = 'confidencial' OR pieza_reg.class_seguridad = 'no_clasificado')) THEN
        RETURN QUERY 
 			SELECT * FROM PIEZA_INTELIGENCIA WHERE id = id_pieza;
-    END IF;
-
-    IF (personal_inteligencia_reg.class_seguridad = 'no_clasificado' AND pieza_reg.class_seguridad = 'no_clasificado') THEN
+	
+	ELSIF (personal_inteligencia_reg.class_seguridad = 'no_clasificado' AND pieza_reg.class_seguridad = 'no_clasificado') THEN
         RETURN QUERY 
 			SELECT * FROM PIEZA_INTELIGENCIA WHERE id = id_pieza;
+	
+	ELSE 
+		SELECT fk_empleado_jefe INTO id_empleado_va FROM ESTACION WHERE id = hist_cargo_reg.fk_estacion ; 
+		RAISE INFO 'id del jefe de la estacion del personal inteligencia: %', id_empleado_va;
+	
+		INSERT INTO INTENTO_NO_AUTORIZADO (
+			fecha_hora,
+			id_pieza,
+			id_empleado,
+			fk_personal_inteligencia
+		) VALUES (
+			fecha_hora_va,
+			id_pieza,
+			id_empleado_va,
+			hist_cargo_reg.fk_personal_inteligencia
+		);
     END IF;
-
-   
  	------///- 
    
-   	SELECT fk_empleado_jefe INTO id_empleado_va FROM ESTACION WHERE id = hist_cargo_reg.fk_estacion ; 
-   	RAISE INFO 'id del jefe de la estacion del personal inteligencia: %', id_empleado_va;
-   
-    INSERT INTO INTENTO_NO_AUTORIZADO (
-        fecha_hora,
-        id_pieza,
-        id_empleado,
-        fk_personal_inteligencia
-    ) VALUES (
-        fecha_hora_va,
-        id_pieza,
-        id_empleado_va,
-        hist_cargo_reg.fk_personal_inteligencia
-    );
+   	
 	
 	
    
@@ -6953,7 +6967,7 @@ SECURITY DEFINER
 
 
 
-DROP PROCEDURE IF EXISTS REGISTRO_VENTA CASCADE;
+-- DROP PROCEDURE IF EXISTS REGISTRO_VENTA CASCADE;
 
 
 CREATE OR REPLACE PROCEDURE REGISTRO_VENTA (id_pieza IN integer, id_cliente IN integer, precio_vendido_va IN ADQUISICION.precio_vendido%TYPE)
@@ -7031,9 +7045,9 @@ BEGIN
 			RAISE INFO 'VENTA EXCLUSIVA EXITOSA!';
 	  		RAISE INFO 'Datos de la venta: %', adquisicion_reg ; 
 	  	
-	  		CALL REGISTRO_TEMA_VENTA(id_cliente,id_tema);
+	  		-- CALL REGISTRO_TEMA_VENTA(id_cliente,id_tema);
 
-	  		SELECT ELIMINACION_REGISTROS_VENTA_EXCLUSIVA(pieza_reg.id);	
+	  		CALL ELIMINACION_REGISTROS_VENTA_EXCLUSIVA(pieza_reg.id);	
 			
 		
 		ELSE
@@ -7056,7 +7070,7 @@ BEGIN
 			
 		) RETURNING * INTO adquisicion_reg;
 	
-		CALL REGISTRO_TEMA_VENTA(id_cliente,id_tema);
+		-- CALL REGISTRO_TEMA_VENTA(id_cliente,id_tema);
 
 		RAISE INFO 'VENTA EXITOSA!';
    		RAISE INFO 'Datos de la venta: %', adquisicion_reg ; 	
@@ -7591,7 +7605,7 @@ RETURNS TABLE(  primer_nombre varchar(50), segundo_nombre2 varchar(50), primer_a
             FROM PERSONAL_INTELIGENCIA p, INTENTO_NO_AUTORIZADO i, PIEZA_INTELIGENCIA pz 
             WHERE p.id = i.fk_personal_inteligencia AND pz.id = i.id_pieza AND p.id IN 
                 (SELECT DISTINCT hc.fk_personal_inteligencia from HIST_CARGO hc, ESTACION e WHERE 
-                    e.id=3 AND e.id = hc.fk_estacion)
+                    e.id=estacion AND e.id = hc.fk_estacion)
 $$ LANGUAGE SQL
 SECURITY DEFINER;
 
@@ -8366,7 +8380,7 @@ BEGIN
 			SELECT * INTO hist_cargo_personal_inteligencia_reg FROM hist_cargo
 			WHERE fk_personal_inteligencia = new.fk_personal_inteligencia_confidente
 			AND fecha_fin IS NULL;
-			RAISE INFO 'datos de hist_cargo del personal de inteligencia confidente: %', hist_cargo_personal_confidente_reg;
+			RAISE INFO 'datos de hist_cargo del personal de inteligencia confidente: %', hist_cargo_personal_inteligencia_reg;
 			
 			IF (hist_agente_encargado_reg IS NULL) THEN
 				RAISE INFO 'El confidente personal de inteligencia que ingresó no existe o ya no trabaja en AII';
@@ -8475,7 +8489,7 @@ BEGIN
 			SELECT * INTO hist_cargo_personal_inteligencia_reg FROM hist_cargo
 			WHERE fk_personal_inteligencia = new.fk_personal_inteligencia_confidente
 			AND fecha_fin IS NULL;
-			RAISE INFO 'datos de hist_cargo del personal de inteligencia confidente: %', hist_cargo_personal_confidente_reg;
+			RAISE INFO 'datos de hist_cargo del personal de inteligencia confidente: %', hist_cargo_personal_inteligencia_reg;
 			
 			IF (hist_agente_encargado_reg IS NULL) THEN
 				RAISE INFO 'El confidente personal de inteligencia que ingresó no existe o ya no trabaja en AII';
@@ -8860,7 +8874,7 @@ BEFORE INSERT OR UPDATE ON CRUDO_PIEZA
 FOR EACH ROW EXECUTE FUNCTION TRIGGER_INSERT_UPDATE_CRUDO_PIEZA();
 
 
--- DROP TRIGGER TRIGGER_INSERT_UPDATE_CRUDO_PIEZA on crudo_pieza;
+DROP TRIGGER TRIGGER_INSERT_UPDATE_CRUDO_PIEZA on crudo_pieza;
 -- DROP TRIGGER trigger_update_pieza ON PIEZA_INTELIGENCIA;
 ---------ELIMINACION DEL TRIGGER-----
 ---DROP TRIGGER TRIGGER_CRUDO_PIEZA
@@ -8878,6 +8892,7 @@ FOR EACH ROW EXECUTE FUNCTION TRIGGER_INSERT_UPDATE_CRUDO_PIEZA();
 
 
 
+
 CREATE OR REPLACE FUNCTION TRIGGER_UPDATE_PIEZA()
 RETURNS TRIGGER
 LANGUAGE PLPGSQL
@@ -8885,27 +8900,27 @@ SECURITY DEFINER
 AS $$
 DECLARE
 	
-	pieza pieza_inteligencia%rowtype;
+	-- pieza pieza_inteligencia%rowtype;
 	
 BEGIN
 
 	---SELECT PARA BUSCAR LAS PIEZAS VENDIDAS EN LA TABLA ADQUISICION
 	---PUEDE SER VENDIDA VARIAS VECES LA PIEZA
 	
-	SELECT * INTO pieza
-	FROM PIEZA_INTELIGENCIA p, ADQUISICION a
-	WHERE p.id = a.fk_pieza_inteligencia
-	AND p.id = old.id;
+	-- SELECT * INTO pieza
+	-- FROM PIEZA_INTELIGENCIA p, ADQUISICION a
+	-- WHERE p.id = a.fk_pieza_inteligencia
+	-- AND p.id = old.id;
 	
-	IF (old.precio_base IS NOT NULL) THEN
-		RAISE INFO 'DATOS DE LA PIEZA DE INTELIGENCIA: %',pieza;
-		RAISE EXCEPTION 'LA PIEZA DE INTELIGENCIA HA SIDO REGISTRADA';	
-		return null;
-	ELSE
+	IF (old.precio_base IS NULL) THEN
 		RAISE INFO 'SE ACTUALIZO LA PIEZA DE INTELIGENCIA';
 		RETURN new;
+	ELSE
+		RAISE INFO 'DATOS DE LA PIEZA DE INTELIGENCIA: %',old;
+		RAISE EXCEPTION 'LA PIEZA DE INTELIGENCIA YA FUE CERTIFICADA';	
+		return null;
+		
 	END IF;
-
 
 END
 $$;
@@ -8918,6 +8933,9 @@ $$;
 CREATE TRIGGER TRIGGER_UPDATE_PIEZA
 BEFORE UPDATE ON PIEZA_INTELIGENCIA
 FOR EACH ROW EXECUTE FUNCTION TRIGGER_UPDATE_PIEZA();
+
+
+DROP TRIGGER TRIGGER_UPDATE_PIEZA ON PIEZA_INTELIGENCIA;
 
 
 
@@ -9181,16 +9199,18 @@ GRANT EXECUTE ON FUNCTION VER_LISTA_CRUDOS_ESTACION (integer) TO ROL_JEFE_ESTACI
 GRANT EXECUTE ON FUNCTION VER_LISTA_CRUDOS_PERSONAL (integer) TO ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO, ROL_ANALISTA;
 
 
+GRANT EXECUTE ON FUNCTION VER_LISTA_PIEZAS_ESTACION (integer) TO ROL_JEFE_ESTACION;
 
 
 
 
 
+
+-----///////- Probado con PostgreSQL 13.4 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 11.1.0, 64-bit-\\\\\\\\\------
 
 ----------///////////---------------------------------------------------------------------------\\\\\\\\\\\----------
 ----------///////////- SCRIPTS DE CREACION DE LA BASES DE DATOS DOS - PROYECTO AII - GRUPO 09  -\\\\\\\\\\\----------
 ----------///////////----------- ANTONIO BADILLO - GABRIEL MANRIQUE - MICKEL ARROZ -------------\\\\\\\\\\\----------
 ----------///////////---------------------------------------------------------------------------\\\\\\\\\\\-----------
-
 
 
