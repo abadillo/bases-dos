@@ -1,7 +1,38 @@
 
+--------------------------///////////////////////-----------------------------
+ 
+
+-- 4. Demostración de la implementación de los requerimientos del sistema de bases de datos transaccional 
+-- referidos al proceso de venta de piezas de inteligencia – construcción de piezas de inteligencia y 
+-- venta a clientes, incluyendo la seguridad correspondiente (roles, cuentas con privilegios para poder 
+-- ejecutar los programas y reportes).
+
+
+-- El analista responsable5 por la
+-- construcción de la pieza la certifica fijándole un precio aproximado, el cual será exacto luego de la
+-- negociación en la cual es vendida – debe haber registro del precio final alcanzado. Sólo los analistas
+-- fijan el precio base de las piezas de inteligencia. Una pieza de inteligencia registrada no puede ser
+-- alterada
+
+-- Muchos de los clientes son muy sensibles con respecto a la absoluta exclusividad de la información
+-- que compran. Ellos desean ser los únicos compradores no importando que el precio en estos casos
+-- sea mucho más alto (una pieza de inteligencia de venta exclusiva tiene al menos el 45% de recargo
+-- de su precio base).Para estos casos hay que asegurarse que dichas piezas de inteligencia no se
+-- pueden volver a vender y también se debería saber quiénes son los clientes que exigen las ventas
+-- exclusivas para otras oportunidades de negocio.
+
+
+-- Registro_Venta (4) – pedir cliente, pieza, ver si es cliente exclusivo y si aplica la pieza si no cancelar. 
+-- Si está bien generar el registro, y si la venta es exclusiva proceder a guardar la info y luego eliminar 
+-- de las tablas originales.
+
+--------------------------///////////////////////-----------------------------
+
+
+
+
 
 -- DROP PROCEDURE IF EXISTS REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA CASCADE;
-
 
 CREATE OR REPLACE PROCEDURE REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA (id_analista_encargado IN integer, descripcion IN PIEZA_INTELIGENCIA.descripcion%TYPE, id_crudo_base IN integer)
 LANGUAGE plpgsql
@@ -118,20 +149,7 @@ END $$;
 
 
 
-
---select c.id, c.nivel_confiabilidad_final , (SELECT count(*) FROM ANALISTA_CRUDO WHERE fk_crudo = c.id) as numero_analistas from crudo c ;
---select * from crudo where id = 1;
-
-
-
---SELECT c.id, count(*) as numero_analistas, c.cant_analistas_verifican FROM ANALISTA_CRUDO ac, CRUDO c WHERE ac.fk_crudo = c.id  GROUP BY c.id, c.cant_analistas_verifican ORDER BY c.id  ;
---
---select * from analista_crudo ac where fk_crudo =24;
---select * from crudo  where id=24;
-
-
 -----------------------------===========$$$$$$$$$$///////////////|\\\\\\\\\\\\\\\$$$$$$$$$$===========-------------------------------------------
-
 
 
 
@@ -168,23 +186,8 @@ END $$;
 COMMIT;
 
 
---SELECT id_pieza,fk_personal_inteligencia FROM intento_no_autorizado ina order by fecha_hora desc;
-
-
-
-
---SELECT count(*) as numero_crudos_va_en_pieza, sum(c.nivel_confiabilidad_final)/count(*) as nivel_confiabilidad_promedio_va
-----	INTO numero_crudos_va, nivel_confiabilidad 
---FROM CRUDO_PIEZA cp, CRUDO c WHERE cp.fk_crudo = c.id AND cp.fk_pieza_inteligencia = 2;
---
---
---SELECT cp.fk_pieza_inteligencia as id_pieza, count(*) as numero_crudos_va_en_pieza, sum(c.nivel_confiabilidad_final)/count(*) as nivel_confiabilidad_promedio_va
-----	INTO numero_crudos_va, nivel_confiabilidad 
---FROM CRUDO_PIEZA cp, CRUDO c WHERE cp.fk_crudo = c.id GROUP BY cp.fk_pieza_inteligencia ORDER BY cp.fk_pieza_inteligencia;
-
 
 -----------------------------===========$$$$$$$$$$///////////////|\\\\\\\\\\\\\\\$$$$$$$$$$===========-------------------------------------------
-
 
 
 
@@ -223,7 +226,6 @@ BEGIN
   		RAISE EXCEPTION 'El precio base no puede negativo ni igual a 0$';
    	END IF;  
 
-   ---------
    
    
    	SELECT count(*), sum(c.nivel_confiabilidad_final)/count(*) INTO numero_crudos_va, nivel_confiabilidad_promedio_va FROM CRUDO_PIEZA cp, CRUDO c WHERE cp.fk_crudo = c.id AND cp.fk_pieza_inteligencia = id_pieza;
@@ -259,12 +261,9 @@ END $$;
 
 
 
---CALL CERTIFICAR_PIEZA( 37, 1 );
+-- CALL CERTIFICAR_PIEZA( 37, 1 );
 
 -- VALIDAR CON EL ID DEL ANALISTA 
-
-
-
 
 
 
@@ -361,84 +360,12 @@ END $$;
 
 
 
---
 -- SELECT VER_DATOS_PIEZA(2,10);
---SELECT id_pieza,fk_personal_inteligencia FROM intento_no_autorizado ina order by fecha_hora desc;
+-- SELECT id_pieza,fk_personal_inteligencia FROM intento_no_autorizado ina order by fecha_hora desc;
 
 
 
-
-
-
-
-
--------------------------///////////----------------------
-
-
-
-
--- DROP FUNCTION IF EXISTS ELIMINACION_REGISTROS_VENTA_EXCLUSIVA CASCADE;
-
-CREATE OR REPLACE PROCEDURE ELIMINACION_REGISTROS_VENTA_EXCLUSIVA ( id_pieza IN integer ) 
-LANGUAGE PLPGSQL 
-AS $$
-
-DECLARE 
-
-	id_crudos_asociados integer[] ;	
-
-BEGIN 
-
-	id_crudos_asociados := ARRAY( 
-		SELECT fk_crudo FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza
-	);
-
-	RAISE INFO 'IDs de crudos de la pieza %: %', id_pieza, id_crudos_asociados;
-
-	DELETE FROM ADQUISICION WHERE fk_pieza_inteligencia = id_pieza;
-
-	DELETE FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza;
-
-	DELETE FROM PIEZA_INTELIGENCIA WHERE id = id_pieza;
-
-	DELETE FROM TRANSACCION_PAGO WHERE fk_crudo = ANY(id_crudos_asociados);
-
-	DELETE FROM ANALISTA_CRUDO WHERE fk_crudo = ANY(id_crudos_asociados);
-
-	DELETE FROM CRUDO WHERE id = ANY(id_crudos_asociados);
-
-
-END $$;
-
-
-
---
---
---select * from adquisicion a where id = 1;
---select * from adquisicion_alt aa where id = 1;
---
---select * from crudo_pieza cp where fk_pieza_inteligencia = 1;
---select * from crudo_pieza_alt cpa where fk_pieza_inteligencia = 1;
---
---select * from pieza_inteligencia pi2 where id = 1;
---SELECT * from pieza_inteligencia_alt where id = 1;
---
---SELECT * from transaccion_pago tp where fk_crudo in	(SELECT fk_crudo FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = 1);
---SELECT * from transaccion_pago_alt tp;
---
---SELECT * FROM informante_alt ia ;
---
---select * from analista_crudo_alt ac ;
---select * from analista_crudo ac ;
---
---Select * from crudo_alt;
---
---SELECT ELIMINACION_REGISTROS_VENTA_EXCLUSIVA(1);
-
-
-
---------------------------///////////////////////-----------------------------
- 
+-------------------------///////////////////////////////------------------------------
 
 
 
@@ -467,11 +394,8 @@ END $$;
  		RETURN false;
  	END IF;
  
- 	
- 
     -----------////// 
-
- 	
+	
 	SELECT COUNT( DISTINCT fk_pieza_inteligencia) INTO numero_piezas_compartidas FROM CRUDO_PIEZA WHERE fk_crudo IN (SELECT fk_crudo FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza);
 
 	RAISE INFO 'Número de piezas que contienen los crudos de la pieza a verificar %', numero_piezas_compartidas; 	
@@ -486,36 +410,7 @@ END $$;
  END $$;
 
 
---------------------------///////////////////////-----------------------------
- 
-
--- 4. Demostración de la implementación de los requerimientos del sistema de bases de datos transaccional 
--- referidos al proceso de venta de piezas de inteligencia – construcción de piezas de inteligencia y 
--- venta a clientes, incluyendo la seguridad correspondiente (roles, cuentas con privilegios para poder 
--- ejecutar los programas y reportes).
-
-
--- El analista responsable5 por la
--- construcción de la pieza la certifica fijándole un precio aproximado, el cual será exacto luego de la
--- negociación en la cual es vendida – debe haber registro del precio final alcanzado. Sólo los analistas
--- fijan el precio base de las piezas de inteligencia. Una pieza de inteligencia registrada no puede ser
--- alterada
-
--- Muchos de los clientes son muy sensibles con respecto a la absoluta exclusividad de la información
--- que compran. Ellos desean ser los únicos compradores no importando que el precio en estos casos
--- sea mucho más alto (una pieza de inteligencia de venta exclusiva tiene al menos el 45% de recargo
--- de su precio base).Para estos casos hay que asegurarse que dichas piezas de inteligencia no se
--- pueden volver a vender y también se debería saber quiénes son los clientes que exigen las ventas
--- exclusivas para otras oportunidades de negocio.
-
-
--- Registro_Venta (4) – pedir cliente, pieza, ver si es cliente exclusivo y si aplica la pieza si no cancelar. 
--- Si está bien generar el registro, y si la venta es exclusiva proceder a guardar la info y luego eliminar 
--- de las tablas originales.
-
---------------------------///////////////////////-----------------------------
-
-
+-------------------------------------///////////////////////----------------------------------
 
 
 
@@ -573,8 +468,6 @@ BEGIN
 	END IF;
   
 
-
-
 	IF (cliente_reg.exclusivo = TRUE) THEN
 
 		IF ( (precio_vendido_va - pieza_reg.precio_base)/(pieza_reg.precio_base) < 0.45) THEN
@@ -610,9 +503,6 @@ BEGIN
 		
 		
 		END IF;
-
-		
-	
 	
 	ELSE
 
@@ -632,8 +522,6 @@ BEGIN
    		RAISE INFO 'Datos de la venta: %', adquisicion_reg ; 	
 	
 	END IF;
-
-	
  	
  
 
@@ -645,11 +533,5 @@ END $$;
 --select * from adquisicion a 
 
 -- select c.id as id_cliente, c.exclusivo, p.id as id_pieza, p.precio_base, a.*, ((a.precio_vendido - p.precio_base)/(p.precio_base))*100 as porcentaje_recargo from adquisicion a, cliente c, PIEZA_INTELIGENCIA p where a.fk_cliente = c.id AND a.fk_pieza_inteligencia = p.id;
-
-
-
-
------------------------///////////////--------------------
-
 
 

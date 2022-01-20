@@ -1,4 +1,25 @@
 
+CREATE OR REPLACE PROCEDURE CREAR_TEMA (nombre_va varchar, descripcion_va varchar, topico_va varchar)
+LANGUAGE PLPGSQL
+AS $$
+
+BEGIN
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CREAR_LUGAR ( % ) ------', NOW();
+	
+	INSERT INTO clas_tema (
+		nombre,
+		descripcion,
+		topico
+	)	VALUES (
+		nombre_va,
+		descripcion_va,
+		topico_va		
+		);
+
+END;
+$$;
+
 
 CREATE OR REPLACE PROCEDURE VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA ( id_empleado_acceso in integer, id_personal_inteligencia in integer)
 AS $$
@@ -59,26 +80,8 @@ $$ LANGUAGE plpgsql;
 
 
 
------------------------------////////////////////////-----------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 -----------------------------////////////////////////-----------------------------------
-
-
-
 
 
 
@@ -210,12 +213,7 @@ END $$;
 -- );
 
 
-
-
 --------------------------------------------///////////////////////--------------------------------------
-
-
-
 
 
 
@@ -417,19 +415,11 @@ END $$;
 
 
 
-
-
------------------------////////////////////-------------------------
-
-
-
-
-
-
-
-
-
 ------------------------------------------------------------//////////////////////////////------------------------------------------------------------
+
+
+
+
 
 
 CREATE OR REPLACE PROCEDURE ASIGNAR_TEMA_ANALISTA (id_empleado_acceso integer, tema_id integer, analista_id integer)
@@ -503,13 +493,7 @@ BEGIN
 END
 $$;
 
-
-
-
-
 -- call ASIGNAR_TEMA_ANALISTA(16,2,21);
-
-
 -- select * from TEMAS_ESP where fk_personal_inteligencia = 21 
 
 
@@ -594,41 +578,7 @@ $$;
 
 
 
-
-
-
-
--------------------------//////////////---------------------------------------------//////////////--------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--------------------------------------/////////////////////------------------------------
-
-
-
+-------------------------------------/////////////////////--------------------------------------------
 
 
 
@@ -677,8 +627,6 @@ END $$;
 
 
 -------------------------//////////////---------------------------------------------//////////////--------------------
-
-
 
 
 
@@ -773,9 +721,6 @@ END $$;
 -- SELECT * FROM VER_HISTORICO_CARGO_PERSONAL_INTELIGENCIA(20, 37);
 -- CALL CERRAR_HIST_CARGO(20,37);
 
-
-
-
 -- select * FROM VER_TODOS_PERSONAL_INTELIGENCIA_SIN_CARGO();
 -- select * FROM VER_TODOS_PERSONAL_INTELIGENCIA_CON_CARGO(20);
 -- SELECT * FROM VER_HISTORICO_CARGO_PERSONAL_INTELIGENCIA(20,37);
@@ -784,7 +729,6 @@ END $$;
 -- CALL ASIGNAR_TRANSFERIR_ESTACION_EMPLEADO(20,109,10,'analista');
 
 -- SELECT * FROM VER_HISTORICO_CARGO_PERSONAL_INTELIGENCIA(20,109);
-
 
 -- select * FROM VER_TODOS_PERSONAL_INTELIGENCIA_CON_CARGO(21);
 -- SELECT * FROM VER_HISTORICO_CARGO_PERSONAL_INTELIGENCIA(21,109);
@@ -928,13 +872,10 @@ END $$;
 
 
 
-
 -- CALL NUMERO_REGISTROS();   
 -- SELECT fk_personal_inteligencia_encargado, count(*) FROM INFORMANTE GROUP BY fk_personal_inteligencia_encargado; 
 
-
 -- SELECT * FROM VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_AGENTE(13); 
-
 
 -- select * from transaccion_pago tp  where fk_informante  = 7;
 -- select * from crudo where fk_informante  = 7;
@@ -945,7 +886,6 @@ END $$;
 
 -- CALL ELIMINACION_REGISTROS_INFORMANTE(7);
 -- SELECT * FROM INFORMACION_INFORMANTES(7);
-
 
 -- select * from informante where 
 
@@ -997,6 +937,14 @@ BEGIN
  	
 
 END $$;
+
+
+
+
+
+
+
+
 
 
 -- CALL CAMBIAR_ROL_PERSONAL_INTELIGENCIA(14,13,'agente');
@@ -1102,37 +1050,4 @@ END $$;
 --ADQUISICION_ALT_n: 30
 -- TOTAL 813 
 
-
-
-
------------------------------
-
-
-
-
-
-
---------------------------------/////////////////////---------------------
-
-
-CREATE OR REPLACE PROCEDURE CREAR_TEMA (nombre_va varchar, descripcion_va varchar, topico_va varchar)
-LANGUAGE PLPGSQL
-AS $$
-
-BEGIN
-	RAISE INFO ' ';
-	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CREAR_LUGAR ( % ) ------', NOW();
-	
-	INSERT INTO clas_tema (
-		nombre,
-		descripcion,
-		topico
-	)	VALUES (
-		nombre_va,
-		descripcion_va,
-		topico_va		
-		);
-
-END;
-$$;
 

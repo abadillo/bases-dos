@@ -1,7 +1,4 @@
 
------------------------------///////////////-------------------------------
-
-
 --DROP FUNCTION VER_DIRECTOR_AREA;
 
 CREATE OR REPLACE FUNCTION VER_LUGAR (id_lugar in integer)
@@ -60,9 +57,6 @@ END $$;
 
 
 
--------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
-
-
 CREATE OR REPLACE PROCEDURE ELIMINAR_LUGAR (id_lugar IN INTEGER)
 LANGUAGE plpgsql
 AS $$  
@@ -87,9 +81,7 @@ END $$;
 
 
 
--- CALL ELIMINAR_LUGAR(15);
-
-
+-- CALL ELIMINAR_LUGAR(15)
 
 
 -------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
@@ -133,9 +125,6 @@ END $$;
 
 
 
----------------------///////////////////-------------------------
-
-
 
 --DROP FUNCTION VER_DIRECTOR_AREA;
 
@@ -165,7 +154,6 @@ $$;
 
 
 -- DROP PROCEDURE IF EXISTS CREAR_DIRECTOR_AREA CASCADE;
-
 
 CREATE OR REPLACE PROCEDURE CREAR_DIRECTOR_AREA (primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE, id_jefe IN EMPLEADO_JEFE.fk_empleado_jefe%TYPE)
 LANGUAGE plpgsql
@@ -217,9 +205,6 @@ END $$;
 
 
 
--------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
-
-
 CREATE OR REPLACE PROCEDURE ELIMINAR_DIRECTOR_AREA (id_director_area IN INTEGER)
 LANGUAGE plpgsql
 AS $$  
@@ -263,9 +248,6 @@ END $$;
 -- CALL eliminar_director_area(5);
 -- SELECT * FROM empleado_jefe ej order by id desc; 
 
-
-
--------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
 
 
 CREATE OR REPLACE PROCEDURE ACTUALIZAR_DIRECTOR_AREA (id_director_area IN integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE, id_jefe IN EMPLEADO_JEFE.fk_empleado_jefe%TYPE)
@@ -325,26 +307,6 @@ END $$;
 
 
 
--------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------
-
-
-
-
-
-
-
-
-
-
--- select * from lugar;
-
-
--- select VERIFICAR_TIPO_LUGAR(1,'ciudad');
-
-
--------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------
-
-
 
 --DROP FUNCTION VER_OFICINA;
 
@@ -369,9 +331,6 @@ $$;
 --
 --
 -- select VER_OFICINAS();
-
-
-
 
 
 
@@ -417,10 +376,6 @@ END $$;
 
 
 -- CALL CREAR_OFICINA_PRINCIPAL('prueba',20, 2);
--- SELECT * FROM oficina_principal order by id desc; 
--- select * from lugar where id = 2;
--- select * from EMPLEADO_JEFE where id = 20;
-
 
 
 -------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
@@ -499,14 +454,7 @@ END $$;
 
 -- select VER_OFICINAS();
 -- CALL ACTUALIZAR_OFICINA_PRINCIPAL (13,'nombre1',false, 21, 9, null);
--- select * from empleado_jefe where id = 9;
--- select * from lugar where id = 20;
--- SELECT * FROM empleado_jefe ej order by id desc; 
-
 -- select VER_DIRECTORES_AREA();
-
-
--------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
 
 
 

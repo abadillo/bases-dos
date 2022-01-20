@@ -1,6 +1,6 @@
 
 ------------------------------------------------------------------------
-------TRIGGER PARA LA COPIA DE ADQUISICION----- BUENO
+------ TRIGGER PARA LA COPIA DE ADQUISICION----- BUENO
 
 CREATE OR REPLACE FUNCTION TRIGGER_COPIA_ADQUISICION()
 RETURNS TRIGGER
@@ -160,20 +160,6 @@ BEGIN
 	RAISE INFO '------ EJECUCION DEL TRIGGER TRIGGER_COPIA_CRUDO_PIEZA ( % ) ------', NOW();
 
 	RAISE INFO 'INFORMACION DE LA PIEZA A COPIAR Fecha creacion: %, precio: %', old.fecha_creacion, old.precio_base;
-	--		RAISE INFO 'Fecha de inicio del analista: %, Id del personal inteligencia: %', old.fk_fecha_inicio_analista, old.fk_personal_inteligencia_analista;
-	--		RAISE INFO 'Id de la estacion del analista: %, Id de la oficina principal de analista: % y Tema de la pieza : %', old.fk_estacion_analista, old.fk_oficina_principal_analista, old.fk_clas_tema;
-	--				
-	----SELECT PARA COPIAR EL HISTORICO CARGO
-
-	--		SELECT fecha_inicio, fecha_fin, cargo, fk_personal_inteligencia, fk_estacion, fk_oficina_principal
-	--		INTO copia_historico FROM hist_cargo
-	--		where old.fk_fecha_inicio_analista = hist_cargo.fecha_inicio;
-	--	
-	--		RAISE INFO 'INFORMACION DEL HISTORICO CARGO A COPIAR: %', copia_historico;
-
-	---- INSERT EN LA TABLA ALT DE HISTORICO(COPIA DE INFORMACION)
-
-	--		CALL copia_historico_cargo(copia_historico.fecha_inicio, copia_historico.fk_personal_inteligencia, copia_historico.fk_estacion, copia_historico.fk_oficina_principal);
 
 
 	SELECT * INTO pieza_inteligencia_alt_reg FROM pieza_inteligencia_alt WHERE id = old.id;
@@ -318,13 +304,6 @@ FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_INFORMANTE();
 
 
 
-
-
-
-
---------------------------@@@@@@@@@@@@@@----------------------------
-
-
 ------------------------------------------------------------------------
 -----FUNCION DEL TRIGGER PARA TRANSACCION_PAGO----
 CREATE OR REPLACE FUNCTION TRIGGER_COPIAR_TRANSACCION_PAGO()
@@ -394,93 +373,6 @@ FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIAR_TRANSACCION_PAGO();
 
 
 
--------------------////--------------////---------------//---------------
-
-
-
-
-
-
--- ----------------------------------------------
--- ---- PROCEDIMIENTO DE COPIA_HISTORICO_CARGO ----
--- CREATE OR REPLACE PROCEDURE COPIA_HISTORICO_CARGO(fk_fecha_inicio_va timestamp, fk_personal_inteligencia_va integer, fk_estacion_va integer, fk_oficina_principal_va integer)
--- LANGUAGE PLPGSQL
--- AS $$
--- DECLARE
-
--- 	HISTORICO hist_cargo%rowtype;
-
--- 	hist_cargo_alt_reg hist_cargo_alt%rowtype; 
-
--- BEGIN
-
-
--- --- BUSCA LA INFORMACION EN HIST_CARGO PARA COPIARLA y VALIDACION SI EXISTE EL CARGO EN LA TABLA ALTE
--- 	RAISE INFO ' ';
--- 	RAISE INFO '------ EJECUCION DEL PROCEDIMIENTO COPIA_HISTORICO_CARGO ( % ) ------', NOW();
-
--- 	select * into hist_cargo_alt_reg 
--- 	from hist_cargo_alt
--- 	where fecha_inicio = fk_fecha_inicio_va
--- 	AND fk_personal_inteligencia = fk_personal_inteligencia_va
--- 	AND fk_estacion = fk_estacion_va
--- 	AND fk_oficina_principal = fk_oficina_principal_va;
-
--- 	--- INSERT EN LA TABLA ALTERNATIVA DE HISTORICO CARGO
-
--- 	IF (hist_cargo_alt_reg IS NULL) THEN
-
--- 	SELECT * INTO HISTORICO 
--- 	FROM hist_cargo 
--- 	WHERE fecha_inicio=fk_fecha_inicio_va
--- 	AND fk_personal_inteligencia = fk_personal_inteligencia_va
--- 	AND fk_estacion = fk_estacion_va
--- 	AND fk_oficina_principal = fk_oficina_principal_va;
-
-
--- 	RAISE INFO 'DATOS DEL HIST_CARGO BASE A COPIAR: %', HISTORICO;
-
-
--- 		INSERT INTO hist_cargo_alt (
--- 			fecha_inicio,
--- 			fecha_fin,
--- 			cargo,
-
--- 			fk_personal_inteligencia,
--- 			fk_estacion,
--- 			fk_oficina_principal
-
--- 		) VALUES (
--- 			HISTORICO.fecha_inicio,
--- 			HISTORICO.fecha_fin, 
--- 			HISTORICO.cargo, 
--- 			HISTORICO.fk_personal_inteligencia,
--- 			HISTORICO.fk_estacion, 
--- 			HISTORICO.fk_oficina_principal
--- 		);	
-
--- 		RAISE INFO 'INSERT DE LA INFORMACION COPIADA EN LA TABLA HISTORICO_CARGO_ALT';
-
--- 	ELSE
-
--- 		RAISE INFO 'EL HISTORICO CARGO YA ESTA REGISTRADO ';
--- 		RAISE INFO 'EL HISTORICO CARGO YA ESTA REGISTRADO ';
-
--- 	END IF;	
-
--- END
--- $$;
--- ----DROP PROCEDURE COPIA_HISTORICO_CARGO(timestamp, integer, integer, integer)
-
-
-
-
-
-
-
-
--------------------////--------------////---------------//---------------
-
 
 
 
@@ -494,10 +386,6 @@ DECLARE
 
 	crudo_alt_reg crudo_alt%rowtype;
 
---  historico_alt hist_cargo_alt%rowtype;
-
---  informante_reg informante%rowtype;
-
 BEGIN
 
 --SELECT PARA EXTRAR LA INFO DEL CRUDO
@@ -507,25 +395,7 @@ BEGIN
 	SELECT * INTO crudo_alt_reg FROM crudo_alt
 	WHERE id = old.id;
 
-	-- RAISE INFO 'INFORMACION DE CRUDO A COPIAR ';
-	-- RAISE INFO '%: ', old;
-
-	--SELECT PARA COPIAR EL HISTORICO CARGO
-
-
-	--  SELECT * INTO historico_alt FROM hist_cargo_alt
-	--  WHERE fecha_inicio = old.fk_fecha_inicio_agente 
-	--  AND fk_oficina_principal = old.fk_oficina_principal_agente 
-	--  AND fk_estacion = old.fk_estacion_agente 
-	--  AND fk_personal_inteligencia = old.fk_personal_inteligencia_agente;
-
-	--  SELECT * INTO informante_reg FROM informante
-	--  WHERE id = old.fk_informante;
-
-	--  RAISE INFO 'INFORMACION DEL HISTORICO CARGO A COPIAR %:', old;
-
-	-- CALL COPIA_HISTORICO_CARGO(old.fk_fecha_inicio_agente, old.fk_personal_inteligencia_agente, old.fk_estacion_agente, old.fk_oficina_principal_agente);
-
+	
 
 	IF (crudo_alt_reg IS NULL) THEN
 	---- INSERT EN LA TABLA ALT DE HISTORICO(COPIA DE INFORMACION)
@@ -581,36 +451,13 @@ $$;
 
 ------------------CREACION DEL TRIGGER --------------------
 CREATE TRIGGER TRIGGER_COPIA_CRUDO
-BEFORE DELETE ON crudo
+BEFORE DELETE ON CRUDO
 FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_CRUDO();
 --DROP TRIGGER TRIGGER_COPIA_CRUDO ON CRUDO;
 --DROP FUNCTION TRIGGER_COPIA_CRUDO();
 ----
 --
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-------------------------------------////////----/////////--------------------------------------
 
 
 
@@ -643,13 +490,7 @@ BEGIN
 	--select * from adquisicion
 
 	IF (analista_crudo_alt_reg IS NULL) THEN
-
-		--		SELECT * INTO adquisicion_reg
-		--		FROM adquisicion
-		--		WHERE fk_pieza = (SELECT id FROM pieza_inteligencia WHERE fk_pieza = id)
-		--		AND fk_cliente = (SELECT id FROM cliente WHERE fk_cliente = id);
-		--		
-		RAISE INFO 'DATOS DE ANALISTA_CRUDO A COPIAR %', old;
+		
 
 		INSERT INTO analista_crudo_alt(
 			fecha_hora ,
@@ -689,19 +530,11 @@ FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_ANALISTA_CRUDO();
 
 
 
-----------------------------------/////////////////////////-----------------------------
 
 
 
 
-
-
-
-
-
-
-
--------------------------- FUNCIONES PARA EL INSERT -----------------------------
+-------------------------- FUNCIONES NECESARIAS PARA EL PARA EL INSERT -----------------------------
 
 CREATE OR REPLACE PROCEDURE ELIMINACION_REGISTROS_VENTA_EXCLUSIVA ( id_pieza IN integer ) 
 LANGUAGE PLPGSQL 
@@ -751,17 +584,15 @@ DECLARE
 	
 BEGIN 
 
---	RAISE INFO 'Ruta: %', ruta || ruta_archivo ;
---	RAISE INFO 'Archivo -> bytea: %', pg_read_binary_file(ruta || ruta_archivo) ;
-    
-	RETURN pg_read_binary_file(ruta || ruta_archivo); 
+	RETURN (ruta || ruta_archivo); 
+
+	-- RETURN pg_read_binary_file(ruta || ruta_archivo); 
 	
 END $$;
 
 
 -- INSERT INTO crudo (contenido, tipo_contenido, resumen, fuente, valor_apreciacion, nivel_confiabilidad_inicial, nivel_confiabilidad_final, fecha_obtencion, fecha_verificacion_final, cant_analistas_verifican, fk_clas_tema, fk_informante, fk_estacion_pertenece, fk_oficina_principal_pertenece, fk_estacion_agente, fk_oficina_principal_agente, fk_fecha_inicio_agente, fk_personal_inteligencia_agente) VALUES
 -- (FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/images.jpg'), 'imagen', 'Problemas politicos en Vitnam I', 'secreta', 500, 85, 85 , '2034-01-08 01:00:00', '2034-01-06 01:00:00', 2, 1, 1, 1, 1, 1, 1, '2034-01-05 01:00:00', 1);
-
 
 -- SELECT FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/images.jpg');
 
@@ -770,10 +601,7 @@ END $$;
 
 
 
-
-
-
------------------------ FUNCIONES REPORTES -------------------------------
+----------------------- FUNCIONES REPORTES E INSERT  -------------------------------
 
 DROP FUNCTION IF EXISTS RESTA_7_DIAS CASCADE;
 

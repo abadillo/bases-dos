@@ -1,33 +1,4 @@
---ALTER TABLE producto ENABLE TRIGGER insert_producto;
---ALTER TABLE producto DISABLE TRIGGER insert_producto;
---ALTER TABLE producto ENABLE TRIGGER all;
---ALTER TABLE producto DISABLE TRIGGER ALL;
 
-
--- CREATE OR REPLACE PROCEDURE VALIDAR_TELEFONO_TY (telefono IN telefono_ty)
--- AS $$
--- BEGIN
-
--- 	IF (telefono.codigo IS NULL OR telefono.codigo = 0) THEN
--- 		RAISE EXCEPTION 'El codigo del telefono no puede ser nulo';
--- 	END IF;
-
--- 	IF (telefono.numero IS NULL OR telefono.numero = 0) THEN
--- 		RAISE EXCEPTION 'El numero del telefono no puede ser nulo';
--- 	END IF;
-		
--- END;
--- $$ LANGUAGE plpgsql;
-
-
--- call VALIDAR_TELEFONO_TY( CREAR_TELEFONO(0414,2133421) );
-
------/-/---//-/-/-/-/-/-/-/-/-/----------------/--/--//-/-/-/-/-/-/-/--/-/--/-----
-
-
-
------/-/---//-/-/-/-/-/-/-/-/-/----------------/--/--//-/-/-/-/-/-/-/--/-/--/-----
------/-/---//-/-/-/-/-/-/-/-/-/----------------/--/--//-/-/-/-/-/-/-/--/-/--/-----
 
 -- A. Triggers para validar las jerarquías en empleado_jefe
 
@@ -239,87 +210,6 @@ EXECUTE PROCEDURE TRIGGER_FUNCTION_VERIF_JERARQUIA_LUGAR();
 
 
 
-
--- A. Trigger para VALIDAR fk_lugar_ciudad y fk_lugar_pais en CLIENTE, ESTACION, OFICINA_PRINCIPAL, PERSONAL_INTELIGENCIA
-
--- CLIENTE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--- CREATE OR REPLACE FUNCTION TRIGGER_FUNCTION_CLIENTE()
--- RETURNS TRIGGER AS $$
--- DECLARE
-
--- 	fk_lugar_temp_va CLIENTE.fk_lugar_pais%type ;
--- 	lugar_tipo_va LUGAR.tipo%type ;
-
--- BEGIN
-
--- 	IF (new.fk_lugar_pais is NOT NULL) then
-	
--- 		fk_lugar_temp_va = new.fk_lugar_pais;
-	
--- 		select tipo into lugar_tipo_va from LUGAR where id = fk_lugar_temp_va;
-	
--- 		IF (lugar_tipo_va = 'pais') then
--- 			RETURN new;
--- 		END IF;
-		
--- 	END IF;
-	
-
--- 	RAISE EXCEPTION 'Debe ingresar un país de registro para el cliente';
--- 	RETURN null;
-
-	
--- END;
--- $$ LANGUAGE plpgsql;
-
-
--- DROP TRIGGER IF EXISTS TRIGGER_INSERT_CLIENTE ON CLIENTE CASCADE;	
--- DROP TRIGGER IF EXISTS TRIGGER_UPDATE_CLIENTE ON CLIENTE CASCADE;
-
--- CREATE TRIGGER TRIGGER_INSERT_CLIENTE
--- BEFORE INSERT ON CLIENTE 
--- FOR EACH ROW
--- EXECUTE PROCEDURE TRIGGER_FUNCTION_CLIENTE();
-
--- CREATE TRIGGER TRIGGER_UPDATE_CLIENTE
--- BEFORE UPDATE OF fk_lugar_pais ON CLIENTE
--- FOR EACH ROW
--- EXECUTE PROCEDURE TRIGGER_FUNCTION_CLIENTE();
-	
-
--- PRUEBAS 
---
---INSERT INTO cliente (nombre_empresa, pagina_web, exclusivo, telefonos, contactos, fk_lugar_pais) VALUES
---('prueba', 'mexicaso.org.ve' ,true, ARRAY[CAST((0,0) as telefono_ty)],  ARRAY[ ROW('', '', '', '', '', ROW(0,0))]::contacto_ty[], 1);
---
---UPDATE CLIENTE set fk_lugar_pais = 11;
---
---select * from lugar where tipo = 'ciudad';
-
-
-
-
-
-
-
-
-
-
 CREATE OR REPLACE FUNCTION TRIGGER_OFICINA_PRINCIPAL()
 RETURNS TRIGGER AS $$
 DECLARE
@@ -403,48 +293,7 @@ FOR EACH ROW
 EXECUTE PROCEDURE TRIGGER_OFICINA_PRINCIPAL();
 
 	
-
-
-
-
--- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! FALTA EL DE ESTACION, OFICINA_PRINCIPAL y PERSONAL_INTELIGENCIA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--- B. Para los empleados Jefe deben validar también que los jefes de estaciones tengan como director de área el que corresponde según su ubicación y demás características de las reglas vinculadas.
---
--- C. Función edad y validar personal > 26 años. Validar aliases y edades (familair_ty y personal)
---
--- D. Triggers para validar los arcos exclusivos que apliquen.
---
--- E. Triggers para copiar la info necesaria previa eliminación (Piezas de inteligencia, hechos crudos con venta exclusiva e informantes y contactos cuando el agente se va, cambia de rol o es despedido.)
---
--- F. Trigger para fuente = secreta debe tener id de contacto_pagoinformante
---
--- G. Trigger controlar actualización de una pieza de inteligencia registrada
-
--- EXTRAS:
-
--- VALIDAR EL NUMERO DE TELEFONOS, CONTACTOS, etc ( CREO QUE LA INSERCION ES CON UN PROCEDURE )
-
-
-
-
---drop function fallos cascade
---drop function verif_hora cascade
-
+---------------------////////////////-----------------------
 
 
 CREATE OR REPLACE FUNCTION TRIGGER_PERSONAL_INTELIGENCIA()
@@ -499,11 +348,11 @@ BEGIN
 		END IF;			
 
 
-		RAISE INFO 'INFORMACION DEL PERSONAL(NOMBRE COMPLETO Y EDAD): %, %, %, %, %',new.primer_nombre, new.segundo_nombre, new.primer_apellido, new.segundo_apellido, fu_obtener_edad (new.fecha_nacimiento::DATE, NOW()::DATE);
+		-- RAISE INFO 'INFORMACION DEL PERSONAL(NOMBRE COMPLETO Y EDAD): %, %, %, %, %',new.primer_nombre, new.segundo_nombre, new.primer_apellido, new.segundo_apellido, fu_obtener_edad (new.fecha_nacimiento::DATE, NOW()::DATE);
 		
-		RAISE INFO 'INFORMACION DEL PRIMER FAMILIAR (NOMBRE COMPLETO, EDAD, PARENTESCO Y TELEFONO): %, %, %, %, %, %, % ',new.familiares[1].primer_nombre, new.familiares[1].segundo_nombre, new.familiares[1].primer_apellido, new.familiares[1].segundo_apellido,fu_obtener_edad (new.familiares[1].fecha_nacimiento::DATE, NOW()::DATE), new.familiares[1].parentesco, new.familiares[1].telefono;
+		-- RAISE INFO 'INFORMACION DEL PRIMER FAMILIAR (NOMBRE COMPLETO, EDAD, PARENTESCO Y TELEFONO): %, %, %, %, %, %, % ',new.familiares[1].primer_nombre, new.familiares[1].segundo_nombre, new.familiares[1].primer_apellido, new.familiares[1].segundo_apellido,fu_obtener_edad (new.familiares[1].fecha_nacimiento::DATE, NOW()::DATE), new.familiares[1].parentesco, new.familiares[1].telefono;
 
-		RAISE INFO 'INFORMACION DEL SEGUNDO FAMILIAR (NOMBRE COMPLETO, EDAD, PARENTESCO Y TELEFONO): %, %, %, %, %, %, %',new.familiares[2].primer_nombre, new.familiares[2].segundo_nombre, new.familiares[2].primer_apellido, new.familiares[2].segundo_apellido,fu_obtener_edad (new.familiares[2].fecha_nacimiento::DATE, NOW()::DATE), new.familiares[2].parentesco, new.familiares[2].telefono;
+		-- RAISE INFO 'INFORMACION DEL SEGUNDO FAMILIAR (NOMBRE COMPLETO, EDAD, PARENTESCO Y TELEFONO): %, %, %, %, %, %, %',new.familiares[2].primer_nombre, new.familiares[2].segundo_nombre, new.familiares[2].primer_apellido, new.familiares[2].segundo_apellido,fu_obtener_edad (new.familiares[2].fecha_nacimiento::DATE, NOW()::DATE), new.familiares[2].parentesco, new.familiares[2].telefono;
 
 		RETURN NEW;
 
@@ -566,7 +415,6 @@ $$;
 
 -- DROP FUNCTION TRIGGER_PERSONAL_INTELIGENCIA();
 
-
 CREATE TRIGGER TRIGGER_INSERT_UPDATE_PERSONAL_INTELIGENCIA
 BEFORE INSERT OR UPDATE ON PERSONAL_INTELIGENCIA
 FOR EACH ROW EXECUTE FUNCTION TRIGGER_PERSONAL_INTELIGENCIA();
@@ -576,10 +424,9 @@ FOR EACH ROW EXECUTE FUNCTION TRIGGER_PERSONAL_INTELIGENCIA();
 
 
 
+--------------------------------/\/\/\/\/\/\/\/\///\/\/\//\/\//\/\/\\\/-----------------------------
 
 
-
-------------------------------------------------------/\/\/\/\//\/\/\/\/\/\/\/\///\/\/\//\/\//\/\/\\\/----------------------------------------
 
 CREATE OR REPLACE FUNCTION TRIGGER_REGISTRO_TEMAS_CLIENTE_ADQUISICION()
 RETURNS TRIGGER
@@ -631,9 +478,8 @@ BEGIN
 	RETURN NULL;
 
 END $$;
+
 ----DROP PROCEDURE TRIGGER_COPIA_ADQUISICION(integer)
-
-
 
 CREATE TRIGGER TRIGGER_REGISTRO_TEMAS_CLIENTE_ADQUISICION
 AFTER INSERT ON ADQUISICION

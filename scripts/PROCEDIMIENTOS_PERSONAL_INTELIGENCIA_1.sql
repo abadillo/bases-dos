@@ -1,40 +1,3 @@
-CREATE OR REPLACE FUNCTION VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_CONFIDENTE (id_personal_inteligencia in integer)
-RETURNS setof INFORMANTE
-LANGUAGE sql
-AS $$  
- 	
-    SELECT * FROM INFORMANTE WHERE fk_personal_inteligencia_confidente = id_personal_inteligencia; 
-$$;
-
--- SELECT * FROM VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_CONFIDENTE(11);
-
--- SELECT * from informante;
-
-
--------------------------/////////////////////-----------------------
-
-
-
-
-
-CREATE OR REPLACE FUNCTION VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_AGENTE (id_personal_inteligencia in integer)
-RETURNS setof INFORMANTE
-LANGUAGE sql
-AS $$  
- 	
-    SELECT * FROM INFORMANTE WHERE fk_personal_inteligencia_encargado = id_personal_inteligencia; 
-$$;
-
-
---------------------------///////////////////////-----------------------------
-
-
-
--------------------------/////////////////////-----------------------\
-
-
-
-
 --------------------------///////////////////////-----------------------------
 
 
@@ -66,9 +29,35 @@ $$;
 -- fijan el precio base de las piezas de inteligencia. Una pieza de inteligencia registrada no puede ser
 -- alterada.
 
+
+
+CREATE OR REPLACE FUNCTION VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_CONFIDENTE (id_personal_inteligencia in integer)
+RETURNS setof INFORMANTE
+LANGUAGE sql
+AS $$  
+ 	
+    SELECT * FROM INFORMANTE WHERE fk_personal_inteligencia_confidente = id_personal_inteligencia; 
+$$;
+
+-- SELECT * FROM VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_CONFIDENTE(11);
+
+-- SELECT * from informante;
+
+
+-------------------------/////////////////////-----------------------
+
+
+
+CREATE OR REPLACE FUNCTION VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_AGENTE (id_personal_inteligencia in integer)
+RETURNS setof INFORMANTE
+LANGUAGE sql
+AS $$  
+ 	
+    SELECT * FROM INFORMANTE WHERE fk_personal_inteligencia_encargado = id_personal_inteligencia; 
+$$;
+
+
 --------------------------///////////////////////-----------------------------
-
-
 
 
 -- DROP PROCEDURE IF EXISTS REGISTRO_INFORMANTE CASCADE;
@@ -153,8 +142,6 @@ BEGIN
 
 
 	-------------////////
-
-
 
 	IF (id_personal_inteligencia_confidente IS NOT NULL) THEN
 
@@ -248,12 +235,7 @@ END $$;
 -- CALL REGISTRO_INFORMANTE( 'aja prueba 2', 2, 1, null );
 
 
-
-
-
 --------------------------///////////////////////-----------------------------
-
-
 
 
 -- DROP PROCEDURE IF EXISTS REGISTRO_CRUDO_SIN_INFORMANTE CASCADE;
@@ -372,15 +354,7 @@ END $$;
 -- CALL a_INFORMANTE(2, 1, FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/texto.txt'), 'texto', 'resumen', 'tecnica', null, 25, 5);
 
 
-
-
-
-
-
-
 --------------------------///////////////////////-----------------------------
-
-
 
 
 -- DROP PROCEDURE IF EXISTS REGISTRO_CRUDO_CON_INFORMANTE CASCADE;
@@ -545,11 +519,7 @@ END $$;
 
 
 
-
-
 ---------------------------////////////////////////////-------------------------------
-
-
 
 
 
@@ -619,7 +589,8 @@ BEGIN
 	
 END $$;
 
---
+
+
 --select analista_puede_verifica_crudo(5, 4);
 --
 --select * from analista_crudo ac where fk_crudo = 5;
@@ -780,11 +751,7 @@ END $$;
 --CALL VERIFICAR_CRUDO( id_analista, id_crudo, nivel_confiabilidad );
 
 
-
-
-
 --------------------------///////////////////////-----------------------------
-
 
 
 -- DROP PROCEDURE IF EXISTS CERRAR_CRUDO CASCADE;
@@ -857,38 +824,6 @@ END $$;
 
 
 
-
-
-
-
---------------------------///////////////////////-----------------------------
-
--- La información recolectada por los agentes de campo se indexa (fecha más reciente) y almacena
--- como hechos crudos y se puede buscar por tópicos principales (países, individuos, eventos,
--- empresas), cada uno de los cuales está dividido en temas de interés. La AII no vende hechos crudos
--- (la información traída por los agentes) sino piezas de inteligencia verificadas por varias fuentes (al
--- menos 2 analistas de diferentes estaciones deben participar en la verificación de los hechos crudos
--- que conforman la pieza de inteligencia). Cuando un agente reporta un hecho crudo también indica
--- su nivel de confiabilidad de 0 a 100 con respecto a la exactitud o veracidad del mismo. Los analistas,
--- luego de su verificación pueden avalar ese nivel, aumentarlo o bajarlo. Sólo hechos crudos con un
--- nivel superior a 85 pueden formar parte de una pieza de inteligencia. Cada pieza de inteligencia
--- debe tener registrado su nivel de confiabilidad (se calcula como el promedio del nivel de
--- confiabilidad verificada de los hechos crudos que la conforman). El analista responsable5 por la
--- construcción de la pieza la certifica fijándole un precio aproximado, el cual será exacto luego de la
--- negociación en la cual es vendida – debe haber registro del precio final alcanzado. Sólo los analistas
--- fijan el precio base de las piezas de inteligencia. Una pieza de inteligencia registrada no puede ser
--- alterada
-
--- Cuando un hecho crudo tiene un nivel de confiabilidad superior al 85, el jefe de la estación asigna 
--- al analista responsable - debe ser diferente de los analistas que verificaron el hecho.
- 
-
--- 4. Demostración de la implementación de los requerimientos del sistema de bases de datos transaccional referidos al proceso de venta de piezas de inteligencia – construcción de piezas de inteligencia y venta a clientes, incluyendo la seguridad correspondiente (roles, cuentas con privilegios para poder ejecutar los programas y reportes).
-
-
--- Registro_Verificación_Pieza_Inteligencia – Asignar analista, registro id, analista y descripción de la pieza; pedir y registrar los hechos crudos que la conforman, calcular confiabilidad, asignar tema según hechos y registrar precio. Aplicando todas las validaciones necesarias sobre cada paso…
-
---------------------------///////////////////////-----------------------------
 
 
 

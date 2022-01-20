@@ -1,26 +1,18 @@
+
 ----------///////////---------------------------------------------------------------///////////--///////////-----------
 ----------///////////- SCRIPTS DE CREACION DE LA BASES DE DATOS DOS - PROYECTO AII - GRUPO 09  -///////////----------
 ----------///////////---------------------------------------------------------------///////////--///////////-----------
 
 
-
-------- ---------- -- - -- - -- ---- ---- -- -- IMPORTANTE --- -- - -- - -- --- -- - -- - ---- - -- - - -- 
-------- ------- ---- ---- -- -- CERRAR TODAS LAS CONEXIONES EN ABIERTAS EN CASO DE HABER --- -- - -- - -- -- - -- - - -- 
-
-select pg_terminate_backend(pid) from pg_stat_activity where datname='aii';
+-- / IMPORTANTE! - CERRAR TODAS LAS CONEXIONES EN ABIERTAS EN CASO DE HABER --- -- - -- - -- -- - -- - - -- 
+--select pg_terminate_backend(pid) from pg_stat_activity where datname='aii';
 --DROP DATABASE aii;
 
 
 
-----------///////////- CREACION DE LA BASE DE DATOS CON USUARIOS ADMINISTRADORES Y DESARROLLADORES  -///////////----------
-
-
--- EJECUTAR COMO SUPERUSUARIO postgres
+-- EJECUTAR COMO SUPERUSUARIO
 CREATE USER admin01 WITH ENCRYPTED PASSWORD 'deb_shared_553*%#@899012' SUPERUSER;
 
-
-
--- EJECUTAR COMO SUPERUSUARIO admin01 o postgres
 CREATE USER dba01 WITH 
 	ENCRYPTED PASSWORD 'dba01_aii'
 	CREATEDB
@@ -29,15 +21,8 @@ CREATE USER dba01 WITH
 	CONNECTION LIMIT -1	
 ;
 
-
--- CONECTAR A LA BASE DE DATOS Y .. 
-
-
--- EJECUTAR COMO DBA
 CREATE DATABASE aii;
  
-
--- EJECUTAR COMO DBA
 CREATE USER dev01 WITH 
 	ENCRYPTED PASSWORD 'dev01_aii'
 	CONNECTION LIMIT -1	
@@ -45,14 +30,8 @@ CREATE USER dev01 WITH
 
 
 
-
-
 ----------///////////- ------------------------------------------------------------ ///////////----------
-----------///////////- ------------------------------------------------------------ ///////////----------
-
 ----------///////////- CREACION DE ROLES Y USUARIOS FINALES --- EJECUTAR COMO DBA ///////////----------
-
-----------///////////- ------------------------------------------------------------ ///////////----------
 ----------///////////- ------------------------------------------------------------ ///////////----------
 
 -- ROLES
@@ -293,6 +272,9 @@ GRANT ROL_ANALISTA TO
 ;
 
 
+-------------------------------------- EJECUTAR COMO ADMINISTRADOR -------------------------------------------------
+
+
 GRANT EXECUTE ON FUNCTION pg_read_binary_file(text,bigint,bigint,boolean) TO dev01;
 GRANT EXECUTE ON FUNCTION pg_read_binary_file(text,bigint,bigint) TO dev01; 
 GRANT EXECUTE ON FUNCTION pg_read_binary_file(text) TO dev01;
@@ -302,12 +284,12 @@ GRANT EXECUTE ON FUNCTION pg_read_binary_file(text,bigint,bigint) TO ROL_DIRECTO
 GRANT EXECUTE ON FUNCTION pg_read_binary_file(text) TO ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
 
 
-GRANT SELECT ON ALL TABLES IN SCHEMA public TO ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_EMPLEADO_JEFE, ROL_AGENTE_CAMPO, ROL_ANALISTA;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO, ROL_ANALISTA;
 -- GRANT SELECT ON TABLE EMPLEADO_JEFE TO ROL_DIRECTOR_EJECUTIVO;
 -- GRANT SELECT ON TABLE CRUDO TO ROL_AGENTE_CAMPO, ROL_ANALISTA;
 
 GRANT USAGE ON SCHEMA public TO ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO,ROL_ANALISTA;
-GRANT SELECT ON ALL TABLES IN SCHEMA public TO ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_EMPLEADO_JEFE, ROL_AGENTE_CAMPO, ROL_ANALISTA;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO ROL_DIRECTOR_EJECUTIVO, ROL_DIRECTOR_AREA, ROL_JEFE_ESTACION, ROL_AGENTE_CAMPO, ROL_ANALISTA;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO PUBLIC;
 
 
@@ -1096,7 +1078,702 @@ CREATE OR REPLACE VIEW VISTA_CUENTAS_AII_OFICINA_GINEBRA AS
 
 
 
-	FALTA FALTA ESTO
+------------------------------------------------------------------------
+------ TRIGGER PARA LA COPIA DE ADQUISICION----- BUENO
+
+CREATE OR REPLACE FUNCTION TRIGGER_COPIA_ADQUISICION()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS $$
+DECLARE
+
+--	adquisicion_reg adquisicion%rowtype;
+
+	adquisicion_reg_alt adquisicion_alt%rowtype;
+
+BEGIN
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL TRIGGER TRIGGER_COPIA_ADQUISICION ( % ) ------', NOW();
+
+	SELECT * INTO adquisicion_reg_alt
+	FROM adquisicion_alt	
+	WHERE id = old.id;
+
+	--select * from adquisicion
+
+	IF (adquisicion_reg_alt IS NULL) THEN
+
+		--		SELECT * INTO adquisicion_reg
+		--		FROM adquisicion
+		--		WHERE fk_pieza = (SELECT id FROM pieza_inteligencia WHERE fk_pieza = id)
+		--		AND fk_cliente = (SELECT id FROM cliente WHERE fk_cliente = id);
+		--		
+		RAISE INFO 'DATOS DE ADQUISICION A COPIAR %', old;
+
+		INSERT INTO adquisicion_alt(
+			id,
+			fecha_hora_venta,
+			precio_vendido,
+
+			fk_cliente,
+			fk_pieza_inteligencia	
+
+		) VALUES (
+			old.id,
+			old.fecha_hora_venta,
+			old.precio_vendido,
+
+			old.fk_cliente,
+			old.fk_pieza_inteligencia		
+		);
+
+		RAISE INFO 'REGISTRO EN LA TABLA ADQUISICION_ALT EXITOSO';
+
+	ELSE
+
+		RAISE INFO 'LA ADQUISICION YA ESTA REGISTRADO';
+
+	END IF;
+
+	RETURN old;
+
+
+END
+$$;
+----DROP PROCEDURE TRIGGER_COPIA_ADQUISICION(integer)
+
+CREATE TRIGGER TRIGGER_COPIA_ADQUISICION
+BEFORE DELETE ON ADQUISICION
+FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_ADQUISICION();
+
+
+
+
+
+------------------------------------------------------------------------
+-----CREACION DE FUNCION TRIGGER PARA CRUDO_PIEZA---   BUENO
+CREATE OR REPLACE FUNCTION TRIGGER_COPIA_CRUDO_PIEZA()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS $$
+DECLARE
+
+	crudo_pieza_alt_reg crudo_pieza_alt%rowtype;
+
+BEGIN
+
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL TRIGGER TRIGGER_COPIA_CRUDO_PIEZA ( % ) ------', NOW();
+
+	SELECT * INTO crudo_pieza_alt_reg FROM crudo_pieza_alt
+	WHERE fk_pieza_inteligencia= old.fk_pieza_inteligencia
+	AND fk_crudo = old.fk_crudo;
+
+	IF (crudo_pieza_alt_reg IS NULL) THEN
+
+		RAISE INFO 'INFORMACION A INSERTAR EN LA TABLA CRUDO_PIEZA %', old;
+
+	---INSERT EN LA TABLA ALT DE CRUDP_PIEZA (COPIA DE INFORMACION)
+
+		INSERT INTO crudo_pieza_alt (
+
+			fk_pieza_inteligencia,
+			fk_crudo
+
+		) VALUES (
+
+			old.fk_pieza_inteligencia,
+			old.fk_crudo
+		);		
+
+	ELSE
+
+		RAISE INFO 'CRUDO_PIEZA YA INSERTADO';
+
+	END IF;
+
+	RETURN old;
+
+END
+$$;
+
+----------------CREACION DEL TRIGGER --------------------
+CREATE TRIGGER TRIGGER_COPIA_CRUDO_PIEZA
+BEFORE DELETE ON crudo_pieza
+FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_CRUDO_PIEZA();
+----DROP TRIGGER TRIGGER_CEUDO_PIEZA ON crudo_pieza
+
+
+
+
+------------------------------------------------------------------------
+----- FUNCION DEL TRIGGER PRINCIPAL DE ELIMINACION DE PIEZA POR VENTA EXCLUSIVA -----
+CREATE OR REPLACE FUNCTION TRIGGER_COPIA_INFO_PIEZA()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS $$
+DECLARE 
+
+--	copia_historico hist_cargo%rowtype;
+	pieza_inteligencia_alt_reg PIEZA_INTELIGENCIA_ALT%ROWTYPE;
+
+BEGIN
+
+----SELECT PARA EXTRAER LA INFO DE LA TABLA PIEZA_INTELIGENCIA
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL TRIGGER TRIGGER_COPIA_CRUDO_PIEZA ( % ) ------', NOW();
+
+	RAISE INFO 'INFORMACION DE LA PIEZA A COPIAR Fecha creacion: %, precio: %', old.fecha_creacion, old.precio_base;
+
+
+	SELECT * INTO pieza_inteligencia_alt_reg FROM pieza_inteligencia_alt WHERE id = old.id;
+
+	IF (pieza_inteligencia_alt_reg IS NULL) THEN
+	----INSERT EN LA TABLA ALT DE PIEZA (COPIA DE INFORMACION)
+
+		INSERT INTO pieza_inteligencia_alt (
+		id,
+		fecha_creacion,
+		precio_base,
+		fk_fecha_inicio_analista,
+		fk_personal_inteligencia_analista,
+		fk_estacion_analista,
+		fk_oficina_principal_analista, 
+		fk_clas_tema)
+		values (
+		old.id,
+		old.fecha_creacion,
+		old.precio_base, 
+		old.fk_fecha_inicio_analista,
+		old.fk_personal_inteligencia_analista,
+		old.fk_estacion_analista,
+		old.fk_oficina_principal_analista,
+		old.fk_clas_tema	
+		);
+
+		RAISE INFO 'COPIADO LA INFORMACION EN LA TABLA ALTERNATIVA DE PIEZA';
+
+
+	ELSE 
+		RAISE INFO 'YA ESTA COPIADA LA PIEZA';
+
+	END IF;
+
+	RETURN old;
+
+END
+$$;
+----------------CREACION DEL TRIGGER --------------------
+
+CREATE TRIGGER TRIGGER_COPIA_INFO_PIEZA
+BEFORE DELETE ON pieza_inteligencia
+FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_INFO_PIEZA();
+
+----DROP TRIGGER trigger_copia_pieza ON pieza_inteligencia;
+
+
+
+
+
+------------------------------------------------------------------------
+------CREACION DE PROCEDIMIENTO PARA LA COPIA DE DATOS DEL INFORMANTE
+CREATE OR REPLACE PROCEDURE PROCEDIMIENTO_COPIA_INFORMANTE (id_informante integer)
+LANGUAGE PLPGSQL
+AS $$
+DECLARE 
+
+	informante_reg informante%rowtype;
+	informante_alt_reg informante_alt%ROWTYPE;
+
+BEGIN
+
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMIENTO PROCEDIMIENTO_COPIA_INFORMANTE ( % ) ------', NOW(); 
+	--- INFORMACION DE LA TABLA DE INFORMANTE_ALT	
+	SELECT * INTO informante_alt_reg FROM informante_alt
+	WHERE id = id_informante;
+
+	--- INFORMACION DE LA TABLA DE INFORMANTE	
+	SELECT * INTO informante_reg FROM informante
+	WHERE id = id_informante;
+
+	RAISE INFO 'DATOS DEL INFORMANTE A COPIAR : %', informante_reg;
+
+	---- INSERT EN LA TABLA ALTERNATIVA DE INFORMANTE(COPIA DE INFORMACION)
+
+	IF (informante_alt_reg IS NULL) THEN
+
+		INSERT INTO informante_alt(
+		id,
+		fk_personal_inteligencia_encargado,
+		fk_fecha_inicio_encargado,
+		fk_estacion_encargado,
+		fk_oficina_principal_encargado	
+		) VALUES (
+		informante_reg.id,
+		informante_reg.fk_personal_inteligencia_encargado,
+		informante_reg.fk_fecha_inicio_encargado,
+		informante_reg.fk_estacion_encargado,
+		informante_reg.fk_oficina_principal_encargado		
+		);
+
+		RAISE INFO 'DATOS DEL INFORMANTE ESTAN COPIADOS EN LA TABLA ALTERNATIVA';
+
+	ELSE
+
+		RAISE INFO 'El informante ya esta copiado';
+
+	END IF;
+
+
+
+END
+$$;
+
+
+CREATE OR REPLACE FUNCTION TRIGGER_COPIA_INFORMANTE()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS $$
+BEGIN
+
+----SELECT PARA EXTRAER LA INFO DE LA TABLA PIEZA_INTELIGENCIA
+
+	CALL PROCEDIMIENTO_COPIA_INFORMANTE(old.id);
+
+	RETURN old;
+
+END
+$$;
+
+
+CREATE TRIGGER TRIGGER_COPIA_INFORMANTE
+BEFORE DELETE ON INFORMANTE
+FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_INFORMANTE();
+
+------DROP PROCEDURE PROCEDIMIENTO_COPIA_INFORMANTE(integer, timestamp)
+
+
+
+
+
+------------------------------------------------------------------------
+-----FUNCION DEL TRIGGER PARA TRANSACCION_PAGO----
+CREATE OR REPLACE FUNCTION TRIGGER_COPIAR_TRANSACCION_PAGO()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS $$
+DECLARE
+
+	transaccion_alt_reg transaccion_pago_alt%rowtype;
+
+BEGIN
+	---SELECT PARA LA INFORMACION DE LA TABLA TRANSACCION
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL TRIGGER TRIGGER_COPIAR_TRANSACCION_PAGO ( % ) ------', NOW(); 
+
+	-- CALL PROCEDIMIENTO_COPIA_INFORMANTE(old.fk_informante);
+
+	SELECT * INTO transaccion_alt_reg FROM transaccion_pago_alt
+	WHERE fk_crudo = old.fk_crudo 
+	AND fk_informante = old.fk_informante
+	AND id = old.id;
+
+	RAISE INFO 'INFORMACION DE LA TRANSSACION A COPIAR: %', old;
+
+	IF (transaccion_alt_reg IS NULL) THEN
+
+	--- INSERT EN LA TABLA ALT DE TRANSACCION (COPIA DE INFORMACION)
+		INSERT INTO transaccion_pago_alt(
+			id,
+			fecha_hora,
+			monto_pago,
+
+			fk_crudo,
+			fk_informante	
+		) VALUES(
+			old.id,
+			old.fecha_hora,
+			old.monto_pago,
+
+			old.fk_crudo,
+			old.fk_informante
+		);
+
+		RAISE INFO 'COPIADO LA INFORMACION EN LA TABLA ALTERNATIVA DE PIEZA';
+
+	ELSE 
+		RAISE INFO 'YA ESTA COPIADA LA TRANSACCION_PAGO';
+
+	END IF;
+
+
+	RETURN old;
+
+END
+$$;
+----------------CREACION DEL TRIGGER --------------------
+
+
+CREATE TRIGGER TRIGGER_COPIAR_TRANSACCION_PAGO
+BEFORE DELETE ON transaccion_pago
+FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIAR_TRANSACCION_PAGO();
+--- 
+--DROP TRIGGER TRIGGER_COPIAR_TRANSACCION_PAGO ON transaccion_pago;
+
+
+
+
+
+
+------------------------------------------------------------------------
+----- FUNCION DEL TRIGGER PARA COPIAR EL CRUDO-----
+CREATE OR REPLACE FUNCTION TRIGGER_COPIA_CRUDO()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS $$
+DECLARE
+
+	crudo_alt_reg crudo_alt%rowtype;
+
+BEGIN
+
+--SELECT PARA EXTRAR LA INFO DEL CRUDO
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL TRIGGER TRIGGER_COPIA_CRUDO ( % ) ------', NOW();  
+
+	SELECT * INTO crudo_alt_reg FROM crudo_alt
+	WHERE id = old.id;
+
+	
+
+	IF (crudo_alt_reg IS NULL) THEN
+	---- INSERT EN LA TABLA ALT DE HISTORICO(COPIA DE INFORMACION)
+
+		----INSERT EN LA TABLA ALT DE CRUDO (COPIA DE INFORMACION)
+		INSERT INTO crudo_alt (
+			id,
+			fuente, 
+			fecha_obtencion,
+
+			fk_clas_tema,
+			fk_informante,
+
+			fk_estacion_pertenece, 
+			fk_oficina_principal_pertenece,
+
+			fk_estacion_agente,
+			fk_oficina_principal_agente,
+			fk_fecha_inicio_agente,
+			fk_personal_inteligencia_agente
+		) VALUES (
+			old.id,
+			old.fuente, 
+			old.fecha_obtencion,
+
+			old.fk_clas_tema,
+			old.fk_informante,
+
+			old.fk_estacion_pertenece, 
+			old.fk_oficina_principal_pertenece,
+
+			old.fk_estacion_agente,
+			old.fk_oficina_principal_agente,
+			old.fk_fecha_inicio_agente,
+			old.fk_personal_inteligencia_agente    
+		);
+
+		RAISE INFO 'COPIADO LA INFORMACION EN LA TABLA ALTERNATIVA DE CRUDO';
+
+	ELSE
+		RAISE INFO 'Ya está copiado el registro de crudo';
+		--	  RAISE EXCEPTION 'HUBO UN ERROR EN COPIAR INFORMANTE O HISTORICO CARGO';
+		--	  RETURN NULL;
+	END IF;
+
+	return old;
+
+END
+$$;
+
+
+
+
+------------------CREACION DEL TRIGGER --------------------
+CREATE TRIGGER TRIGGER_COPIA_CRUDO
+BEFORE DELETE ON CRUDO
+FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_CRUDO();
+--DROP TRIGGER TRIGGER_COPIA_CRUDO ON CRUDO;
+--DROP FUNCTION TRIGGER_COPIA_CRUDO();
+----
+--
+
+
+
+
+------------------------------------------------------------------------
+------TRIGGER PARA LA COPIA DE ADQUISICION----- BUENO
+
+CREATE OR REPLACE FUNCTION TRIGGER_COPIA_ANALISTA_CRUDO()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS $$
+DECLARE
+
+--	adquisicion_reg adquisicion%rowtype;
+
+	analista_crudo_alt_reg analista_crudo_alt%rowtype;
+
+BEGIN
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL TRIGGER TRIGGER_COPIA_ANALISTA_CRUDO ( % ) ------', NOW();
+
+	SELECT * INTO analista_crudo_alt_reg
+	FROM analista_crudo_alt	
+	WHERE fk_crudo = old.fk_crudo AND
+	fk_fecha_inicio_analista = old.fk_fecha_inicio_analista AND
+	fk_personal_inteligencia_analista = old.fk_personal_inteligencia_analista AND
+	fk_estacion_analista = old.fk_estacion_analista AND
+	fk_oficina_principal_analista = old.fk_oficina_principal_analista;
+
+	--select * from adquisicion
+
+	IF (analista_crudo_alt_reg IS NULL) THEN
+		
+
+		INSERT INTO analista_crudo_alt(
+			fecha_hora ,
+			fk_crudo,
+			fk_fecha_inicio_analista,
+			fk_personal_inteligencia_analista ,
+			fk_estacion_analista ,
+			fk_oficina_principal_analista 
+
+		) VALUES (
+			old.fecha_hora,
+			old.fk_crudo,
+			old.fk_fecha_inicio_analista,
+			old.fk_personal_inteligencia_analista ,
+			old.fk_estacion_analista ,
+			old.fk_oficina_principal_analista 		
+		);
+
+		RAISE INFO 'REGISTRO EN LA TABLA ANALISTA_CRUDO EXITOSO';
+
+	ELSE
+
+		RAISE INFO 'REGISTRO ANALISTA_CRUDO YA ESTA REGISTRADO';
+
+	END IF;
+
+	RETURN old;
+
+
+END
+$$;
+----DROP PROCEDURE TRIGGER_COPIA_ADQUISICION(integer)
+
+CREATE TRIGGER TRIGGER_COPIA_ANALISTA_CRUDO
+BEFORE DELETE ON ANALISTA_CRUDO
+FOR EACH ROW EXECUTE FUNCTION TRIGGER_COPIA_ANALISTA_CRUDO();
+
+
+
+
+
+
+----------///////////- ---------------------------------------------------------------------------------------------------------- ///////////----------
+----------//////////////////- CREACION DE TRIGGERS Y FUNCIONES NECESARIOS PARA LA INSERCION DE LOS DATOS   -- EJECUTAR COMO DEV -///////////////////////----------
+----------///////////- ---------------------------------------------------------------------------------------------------------- ///////////----------
+
+
+
+-------------------------- FUNCIONES NECESARIAS PARA EL PARA EL INSERT -----------------------------
+
+CREATE OR REPLACE PROCEDURE ELIMINACION_REGISTROS_VENTA_EXCLUSIVA ( id_pieza IN integer ) 
+LANGUAGE PLPGSQL 
+AS $$
+
+DECLARE 
+
+	id_crudos_asociados integer[] ;	
+
+BEGIN 
+
+	id_crudos_asociados := ARRAY( 
+		SELECT fk_crudo FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza
+	);
+
+	RAISE INFO 'IDs de crudos de la pieza %: %', id_pieza, id_crudos_asociados;
+
+	DELETE FROM ADQUISICION WHERE fk_pieza_inteligencia = id_pieza;
+
+	DELETE FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza;
+
+	DELETE FROM PIEZA_INTELIGENCIA WHERE id = id_pieza;
+
+	DELETE FROM TRANSACCION_PAGO WHERE fk_crudo = ANY(id_crudos_asociados);
+
+	DELETE FROM ANALISTA_CRUDO WHERE fk_crudo = ANY(id_crudos_asociados);
+
+	DELETE FROM CRUDO WHERE id = ANY(id_crudos_asociados);
+
+
+END $$;
+
+
+--------------------------/////////////// FUNCION PARA INSERT EN COLUMNA BYTEA //////////////////---------------------- 
+
+
+CREATE OR REPLACE FUNCTION FORMATO_ARCHIVO_A_BYTEA ( ruta_archivo IN text ) 
+RETURNS bytea 
+LANGUAGE plpgsql AS $$ 
+DECLARE 
+
+--  ruta text := 'C:\Users\Mickel\BD2\bases-dos\scripts\';
+--	ruta text := '/mnt/postgres/';
+--  ruta text := 'C:\Users\Mickel\BD2\bases-dos\scripts\';
+
+	ruta text := 'temp_files/';
+	
+BEGIN 
+
+	RETURN (ruta || ruta_archivo); 
+
+	-- RETURN pg_read_binary_file(ruta || ruta_archivo); 
+	
+END $$;
+
+
+-- INSERT INTO crudo (contenido, tipo_contenido, resumen, fuente, valor_apreciacion, nivel_confiabilidad_inicial, nivel_confiabilidad_final, fecha_obtencion, fecha_verificacion_final, cant_analistas_verifican, fk_clas_tema, fk_informante, fk_estacion_pertenece, fk_oficina_principal_pertenece, fk_estacion_agente, fk_oficina_principal_agente, fk_fecha_inicio_agente, fk_personal_inteligencia_agente) VALUES
+-- (FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/images.jpg'), 'imagen', 'Problemas politicos en Vitnam I', 'secreta', 500, 85, 85 , '2034-01-08 01:00:00', '2034-01-06 01:00:00', 2, 1, 1, 1, 1, 1, 1, '2034-01-05 01:00:00', 1);
+
+-- SELECT FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/images.jpg');
+
+-- SHOW  data_directory;
+--SELECT  * from crudo c ;
+
+
+
+----------------------- FUNCIONES REPORTES E INSERT  -------------------------------
+
+DROP FUNCTION IF EXISTS RESTA_7_DIAS CASCADE;
+
+CREATE OR REPLACE FUNCTION RESTA_7_DIAS ( fecha IN timestamp ) 
+RETURNS timestamp
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '7 days';
+	
+END $$;
+
+
+DROP FUNCTION IF EXISTS RESTA_6_MESES CASCADE;
+
+CREATE OR REPLACE FUNCTION RESTA_6_MESES ( fecha IN timestamp ) 
+RETURNS timestamp
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '6 month';
+	
+END $$;
+
+
+
+DROP FUNCTION IF EXISTS RESTA_1_YEAR CASCADE;
+
+CREATE OR REPLACE FUNCTION RESTA_1_YEAR ( fecha IN timestamp ) 
+RETURNS timestamp
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '1 years';
+	
+END $$;
+
+
+DROP FUNCTION IF EXISTS RESTA_1_YEAR_DATE CASCADE;
+
+CREATE OR REPLACE FUNCTION RESTA_1_YEAR_DATE ( fecha IN date ) 
+RETURNS date
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '1 years';
+	
+END $$;
+
+
+
+DROP FUNCTION IF EXISTS RESTA_3_MESES CASCADE;
+
+CREATE OR REPLACE FUNCTION RESTA_3_MESES ( fecha IN timestamp ) 
+RETURNS timestamp
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '3 month';
+	
+END $$;
+
+
+DROP FUNCTION IF EXISTS RESTA_3_MESES_DATE CASCADE;
+
+CREATE OR REPLACE FUNCTION RESTA_3_MESES_DATE ( fecha IN date ) 
+RETURNS date
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '3 month';
+	
+END $$;
+
+
+-------------------------//////////ACTUALIZAR TODAS LAS FECHAS - RESTA 14 años  /////////////-------------------------
+
+
+DROP FUNCTION IF EXISTS RESTA_14_FECHA CASCADE;
+
+CREATE OR REPLACE FUNCTION RESTA_14_FECHA ( fecha IN date ) 
+RETURNS date
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '14 years';
+	
+END $$;
+
+------- .... -------
+
+DROP FUNCTION IF EXISTS RESTA_14_FECHA_HORA CASCADE;
+
+CREATE OR REPLACE FUNCTION RESTA_14_FECHA_HORA ( fecha IN timestamp ) 
+RETURNS timestamp
+LANGUAGE PLPGSQL 
+AS $$
+BEGIN 
+		
+	RETURN fecha - INTERVAL '14 years';
+	
+END $$;
+
+
+
+
 
 
 
@@ -1106,7 +1783,7 @@ CREATE OR REPLACE VIEW VISTA_CUENTAS_AII_OFICINA_GINEBRA AS
 
 
 ----------///////////- ---------------------------------------------------------------------------------------------------------- ///////////----------
-----------//////////////////- CREACION DE TRIGGERS Y FUNCIONES NECESARIOS PARA LA INSERCION DE LOS DATOS   -- EJECUTAR COMO DEV -///////////////////////----------
+----------//////////////////- INSERCION DE DATOS   -- EJECUTAR COMO DEV -///////////////////////----------
 ----------///////////- ---------------------------------------------------------------------------------------------------------- ///////////----------
 
 
@@ -2217,8 +2894,8 @@ WITH
 		UPDATE PERSONAL_INTELIGENCIA SET fecha_nacimiento = RESTA_14_FECHA(fecha_nacimiento)
 	), i as (
 		UPDATE INFORMANTE SET fk_fecha_inicio_encargado = RESTA_14_FECHA_HORA(fk_fecha_inicio_encargado), fk_fecha_inicio_confidente = RESTA_14_FECHA_HORA(fk_fecha_inicio_confidente)
-	), j AS (
-   		UPDATE HIST_CARGO_ALT SET fecha_inicio = RESTA_14_FECHA_HORA(fecha_inicio), fecha_fin = RESTA_14_FECHA_HORA(fecha_fin)
+--	), j AS (
+--   		UPDATE HIST_CARGO_ALT SET fecha_inicio = RESTA_14_FECHA_HORA(fecha_inicio), fecha_fin = RESTA_14_FECHA_HORA(fecha_fin)
     ), k as (
    		UPDATE CRUDO_ALT SET fecha_obtencion = RESTA_14_FECHA_HORA(fecha_obtencion), fk_fecha_inicio_agente = RESTA_14_FECHA_HORA(fk_fecha_inicio_agente) 
 	), l as (
@@ -2252,9 +2929,6 @@ CALL ELIMINACION_REGISTROS_VENTA_EXCLUSIVA (1);
 CALL ELIMINACION_REGISTROS_VENTA_EXCLUSIVA (16);
 CALL ELIMINACION_REGISTROS_VENTA_EXCLUSIVA (10);
 CALL ELIMINACION_REGISTROS_VENTA_EXCLUSIVA (4);
-
-
-
 
 
 
@@ -2567,8 +3241,6 @@ BEGIN
 END
 $$;
 
-
-
 -- select CREAR_NIVEL_EDUCATIVO('Economía', 'Master', 'Finanzas');
 -- select CREAR_NIVEL_EDUCATIVO('Ingeniería Industrial',null,null);
 -- select CREAR_NIVEL_EDUCATIVO('Ingeniería Informática',null,null);
@@ -2625,13 +3297,3935 @@ END $$;
 
 
 ----------///////////- ---------------------------------------------------------------------------------------------------------------- ///////////----------
+----------//////////////////- CREACION DE PROCEDIMIENTOS Y FUNCIONES RELACIONADOS AL ROL DIRECTOR DE DIRECTOR EJECUTIVO   -- EJECUTAR COMO DEV -///////////////////////----------
+----------///////////- --------------------------------------------------------------------------------------------------------------- ///////////----------
+
+
+--DROP FUNCTION VER_DIRECTOR_AREA;
+
+CREATE OR REPLACE FUNCTION VER_LUGAR (id_lugar in integer)
+RETURNS LUGAR
+LANGUAGE sql
+AS $$  
+ 	SELECT * FROM LUGAR WHERE id = id_lugar; 
+$$;
+
+
+--
+--select VER_DIRECTOR_AREA(8);
+
+--DROP FUNCTION VER_DIRECTOR_AREA;
+
+CREATE OR REPLACE FUNCTION VER_LUGARES ()
+RETURNS setof LUGAR
+LANGUAGE sql
+AS $$  
+ 	SELECT * FROM LUGAR; 
+$$;
+
+
+
+
+CREATE OR REPLACE PROCEDURE CREAR_LUGAR (nombre_va IN LUGAR.nombre%TYPE, tipo_va in LUGAR.tipo%TYPE, region_va in LUGAR.region%TYPE, id_lugar_sup IN LUGAR.fk_lugar%TYPE)
+LANGUAGE plpgsql
+AS $$  
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CREAR_LUGAR ( % ) ------', NOW();
+	
+
+	INSERT INTO LUGAR (
+		nombre,
+		tipo,
+		region,
+		fk_lugar
+	) VALUES (
+		nombre_va,
+		tipo_va,
+		region_va,
+		id_lugar_sup
+	);
+
+END $$;
+
+-- call CREAR_LUGAR('Perú','pais','america_sur',null);
+-- select * from ver_lugares();
+-- CALL CREAR_LUGAR('prueba',20, 2);
+-- SELECT * FROM lugar order by id desc; 
+-- select * from lugar where id = 2;
+-- select * from EMPLEADO_JEFE where id = 20;
+
+
+
+CREATE OR REPLACE PROCEDURE ELIMINAR_LUGAR (id_lugar IN INTEGER)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	-- empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+--	lugar_reg LUGAR%ROWTYPE;
+	-- tipo_va EMPLEADO_JEFE.tipo%TYPE := 'jefe';
+
+BEGIN 
+
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO ELIMINAR_LUGAR ( % ) ------', NOW();
+	
+	DELETE FROM LUGAR WHERE id = id_lugar; 
+	
+   	RAISE INFO 'LUGAR ELIMINADA CON EXITO!';
+ 
+
+END $$;
+
+
+
+-- CALL ELIMINAR_LUGAR(15)
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
+
+CREATE OR REPLACE PROCEDURE ACTUALIZAR_LUGAR (id_lugar IN integer,nombre_va IN LUGAR.nombre%TYPE, tipo_va in LUGAR.tipo%TYPE, region_va in LUGAR.region%TYPE, id_lugar_sup IN LUGAR.fk_lugar%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	lugar_reg LUGAR%ROWTYPE;
+ 
+BEGIN 
+
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO ACTUALIZAR_LUGAR ( % ) ------', NOW();
+	
+	SELECT * INTO lugar_reg FROM LUGAR WHERE id = id_lugar;
+
+	IF (lugar_reg IS NULL) THEN
+		RAISE INFO 'La lugar no existe';
+		RAISE EXCEPTION 'La lugar no existe';
+	END IF;
+
+
+	UPDATE LUGAR SET 
+		nombre = nombre_va,
+		tipo = tipo_va,
+		region = region_va,
+		fk_lugar = id_lugar_sup
+	
+	WHERE id = id_lugar
+	RETURNING * INTO lugar_reg;
+	
+	-------------////////
+
+
+   RAISE INFO 'LUGAR MODIFICADA CON EXITO';
+   RAISE INFO 'Datos de la lugar modificada %', lugar_reg ; 
+
+END $$;
+
+
+
+
+
+--DROP FUNCTION VER_DIRECTOR_AREA;
+
+CREATE OR REPLACE FUNCTION VER_DIRECTOR_AREA (id_director_area in integer)
+RETURNS EMPLEADO_JEFE
+LANGUAGE sql
+AS $$  
+ 	SELECT * FROM EMPLEADO_JEFE WHERE id = id_director_area AND tipo = 'director_area' ; 
+$$;
+--
+--
+--select VER_DIRECTOR_AREA(8);
+
+--DROP FUNCTION VER_DIRECTOR_AREA;
+
+CREATE OR REPLACE FUNCTION VER_DIRECTORES_AREA ()
+RETURNS setof EMPLEADO_JEFE
+LANGUAGE sql
+AS $$  
+ 	SELECT * FROM EMPLEADO_JEFE WHERE tipo = 'director_area' ; 
+$$;
+--
+--
+--select VER_DIRECTOR_AREA(8);
+
+
+
+
+-- DROP PROCEDURE IF EXISTS CREAR_DIRECTOR_AREA CASCADE;
+
+CREATE OR REPLACE PROCEDURE CREAR_DIRECTOR_AREA (primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE, id_jefe IN EMPLEADO_JEFE.fk_empleado_jefe%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+
+	tipo_va EMPLEADO_JEFE.tipo%TYPE := 'director_area';
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CREAR_DIRECTOR_AREA ( % ) ------', NOW();
+	
+
+	-------------////////
+	
+	INSERT INTO EMPLEADO_JEFE (
+		primer_nombre,
+		segundo_nombre, 
+		primer_apellido, 
+		segundo_apellido, 
+		telefono,
+		tipo,
+		fk_empleado_jefe 
+	
+	) VALUES (
+		primer_nombre_va,
+		segundo_nombre_va, 
+		primer_apellido_va, 
+		segundo_apellido_va, 
+		telefono_va,
+		tipo_va,
+		id_jefe 
+
+	) RETURNING * INTO empleado_jefe_reg;
+
+   RAISE INFO 'DIRECTOR DE AREA CREADO CON EXITO!';
+   RAISE INFO 'Datos del director de area: %', empleado_jefe_reg ; 
+
+
+
+END $$;
+
+
+-- CALL CREAR_DIRECTOR_AREA('nombre1','nombre2','apellido1','apellido2',CREAR_TELEFONO(0212,2847213), 5);
+-- SELECT * FROM empleado_jefe ej order by id desc; 
+
+
+
+CREATE OR REPLACE PROCEDURE ELIMINAR_DIRECTOR_AREA (id_director_area IN INTEGER)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+--	oficina_reg OFICINA_PRINCIPAL%ROWTYPE;
+	tipo_va EMPLEADO_JEFE.tipo%TYPE := 'director_area';
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO ELIMINAR_DIRECTOR_AREA ( % ) ------', NOW();
+	
+
+	-------------////////
+	SELECT * INTO empleado_jefe_reg FROM empleado_jefe WHERE id = id_director_area;
+
+	IF (empleado_jefe_reg IS NULL) THEN
+		RAISE INFO 'El empleado no existe';
+		RAISE EXCEPTION 'El empleado no existe';
+	END IF;
+
+	IF (empleado_jefe_reg.tipo != tipo_va) THEN
+		RAISE INFO 'El empleado no es un director de area';
+		RAISE EXCEPTION 'El empleado no es un director de area';
+	END IF;
+
+	UPDATE oficina_principal SET fk_director_area = null WHERE fk_director_area = id_director_area;
+	UPDATE empleado_jefe SET fk_empleado_jefe = null WHERE fk_empleado_jefe = id_director_area;
+
+	DELETE FROM EMPLEADO_JEFE WHERE id = id_director_area; 
+	
+   RAISE INFO 'DIRECTOR DE AREA ELIMINADO CON EXITO!';
+ 
+
+END $$;
+
+
+
+-- CALL eliminar_director_area(5);
+-- SELECT * FROM empleado_jefe ej order by id desc; 
+
+
+
+CREATE OR REPLACE PROCEDURE ACTUALIZAR_DIRECTOR_AREA (id_director_area IN integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE, id_jefe IN EMPLEADO_JEFE.fk_empleado_jefe%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+
+	tipo_va EMPLEADO_JEFE.tipo%TYPE := 'director_area';
+
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO ACTUALIZAR_DIRECTOR_AREA ( % ) ------', NOW();
+	
+
+	-------------////////
+	SELECT * INTO empleado_jefe_reg FROM empleado_jefe WHERE id = id_director_area;
+
+	IF (empleado_jefe_reg IS NULL) THEN
+		RAISE INFO 'El empleado no existe';
+		RAISE EXCEPTION 'El empleado no existe';
+	END IF;
+
+	IF (empleado_jefe_reg.tipo != tipo_va) THEN
+		RAISE INFO 'El empleado no es un director de area';
+		RAISE EXCEPTION 'El empleado no es un director de area';
+	END IF;
+	
+
+	-------------////////
+	
+	UPDATE EMPLEADO_JEFE SET 
+	
+		primer_nombre = primer_nombre_va,
+		segundo_nombre = segundo_nombre_va, 
+		primer_apellido = primer_apellido_va,  
+		segundo_apellido = segundo_apellido_va, 
+		telefono = telefono_va,
+		fk_empleado_jefe = id_jefe 
+		
+	WHERE id = id_director_area
+	RETURNING * INTO empleado_jefe_reg;
+
+   RAISE INFO 'DIRECTOR DE AREA ACTUALIZADO CON EXITO!';
+   RAISE INFO 'Datos del director de area: %', empleado_jefe_reg ; 
+
+
+
+END $$;
+
+
+-- CALL actualizar_director_area (2,'nombre1','nombre2','apellido1','apellido2',CREAR_TELEFONO(0212,2847213), 5);
+-- SELECT * FROM empleado_jefe ej order by id desc; 
+
+
+
+
+--DROP FUNCTION VER_OFICINA;
+
+CREATE OR REPLACE FUNCTION VER_OFICINA (id_oficina in integer)
+RETURNS OFICINA_PRINCIPAL
+LANGUAGE sql
+AS $$  
+ 	SELECT * FROM OFICINA_PRINCIPAL WHERE id = id_oficina; 
+$$;
+--
+--
+--select VER_DIRECTOR_AREA(8);
+
+--DROP FUNCTION VER_OFICINAS;
+
+CREATE OR REPLACE FUNCTION VER_OFICINAS ()
+RETURNS setof OFICINA_PRINCIPAL
+LANGUAGE sql
+AS $$  
+ 	SELECT * FROM OFICINA_PRINCIPAL; 
+$$;
+--
+--
+-- select VER_OFICINAS();
+
+
+
+-- DROP PROCEDURE IF EXISTS CREAR_OFICINA_PRINCIPAL CASCADE;
+
+CREATE OR REPLACE PROCEDURE CREAR_OFICINA_PRINCIPAL (nombre_va IN OFICINA_PRINCIPAL.nombre%TYPE, sede_va IN OFICINA_PRINCIPAL.sede%TYPE, id_ciudad IN OFICINA_PRINCIPAL.fk_lugar_ciudad%TYPE, id_director_area IN OFICINA_PRINCIPAL.fk_director_area%TYPE, id_director_ejecutivo IN OFICINA_PRINCIPAL.fk_director_ejecutivo%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	oficina_reg OFICINA_PRINCIPAL%ROWTYPE;
+
+	-- tipo_va EMPLEADO_JEFE.tipo%TYPE := 'director_area';
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CREAR_OFICINA_PRINCIPAL ( % ) ------', NOW();
+	
+	-------------////////
+		
+	INSERT INTO OFICINA_PRINCIPAL (
+		nombre,
+		sede,
+		fk_director_area,
+		fk_director_ejecutivo,
+		fk_lugar_ciudad
+	
+	) VALUES (
+		nombre_va,
+		sede_va,
+		id_director_area,
+		id_director_ejecutivo,
+		id_ciudad 
+
+	) RETURNING * INTO oficina_reg;
+
+   RAISE INFO 'OFICINA CREADA CON EXITO';
+   RAISE INFO 'Datos de la oficina creada %', oficina_reg ; 
+
+
+END $$;
+
+
+-- CALL CREAR_OFICINA_PRINCIPAL('prueba',20, 2);
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
+
+
+CREATE OR REPLACE PROCEDURE ELIMINAR_OFICINA_PRINCIPAL (id_oficina IN INTEGER)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	-- empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+--	oficina_reg OFICINA_PRINCIPAL%ROWTYPE;
+	-- tipo_va EMPLEADO_JEFE.tipo%TYPE := 'director_area';
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO ELIMINAR_OFICINA_PRINCIPAL ( % ) ------', NOW();
+	
+	DELETE FROM OFICINA_PRINCIPAL WHERE id = id_oficina; 
+	
+   	RAISE INFO 'OFICINA ELIMINADA CON EXITO!';
+ 
+
+END $$;
+
+
+
+-- CALL ELIMINAR_OFICINA_PRINCIPAL(15);
+
+
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
+
+
+CREATE OR REPLACE PROCEDURE ACTUALIZAR_OFICINA_PRINCIPAL (id_oficina IN integer, nombre_va IN OFICINA_PRINCIPAL.nombre%TYPE, sede_va IN OFICINA_PRINCIPAL.sede%TYPE, id_ciudad IN OFICINA_PRINCIPAL.fk_lugar_ciudad%TYPE, id_director_area IN OFICINA_PRINCIPAL.fk_director_area%TYPE, id_director_ejecutivo IN OFICINA_PRINCIPAL.fk_director_ejecutivo%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	oficina_reg OFICINA_PRINCIPAL%ROWTYPE;
+ 
+BEGIN 
+
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CREAR_OFICINA_PRINCIPAL ( % ) ------', NOW();
+	
+	-------------////////
+	
+	SELECT * INTO oficina_reg FROM OFICINA_PRINCIPAL WHERE id = id_oficina;
+
+	IF (oficina_reg IS NULL) THEN
+		RAISE INFO 'La oficina no existe';
+		RAISE EXCEPTION 'La oficina no existe';
+	END IF;
+
+
+	UPDATE OFICINA_PRINCIPAL SET 
+		nombre = nombre_va,
+		sede = sede_va,
+		fk_director_area = id_director_area,
+		fk_director_ejecutivo = id_director_ejecutivo,
+		fk_lugar_ciudad = id_ciudad 
+
+	WHERE id = id_oficina
+	RETURNING * INTO oficina_reg;
+
+
+   RAISE INFO 'OFICINA MODIFICADA CON EXITO';
+   RAISE INFO 'Datos de la oficina modificada %', oficina_reg ; 
+
+
+
+END $$;
+
+
+-- select VER_OFICINAS();
+-- CALL ACTUALIZAR_OFICINA_PRINCIPAL (13,'nombre1',false, 21, 9, null);
+-- select VER_DIRECTORES_AREA();
+
+
+
+
+
+-- SELECCIONAR, CREAR, MODIFICAR y ELIMINAR OFICINAS
+
+
+CREATE OR REPLACE FUNCTION VER_DIRECTOR_EJECUTIVO (id_director_ejecutivo in integer)
+RETURNS EMPLEADO_JEFE
+LANGUAGE sql
+AS $$  
+ 	SELECT * FROM EMPLEADO_JEFE WHERE id = id_director_ejecutivo AND tipo = 'director_ejecutivo' ; 
+$$;
+--
+--
+--select VER_DIRECTOR_EJECUTIVO(8);
+
+--DROP FUNCTION VER_DIRECTOR_EJECUTIVO;
+
+CREATE OR REPLACE FUNCTION VER_DIRECTORES_EJECUTIVOS ()
+RETURNS setof EMPLEADO_JEFE
+LANGUAGE sql
+AS $$  
+ 	SELECT * FROM EMPLEADO_JEFE WHERE tipo = 'director_ejecutivo' ; 
+$$;
+--
+--
+--select VER_DIRECTOR_EJECUTIVO(8);
+
+
+
+
+-- DROP PROCEDURE IF EXISTS CREAR_DIRECTOR_EJECUTIVO CASCADE;
+
+
+CREATE OR REPLACE PROCEDURE CREAR_DIRECTOR_EJECUTIVO (primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+
+	tipo_va EMPLEADO_JEFE.tipo%TYPE := 'director_ejecutivo';
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMIENTO CREAR_DIRECTOR_EJECUTIVO ( % ) ------', NOW();
+	
+
+	-------------////////
+	
+	INSERT INTO EMPLEADO_JEFE (
+		primer_nombre,
+		segundo_nombre, 
+		primer_apellido, 
+		segundo_apellido, 
+		telefono,
+		tipo,
+		fk_empleado_jefe 
+	
+	) VALUES (
+		primer_nombre_va,
+		segundo_nombre_va, 
+		primer_apellido_va, 
+		segundo_apellido_va, 
+		telefono_va,
+		tipo_va,
+		null 
+
+	) RETURNING * INTO empleado_jefe_reg;
+
+   RAISE INFO 'DIRECTOR EJECUTIVO CREADO CON EXITO!';
+   RAISE INFO 'Datos del director ejecutivo: %', empleado_jefe_reg ; 
+
+
+
+END $$;
+
+
+-- CALL CREAR_DIRECTOR_EJECUTIVO('nombre1','nombre2','apellido1','apellido2',CREAR_TELEFONO(0212,2847213), 5);
+-- SELECT * FROM empleado_jefe ej order by id desc; 
+
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
+
+
+CREATE OR REPLACE PROCEDURE ELIMINAR_DIRECTOR_EJECUTIVO (id_director_ejecutivo IN INTEGER)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+--	oficina_reg OFICINA_PRINCIPAL%ROWTYPE;
+	tipo_va EMPLEADO_JEFE.tipo%TYPE := 'director_ejecutivo';
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMIENTO ELIMINAR_DIRECTOR_EJECUTIVO ( % ) ------', NOW();
+	
+
+	-------------////////
+	SELECT * INTO empleado_jefe_reg FROM empleado_jefe WHERE id = id_director_ejecutivo;
+
+	IF (empleado_jefe_reg IS NULL) THEN
+		RAISE INFO 'El empleado no existe';
+		RAISE EXCEPTION 'El empleado no existe';
+	END IF;
+
+	IF (empleado_jefe_reg.tipo != tipo_va) THEN
+		RAISE INFO 'El empleado no es un director ejecutivo';
+		RAISE EXCEPTION 'El empleado no es un director ejecutivo';
+	END IF;
+
+	UPDATE oficina_principal SET fk_director_ejecutivo = null WHERE fk_director_ejecutivo = id_director_ejecutivo;
+	UPDATE empleado_jefe SET fk_empleado_jefe = null WHERE fk_empleado_jefe = id_director_ejecutivo;
+
+	DELETE FROM EMPLEADO_JEFE WHERE id = id_director_ejecutivo; 
+	
+   RAISE INFO 'DIRECTOR EJECUTIVO ELIMINADO CON EXITO!';
+ 
+
+END $$;
+
+
+
+-- CALL eliminar_director_ejecutivo(5);
+-- SELECT * FROM empleado_jefe ej order by id desc; 
+
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
+
+
+CREATE OR REPLACE PROCEDURE ACTUALIZAR_DIRECTOR_EJECUTIVO (id_director_ejecutivo IN integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+
+	tipo_va EMPLEADO_JEFE.tipo%TYPE := 'director_ejecutivo';
+
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMIENTO ACTUALIZAR_DIRECTOR_EJECUTIVO ( % ) ------', NOW();
+	
+
+	-------------////////
+	SELECT * INTO empleado_jefe_reg FROM empleado_jefe WHERE id = id_director_ejecutivo;
+
+	IF (empleado_jefe_reg IS NULL) THEN
+		RAISE INFO 'El empleado no existe';
+		RAISE EXCEPTION 'El empleado no existe';
+	END IF;
+
+	IF (empleado_jefe_reg.tipo != tipo_va) THEN
+		RAISE INFO 'El empleado no es un director ejecutivo';
+		RAISE EXCEPTION 'El empleado no es un director ejecutivo';
+	END IF;
+	
+
+	-------------////////
+	
+	UPDATE EMPLEADO_JEFE SET 
+	
+		primer_nombre = primer_nombre_va,
+		segundo_nombre = segundo_nombre_va, 
+		primer_apellido = primer_apellido_va,  
+		segundo_apellido = segundo_apellido_va, 
+		telefono = telefono_va
+
+	WHERE id = id_director_ejecutivo
+	RETURNING * INTO empleado_jefe_reg;
+
+   RAISE INFO 'DIRECTOR EJECUTIVO ACTUALIZADO CON EXITO!';
+   RAISE INFO 'Datos del director ejecutivo: %', empleado_jefe_reg ; 
+
+
+
+END $$;
+
+
+-- CALL actualizar_director_ejecutivo (2,'nombre1','nombre2','apellido1','apellido2',CREAR_TELEFONO(0212,2847213), 5);
+-- SELECT * FROM empleado_jefe ej order by id desc; 
+
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------
+
+CREATE OR REPLACE PROCEDURE CAMBIAR_ROL_EMPLEADO (id_empleado IN integer, id_jefe in integer, cargo in integer)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMIENTO CAMBIAR_ROL_EMPLEADO ( % ) ------', NOW();
+	
+
+    SELECT * INTO empleado_jefe_reg FROM empleado_jefe WHERE id = id_empleado;
+
+    IF (empleado_jefe_reg IS NULL) THEN
+        RAISE INFO 'El empleado no existe';
+        RAISE EXCEPTION 'El empleado no existe';
+    END IF;
+
+
+	-------------////////
+	
+	UPDATE EMPLEADO_JEFE SET 
+	
+		primer_nombre = primer_nombre_va,
+		segundo_nombre = segundo_nombre_va, 
+		primer_apellido = primer_apellido_va,  
+		segundo_apellido = segundo_apellido_va, 
+		telefono = telefono_va,
+        tipo = cargo,
+        fk_empleado_jefe = id_jefe
+        
+	WHERE id = id_empleado
+	RETURNING * INTO empleado_jefe_reg;
+
+   RAISE INFO 'DIRECTOR EJECUTIVO ACTUALIZADO CON EXITO!';
+   RAISE INFO 'Datos del director ejecutivo: %', empleado_jefe_reg ; 
+
+END $$;
+
+
+
+
+
+--------------------------//////////////////////////-------------------------\\
+
+-------------------------//////////////---------------------------------------------//////////////--------------------
+
+
+CREATE OR REPLACE FUNCTION VER_LISTA_INFORMANTES_EMPLEADO_CONFIDENTE (id_empleado_acceso in integer)
+RETURNS setof INFORMANTE
+LANGUAGE sql
+AS $$  
+ 	
+    SELECT * FROM INFORMANTE WHERE fk_empleado_jefe_confidente = id_empleado_acceso; 
+$$;
+
+-- SELECT * FROM VER_LISTA_INFORMANTES_EMPLEADO_CONFIDENTE(11);
+
+
+
+
+
+
+
+----------///////////- ---------------------------------------------------------------------------------------------------------------- ///////////----------
 ----------//////////////////- CREACION DE PROCEDIMIENTOS Y FUNCIONES RELACIONADOS AL ROL DIRECTOR DE AREA   -- EJECUTAR COMO DEV -///////////////////////----------
 ----------///////////- --------------------------------------------------------------------------------------------------------------- ///////////----------
 
 
+CREATE OR REPLACE PROCEDURE VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION(id_empleado_acceso in integer, id_jefe_estacion in integer)
+AS $$
+DECLARE
 
-FALTA PROCEDIENTOS POR ROL Y TRIGGERS
+  dir_area_reg EMPLEADO_JEFE%ROWTYPE;
+  jefe_estacion_reg EMPLEADO_JEFE%ROWTYPE;
+  oficina_dir_reg OFICINA_PRINCIPAL%ROWTYPE;
+  estacion_reg ESTACION%ROWTYPE;
 
+BEGIN
+
+  SELECT * INTO dir_area_reg FROM EMPLEADO_JEFE WHERE id = id_empleado_acceso;
+
+  IF (dir_area_reg IS NULL OR dir_area_reg.tipo != 'director_area') THEN
+    RAISE EXCEPTION 'El empleado no un director de area o no existe';
+  END IF;
+
+  SELECT * INTO jefe_estacion_reg FROM EMPLEADO_JEFE WHERE id = id_jefe_estacion AND tipo = 'jefe';
+  SELECT * INTO estacion_reg FROM ESTACION WHERE fk_empleado_jefe = id_jefe_estacion;
+  SELECT * INTO oficina_dir_reg FROM OFICINA_PRINCIPAL WHERE fk_director_area = id_empleado_acceso; 
+
+  IF (estacion_reg.fk_oficina_principal != oficina_dir_reg.id AND jefe_estacion_reg.fk_empleado_jefe != id_empleado_acceso) THEN
+    RAISE EXCEPTION 'No tiene acesso a esta informacion';
+  END IF;
+    
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- CALL VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION()
+
+-----------------------------///////////////-------------------------------
+
+
+--DROP FUNCTION VER_JEFE_ESTACION;
+
+CREATE OR REPLACE FUNCTION VER_JEFE_E (id_empleado_acceso in integer, id_jefe in integer)
+RETURNS EMPLEADO_JEFE
+AS $$
+DECLARE 
+
+  jefe_estacion EMPLEADO_JEFE%ROWTYPE;
+  -- empleado_dir_acceso EMPLEADO_JEFE%ROWTYPE; 
+  -- oficina_dir_acceso OFICINA_PRINCIPAL%ROWTYPE;
+
+BEGIN
+
+  CALL VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION(id_empleado_acceso, id_jefe);
+
+  SELECT * INTO jefe_estacion FROM EMPLEADO_JEFE WHERE id = id_jefe AND tipo = 'jefe';
+
+  RETURN jefe_estacion;
+
+END;
+$$ LANGUAGE plpgsql;
+
+--select * from empleado_jefe
+
+-- SELECT VER_JEFE_E(2,20);
+
+------
+
+
+CREATE OR REPLACE FUNCTION VER_JEFES_E (id_empleado_acceso in integer)
+RETURNS setof EMPLEADO_JEFE
+AS $$
+BEGIN
+   
+  RETURN QUERY (
+    
+    SELECT ej.* FROM EMPLEADO_JEFE ej WHERE ej.fk_empleado_jefe = id_empleado_acceso
+    UNION
+    SELECT ej.* FROM EMPLEADO_JEFE ej, ESTACION e WHERE 
+      ej.id = e.fk_empleado_jefe AND e.fk_oficina_principal IN 
+      ( SELECT id FROM OFICINA_PRINCIPAL op WHERE op.fk_director_area = id_empleado_acceso ) 
+  
+  );
+    
+
+END;
+$$ LANGUAGE plpgsql;
+--
+
+--SELECT VER_JEFES_E(2);
+
+
+
+----------------------------------//////////////////////-------------------------
+
+
+
+-- DROP PROCEDURE IF EXISTS CREAR_JEFE_ESTACION CASCADE;
+
+
+CREATE OR REPLACE PROCEDURE CREAR_JEFE_ESTACION (id_empleado_acceso in integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+  empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+
+  tipo_va EMPLEADO_JEFE.tipo%TYPE := 'jefe';
+
+BEGIN 
+
+  RAISE INFO ' ';
+  RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CREAR_JEFE_ESTACION ( % ) ------', NOW();
+  
+
+  -------------////////
+  
+  INSERT INTO EMPLEADO_JEFE (
+    primer_nombre,
+    segundo_nombre, 
+    primer_apellido, 
+    segundo_apellido, 
+    telefono,
+    tipo,
+    fk_empleado_jefe 
+  
+  ) VALUES (
+    primer_nombre_va,
+    segundo_nombre_va, 
+    primer_apellido_va, 
+    segundo_apellido_va, 
+    telefono_va,
+    tipo_va,
+    id_empleado_acceso 
+
+  ) RETURNING * INTO empleado_jefe_reg;
+
+   RAISE INFO 'JEFE DE ESTACION CREADO CON EXITO!';
+   RAISE INFO 'Datos del jefe de estacion: %', empleado_jefe_reg ; 
+
+END $$;
+
+
+-- CALL CREAR_JEFE_ESTACION(2,'nombre1','nombre2','apellido1','apellido2',CREAR_TELEFONO(0212,2847213));
+-- -- SELECT * FROM empleado_jefe ej order by id desc; 
+-- SELECT VER_JEFES_E(2);
+-- select * from empleado_jefe;
+-- CALL VER_JEFE_E(2);
+
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
+
+
+CREATE OR REPLACE PROCEDURE ELIMINAR_JEFE_ESTACION (id_empleado_acceso IN INTEGER, id_jefe_estacion IN INTEGER)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+
+empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+--  oficina_reg OFICINA_PRINCIPAL%ROWTYPE;
+  tipo_va EMPLEADO_JEFE.tipo%TYPE := 'jefe';
+  numero_estaciones_dep integer;
+
+BEGIN 
+
+  RAISE INFO ' ';
+  RAISE INFO '------ EJECUCION DEL PROCEDIMINETO ELIMINAR_JEFE_ESTACION ( % ) ------', NOW();
+  
+  CALL VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION(id_empleado_acceso, id_jefe_estacion);
+
+  -------------////////
+  SELECT * INTO empleado_jefe_reg FROM empleado_jefe WHERE id = id_jefe_estacion;
+
+  IF (empleado_jefe_reg IS NULL) THEN
+    RAISE INFO 'El empleado no existe';
+    RAISE EXCEPTION 'El empleado no existe';
+  END IF;
+
+  IF (empleado_jefe_reg.tipo != tipo_va) THEN
+    RAISE INFO 'El empleado no es un jefe de estacion';
+    RAISE EXCEPTION 'El empleado no es un jefe de estacion';
+  END IF;
+
+
+  SELECT count(*) INTO numero_estaciones_dep FROM ESTACION WHERE fk_empleado_jefe = id_jefe_estacion;
+
+  IF ( numero_estaciones_dep > 0 ) THEN
+
+    RAISE EXCEPTION 'No se puede eliminar al jefe de estacion ya que ninguna estacion puede quedar sin jefe ';
+  END IF;
+
+
+  UPDATE ESTACION SET fk_empleado_jefe = null WHERE fk_empleado_jefe = id_jefe_estacion;
+  UPDATE EMPLEADO_JEFE SET fk_empleado_jefe = null WHERE fk_empleado_jefe = id_jefe_estacion;
+
+  DELETE FROM EMPLEADO_JEFE WHERE id = id_jefe_estacion; 
+  
+   RAISE INFO 'JEFE DE ESTACION ELIMINADO CON EXITO!';
+ 
+
+END $$;
+
+
+--SELECT VER_JEFES_E(2);
+--CALL eliminar_jefe_estacion(2,44);
+
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
+
+
+CREATE OR REPLACE PROCEDURE ACTUALIZAR_JEFE_ESTACION (id_empleado_acceso IN integer, id_jefe_estacion IN integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+  empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+
+  tipo_va EMPLEADO_JEFE.tipo%TYPE := 'jefe';
+
+
+BEGIN 
+
+  RAISE INFO ' ';
+  RAISE INFO '------ EJECUCION DEL PROCEDIMINETO ACTUALIZAR_JEFE_ESTACION ( % ) ------', NOW();
+  
+  CALL VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION(id_empleado_acceso, id_jefe_estacion);
+
+  
+  -------------////////
+  SELECT * INTO empleado_jefe_reg FROM empleado_jefe WHERE id = id_jefe_estacion;
+
+  IF (empleado_jefe_reg IS NULL) THEN
+    RAISE INFO 'El empleado no existe';
+    RAISE EXCEPTION 'El empleado no existe';
+  END IF;
+
+  IF (empleado_jefe_reg.tipo != tipo_va) THEN
+    RAISE INFO 'El empleado no es un jefe de estacion';
+    RAISE EXCEPTION 'El empleado no es un jefe de estacion';
+  END IF;
+  
+
+  -------------////////
+  
+  UPDATE EMPLEADO_JEFE SET 
+  
+    primer_nombre = primer_nombre_va,
+    segundo_nombre = segundo_nombre_va, 
+    primer_apellido = primer_apellido_va,  
+    segundo_apellido = segundo_apellido_va, 
+    telefono = telefono_va,
+    fk_empleado_jefe = id_empleado_acceso 
+    
+  WHERE id = id_jefe_estacion
+  RETURNING * INTO empleado_jefe_reg;
+
+   RAISE INFO 'JEFE DE ESTACION ACTUALIZADO CON EXITO!';
+   RAISE INFO 'Datos del jefe de estacion: %', empleado_jefe_reg ; 
+
+
+
+END $$;
+
+
+-- SELECT VER_JEFES_E(2);
+-- CALL actualizar_jefe_estacion (1,11,'nombre1','nombre2','apellido1','apellido2',CREAR_TELEFONO(0212,2847213), 5);
+-- -- SELECT * FROM empleado_jefe ej order by id desc; 
+
+
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------
+
+  
+
+CREATE OR REPLACE PROCEDURE VALIDAR_ACESSO_DIR_AREA_ESTACION (id_empleado_acceso in integer, id_estacion in integer)
+AS $$
+DECLARE
+
+  dir_area_reg EMPLEADO_JEFE%ROWTYPE;  
+  oficina_dir_reg OFICINA_PRINCIPAL%ROWTYPE;
+  estacion_reg ESTACION%ROWTYPE;
+
+BEGIN
+
+  SELECT * INTO dir_area_reg FROM EMPLEADO_JEFE WHERE id = id_empleado_acceso;
+
+
+IF (dir_area_reg IS NULL OR dir_area_reg.tipo != 'director_area') THEN
+    RAISE EXCEPTION 'El empleado no un director de area o no existe';
+  END IF;
+
+  SELECT * INTO estacion_reg FROM ESTACION WHERE id = id_estacion;
+  SELECT * INTO oficina_dir_reg FROM OFICINA_PRINCIPAL WHERE fk_director_area = id_empleado_acceso; 
+
+  IF (estacion_reg.fk_oficina_principal != oficina_dir_reg.id) THEN
+    RAISE EXCEPTION 'No tiene acesso a esta informacion';
+  END IF;
+    
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+
+
+--DROP FUNCTION VER_ESTACION;
+
+CREATE OR REPLACE FUNCTION VER_ESTACION (id_empleado_acceso in integer, id_estacion in integer)
+RETURNS ESTACION
+LANGUAGE plpgsql
+AS $$  
+DECLARE 
+
+  estacion_reg ESTACION%ROWTYPE;
+BEGIN
+  CALL VALIDAR_ACESSO_DIR_AREA_ESTACION(id_empleado_acceso, id_estacion);
+
+   SELECT * INTO estacion_reg FROM ESTACION WHERE id = id_estacion; 
+
+  RETURN estacion_reg;
+END $$;
+--
+--
+-- select * from VER_ESTACION(2,112);
+
+--DROP FUNCTION VER_ESTACIONES;
+
+CREATE OR REPLACE FUNCTION VER_ESTACIONES (id_empleado_acceso in integer)
+RETURNS setof ESTACION
+LANGUAGE sql
+AS $$  
+   SELECT * FROM ESTACION WHERE fk_oficina_principal IN (SELECT id FROM OFICINA_PRINCIPAL WHERE fk_director_area = id_empleado_acceso); 
+$$;
+--
+--
+-- select * FROM VER_ESTACIONES(2);
+-- select * from oficina_principal where fk_director_area = 3;
+
+
+
+-------------------------//////////////---------------------------------------------//////////////--------------------
+
+
+CREATE OR REPLACE FUNCTION VER_CUENTA_ESTACION_DIR_AREA (id_empleado_acceso in integer, id_estacion in INTEGER)
+RETURNS setof CUENTA
+LANGUAGE plpgsql
+AS $$  
+DECLARE 
+  cuenta_reg CUENTA%ROWTYPE;
+BEGIN
+   
+  CALL VALIDAR_ACESSO_DIR_AREA_ESTACION(id_empleado_acceso, id_estacion);
+    
+  RETURN QUERY 
+    SELECT * FROM CUENTA WHERE fk_estacion = id_estacion; 
+
+  -- RETURN cuenta_reg;
+
+END $$;
+
+-- SELECT * FROM VER_CUENTA_ESTACION_DIR_AREA(3,5);
+-- SELECT * FROM estacion;
+
+
+
+-------------------------//////////////---------------------------------------------//////////////--------------------
+
+
+
+
+
+-- DROP PROCEDURE IF EXISTS CREAR_ESTACION CASCADE;
+
+CREATE OR REPLACE PROCEDURE CREAR_ESTACION (id_empleado_acceso IN integer, nombre_va IN ESTACION.nombre%TYPE, id_ciudad IN ESTACION.fk_lugar_ciudad%TYPE, id_jefe_estacion IN ESTACION.fk_empleado_jefe%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+  estacion_reg ESTACION%ROWTYPE;
+  oficina_reg OFICINA_PRINCIPAL%ROWTYPE;
+
+  -- tipo_va EMPLEADO_JEFE.tipo%TYPE := 'jefe';
+
+BEGIN 
+
+  RAISE INFO ' ';
+  RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CREAR_ESTACION ( % ) ------', NOW();
+  
+  -------------////////
+  
+  CALL VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION(id_empleado_acceso,id_jefe_estacion);
+
+  SELECT * INTO oficina_reg WHERE fk_director_area = id_empleado_acceso;
+
+  INSERT INTO ESTACION (
+    nombre,
+
+    fk_oficina_principal,
+    fk_empleado_jefe,
+    fk_lugar_ciudad
+  
+  ) VALUES (
+
+    nombre_va,
+    id_jefe_estacion,
+    oficina_reg.id,
+    id_ciudad 
+
+  ) RETURNING * INTO estacion_reg;
+
+   RAISE INFO 'ESTACION CREADA CON EXITO';
+   RAISE INFO 'Datos de la estacion creada %', estacion_reg ; 
+
+
+END $$;
+
+
+-- CALL CREAR_ESTACION('prueba',20, 2);
+-- SELECT * FROM estacion order by id desc; 
+-- select * from lugar where id = 2;
+-- select * from EMPLEADO_JEFE where id = 20;
+
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
+
+
+CREATE OR REPLACE PROCEDURE ELIMINAR_ESTACION (id_empleado_acceso IN integer, id_estacion IN INTEGER)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+  -- empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+--  estacion_reg ESTACION%ROWTYPE;
+  -- tipo_va EMPLEADO_JEFE.tipo%TYPE := 'jefe';
+
+BEGIN 
+
+  CALL VALIDAR_ACESSO_DIR_AREA_ESTACION(id_empleado_acceso,id_estacion);
+
+  RAISE INFO ' ';
+  RAISE INFO '------ EJECUCION DEL PROCEDIMINETO ELIMINAR_ESTACION ( % ) ------', NOW();
+  
+  DELETE FROM ESTACION WHERE id = id_estacion; 
+  
+     RAISE INFO 'ESTACION ELIMINADA CON EXITO!';
+ 
+
+END $$;
+
+
+
+-- CALL ELIMINAR_ESTACION(15);
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
+
+CREATE OR REPLACE PROCEDURE ACTUALIZAR_ESTACION (id_empleado_acceso IN integer, nombre_va IN ESTACION.nombre%TYPE, id_ciudad IN ESTACION.fk_lugar_ciudad%TYPE, id_jefe_estacion IN ESTACION.fk_empleado_jefe%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+  estacion_reg ESTACION%ROWTYPE;
+  oficina_reg OFICINA_PRINCIPAL%ROWTYPE;
+ 
+BEGIN 
+
+  RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CREAR_ESTACION ( % ) ------', NOW();
+  
+
+  CALL VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION(id_empleado_acceso,id_jefe_estacion);
+
+  SELECT * INTO oficina_reg FROM oficina_principal WHERE fk_director_area = id_empleado_acceso;
+
+  IF (oficina_reg IS NULL) THEN
+    RAISE INFO 'La oficina no existe';
+    RAISE EXCEPTION 'La oficina no existe';
+  END IF;
+
+
+  SELECT * INTO estacion_reg FROM ESTACION WHERE id = id_estacion;
+
+  IF (estacion_reg IS NULL) THEN
+    RAISE INFO 'La estacion no existe';
+    RAISE EXCEPTION 'La estacion no existe';
+  END IF;
+
+
+  UPDATE ESTACION SET 
+    nombre = nombre_va,
+    fk_oficina_principal = id_jefe_estacion,
+    fk_empleado_jefe = oficina_reg.id,
+    fk_lugar_ciudad = id_ciudad
+  
+  WHERE id = id_estacion
+  RETURNING * INTO estacion_reg;
+  
+  -------------////////
+
+
+   RAISE INFO 'ESTACION MODIFICADA CON EXITO';
+   RAISE INFO 'Datos de la estacion modificada %', estacion_reg ; 
+
+
+
+END $$;
+
+
+-- select VER_ESTACIONES();
+-- CALL ACTUALIZAR_ESTACION (13,'nombre1',false, 21, 9, null);
+-- select * from empleado_jefe where id = 9;
+-- select * from lugar where id = 20;
+-- SELECT * FROM empleado_jefe ej order by id desc; 
+
+-- select VER_DIRECTORES_AREA();
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
+
+
+-- CAMBIAR ROL DE DIRECTOR AREA A JEFE 
+
+
+-- SELECCIONAR, CREAR, MODIFICAR y ELIMINAR OFICINAS
+
+
+
+
+
+
+------------------------////////////////---------------------------
+
+
+
+CREATE OR REPLACE PROCEDURE ASIGNACION_PRESUPUESTO (id_empleado_acceso integer, estacion_va integer, presupuesto_va numeric)
+LANGUAGE PLPGSQL
+AS $$
+DECLARE   
+
+  estacion_reg estacion%rowtype;
+  oficina_reg oficina_principal%rowtype;
+  jefe_reg empleado_jefe%rowtype;
+  cuenta_reg CUENTA%ROWTYPE;
+  
+BEGIN 
+  
+    RAISE INFO '------ EJECUCION DEL PROCEDIMINETO PARA ASIGNAR PRESUPUESTO EN ESTACIONES ( % ) ------', NOW();
+    
+    ---PROCEDIMIENTO QUE VALIDA SI EL DIRECTOR DE AREA TIENE ACCESO A LA ESTACION---
+    
+    CALL VALIDAR_ACESSO_DIR_AREA_ESTACION(id_empleado_acceso, estacion_va);
+    
+    ---SE VALIDA QUE EL DIRECCTOR DE AREA PERTENESCA A LA OFICINA_PRINCIPAL---
+    SELECT * INTO oficina_reg FROM oficina_principal WHERE fk_director_area = id_empleado_acceso; ---MIRAR 
+    
+    ---SE VALIDA SI LA OFICINA EXISTE--
+    
+    IF (oficina_reg IS NULL) THEN
+      RAISE INFO 'La oficina no existe';
+      RAISE EXCEPTION 'La oficina no existe';
+    END IF;
+  
+    SELECT * INTO estacion_reg FROM estacion WHERE id = estacion_va;
+    
+    IF (estacion_reg IS NULL) THEN
+      RAISE INFO 'La estacion no existe';
+      RAISE EXCEPTION 'La estacion no existe';
+    END IF;
+    
+
+    select * into cuenta_reg from cuenta where 
+      año = NOW()::DATE
+      and fk_estacion = estacion_va;
+
+
+    IF (cuenta_reg IS NULL) THEN
+      
+      INSERT INTO cuenta (
+        año,
+        presupuesto,
+        fk_estacion,
+        fk_oficina_principal    
+        
+      ) VALUES (
+        NOW()::DATE, 
+        presupuesto_va,
+        estacion_va,
+        oficina_reg.id
+      );  
+
+    ELSE 
+
+      UPDATE cuenta SET 
+        presupuesto = presupuesto_va
+      WHERE 
+        año = NOW()::DATE and 
+        fk_estacion = estacion_va;
+
+    END IF;
+
+END
+$$;
+
+
+-- CALL ASIGNACION_PRESUPUESTO(2, 2, 5000);
+-- select * from cuenta where fk_estacion = 2;
+
+-- PROCEDIMIENTO DE DIRECTOR DE AREA, 
+-- ASIGNAR LOS PRESUPUESTOS DE ESTACIONES,
+-- REFERENCIA:: ACTUALIZAR ESTACIÓN,
+-- VALIDAR QUE EL DIRECTOR TENGA ACCESO,
+-- id_empleado_acceso, ES EL ID DEL DIRECTOR DE AREA.
+
+
+CREATE OR REPLACE FUNCTION VER_PRESUPUESTO_ESTACION (id_empleado_acceso in integer, id_estacion in integer)
+RETURNS setof CUENTA
+LANGUAGE plpgsql
+AS $$  
+
+BEGIN
+  CALL VALIDAR_ACESSO_DIR_AREA_ESTACION(id_empleado_acceso, id_estacion);
+
+   RETURN QUERY
+     SELECT * FROM CUENTA WHERE fk_estacion = id_estacion; 
+
+END $$;
+
+-- select * from VER_PRESUPUESTO_ESTACION(3,4);
+-- select * from cuenta where fk_estacion = 4;
+
+
+
+
+
+
+CREATE OR REPLACE FUNCTION VER_CLIENTE (id_cliente in integer)
+RETURNS CLIENTE
+LANGUAGE sql
+AS $$  
+   SELECT * FROM CLIENTE WHERE id = id_cliente; 
+$$;
+--
+--
+--select VER_CLIENTE(8);
+
+--DROP FUNCTION VER_CLIENTE;
+
+CREATE OR REPLACE FUNCTION VER_CLIENTES ()
+RETURNS setof CLIENTE
+LANGUAGE sql
+AS $$  
+   SELECT * FROM CLIENTE; 
+$$;
+--
+--
+--select VER_CLIENTE(8);
+
+
+
+
+-- DROP PROCEDURE IF EXISTS CREAR_CLIENTE CASCADE;
+
+
+CREATE OR REPLACE PROCEDURE CREAR_CLIENTE (nombre_empresa_va IN CLIENTE.nombre_empresa%TYPE, pagina_web_va IN CLIENTE.pagina_web%TYPE, exclusivo_va IN CLIENTE.exclusivo%TYPE, telefono_va IN telefono_ty, contacto_va IN contacto_ty, fk_lugar_pais in integer)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+  cliente_reg CLIENTE%ROWTYPE;
+
+BEGIN 
+
+  RAISE INFO ' ';
+  RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CREAR_CLIENTE ( % ) ------', NOW();
+  
+  -------------////////
+  
+  INSERT INTO CLIENTE (
+    nombre_empresa,
+    pagina_web, 
+    exclusivo, 
+    telefonos, 
+    contactos,
+    fk_lugar_pais
+  
+  ) VALUES (
+    nombre_empresa_va,
+    pagina_web_va, 
+    exclusivo_va, 
+    ARRAY [telefono_va], 
+    ARRAY [contacto_va],
+    fk_lugar_pais
+
+  ) RETURNING * INTO cliente_reg;
+
+   RAISE INFO 'CLIENTE CREADO CON EXITO!';
+   RAISE INFO 'Datos del cliente: %', cliente_reg ; 
+
+
+
+END $$;
+
+
+-- CALL CREAR_CLIENTE('nombre_empresa','pagina_web', true,CREAR_TELEFONO(0212,2847213), CREAR_CONTACTO('gabriel','alberto','manrique','ulacio','calle_tal',0414,0176620), 5);
+-- SELECT * FROM VER_CLIENTES(); 
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
+
+
+CREATE OR REPLACE PROCEDURE ELIMINAR_CLIENTE (id_cliente IN INTEGER)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+  cliente_reg CLIENTE%ROWTYPE;
+    --  oficina_reg OFICINA_PRINCIPAL%ROWTYPE;
+  -- tipo_va CLIENTE.tipo%TYPE := 'cliente';
+    numero_registro_compra integer;
+  area_interes_reg area_interes%ROWTYPE;
+  
+BEGIN 
+
+  RAISE INFO ' ';
+  RAISE INFO '------ EJECUCION DEL PROCEDIMINETO ELIMINAR_CLIENTE ( % ) ------', NOW();
+  
+
+  -------------////////
+  SELECT * INTO cliente_reg FROM CLIENTE WHERE id = id_cliente;
+
+  IF (cliente_reg IS NULL) THEN
+    RAISE INFO 'El cliente no existe';
+    RAISE EXCEPTION 'El cliente no existe';
+  END IF;
+
+    SELECT count(*) INTO numero_registro_compra FROM ADQUISICION WHERE fk_cliente = id_cliente;
+
+    IF (numero_registro_compra IS NOT NULL) THEN
+        RAISE EXCEPTION 'No se puede borrar el cliente ya que hay registro de venta que dependen de el';
+    END IF;
+  
+  SELECT * INTO area_interes_reg FROM area_interes
+  WHERE fk_cliente = cliente_reg.id;
+  
+  IF (area_interes_reg IS NOT NULL) THEN
+    RAISE EXCEPTION 'No se puede borrar el cliente ya que hay un registro de area interes que depende del cliente';
+  END IF;
+  
+  DELETE FROM CLIENTE WHERE id = id_cliente; 
+  
+     RAISE INFO 'CLIENTE ELIMINADO CON EXITO!';
+ 
+
+END $$;
+
+-- CALL eliminar_cliente(11);
+-- SELECT * FROM cliente ej order by id desc; 
+
+
+
+-------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------/
+
+
+CREATE OR REPLACE PROCEDURE ACTUALIZAR_CLIENTE (id_cliente IN integer, nombre_empresa_va IN CLIENTE.nombre_empresa%TYPE, pagina_web_va IN CLIENTE.pagina_web%TYPE, exclusivo_va IN CLIENTE.exclusivo%TYPE, telefono_va IN telefono_ty, contacto_va IN contacto_ty, id_lugar in integer)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+  cliente_reg CLIENTE%ROWTYPE;
+
+BEGIN
+
+
+RAISE INFO ' ';
+  RAISE INFO '------ EJECUCION DEL PROCEDIMINETO ACTUALIZAR_CLIENTE ( % ) ------', NOW();
+  
+
+  -------------////////
+  SELECT * INTO cliente_reg FROM cliente WHERE id = id_cliente;
+
+  IF (cliente_reg IS NULL) THEN
+    RAISE INFO 'El cliente no existe';
+    RAISE EXCEPTION 'El cliente no existe';
+  END IF;
+
+  IF (contacto_va IS NULL) THEN
+    RAISE INFO 'El cliente no tiene contacto';
+    RAISE EXCEPTION 'El cliente no tiene contacto';
+    END IF;
+
+  -------------////////
+  
+  UPDATE CLIENTE SET 
+  
+    nombre_empresa = nombre_empresa_va,
+    pagina_web = pagina_web_va, 
+    exclusivo = exclusivo_va,  
+    telefonos = ARRAY[telefono_va],
+        contactos = ARRAY [contacto_va],
+    fk_lugar_pais = id_lugar
+    
+  WHERE id = id_cliente
+  RETURNING * INTO cliente_reg;
+
+   RAISE INFO 'CLIENTE ACTUALIZADO CON EXITO!';
+   RAISE INFO 'Datos del cliente: %', cliente_reg ; 
+
+
+
+END $$;
+
+-- (id_cliente IN integer, nombre_empresa_va IN CLIENTE.nombre_empresa%TYPE, pagina_web_va IN CLIENTE.pagina_web%TYPE, exclusivo_va IN CLIENTE.exclusivo%TYPE, telefono_va IN telefono_ty, contacto_va IN contacto_ty, id_lugar in integer)
+-- CALL actualizar_cliente (2,'nombre_empresa','pagina_web',false,CREAR_TELEFONO(0212,2847213),null, 5);
+-- -- SELECT * FROM cliente ej order by id desc; 
+
+
+
+--------------------//////////////////--------------------
+
+
+
+-- DROP PROCEDURE ASIGNAR_TEMA_CLIENTE;
+
+
+CREATE OR REPLACE PROCEDURE ASIGNAR_TEMA_CLIENTE (tema_id integer,cliente_id integer)
+LANGUAGE PLPGSQL
+AS $$
+DECLARE 
+
+  tema_reg CLAS_TEMA%ROWTYPE;
+  cliente_reg CLIENTE%ROWTYPE;
+
+  area_interes_exit AREA_INTERES%ROWTYPE;
+
+BEGIN 
+  
+  SELECT * INTO tema_reg FROM CLAS_TEMA WHERE id = tema_id;
+  
+  ---VALIDACION SI EL TEMA ES NULO---    
+  IF (tema_reg IS NULL) THEN
+    
+    RAISE EXCEPTION 'No existe el tema';
+  END IF;
+
+
+  SELECT * INTO cliente_reg FROM CLIENTE WHERE id = cliente_id;
+  
+  ---VALIDACION SI EL TEMA ES NULO---    
+  IF (cliente_reg IS NULL) THEN
+    
+    RAISE EXCEPTION 'No existe el cliente';
+  END IF;
+
+
+  SELECT * INTO area_interes_exit FROM AREA_INTERES WHERE fk_clas_tema = tema_id and fk_cliente = cliente_id;
+    
+  ---VALIDACION SI EL TEMA ES NULO---    
+  IF (area_interes_exit IS NOT NULL) THEN
+    
+    RAISE EXCEPTION 'Ya el tema fue asignado';
+  END IF;
+
+
+  INSERT INTO AREA_INTERES (
+    fk_clas_tema,
+    fk_cliente        
+  ) VALUES (
+    tema_id, 
+    cliente_id          
+  );
+  
+
+  RAISE INFO 'SE INSERTO EN EL CLIENTE CON EL ID: % Y EL NOMBRE: %, EL TEMA CON ID: % Y NOMBRE: %', cliente_reg.id, cliente_reg.nombre_empresa, tema_reg.id, tema_reg.nombre;   
+    
+END
+$$;
+
+-- call ASIGNAR_TEMA_CLIENTE (2, 10);
+-- select * from AREA_INTERES;
+
+
+----------///////////- ---------------------------------------------------------------------------------------------------------------- ///////////----------
+----------//////////////////- CREACION DE PROCEDIMIENTOS Y FUNCIONES RELACIONADOS AL ROL JEFE DE ESTACION   -- EJECUTAR COMO DEV -///////////////////////----------
+----------///////////- --------------------------------------------------------------------------------------------------------------- ///////////----------
+
+
+
+CREATE OR REPLACE PROCEDURE CREAR_TEMA (nombre_va varchar, descripcion_va varchar, topico_va varchar)
+LANGUAGE PLPGSQL
+AS $$
+
+BEGIN
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CREAR_LUGAR ( % ) ------', NOW();
+	
+	INSERT INTO clas_tema (
+		nombre,
+		descripcion,
+		topico
+	)	VALUES (
+		nombre_va,
+		descripcion_va,
+		topico_va		
+		);
+
+END;
+$$;
+
+
+CREATE OR REPLACE PROCEDURE VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA ( id_empleado_acceso in integer, id_personal_inteligencia in integer)
+AS $$
+DECLARE
+
+	-- jefe_estacion_reg EMPLEADO_JEFE%ROWTYPE;
+	hist_cargo_reg HIST_CARGO%ROWTYPE;
+	-- estacion_reg ESTACION%ROWTYPE;
+
+BEGIN
+
+	SELECT * INTO hist_cargo_reg FROM HIST_CARGO WHERE fecha_fin IS NULL AND fk_personal_inteligencia = id_personal_inteligencia AND fk_estacion IN (SELECT id FROM ESTACION WHERE fk_empleado_jefe = id_empleado_acceso);
+
+	IF (hist_cargo_reg IS NULL) THEN
+		RAISE EXCEPTION 'No tiene acesso a esta informacion';
+	END IF;
+		
+
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- CALL VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA(15,17);
+-- SELECT * FROM HIST_CARGO where fk_personal_inteligencia = 17;
+-- SELECT * FROM VER_ESTACION(3,5);
+
+
+
+-----------------------------////////////////////////-----------------------------------
+
+
+
+
+CREATE OR REPLACE PROCEDURE VALIDAR_ACESSO_EMPLEADO_ESTACION ( id_empleado_acceso in integer, id_estacion in integer)
+AS $$
+DECLARE
+
+	estacion_reg ESTACION%ROWTYPE;
+    jefe_estacion_reg EMPLEADO_JEFE%ROWTYPE;
+
+BEGIN
+
+	SELECT * INTO jefe_estacion_reg FROM EMPLEADO_JEFE WHERE id = id_empleado_acceso AND tipo = 'jefe';
+	
+	IF (jefe_estacion_reg IS NULL) THEN
+		RAISE EXCEPTION 'El jefe no existe o no es un jefe';
+	END IF;
+
+	SELECT * INTO estacion_reg FROM ESTACION WHERE fk_empleado_jefe = id_empleado_acceso AND id = id_estacion;
+
+	IF (estacion_reg IS NULL) THEN
+		RAISE EXCEPTION 'No tiene acesso a esta informacion';
+	END IF;
+		
+
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+
+-----------------------------////////////////////////-----------------------------------
+
+
+
+CREATE OR REPLACE PROCEDURE CREAR_PERSONAL_INTELIGENCIA (
+
+    primer_nombre_va IN PERSONAL_INTELIGENCIA.primer_nombre%TYPE, 
+    segundo_nombre_va IN PERSONAL_INTELIGENCIA.segundo_nombre%TYPE, 
+    primer_apellido_va IN PERSONAL_INTELIGENCIA.primer_apellido%TYPE, 
+    segundo_apellido_va IN PERSONAL_INTELIGENCIA.segundo_apellido%TYPE, 
+    fecha_nacimiento_va IN PERSONAL_INTELIGENCIA.fecha_nacimiento%TYPE, 
+    altura_cm_va IN PERSONAL_INTELIGENCIA.altura_cm%TYPE, 
+    peso_kg_va IN PERSONAL_INTELIGENCIA.peso_kg%TYPE, 
+    color_ojos_va IN PERSONAL_INTELIGENCIA.color_ojos%TYPE, 
+    vision_va IN PERSONAL_INTELIGENCIA.vision%TYPE, 
+    class_seguridad_va IN PERSONAL_INTELIGENCIA.class_seguridad%TYPE, 
+
+    fotografia_va IN PERSONAL_INTELIGENCIA.fotografia%TYPE, 
+    huella_retina_va IN PERSONAL_INTELIGENCIA.huella_retina%TYPE, 
+    huella_digital_va IN PERSONAL_INTELIGENCIA.huella_digital%TYPE, 
+
+    telefono_va IN PERSONAL_INTELIGENCIA.telefono%TYPE, 
+    licencia_manejo_va IN PERSONAL_INTELIGENCIA.licencia_manejo%TYPE,
+
+    idiomas_va IN PERSONAL_INTELIGENCIA.idiomas%TYPE, 
+    familiar_1_va IN familiar_ty, 
+    familiar_2_va IN familiar_ty, 
+    
+    identificacion_1_va IN identificacion_ty, 
+    
+    nivel_educativo_1_va IN nivel_educativo_ty, 
+
+    id_ciudad IN PERSONAL_INTELIGENCIA.fk_lugar_ciudad%TYPE
+)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+    personal_inteligencia_reg PERSONAL_INTELIGENCIA%ROWTYPE;
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CREAR_PERSONAL_INTELIGENCIA ( % ) ------', NOW();
+	
+
+	-------------////////
+	
+	INSERT INTO PERSONAL_INTELIGENCIA (
+		
+        primer_nombre,
+        segundo_nombre,
+        primer_apellido,
+        segundo_apellido,
+        fecha_nacimiento,
+        altura_cm,
+        peso_kg,
+        color_ojos,
+        vision,
+        class_seguridad,
+        fotografia,
+        huella_retina,
+        huella_digital,
+        telefono,
+        licencia_manejo,
+        idiomas,
+        familiares,
+        identificaciones,
+        nivel_educativo,
+
+        fk_lugar_ciudad
+	
+	) VALUES (
+		primer_nombre_va,
+        segundo_nombre_va,
+        primer_apellido_va,
+        segundo_apellido_va,
+        fecha_nacimiento_va,
+        altura_cm_va,
+        peso_kg_va,
+        color_ojos_va,
+        vision_va,
+        class_seguridad_va,
+
+        fotografia_va,
+        huella_retina_va,
+        huella_digital_va,
+
+        telefono_va,
+        licencia_manejo_va,
+
+        idiomas_va,
+        ARRAY [ familiar_1_va, familiar_2_va ],
+       
+        ARRAY [ identificacion_1_va ],
+    
+        ARRAY [ nivel_educativo_1_va ],
+        id_ciudad
+
+	) RETURNING * INTO personal_inteligencia_reg;
+
+   RAISE INFO 'PERSONAL DE INTELIGENCIA CREADO CON EXITO!';
+--    RAISE INFO 'Datos del personal de inteligencia: %', personal_inteligencia_reg ; 
+
+END $$;
+
+
+-- CALL CREAR_PERSONAL_INTELIGENCIA (
+--     'nombre1',
+--     'nombre2',
+--     'apellido1',
+--     'apellido2',
+-- 	'1995-03-09',
+--     165, 
+--     70,
+--     'negro',
+--     '20/20',
+--     'no_clasificado',
+--     FORMATO_ARCHIVO_A_BYTEA('personal_inteligencia_data/foto.png'),
+--     FORMATO_ARCHIVO_A_BYTEA('personal_inteligencia_data/huella_retina.png'),
+--     FORMATO_ARCHIVO_A_BYTEA('personal_inteligencia_data/huella_digital.png'),
+--     CREAR_TELEFONO(0212,2847268),
+--     CREAR_LICENCIA('021390213','Argentina'),
+--     CREAR_ARRAY_IDIOMAS('español','italiano','chino','portugués',null,null),
+--     CREAR_FAMILIAR ('Gabriel','alberto,','manrique','ulacio','1960-06-01','tio',0414,0176620),
+--     CREAR_FAMILIAR ('familiarn2','familiarn2,','familiara2','familiara2','1980-07-01','primo',0416,7876620),
+--     CREAR_IDENTIFICACION('0213120431','Australia'),
+--     CREAR_NIVEL_EDUCATIVO('Economía', 'Master', 'Finanzas'),
+-- 	20
+-- );
+
+
+--------------------------------------------///////////////////////--------------------------------------
+
+
+
+CREATE OR REPLACE PROCEDURE ACTUALIZAR_PERSONAL_INTELIGENCIA (
+	id_empleado_acceso in integer,
+	id_personal_inteligencia in integer,
+
+    primer_nombre_va IN PERSONAL_INTELIGENCIA.primer_nombre%TYPE, 
+    segundo_nombre_va IN PERSONAL_INTELIGENCIA.segundo_nombre%TYPE, 
+    primer_apellido_va IN PERSONAL_INTELIGENCIA.primer_apellido%TYPE, 
+    segundo_apellido_va IN PERSONAL_INTELIGENCIA.segundo_apellido%TYPE, 
+    fecha_nacimiento_va IN PERSONAL_INTELIGENCIA.fecha_nacimiento%TYPE, 
+    altura_cm_va IN PERSONAL_INTELIGENCIA.altura_cm%TYPE, 
+    peso_kg_va IN PERSONAL_INTELIGENCIA.peso_kg%TYPE, 
+    color_ojos_va IN PERSONAL_INTELIGENCIA.color_ojos%TYPE, 
+    vision_va IN PERSONAL_INTELIGENCIA.vision%TYPE, 
+    class_seguridad_va IN PERSONAL_INTELIGENCIA.class_seguridad%TYPE, 
+
+    fotografia_va IN PERSONAL_INTELIGENCIA.fotografia%TYPE, 
+    huella_retina_va IN PERSONAL_INTELIGENCIA.huella_retina%TYPE, 
+    huella_digital_va IN PERSONAL_INTELIGENCIA.huella_digital%TYPE, 
+
+    telefono_va IN PERSONAL_INTELIGENCIA.telefono%TYPE, 
+    licencia_manejo_va IN PERSONAL_INTELIGENCIA.licencia_manejo%TYPE,
+
+    idiomas_va IN PERSONAL_INTELIGENCIA.idiomas%TYPE, 
+    familiar_1_va IN familiar_ty, 
+    familiar_2_va IN familiar_ty, 
+    
+    identificacion_1_va IN identificacion_ty, 
+    
+    nivel_educativo_1_va IN nivel_educativo_ty, 
+
+    id_ciudad IN PERSONAL_INTELIGENCIA.fk_lugar_ciudad%TYPE
+)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+    personal_inteligencia_reg PERSONAL_INTELIGENCIA%ROWTYPE;
+
+	hist_cargo_reg hist_cargo%ROWTYPE;	
+	-- empleado_jefe_reg empleado_jefe%ROWTYPE;
+	
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CREAR_PERSONAL_INTELIGENCIA ( % ) ------', NOW();
+	
+
+	
+	SELECT * INTO personal_inteligencia_reg FROM PERSONAL_INTELIGENCIA WHERE id = id_personal_inteligencia;
+	
+	---VALIDACION SI EL TEMA ES NULO---		
+	IF (personal_inteligencia_reg IS NULL) THEN
+		
+		RAISE EXCEPTION 'No existe el canalista';
+	END IF;
+
+
+	SELECT * INTO hist_cargo_reg FROM HIST_CARGO WHERE fecha_fin IS NULL AND fk_personal_inteligencia = id_personal_inteligencia LIMIT 1;
+
+	IF (hist_cargo_reg IS NOT NULL) THEN	
+		
+		CALL VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA(id_empleado_acceso, id_personal_inteligencia);
+
+
+	END IF;
+
+	-------------////////
+	
+	UPDATE PERSONAL_INTELIGENCIA SET
+		
+        primer_nombre = primer_nombre_va,
+        segundo_nombre = segundo_nombre_va,
+        primer_apellido = primer_apellido_va,
+        segundo_apellido = segundo_apellido_va,
+        fecha_nacimiento = fecha_nacimiento_va,
+        altura_cm = altura_cm_va,
+        peso_kg = peso_kg_va,
+        color_ojos = color_ojos_va,
+        vision = vision_va,
+        class_seguridad = class_seguridad_va,
+        fotografia = fotografia_va,
+        huella_retina = huella_retina_va,
+        huella_digital = huella_digital_va,
+        telefono = telefono_va,
+        licencia_manejo = licencia_manejo_va,
+        idiomas = idiomas_va,
+        familiares = ARRAY [ familiar_1_va, familiar_2_va ],
+        identificaciones = ARRAY [identificacion_1_va ],
+        nivel_educativo = ARRAY [nivel_educativo_1_va ],
+        fk_lugar_ciudad = id_ciudad
+	
+	WHERE id = id_personal_inteligencia;
+	-- RETURNING * INTO personal_inteligencia_reg;
+
+   RAISE INFO 'PERSONAL DE INTELIGENCIA CREADO CON EXITO!';
+--    RAISE INFO 'Datos del personal de inteligencia: %', personal_inteligencia_reg ; 
+
+END $$;
+
+
+-- CALL ACTUALIZAR_PERSONAL_INTELIGENCIA (
+-- 	16,
+-- 	21,
+--     'nombrez',
+--     'nombrez',
+--     'apellidoz',
+--     'apellidoz',
+-- 	'1995-03-09',
+--     170, 
+--     80,
+--     'negro',
+--     '20/20',
+--     'no_clasificado',
+--     FORMATO_ARCHIVO_A_BYTEA('personal_inteligencia_data/foto.png'),
+--     FORMATO_ARCHIVO_A_BYTEA('personal_inteligencia_data/huella_retina.png'),
+--     FORMATO_ARCHIVO_A_BYTEA('personal_inteligencia_data/huella_digital.png'),
+--     CREAR_TELEFONO(0212,2847268),
+--     CREAR_LICENCIA('021390213','Argentina'),
+--     CREAR_ARRAY_IDIOMAS('español','italiano','chino','portugués',null,null),
+--     CREAR_FAMILIAR ('Gabriel','alberto,','manrique','ulacio','1960-06-01','tio',0414,0176620),
+--     CREAR_FAMILIAR ('familiarn2','familiarn2,','familiara2','familiara2','1980-07-01','primo',0416,7876620),
+--     CREAR_IDENTIFICACION('0213120431','Australia'),
+--     CREAR_NIVEL_EDUCATIVO('Economía', 'Master', 'Finanzas'),
+-- 	20
+-- );
+
+
+-- SELECT * FROM VER_TODOS_PERSONAL_INTELIGENCIA_CON_CARGO(16);
+
+-- select * from personal_inteligencia;
+
+-- -- 
+-- select CREAR_NIVEL_EDUCATIVO('Economía', 'Master', 'Finanzas');
+-- select CREAR_IDENTIFICACION('0213120431','Australia');
+-- SELECT CREAR_FAMILIAR ('Gabriel','alberto,','manrique','ulacio','1960-06-01','tio',0414,0176620);
+-- SELECT CREAR_LICENCIA('1233992432','Uganda');
+-- SELECT CREAR_TELEFONO(0212,20121312);
+
+
+CREATE OR REPLACE PROCEDURE ELIMINAR_PERSONAL_INTELIGENCIA (id_empleado_acceso IN INTEGER, id_personal_inteligencia IN INTEGER)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	personal_inteligencia_reg PERSONAL_INTELIGENCIA%ROWTYPE;
+    empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+
+	numero_hist_cargo_dep integer;
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO ELIMINAR_PERSONAL_INTELIGENCIA ( % ) ------', NOW();
+	
+	-------------////////
+
+    SELECT * INTO personal_inteligencia_reg FROM PERSONAL_INTELIGENCIA WHERE id = id_personal_inteligencia;
+
+	IF (personal_inteligencia_reg IS NULL) THEN
+		RAISE INFO 'El personal de inteligencia no existe';
+		RAISE EXCEPTION 'El personal de inteligencia no existe';
+	END IF;
+
+    -------------////////
+
+	SELECT * INTO empleado_jefe_reg FROM empleado_jefe WHERE id = id_empleado_acceso;
+
+	IF (empleado_jefe_reg IS NULL) THEN
+		RAISE INFO 'El empleado no existe';
+		RAISE EXCEPTION 'El empleado no existe';
+	END IF;
+
+	IF (empleado_jefe_reg.tipo != 'jefe') THEN
+		RAISE INFO 'El empleado no es un jefe de estacion';
+		RAISE EXCEPTION 'El empleado no es un jefe de estacion';
+	END IF;
+
+
+	SELECT count(*) INTO numero_hist_cargo_dep FROM HIST_CARGO WHERE id_personal_inteligencia = fk_personal_inteligencia;
+
+	IF ( numero_hist_cargo_dep > 0 ) THEN
+
+		RAISE EXCEPTION 'No se puede eliminar al personal de inteligencia ya algunos registros dependen de el';
+	END IF;
+
+
+	DELETE FROM PERSONAL_INTELIGENCIA WHERE id = id_personal_inteligencia; 
+	
+    RAISE INFO 'PERSONAL DE INTELIGENCIA ELIMINADO CON EXITO!';
+ 
+
+END $$;
+
+
+
+
+
+------------------------------------------------------------//////////////////////////////------------------------------------------------------------
+
+
+
+
+
+
+CREATE OR REPLACE PROCEDURE ASIGNAR_TEMA_ANALISTA (id_empleado_acceso integer, tema_id integer, analista_id integer)
+LANGUAGE PLPGSQL
+AS $$
+DECLARE 
+
+	-- estacion_reg estacion%ROWTYPE;
+	hist_cargo_reg hist_cargo%ROWTYPE;	
+	empleado_jefe_reg empleado_jefe%ROWTYPE;
+	
+	tema_reg CLAS_TEMA%ROWTYPE;
+
+	personal_inteligencia_reg PERSONAL_INTELIGENCIA%ROWTYPE;
+
+	temas_esp_exit TEMAS_ESP%ROWTYPE;
+	
+
+BEGIN 
+
+	-- CALL VALIDAR_ACESSO_DIR_AREA_JEFE_ESTACION(id_empleado_acceso, personal_inteligencia);
+
+	
+	SELECT * INTO tema_reg FROM CLAS_TEMA WHERE id = tema_id;
+	
+	---VALIDACION SI EL TEMA ES NULO---		
+	IF (tema_reg IS NULL) THEN
+		
+		RAISE EXCEPTION 'No existe el tema';
+	END IF;
+
+
+	SELECT * INTO personal_inteligencia_reg FROM PERSONAL_INTELIGENCIA WHERE id = analista_id;
+	
+	---VALIDACION SI EL TEMA ES NULO---		
+	IF (personal_inteligencia_reg IS NULL) THEN
+		
+		RAISE EXCEPTION 'No existe el canalista';
+	END IF;
+
+
+	SELECT * INTO temas_esp_exit FROM TEMAS_ESP WHERE fk_clas_tema = tema_id and fk_personal_inteligencia = analista_id;
+		
+	---VALIDACION SI EL TEMA ES NULO---		
+	IF (temas_esp_exit IS NOT NULL) THEN
+		
+		RAISE EXCEPTION 'Ya el tema fue asignado';
+	END IF;
+		
+	
+
+	SELECT * INTO hist_cargo_reg FROM HIST_CARGO WHERE fecha_fin IS NULL AND fk_personal_inteligencia = analista_id LIMIT 1;
+
+	IF (hist_cargo_reg IS NOT NULL) THEN	
+		
+		CALL VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA(id_empleado_acceso, analista_id);
+
+	END IF;
+
+
+	INSERT INTO TEMAS_ESP (
+		fk_personal_inteligencia,
+		fk_clas_tema
+	) VALUES (
+		analista_id,
+		tema_id				
+	);
+							
+	RAISE INFO 'SE INSERTO EN EL PERSONAL DE INTELIGENCIA CON EL ID: %, EL TEMA CON ID: % Y NOMBRE: %', analista_id, tema_id, tema_reg.nombre;
+	
+END
+$$;
+
+-- call ASIGNAR_TEMA_ANALISTA(16,2,21);
+-- select * from TEMAS_ESP where fk_personal_inteligencia = 21 
+
+
+
+-------------------------//////////////---------------------------------------------//////////////--------------------
+
+
+
+
+CREATE OR REPLACE FUNCTION VER_TODOS_PERSONAL_INTELIGENCIA_SIN_CARGO ()
+RETURNS setof PERSONAL_INTELIGENCIA
+LANGUAGE sql
+AS $$  
+ 	
+    SELECT * FROM PERSONAL_INTELIGENCIA WHERE id NOT IN (SELECT fk_personal_inteligencia FROM HIST_CARGO); 
+$$;
+
+
+CREATE OR REPLACE FUNCTION VER_TODOS_PERSONAL_INTELIGENCIA_CON_CARGO (id_empleado_acceso in integer)
+RETURNS setof PERSONAL_INTELIGENCIA
+LANGUAGE sql
+AS $$  
+ 	
+    SELECT * FROM PERSONAL_INTELIGENCIA WHERE id IN (SELECT fk_personal_inteligencia FROM HIST_CARGO WHERE fk_estacion IN (SELECT id FROM ESTACION WHERE fk_empleado_jefe = id_empleado_acceso)); 
+$$;
+
+
+
+CREATE OR REPLACE FUNCTION VER_PERSONAL_INTELIGENCIA_SIN_CARGO (id_personal_inteligencia in integer)
+RETURNS PERSONAL_INTELIGENCIA
+LANGUAGE sql
+AS $$  
+ 	
+    SELECT * FROM PERSONAL_INTELIGENCIA WHERE id = id_personal_inteligencia AND id NOT IN (SELECT fk_personal_inteligencia FROM HIST_CARGO); 
+$$;
+
+
+CREATE OR REPLACE FUNCTION VER_PERSONAL_INTELIGENCIA_CON_CARGO (id_empleado_acceso in integer, id_personal_inteligencia in integer)
+RETURNS PERSONAL_INTELIGENCIA
+LANGUAGE sql
+AS $$  
+ 	
+    SELECT * FROM PERSONAL_INTELIGENCIA WHERE id = id_personal_inteligencia AND id IN (SELECT fk_personal_inteligencia FROM HIST_CARGO WHERE fk_estacion IN (SELECT id FROM ESTACION WHERE fk_empleado_jefe = id_empleado_acceso)); 
+$$;
+
+
+
+
+
+
+------------------------------------------------///////////////////////-----------------------------------------------
+
+CREATE OR REPLACE FUNCTION VER_HISTORICO_CARGO_PERSONAL_INTELIGENCIA (id_empleado_acceso in integer, id_personal_inteligencia in integer)
+RETURNS setof HIST_CARGO
+LANGUAGE sql
+AS $$  
+ 	
+    SELECT * FROM HIST_CARGO WHERE fk_personal_inteligencia = id_personal_inteligencia AND fk_estacion IN (SELECT id FROM ESTACION WHERE fk_empleado_jefe = id_empleado_acceso); 
+$$;
+
+
+-- SELECT * FROM VER_TODOS_PERSONAL_INTELIGENCIA_SIN_CARGO();
+-- SELECT * FROM VER_HISTORICO_CARGO_PERSONAL_INTELIGENCIA(20,37);
+-- SELECT * FROM VER_PERSONAL_INTELIGENCIA_SIN_CARGO(109);
+
+
+
+-------------------------//////////////---------------------------------------------//////////////--------------------
+
+
+CREATE OR REPLACE FUNCTION VER_CUENTA_ESTACION_JEFE_ESTACION (id_empleado_acceso in integer, id_estacion in INTEGER)
+RETURNS setof CUENTA
+LANGUAGE sql
+AS $$  
+ 	
+    SELECT * FROM CUENTA WHERE fk_estacion = id_estacion AND fk_estacion IN (SELECT id FROM ESTACION WHERE fk_empleado_jefe = id_empleado_acceso); 
+$$;
+
+-- SELECT * FROM VER_CUENTA_ESTACION(12,4);
+-- SELECT * FROM estacion;
+
+
+
+
+-------------------------------------/////////////////////--------------------------------------------
+
+
+
+
+-- DROP PROCEDURE IF EXISTS CERRAR_HIST_CARGO CASCADE;
+
+CREATE OR REPLACE PROCEDURE CERRAR_HIST_CARGO (id_empleado_acceso in integer, id_personal_inteligencia IN integer)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+   hist_cargo_actual_reg HIST_CARGO%ROWTYPE;
+   
+   fecha_hoy_va timestamp;
+  
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CERRAR_HIST_CARGO ( % ) ------', NOW();
+	
+	-------------///////////--------------	
+
+
+	SELECT * INTO hist_cargo_actual_reg FROM HIST_CARGO WHERE fecha_fin IS NULL AND fk_personal_inteligencia = id_personal_inteligencia;
+
+	IF (hist_cargo_actual_reg IS NOT NULL) THEN	
+		
+		CALL VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA(id_empleado_acceso, analista_id);
+
+	END IF;
+    
+	fecha_hoy_va = NOW();
+
+	UPDATE HIST_CARGO SET fecha_fin = fecha_hoy_va WHERE fk_personal_inteligencia = id_personal_inteligencia AND fecha_fin IS NULL;
+		
+	RAISE INFO 'CARGO CERRADO CON EXITO!';
+ 	
+
+END $$;
+
+
+-- SELECT * FROM VER_TODOS_PERSONAL_INTELIGENCIA_CON_CARGO(20);
+-- SELECT * FROM VER_HISTORICO_CARGO_PERSONAL_INTELIGENCIA(20, 37);
+-- CALL CERRAR_HIST_CARGO(20,37);
+
+
+
+-------------------------//////////////---------------------------------------------//////////////--------------------
+
+
+
+
+-- DROP PROCEDURE IF EXISTS ASIGNAR_TRANSFERIR_ESTACION_EMPLEADO CASCADE;
+
+CREATE OR REPLACE PROCEDURE ASIGNAR_TRANSFERIR_ESTACION_EMPLEADO (id_empleado_acceso in integer, id_personal_inteligencia IN integer, id_estacion in integer, cargo_va IN HIST_CARGO.cargo%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+    hist_cargo_actual_reg HIST_CARGO%ROWTYPE;
+    hist_cargo_nuevo_reg HIST_CARGO%ROWTYPE;
+
+    estacion_nueva_reg ESTACION%ROWTYPE;
+    estacion_vieja_reg ESTACION%ROWTYPE;
+
+    fecha_hoy_va timestamp;
+  
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CERRAR_HIST_CARGO ( % ) ------', NOW();
+	
+	-------------///////////--------------	
+
+    SELECT * INTO estacion_nueva_reg FROM ESTACION WHERE id = id_estacion; 
+   	RAISE INFO 'Datos de la estacion nueva: %', estacion_nueva_reg;
+
+    IF (estacion_nueva_reg IS NULL) THEN
+        RAISE EXCEPTION 'La estacion nueva no existe';
+    END IF;
+
+
+   	SELECT * INTO hist_cargo_actual_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = id_personal_inteligencia ORDER BY fecha_inicio DESC LIMIT 1; 
+   	RAISE INFO 'Datos de hist_cargo actual: %', hist_cargo_actual_reg;
+
+   
+   	IF (hist_cargo_actual_reg.fk_personal_inteligencia IS NOT NULL) THEN
+   		
+        IF (hist_cargo_actual_reg.fecha_fin IS NULL) THEN
+            RAISE EXCEPTION 'Debe cerrar el cargo antes de poder hacer una tranferencia de estacion';   
+        END IF;
+
+        SELECT * INTO estacion_vieja_reg FROM ESTACION WHERE id = hist_cargo_actual_reg.fk_estacion; 
+   	    RAISE INFO 'Datos de la estacion vieja: %', estacion_vieja_reg;
+
+        IF (estacion_vieja_reg IS NULL) THEN
+            RAISE EXCEPTION 'La estacion vieja no existe';
+        END IF;
+
+        IF (estacion_vieja_reg.id = estacion_nueva_reg.id) THEN
+            RAISE EXCEPTION 'No se puede cambiar a la misma estacion';
+        END IF;
+
+    END IF;   	
+
+    
+
+    IF (id_empleado_acceso != estacion_nueva_reg.fk_empleado_jefe AND (estacion_vieja_reg IS NOT NULL AND id_empleado_acceso != estacion_vieja_reg.fk_empleado_jefe)) THEN
+        RAISE EXCEPTION 'El jefe tiene que ser dueño de la estacion nueva, o en caso de ser una tranferencia, dueño de la vieja o de la nueva';
+    END IF;  
+
+    
+    --------
+
+	fecha_hoy_va = NOW();
+
+
+	INSERT INTO HIST_CARGO (
+		fecha_inicio,
+		cargo,
+		fk_personal_inteligencia,
+		fk_estacion,
+		fk_oficina_principal
+	) VALUES (
+		fecha_hoy_va,
+		cargo_va,
+		id_personal_inteligencia,
+		estacion_nueva_reg.id,
+		estacion_nueva_reg.fk_oficina_principal
+	);
+
+
+	RAISE INFO 'PERSONAL DE INTELIGENCIA FUE ASIGNADO EXITOSAMENTE A LA ESTACION!';
+ 	
+
+END $$;
+
+
+-- SELECT * FROM VER_TODOS_PERSONAL_INTELIGENCIA_CON_CARGO(20);
+-- SELECT * FROM VER_HISTORICO_CARGO_PERSONAL_INTELIGENCIA(20, 37);
+-- CALL CERRAR_HIST_CARGO(20,37);
+
+-- select * FROM VER_TODOS_PERSONAL_INTELIGENCIA_SIN_CARGO();
+-- select * FROM VER_TODOS_PERSONAL_INTELIGENCIA_CON_CARGO(20);
+-- SELECT * FROM VER_HISTORICO_CARGO_PERSONAL_INTELIGENCIA(20,37);
+
+-- CALL cerrar_hist_cargo(20, 109); 
+-- CALL ASIGNAR_TRANSFERIR_ESTACION_EMPLEADO(20,109,10,'analista');
+
+-- SELECT * FROM VER_HISTORICO_CARGO_PERSONAL_INTELIGENCIA(20,109);
+
+-- select * FROM VER_TODOS_PERSONAL_INTELIGENCIA_CON_CARGO(21);
+-- SELECT * FROM VER_HISTORICO_CARGO_PERSONAL_INTELIGENCIA(21,109);
+-- CALL cerrar_hist_cargo(21, 109); 
+
+-- SELECT * FROM VER_HISTORICO_CARGO_PERSONAL_INTELIGENCIA(20,109);
+
+
+---------------------------------------------////////////////////-----------------------------
+
+
+-- DROP PROCEDURE IF EXISTS CAMBIAR_ROL CASCADE;
+
+CREATE OR REPLACE PROCEDURE CAMBIAR_ROL_PERSONAL_INTELIGENCIA (id_empleado_acceso in integer, id_personal_inteligencia IN integer, cargo_va IN HIST_CARGO.cargo%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+   hist_cargo_actual_reg HIST_CARGO%ROWTYPE;
+   
+   fecha_hoy_va timestamp;
+  
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CAMBIAR_ROL ( % ) ------', NOW();
+	
+	-------------///////////--------------	
+   
+   	SELECT * INTO hist_cargo_actual_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = id_personal_inteligencia AND fecha_fin IS NULL; 
+   	RAISE INFO 'datos de hist_cargo actual: %', hist_cargo_actual_reg;
+
+    
+   --------
+
+   	IF (hist_cargo_actual_reg IS NULL) THEN
+   		RAISE INFO 'El personal de inteligencia que ingresó no existe o ya no trabaja en AII';
+  		RAISE EXCEPTION 'El personal de inteligencia que ingresó no existe o ya no trabaja en AII';
+   	
+	ELSE 
+		
+		CALL VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA(id_empleado_acceso, id_personal_inteligencia);
+
+	END IF;
+
+
+	IF (hist_cargo_actual_reg.cargo = cargo_va) THEN
+		RAISE INFO 'Ya el personal de inteligencia es un %', cargo_va;
+		RAISE EXCEPTION 'Ya el personal de inteligencia es un %', cargo_va;
+	END IF;
+
+
+	IF (cargo_va != 'analista' AND cargo_va != 'agente') THEN
+	RAISE INFO 'El cargo que ingresó no existe';
+	RAISE EXCEPTION 'El cargo que ingresó no existe';
+	END IF;
+	
+   
+	fecha_hoy_va = NOW();
+
+
+	UPDATE HIST_CARGO SET fecha_fin = fecha_hoy_va WHERE fk_personal_inteligencia = id_personal_inteligencia AND fecha_fin IS NULL;
+		
+	INSERT INTO HIST_CARGO (
+		fecha_inicio,
+		cargo,
+		fk_personal_inteligencia,
+		fk_estacion,
+		fk_oficina_principal
+	) VALUES (
+		fecha_hoy_va,
+		cargo_va,
+		hist_cargo_actual_reg.fk_personal_inteligencia,
+		hist_cargo_actual_reg.fk_estacion,
+		hist_cargo_actual_reg.fk_oficina_principal
+	);
+
+	RAISE INFO 'CAMBIO DE CARGO EXITOSO!';
+ 	
+
+END $$;
+
+
+-- CALL CAMBIAR_ROL_PERSONAL_INTELIGENCIA(14,13,'agente');
+
+-- SELECT * FROM VER_HISTORICO_CARGO_PERSONAL_INTELIGENCIA(14,13);
+
+-- select * from hist_cargo where fk_personal_inteligencia = 1;
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------//////////////////////--------------------------------
+
+
+-- DROP PROCEDURE IF EXISTS CAMBIAR_ROL CASCADE;
+
+-- DROP FUNCTION IF EXISTS ELIMINACION_REGISTROS_VENTA_EXCLUSIVA CASCADE;
+
+CREATE OR REPLACE PROCEDURE ELIMINACION_REGISTROS_INFORMANTE ( id_personal_inteligencia IN integer ) 
+LANGUAGE PLPGSQL 
+AS $$
+DECLARE 
+
+	id_crudos_asociados integer[] ;	
+	-- id_informantes_asociados integer[] ;
+	id_piezas_asociadas integer[];	
+
+BEGIN 
+
+	id_crudos_asociados := ARRAY( 
+		SELECT id FROM CRUDO WHERE fk_personal_inteligencia_agente = id_personal_inteligencia AND fuente = 'secreta' OR fk_informante IS NOT NULL
+	);
+
+	DELETE FROM TRANSACCION_PAGO WHERE fk_informante IN (SELECT id FROM INFORMANTE WHERE fk_personal_inteligencia_encargado = id_personal_inteligencia);
+--
+	DELETE FROM ANALISTA_CRUDO WHERE fk_crudo = ANY(id_crudos_asociados);
+
+	id_piezas_asociadas := ARRAY(
+		SELECT fk_pieza_inteligencia FROM CRUDO_PIEZA WHERE fk_crudo = ANY(id_crudos_asociados)
+	);
+
+
+	DELETE FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = ANY(id_piezas_asociadas);
+
+	DELETE FROM ADQUISICION WHERE fk_pieza_inteligencia = ANY(id_piezas_asociadas);
+
+	DELETE FROM PIEZA_INTELIGENCIA WHERE id = ANY(id_piezas_asociadas);
+
+	DELETE FROM CRUDO WHERE id = ANY(id_crudos_asociados);
+--
+	DELETE FROM INFORMANTE WHERE fk_personal_inteligencia_encargado = id_personal_inteligencia;
+
+END $$;
+
+
+
+-- CALL NUMERO_REGISTROS();   
+-- SELECT fk_personal_inteligencia_encargado, count(*) FROM INFORMANTE GROUP BY fk_personal_inteligencia_encargado; 
+
+-- SELECT * FROM VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_AGENTE(13); 
+
+-- select * from transaccion_pago tp  where fk_informante  = 7;
+-- select * from crudo where fk_informante  = 7;
+-- SELECT * FROM INFORMACION_INFORMANTES(7);
+
+-- nombre_clave,agente_encargado,id_estacion,nombre_estacion,crudos,piezas,crudos_alt,piezas_alt,total_crudos,total_piezas,crudos_usados,eficacia
+-- Traccion,13,4,Est. Amsterdam,1,8,0,0,1,8,1,100.0000
+
+-- CALL ELIMINACION_REGISTROS_INFORMANTE(7);
+-- SELECT * FROM INFORMACION_INFORMANTES(7);
+
+-- select * from informante where 
+
+-- select * from transaccion_pago tp  where fk_informante  = 19;
+-- select * from crudo where fk_informante  = 19;
+-- SELECT * FROM INFORMACION_INFORMANTES(19);
+
+
+-- CALL ELIMINACION_REGISTROS_INFORMANTE(13);
+
+-----------------------------//////////////////------------------------
+
+
+
+
+CREATE OR REPLACE PROCEDURE DESPIDO_RENUNCIA_PERSONAL_INTELIGENCIA (id_empleado_acceso in integer, id_personal_inteligencia IN integer)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+   hist_cargo_actual_reg HIST_CARGO%ROWTYPE;
+   
+  
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO DESPIDO_RENUNCIA_PERSONAL_INTELIGENCIA ( % ) ------', NOW();
+	
+	-------------///////////--------------	
+	
+
+   	SELECT * INTO hist_cargo_actual_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = id_personal_inteligencia AND fecha_fin IS NULL; 
+   	RAISE INFO 'datos de hist_cargo actual: %', hist_cargo_actual_reg;
+
+   --------
+
+   	IF (hist_cargo_actual_reg IS NOT NULL) THEN
+   			
+		CALL VALIDAR_ACESSO_EMPLEADO_PERSONAL_INTELIGENCIA(id_empleado_acceso, id_personal_inteligencia);
+		CALL CERRAR_HIST_CARGO(id_empleado_acceso,id_personal_inteligencia);
+
+	END IF;
+
+   
+	CALL ELIMINACION_REGISTROS_INFORMANTE(id_personal_inteligencia);
+
+
+	RAISE INFO 'DESPIDO / RENUNCIA EXITOSA!';
+ 	
+
+END $$;
+
+
+
+
+
+
+----------///////////- ---------------------------------------------------------------------------------------------------------------- ///////////----------
+----------//////////////////- CREACION DE PROCEDIMIENTOS Y FUNCIONES RELACIONADOS AL ROL PERSONAL DE INTELIGENCIA Pt1   -- EJECUTAR COMO DEV -///////////////////////----------
+----------///////////- --------------------------------------------------------------------------------------------------------------- ///////////----------
+
+
+--------------------------///////////////////////-----------------------------
+
+
+-- Demostración de la implementación de los requerimientos del sistema de bases de datos 
+-- transaccional referidos al proceso de venta de piezas – actividades de recolección y 
+-- verificación de hechos crudos y manejo de informantes, incluyendo la seguridad correspondiente 
+-- (roles, cuentas con privilegios para poder ejecutar los programas y reportes).
+
+
+-- Verificación_Hechos_Crudos (3) - elegir analistas, definir rango de tiempo para cargar 
+-- confiabilidades, pedir nivel a asignar por analista, guardar y calcular promedio, actualizar 
+-- el hecho crudo con la fecha final y el promedio calculado. Aplicando todas las validaciones
+-- necesarias sobre cada paso…
+
+
+-- La información recolectada por los agentes de campo se indexa (fecha más reciente) y almacena
+-- como hechos crudos y se puede buscar por tópicos principales (países, individuos, eventos,
+-- empresas), cada uno de los cuales está dividido en temas de interés. La AII no vende hechos crudos
+-- (la información traída por los agentes) sino piezas de inteligencia verificadas por varias fuentes (al
+-- menos 2 analistas de diferentes estaciones deben participar en la verificación de los hechos crudos
+-- que conforman la pieza de inteligencia). Cuando un agente reporta un hecho crudo también indica
+-- su nivel de confiabilidad de 0 a 100 con respecto a la exactitud o veracidad del mismo. Los analistas,
+-- luego de su verificación pueden avalar ese nivel, aumentarlo o bajarlo. Sólo hechos crudos con un
+-- nivel superior a 85 pueden formar parte de una pieza de inteligencia. Cada pieza de inteligencia
+-- debe tener registrado su nivel de confiabilidad (se calcula como el promedio del nivel de
+-- confiabilidad verificada de los hechos crudos que la conforman). El analista responsable5 por la
+-- construcción de la pieza la certifica fijándole un precio aproximado, el cual será exacto luego de la
+-- negociación en la cual es vendida – debe haber registro del precio final alcanzado. Sólo los analistas
+-- fijan el precio base de las piezas de inteligencia. Una pieza de inteligencia registrada no puede ser
+-- alterada.
+
+
+
+CREATE OR REPLACE FUNCTION VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_CONFIDENTE (id_personal_inteligencia in integer)
+RETURNS setof INFORMANTE
+LANGUAGE sql
+AS $$  
+ 	
+    SELECT * FROM INFORMANTE WHERE fk_personal_inteligencia_confidente = id_personal_inteligencia; 
+$$;
+
+-- SELECT * FROM VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_CONFIDENTE(11);
+
+-- SELECT * from informante;
+
+
+-------------------------/////////////////////-----------------------
+
+
+
+CREATE OR REPLACE FUNCTION VER_LISTA_INFORMANTES_PERSONAL_INTELIGENCIA_AGENTE (id_personal_inteligencia in integer)
+RETURNS setof INFORMANTE
+LANGUAGE sql
+AS $$  
+ 	
+    SELECT * FROM INFORMANTE WHERE fk_personal_inteligencia_encargado = id_personal_inteligencia; 
+$$;
+
+
+--------------------------///////////////////////-----------------------------
+
+
+-- DROP PROCEDURE IF EXISTS REGISTRO_INFORMANTE CASCADE;
+
+
+CREATE OR REPLACE PROCEDURE REGISTRO_INFORMANTE (nombre_clave_va IN INFORMANTE.nombre_clave%TYPE, id_agente_campo IN integer, id_empleado_jefe_confidente IN integer, id_personal_inteligencia_confidente IN integer)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+    agente_campo_encargado_reg PERSONAL_INTELIGENCIA%ROWTYPE;
+	hist_cargo_agente_encargado_reg HIST_CARGO%ROWTYPE;
+
+	personal_confidente_reg PERSONAL_INTELIGENCIA%ROWTYPE;
+	hist_cargo_personal_confidente_reg HIST_CARGO%ROWTYPE;
+
+	empleado_jefe_reg EMPLEADO_JEFE%ROWTYPE;
+
+	informante_reg INFORMANTE%ROWTYPE;
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO REGISTRO_INFORMANTE ( % ) ------', NOW();
+	
+	-------------/////////// VALIDACIONES DE LLAVES
+
+
+	IF (id_empleado_jefe_confidente IS NULL AND id_personal_inteligencia_confidente IS NULL) THEN
+		RAISE INFO 'Debe ingresar a alguna persona de la AII como confidente de la informacion de este informante';
+  		RAISE EXCEPTION 'Debe ingresar a alguna persona de la AII como confidente de la informacion de este informante';
+	END IF;
+
+	IF (id_empleado_jefe_confidente IS NOT NULL AND id_personal_inteligencia_confidente IS NOT NULL) THEN
+		RAISE INFO 'No puede ingresar dos confidentes de información';
+  		RAISE EXCEPTION 'No puede ingresar dos confidentes de información';
+	END IF;
+
+	IF (id_agente_campo = id_personal_inteligencia_confidente) THEN
+		RAISE INFO 'El agente de campo encargado y el personal de inteligencia confidente no pueden ser el mismo';
+  		RAISE EXCEPTION 'El agente de campo encargado y el personal de inteligencia confidente no pueden ser el mismo';
+	END IF;
+
+
+	-------------/////////// VALIDACIONES DE NOMBRE CLAVE
+
+	IF (nombre_clave_va IS NULL OR nombre_clave_va = '') THEN
+   		RAISE INFO 'Debe ingresar un nombre clave para el informante';
+  		RAISE EXCEPTION 'Debe ingresar un nombre clave para el informante';
+   	END IF;   	
+
+	SELECT * INTO informante_reg FROM INFORMANTE WHERE nombre_clave = nombre_clave_va;
+
+--	RAISE INFO 'DATOS DE INFORMANTE %:', informante_reg;
+	
+	IF (informante_reg.id IS NOT NULL) THEN
+	
+		RAISE INFO 'El nombre clave que ingresó ya se encuentra en uso';
+  		RAISE EXCEPTION 'El nombre clave que ingresó ya se encuentra en uso';
+	END IF;
+	
+	
+	
+	-------------////  BUSQUEDA DEL AGENTE ENCARGADO
+
+    SELECT * INTO agente_campo_encargado_reg FROM PERSONAL_INTELIGENCIA WHERE id = id_agente_campo;
+    RAISE INFO 'datos del agente de campo encargado: %', agente_campo_encargado_reg;
+   
+   	SELECT * INTO hist_cargo_agente_encargado_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = id_agente_campo AND fecha_fin IS NULL; 
+   	RAISE INFO 'datos de hist_cargo del agente encargado: %', hist_cargo_agente_encargado_reg;
+
+	
+	IF (hist_cargo_agente_encargado_reg IS NULL) THEN
+   		RAISE INFO 'El agente de campo que ingresó no existe o ya no trabaja en AII';
+  		RAISE EXCEPTION 'El agente de campo que ingresó no existe o ya no trabaja en AII';
+   	END IF;   	
+  	
+	IF (hist_cargo_agente_encargado_reg.cargo != 'agente') THEN
+		RAISE INFO 'El agente de campo que ingresó no es un agente de campo en su cargo actual';
+		RAISE EXCEPTION 'El agente de campo que ingresó no es un agente de campo en su cargo actual';
+	END IF;
+
+
+	-------------////////
+
+	IF (id_personal_inteligencia_confidente IS NOT NULL) THEN
+
+		-------------////  BUSQUEDA DEL PERSONAL CONFIDENTE
+
+		SELECT * INTO personal_confidente_reg FROM PERSONAL_INTELIGENCIA WHERE id = id_personal_inteligencia_confidente;
+		RAISE INFO 'datos del personal de inteligencia confidente: %', personal_confidente_reg;
+	
+		SELECT * INTO hist_cargo_personal_confidente_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = id_personal_inteligencia_confidente AND fecha_fin IS NULL; 
+		RAISE INFO 'datos de hist_cargo del personal de inteligencia confidente: %', hist_cargo_personal_confidente_reg;
+	
+		
+		IF (hist_cargo_personal_confidente_reg IS NULL) THEN
+	   		RAISE INFO 'El confidente personal de inteligencia que ingresó no existe o ya no trabaja en AII';
+	  		RAISE EXCEPTION 'El confidente personal de inteligencia que ingresó no existe o ya no trabaja en AII';
+   		END IF;   	
+	
+	
+		INSERT INTO INFORMANTE (
+			nombre_clave,
+
+			fk_personal_inteligencia_encargado,
+			fk_fecha_inicio_encargado,
+			fk_estacion_encargado,
+			fk_oficina_principal_encargado,
+			
+			fk_personal_inteligencia_confidente,
+			fk_fecha_inicio_confidente,
+			fk_estacion_confidente,
+			fk_oficina_principal_confidente
+		
+		) VALUES (
+   			nombre_clave_va,
+
+			hist_cargo_agente_encargado_reg.fk_personal_inteligencia,
+			hist_cargo_agente_encargado_reg.fecha_inicio,
+			hist_cargo_agente_encargado_reg.fk_estacion,
+			hist_cargo_agente_encargado_reg.fk_oficina_principal,
+			
+			hist_cargo_personal_confidente_reg.fk_personal_inteligencia,
+			hist_cargo_personal_confidente_reg.fecha_inicio,
+			hist_cargo_personal_confidente_reg.fk_estacion,
+			hist_cargo_personal_confidente_reg.fk_oficina_principal
+
+    	) RETURNING * INTO informante_reg;
+
+	ELSE
+
+		-------------////  BUSQUEDA DEL EMPLEADO_JEFE CONFIDENTE
+
+		SELECT * INTO empleado_jefe_reg FROM EMPLEADO_JEFE WHERE id = id_empleado_jefe_confidente;
+		RAISE INFO 'datos del empleado jefe confidente: %', empleado_jefe_reg;
+   
+   
+		INSERT INTO INFORMANTE (
+			nombre_clave,
+
+			fk_personal_inteligencia_encargado,
+			fk_fecha_inicio_encargado,
+			fk_estacion_encargado,
+			fk_oficina_principal_encargado,
+			
+			fk_empleado_jefe_confidente
+		
+		) VALUES (
+   			nombre_clave_va,
+
+			hist_cargo_agente_encargado_reg.fk_personal_inteligencia,
+			hist_cargo_agente_encargado_reg.fecha_inicio,
+			hist_cargo_agente_encargado_reg.fk_estacion,
+			hist_cargo_agente_encargado_reg.fk_oficina_principal,
+			
+			empleado_jefe_reg.id
+
+    	) RETURNING * INTO informante_reg;
+
+
+	END IF;
+    
+
+
+   RAISE INFO 'INFORMANTE CREADO CON EXITO!';
+   RAISE INFO 'Datos del informante: %', informante_reg ; 
+
+
+
+END $$;
+
+
+
+-- CALL REGISTRO_INFORMANTE( 'aja prueba 2', 2, 1, null );
+
+
+--------------------------///////////////////////-----------------------------
+
+
+-- DROP PROCEDURE IF EXISTS REGISTRO_CRUDO_SIN_INFORMANTE CASCADE;
+
+
+CREATE OR REPLACE PROCEDURE REGISTRO_CRUDO_SIN_INFORMANTE (id_agente_campo IN integer, id_tema IN integer, contenido_va IN CRUDO.contenido%TYPE, tipo_contenido_va IN CRUDO.tipo_contenido%TYPE, resumen_va IN CRUDO.resumen%TYPE, fuente_va IN CRUDO.fuente%TYPE, valor_apreciacion_va IN CRUDO.valor_apreciacion%TYPE, nivel_confiabilidad_inicial_va IN CRUDO.nivel_confiabilidad_inicial%TYPE, cant_analistas_verifican_va IN CRUDO.cant_analistas_verifican%TYPE )
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+    agente_campo_encargado_reg PERSONAL_INTELIGENCIA%ROWTYPE;
+	hist_cargo_agente_encargado_reg HIST_CARGO%ROWTYPE;
+
+	-- informante_reg INFORMANTE%ROWTYPE;
+	-- tema_reg CLAS_TEMA%ROWTYPE;
+	crudo_reg CRUDO%ROWTYPE;
+
+	fecha_obtencion_va CRUDO.fecha_obtencion%TYPE;
+	
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO REGISTRO_CRUDO_SIN_INFORMANTE ( % ) ------', NOW();
+	
+	-------------/////////// VALIDACIONES DE LLAVES
+
+
+	IF (fuente_va != 'abierta' AND fuente_va != 'tecnica') THEN
+		RAISE INFO 'Para el registro de crudos con fuente secreta, por favor use el programa "REGISTRO_CRUDO_CON_INFORMANTE" ';
+  		RAISE EXCEPTION 'Para el registro de crudos con fuente secreta, por favor use el programa "REGISTRO_CRUDO_CON_INFORMANTE" ';
+	END IF;
+
+
+	SELECT * INTO agente_campo_encargado_reg FROM PERSONAL_INTELIGENCIA WHERE id = id_agente_campo;
+	RAISE INFO 'datos del agente de campo encargado: %', agente_campo_encargado_reg;
+
+	SELECT * INTO hist_cargo_agente_encargado_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = id_agente_campo AND fecha_fin IS NULL; 
+	RAISE INFO 'datos de hist_cargo del agente encargado: %', hist_cargo_agente_encargado_reg;
+
+	IF (hist_cargo_agente_encargado_reg IS NULL) THEN
+		RAISE INFO 'El agente de campo que ingresó no existe o ya no trabaja en AII';
+		RAISE EXCEPTION 'El agente de campo que ingresó no existe o ya no trabaja en AII';
+	END IF;   	
+	
+	IF (hist_cargo_agente_encargado_reg.cargo != 'agente') THEN
+		RAISE INFO 'El agente de campo que ingresó no es un agente de campo en su cargo actual';
+		RAISE EXCEPTION 'El agente de campo que ingresó no es un agente de campo en su cargo actual';
+	END IF;
+
+
+	fecha_obtencion_va = NOW();
+   
+   
+	INSERT INTO CRUDO (
+		contenido,
+		tipo_contenido,
+		resumen,
+		fuente, 
+		valor_apreciacion,
+		nivel_confiabilidad_inicial,
+		fecha_obtencion,
+		cant_analistas_verifican,
+
+		fk_clas_tema,
+
+		--estacion a donde pertence
+		fk_estacion_pertenece,
+		fk_oficina_principal_pertenece,
+
+		--agente encargado
+		fk_estacion_agente,
+		fk_oficina_principal_agente,
+		fk_fecha_inicio_agente,
+		fk_personal_inteligencia_agente
+	
+	) VALUES (
+		
+		contenido_va,
+		tipo_contenido_va,
+		resumen_va,
+		fuente_va, 
+		valor_apreciacion_va,
+		nivel_confiabilidad_inicial_va,
+		fecha_obtencion_va,
+		cant_analistas_verifican_va,
+
+		id_tema,
+
+
+		--estacion a donde pertence
+		hist_cargo_agente_encargado_reg.fk_estacion,
+		hist_cargo_agente_encargado_reg.fk_oficina_principal,
+
+		--agente encargado
+		hist_cargo_agente_encargado_reg.fk_estacion,
+		hist_cargo_agente_encargado_reg.fk_oficina_principal,
+		hist_cargo_agente_encargado_reg.fecha_inicio,
+		hist_cargo_agente_encargado_reg.fk_personal_inteligencia
+
+	) RETURNING * INTO crudo_reg;
+
+
+
+   RAISE INFO 'CRUDO CREADO CON EXITO!';
+   RAISE INFO 'Datos del crudo: %', crudo_reg ; 
+
+
+
+END $$;
+
+
+-- bien
+-- CALL REGISTRO_CRUDO_SIN_INFORMANTE(2, 1, FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/texto.txt'), 'texto', 'resumen crudo prueba', 'abierta', 999, 5, 3);
+
+-- mal
+-- CALL a_INFORMANTE(2, 1, FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/texto.txt'), 'texto', 'resumen', 'tecnica', null, 25, 5);
+
+
+--------------------------///////////////////////-----------------------------
+
+
+-- DROP PROCEDURE IF EXISTS REGISTRO_CRUDO_CON_INFORMANTE CASCADE;
+
+
+CREATE OR REPLACE PROCEDURE REGISTRO_CRUDO_CON_INFORMANTE ( id_informante IN integer, monto_pago_va IN TRANSACCION_PAGO.monto_pago%TYPE, id_agente_campo IN integer, id_tema IN integer, contenido_va IN CRUDO.contenido%TYPE, tipo_contenido_va IN CRUDO.tipo_contenido%TYPE, resumen_va IN CRUDO.resumen%TYPE, valor_apreciacion_va IN CRUDO.valor_apreciacion%TYPE, nivel_confiabilidad_inicial_va IN CRUDO.nivel_confiabilidad_inicial%TYPE, cant_analistas_verifican_va IN CRUDO.cant_analistas_verifican%TYPE )
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+    agente_campo_encargado_reg PERSONAL_INTELIGENCIA%ROWTYPE;
+	hist_cargo_agente_encargado_reg HIST_CARGO%ROWTYPE;
+
+	informante_reg INFORMANTE%ROWTYPE;
+	-- tema_reg CLAS_TEMA%ROWTYPE;
+	crudo_reg CRUDO%ROWTYPE;
+	transaccion_pago_reg TRANSACCION_PAGO%ROWTYPE;
+
+	fuente_va CRUDO.fuente%TYPE := 'secreta';
+	fecha_obtencion_va CRUDO.fecha_obtencion%TYPE;
+	
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO REGISTRO_CRUDO_CON_INFORMANTE ( % ) ------', NOW();
+	
+	-------------/////////// VALIDACIONES DE LLAVES
+
+
+	IF (monto_pago_va IS NULL OR monto_pago_va <= 0) THEN
+   		RAISE INFO 'El monto pagado por el crudo al informante debe ser mayor a 0$';
+  		RAISE EXCEPTION 'El monto pagado por el crudo al informante debe ser mayor a 0$';
+   	END IF; 
+
+
+	SELECT * INTO informante_reg FROM INFORMANTE WHERE id = id_informante AND fk_personal_inteligencia_encargado = id_agente_campo;
+
+	RAISE INFO 'DATOS DE INFORMANTE %:', informante_reg;
+	
+	IF (informante_reg IS NULL) THEN
+		RAISE INFO 'El informante que ingresó no se encuetra registrado o no le pertenece al agente que ingresó';
+  		RAISE EXCEPTION 'El informante que ingresó no se encuetra registrado o no le pertenece al agente que ingresó';
+	END IF;
+
+	
+	
+	-------------////  BUSQUEDA DEL AGENTE ENCARGADO
+
+    SELECT * INTO agente_campo_encargado_reg FROM PERSONAL_INTELIGENCIA WHERE id = id_agente_campo;
+    RAISE INFO 'datos del agente de campo encargado: %', agente_campo_encargado_reg;
+   
+   	SELECT * INTO hist_cargo_agente_encargado_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = id_agente_campo AND fecha_fin IS NULL; 
+   	RAISE INFO 'datos de hist_cargo del agente encargado: %', hist_cargo_agente_encargado_reg;
+
+	
+	IF (hist_cargo_agente_encargado_reg IS NULL) THEN
+   		RAISE INFO 'El agente de campo que ingresó no existe o ya no trabaja en AII';
+  		RAISE EXCEPTION 'El agente de campo que ingresó no existe o ya no trabaja en AII';
+   	END IF;   	
+  	
+	IF (hist_cargo_agente_encargado_reg.cargo != 'agente') THEN
+		RAISE INFO 'El agente de campo que ingresó no es un agente de campo en su cargo actual';
+		RAISE EXCEPTION 'El agente de campo que ingresó no es un agente de campo en su cargo actual';
+	END IF;
+
+
+	-------------////////
+
+	fecha_obtencion_va = NOW();
+   
+   
+	INSERT INTO CRUDO (
+		contenido,
+		tipo_contenido,
+		resumen,
+		fuente, 
+		valor_apreciacion,
+		nivel_confiabilidad_inicial,
+		fecha_obtencion,
+		cant_analistas_verifican,
+
+		fk_clas_tema,
+		fk_informante,
+
+		--estacion a donde pertence
+		fk_estacion_pertenece,
+		fk_oficina_principal_pertenece,
+
+		--agente encargado
+		fk_estacion_agente,
+		fk_oficina_principal_agente,
+		fk_fecha_inicio_agente,
+		fk_personal_inteligencia_agente
+	
+	) VALUES (
+		
+		contenido_va,
+		tipo_contenido_va,
+		resumen_va,
+		fuente_va, 
+		valor_apreciacion_va,
+		nivel_confiabilidad_inicial_va,
+		fecha_obtencion_va,
+		cant_analistas_verifican_va,
+
+		id_tema,
+		id_informante,
+
+		--estacion a donde pertence
+		hist_cargo_agente_encargado_reg.fk_estacion,
+		hist_cargo_agente_encargado_reg.fk_oficina_principal,
+
+		--agente encargado
+		hist_cargo_agente_encargado_reg.fk_estacion,
+		hist_cargo_agente_encargado_reg.fk_oficina_principal,
+		hist_cargo_agente_encargado_reg.fecha_inicio,
+		hist_cargo_agente_encargado_reg.fk_personal_inteligencia
+
+	) RETURNING * INTO crudo_reg;
+
+
+
+   RAISE INFO 'CRUDO CREADO CON EXITO!';
+   RAISE INFO 'Datos del crudo: %', crudo_reg ; 
+
+	-------//////
+      
+   
+	INSERT INTO TRANSACCION_PAGO (
+		fecha_hora,
+		monto_pago,
+		fk_crudo,
+		fk_informante
+	
+	) VALUES (
+		
+		fecha_obtencion_va,
+		monto_pago_va,
+		crudo_reg.id,
+		id_informante
+
+	) RETURNING * INTO transaccion_pago_reg;
+
+
+
+   RAISE INFO 'TRANSACCIÓN DE PAGO DE CRUDO CREADA CON EXITO!';
+   RAISE INFO 'Datos de la transacción: %', transaccion_pago_reg ; 
+
+
+
+END $$;
+
+
+
+-- CALL REGISTRO_CRUDO_CON_INFORMANTE(33, 100, 2, 1, FORMATO_ARCHIVO_A_BYTEA('crudo_contenido/texto.txt'), 'texto', 'resumen crudo prueba', 999, 5, 3);
+
+
+
+-- select * from informante where fk_personal_inteligencia_encargado = 2;
+-- select * from crudo where fk_personal_inteligencia_agente = 2;
+-- select * from transaccion_pago ORDER BY fecha_hora DESC;
+
+
+
+---------------------------////////////////////////////-------------------------------
+
+
+
+-------------////////.........^^^^^^^^^^^^^^^^^^^^^..........\\\\\\\\\\-------------
+
+
+
+-- DROP FUNCTION IF EXISTS ANALISTA_VERIFICO_CRUDO CASCADE;
+
+CREATE OR REPLACE FUNCTION ANALISTA_VERIFICO_CRUDO ( id_crudo IN integer, id_analista IN integer ) 
+RETURNS boolean
+LANGUAGE PLPGSQL 
+AS $$
+DECLARE 
+
+	registro record;
+
+BEGIN 
+	
+	SELECT * INTO registro FROM ANALISTA_CRUDO WHERE fk_crudo = id_crudo AND fk_personal_inteligencia_analista = id_analista;
+	
+	IF (registro IS NULL) THEN
+		RETURN false;
+	END IF;
+
+	RETURN true;
+	
+END $$;
+
+
+-------------////////.........^^^^^^^^^^^^^^^^^^^^^..........\\\\\\\\\\-------------
+
+
+
+-- DROP FUNCTION IF EXISTS ANALISTA_PUEDE_VERIFICA_CRUDO CASCADE;
+
+CREATE OR REPLACE FUNCTION ANALISTA_PUEDE_VERIFICA_CRUDO ( id_crudo IN integer, id_analista IN integer ) 
+RETURNS boolean
+LANGUAGE PLPGSQL 
+AS $$
+DECLARE 
+
+	id_estacion_analista integer;
+	id_estaciones_otros_analistas integer[];
+	id_estacion_crudo integer;
+
+BEGIN 
+
+	-- estacion del analista
+	SELECT fk_estacion INTO id_estacion_analista FROM HIST_CARGO WHERE fk_personal_inteligencia = id_analista AND fecha_fin IS NULL; 
+	
+	-- estacion del crudo
+	SELECT fk_estacion_pertenece INTO id_estacion_crudo FROM CRUDO WHERE id = id_crudo;
+	
+
+	-- estacion de los analistas que verificaron el crudo
+	id_estaciones_otros_analistas := ARRAY( 
+		SELECT fk_estacion_analista FROM ANALISTA_CRUDO WHERE fk_crudo = id_crudo
+	);
+	
+	
+	IF (id_estacion_analista = id_estacion_crudo OR id_estacion_analista = ANY(id_estaciones_otros_analistas)) THEN
+		RETURN false;
+	END IF;
+
+	RETURN true;
+	
+END $$;
+
+
+
+--select analista_puede_verifica_crudo(5, 4);
+--
+--select * from analista_crudo ac where fk_crudo = 5;
+--select * from hist_cargo hc where fk_personal_inteligencia = 4;
+
+--------------------------///////////////////////-----------------------------
+
+
+-- Demostración de la implementación de los requerimientos del sistema de bases de datos 
+-- transaccional referidos al proceso de venta de piezas – actividades de recolección y 
+-- verificación de hechos crudos y manejo de informantes, incluyendo la seguridad correspondiente 
+-- (roles, cuentas con privilegios para poder ejecutar los programas y reportes).
+
+
+-- Verificación_Hechos_Crudos (3) - elegir analistas, definir rango de tiempo para cargar 
+-- confiabilidades, pedir nivel a asignar por analista, guardar y calcular promedio, actualizar 
+-- el hecho crudo con la fecha final y el promedio calculado. Aplicando todas las validaciones
+-- necesarias sobre cada paso…
+
+
+-- La información recolectada por los agentes de campo se indexa (fecha más reciente) y almacena
+-- como hechos crudos y se puede buscar por tópicos principales (países, individuos, eventos,
+-- empresas), cada uno de los cuales está dividido en temas de interés. La AII no vende hechos crudos
+-- (la información traída por los agentes) sino piezas de inteligencia verificadas por varias fuentes (al
+-- menos 2 analistas de diferentes estaciones deben participar en la verificación de los hechos crudos
+-- que conforman la pieza de inteligencia). Cuando un agente reporta un hecho crudo también indica
+-- su nivel de confiabilidad de 0 a 100 con respecto a la exactitud o veracidad del mismo. Los analistas,
+-- luego de su verificación pueden avalar ese nivel, aumentarlo o bajarlo. Sólo hechos crudos con un
+-- nivel superior a 85 pueden formar parte de una pieza de inteligencia. Cada pieza de inteligencia
+-- debe tener registrado su nivel de confiabilidad (se calcula como el promedio del nivel de
+-- confiabilidad verificada de los hechos crudos que la conforman). El analista responsable5 por la
+-- construcción de la pieza la certifica fijándole un precio aproximado, el cual será exacto luego de la
+-- negociación en la cual es vendida – debe haber registro del precio final alcanzado. Sólo los analistas
+-- fijan el precio base de las piezas de inteligencia. Una pieza de inteligencia registrada no puede ser
+-- alterada.
+
+--------------------------///////////////////////-----------------------------
+
+
+
+
+
+
+-- DROP PROCEDURE IF EXISTS VERIFICAR_CRUDO CASCADE;
+
+
+CREATE OR REPLACE PROCEDURE VERIFICAR_CRUDO ( id_analista IN integer, id_crudo IN integer, nivel_confiabilidad_va IN ANALISTA_CRUDO.nivel_confiabilidad%TYPE )
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+    analista_reg PERSONAL_INTELIGENCIA%ROWTYPE;
+	hist_cargo_analista_reg HIST_CARGO%ROWTYPE;
+
+	crudo_reg CRUDO%ROWTYPE;
+	analista_crudo_reg ANALISTA_CRUDO%ROWTYPE;
+
+	fecha_hora_va ANALISTA_CRUDO.fecha_hora%TYPE;
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO VERIFICAR_CRUDO ( % ) ------', NOW();
+	
+	
+	IF (nivel_confiabilidad_va IS NULL OR nivel_confiabilidad_va < 0 OR nivel_confiabilidad_va > 100 ) THEN
+   		RAISE INFO 'El nivel de confiabilidad del crudo debe estar entre el rango de 0 y 100';
+  		RAISE EXCEPTION 'El nivel de confiabilidad del crudo debe estar entre el rango de 0 y 100';
+   	END IF; 
+
+
+    SELECT * INTO analista_reg FROM PERSONAL_INTELIGENCIA WHERE id = id_analista;
+    RAISE INFO 'datos del analista a verficar: %', analista_reg;
+   
+   	SELECT * INTO hist_cargo_analista_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = id_analista AND fecha_fin IS NULL; 
+   	RAISE INFO 'datos de hist_cargo del analista: %', hist_cargo_analista_reg;
+
+	
+	IF (hist_cargo_analista_reg IS NULL) THEN
+   		RAISE INFO 'El analista que ingresó no existe o ya no trabaja en AII';
+  		RAISE EXCEPTION 'El analista que ingresó no existe o ya no trabaja en AII';
+   	END IF;   	
+  	
+	IF (hist_cargo_analista_reg.cargo != 'analista') THEN
+		RAISE INFO 'El analista que ingresó no es un analista en su cargo actual';
+		RAISE EXCEPTION 'El analista que ingresó no es un analista en su cargo actual';
+	END IF;
+
+	-------------////////
+
+	SELECT * INTO crudo_reg FROM CRUDO WHERE id = id_crudo; 
+   	RAISE INFO 'datos de crudo a verificar: %', crudo_reg;
+
+	
+	IF (crudo_reg IS NULL) THEN
+   		RAISE INFO 'El crudo que ingresó no existe';
+  		RAISE EXCEPTION 'El crudo que ingresó no existe';
+   	END IF;  
+
+	-------------////////
+
+	IF (ANALISTA_VERIFICO_CRUDO(id_crudo, id_analista) = true) THEN
+   		RAISE INFO 'Ya el analista que ingresó verificó este crudo';
+  		RAISE EXCEPTION 'Ya el analista que ingresó verificó este crudo';
+   	END IF; 
+
+
+	IF (crudo_reg.nivel_confiabilidad_final IS NOT NULL OR crudo_reg.fecha_verificacion_final IS NOT NULL OR VALIDAR_CANT_ANALISTAS_VERIFICAN_CRUDO(id_crudo) >= crudo_reg.cant_analistas_verifican) THEN
+   		RAISE INFO 'El crudo ya fue verificado, puede que falte cerrar el crudo';
+  		RAISE EXCEPTION 'El crudo ya fue verificado, puede que falte cerrar el crudo';
+   	END IF; 
+
+	IF (ANALISTA_PUEDE_VERIFICA_CRUDO(id_crudo, id_analista) = false) THEN
+   		RAISE INFO 'El analista no puede verificar el crudo ya que tiene que pertenecer a una estacion diferente que los otros analistas que verificaron, asi como la estacion de procedencia del crudo';
+  		RAISE EXCEPTION 'El analista no puede verificar el crudo ya que tiene que pertenecer a una estacion diferente que los otros analistas que verificaron, asi como la estacion de procedencia del crudo';
+   	END IF; 
+
+	------------- ///////
+	
+	fecha_hora_va = NOW();
+
+	INSERT INTO ANALISTA_CRUDO (
+		fecha_hora,
+		nivel_confiabilidad,
+		fk_crudo,
+		
+		fk_fecha_inicio_analista,
+		fk_personal_inteligencia_analista,
+		fk_estacion_analista,
+		fk_oficina_principal_analista
+	
+	) VALUES (
+		fecha_hora_va,
+		nivel_confiabilidad_va,
+		id_crudo,
+
+		hist_cargo_analista_reg.fecha_inicio,
+		hist_cargo_analista_reg.fk_personal_inteligencia,
+		hist_cargo_analista_reg.fk_estacion,
+		hist_cargo_analista_reg.fk_oficina_principal
+
+	) RETURNING * INTO analista_crudo_reg;
+
+
+    
+
+   RAISE INFO 'CRUDO VERIFICADO CREADO CON EXITO!';
+   RAISE INFO 'Datos del registro: %', analista_crudo_reg ; 
+
+   RAISE INFO 'Faltan % verificaciones para poder cerrar el crudo', ( crudo_reg.cant_analistas_verifican - VALIDAR_CANT_ANALISTAS_VERIFICAN_CRUDO(id_crudo)) ;
+
+
+
+END $$;
+
+
+
+--CALL VERIFICAR_CRUDO( id_analista, id_crudo, nivel_confiabilidad );
+
+
+--------------------------///////////////////////-----------------------------
+
+
+-- DROP PROCEDURE IF EXISTS CERRAR_CRUDO CASCADE;
+
+
+CREATE OR REPLACE PROCEDURE CERRAR_CRUDO ( id_crudo IN integer )
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+   	crudo_reg CRUDO%ROWTYPE;
+
+	fecha_verificacion_final_va CRUDO.fecha_verificacion_final%TYPE;
+	nivel_confiabilidad_promedio_va CRUDO.nivel_confiabilidad_final%TYPE;
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CERRAR_CRUDO ( % ) ------', NOW();
+	
+	
+	SELECT * INTO crudo_reg FROM CRUDO WHERE id = id_crudo; 
+   	RAISE INFO 'datos de crudo a verificar: %', crudo_reg;
+
+	IF (crudo_reg IS NULL) THEN
+   		RAISE INFO 'El crudo que ingresó no existe';
+  		RAISE EXCEPTION 'El crudo que ingresó no existe';
+   	END IF;  
+	
+	-------------////////
+
+
+	IF (crudo_reg.nivel_confiabilidad_final IS NOT NULL OR crudo_reg.fecha_verificacion_final IS NOT NULL) THEN
+   		RAISE INFO 'El crudo ya fue verificado';
+  		RAISE EXCEPTION 'El crudo ya fue verificado';
+   	END IF; 
+
+
+	IF ( VALIDAR_CANT_ANALISTAS_VERIFICAN_CRUDO(id_crudo) < crudo_reg.cant_analistas_verifican ) THEN
+   		RAISE INFO 'No se cumple el número mínimo de verificaciones, faltan: %', ( crudo_reg.cant_analistas_verifican - VALIDAR_CANT_ANALISTAS_VERIFICAN_CRUDO(id_crudo)) ;
+  		RAISE EXCEPTION 'No se cumple el número mínimo de verificaciones, faltan: %', ( crudo_reg.cant_analistas_verifican - VALIDAR_CANT_ANALISTAS_VERIFICAN_CRUDO(id_crudo)) ;
+   	END IF;   	
+
+	
+	SELECT MAX(fecha_hora) INTO fecha_verificacion_final_va FROM ANALISTA_CRUDO WHERE fk_crudo = id_crudo;
+
+	SELECT sum(nivel_confiabilidad)/count(*) INTO nivel_confiabilidad_promedio_va FROM ANALISTA_CRUDO WHERE fk_crudo = id_crudo;
+
+	UPDATE CRUDO SET nivel_confiabilidad_final = nivel_confiabilidad_promedio_va, fecha_verificacion_final = fecha_verificacion_final_va WHERE id = id_crudo RETURNING * INTO crudo_reg;
+
+
+   RAISE INFO 'CRUDO CERRADO EXITO!';
+   RAISE INFO 'Datos del crudo verificado: %', crudo_reg ; 
+
+
+
+END $$;
+
+
+
+--CALL VERIFICAR_CRUDO( id_analista, id_crudo, nivel_confiabilidad );
+
+-- CALL VERIFICAR_CRUDO( 53, 31 , 85);
+
+-- CALL CERRAR_CRUDO(31);
+
+
+
+
+
+
+
+----------///////////- ---------------------------------------------------------------------------------------------------------------- ///////////----------
+----------//////////////////- CREACION DE PROCEDIMIENTOS Y FUNCIONES RELACIONADOS AL ROL PERSONAL DE INTELIGENCIA Pt2   -- EJECUTAR COMO DEV -///////////////////////----------
+----------///////////- --------------------------------------------------------------------------------------------------------------- ///////////----------
+
+
+
+
+
+--------------------------///////////////////////-----------------------------
+ 
+
+-- 4. Demostración de la implementación de los requerimientos del sistema de bases de datos transaccional 
+-- referidos al proceso de venta de piezas de inteligencia – construcción de piezas de inteligencia y 
+-- venta a clientes, incluyendo la seguridad correspondiente (roles, cuentas con privilegios para poder 
+-- ejecutar los programas y reportes).
+
+
+-- El analista responsable5 por la
+-- construcción de la pieza la certifica fijándole un precio aproximado, el cual será exacto luego de la
+-- negociación en la cual es vendida – debe haber registro del precio final alcanzado. Sólo los analistas
+-- fijan el precio base de las piezas de inteligencia. Una pieza de inteligencia registrada no puede ser
+-- alterada
+
+-- Muchos de los clientes son muy sensibles con respecto a la absoluta exclusividad de la información
+-- que compran. Ellos desean ser los únicos compradores no importando que el precio en estos casos
+-- sea mucho más alto (una pieza de inteligencia de venta exclusiva tiene al menos el 45% de recargo
+-- de su precio base).Para estos casos hay que asegurarse que dichas piezas de inteligencia no se
+-- pueden volver a vender y también se debería saber quiénes son los clientes que exigen las ventas
+-- exclusivas para otras oportunidades de negocio.
+
+
+-- Registro_Venta (4) – pedir cliente, pieza, ver si es cliente exclusivo y si aplica la pieza si no cancelar. 
+-- Si está bien generar el registro, y si la venta es exclusiva proceder a guardar la info y luego eliminar 
+-- de las tablas originales.
+
+--------------------------///////////////////////-----------------------------
+
+
+
+
+
+-- DROP PROCEDURE IF EXISTS REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA CASCADE;
+
+CREATE OR REPLACE PROCEDURE REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA (id_analista_encargado IN integer, descripcion IN PIEZA_INTELIGENCIA.descripcion%TYPE, id_crudo_base IN integer)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	id_pieza integer;
+
+    fecha_creacion_va PIEZA_INTELIGENCIA.fecha_creacion%TYPE;
+    class_seguridad_va PIEZA_INTELIGENCIA.class_seguridad%TYPE;
+
+    analista_encargado_reg PERSONAL_INTELIGENCIA%ROWTYPE;
+   	hist_cargo_reg HIST_CARGO%ROWTYPE;
+	crudo_base_reg CRUDO%ROWTYPE;
+     
+    pieza_reg PIEZA_INTELIGENCIA%ROWTYPE;
+
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA ( % ) ------', NOW();
+	
+	-------------///////////--------------	
+
+
+    SELECT * INTO analista_encargado_reg FROM PERSONAL_INTELIGENCIA WHERE id = id_analista_encargado;
+    RAISE INFO 'datos de persona inteligencia: %', analista_encargado_reg;
+   
+   	SELECT * INTO hist_cargo_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = id_analista_encargado AND fecha_fin IS NULL; 
+   	RAISE INFO 'datos de hist_cargo: %', hist_cargo_reg;
+
+	SELECT * INTO crudo_base_reg FROM CRUDO WHERE id = id_crudo_base;
+    RAISE INFO 'datos del crudo base: %', crudo_base_reg;
+    
+   --------
+
+   	IF (hist_cargo_reg IS NULL) THEN
+   		RAISE INFO 'El analista que ingresó no existe o ya no trabaja en AII';
+  		RAISE EXCEPTION 'El analista que ingresó no existe o ya no trabaja en AII';
+   	END IF;   	
+  	
+   
+	IF (hist_cargo_reg.cargo != 'analista') THEN
+		RAISE INFO 'El analista que ingresó no es un analista en su cargo actual';
+		RAISE EXCEPTION 'El analista que ingresó no es un analista en su cargo actual';
+	END IF;
+
+	IF (crudo_base_reg IS NULL) THEN
+   		RAISE INFO 'El crudo que ingresó no está registrado o no cumple con los requerimientos necesarios';
+  		RAISE EXCEPTION 'El crudo que ingresó no está registrado o no cumple con los requerimientos necesarios';
+   	END IF;   	
+  
+   	IF ( VALIDAR_CANT_ANALISTAS_VERIFICAN_CRUDO(id_crudo_base) != crudo_base_reg.cant_analistas_verifican ) THEN
+   		RAISE INFO 'El crudo que ingresó no ha sido verificado';
+  		RAISE EXCEPTION 'El crudo que ingresó no ha sido verificado';
+   	END IF;   	
+
+	IF (ANALISTA_VERIFICO_CRUDO(id_crudo_base, id_analista_encargado) = true) THEN
+   		RAISE INFO 'La pieza no puede tener ningun crudo verificado por el analista encargado';
+  		RAISE EXCEPTION 'La pieza no puede tener ningun crudo verificado por el analista encargado';
+   	END IF; 
+
+	IF (hist_cargo_reg.fk_estacion != crudo_base_reg.fk_estacion_pertenece) THEN
+		RAISE INFO 'El analista no pertenece a la misma estación que el crudo';
+  		RAISE EXCEPTION 'El analista no pertenece a la misma estación que el crudo';
+	END IF;
+
+   	IF (crudo_base_reg.nivel_confiabilidad_final <= 85 ) THEN
+   		RAISE INFO 'El crudo que ingresó no tiene el nivel de confiabilidad necesario ( > 85 )';
+  		RAISE EXCEPTION 'El crudo que ingresó no tiene el nivel de confiabilidad necesario ( > 85 )';
+   	END IF;   	
+   
+	fecha_creacion_va = NOW();
+	class_seguridad_va = analista_encargado_reg.class_seguridad;
+ 
+ 	
+
+ 	-------------///////////--------------	
+ 
+
+    INSERT INTO PIEZA_INTELIGENCIA (fecha_creacion,descripcion,class_seguridad,fk_fecha_inicio_analista,fk_personal_inteligencia_analista,fk_estacion_analista,fk_oficina_principal_analista,fk_clas_tema) VALUES (
+   	
+    	fecha_creacion_va,
+    	descripcion,
+    	class_seguridad_va,
+   		hist_cargo_reg.fecha_inicio,
+   		hist_cargo_reg.fk_personal_inteligencia,
+   		hist_cargo_reg.fk_estacion,
+   		hist_cargo_reg.fk_oficina_principal,
+   		
+    	crudo_base_reg.fk_clas_tema
+    ) RETURNING id INTO id_pieza;
+   
+   
+   SELECT * INTO pieza_reg FROM PIEZA_INTELIGENCIA WHERE id = id_pieza; 
+   
+   RAISE INFO 'PIEZA CREADA CON EXITO!';
+   RAISE INFO 'Datos de la pieza creada: %', pieza_reg ; 
+
+	-------------///////////--------------	
+
+	INSERT INTO CRUDO_PIEZA (fk_pieza_inteligencia, fk_crudo) VALUES (
+   		id_pieza,
+   		id_crudo_base
+    );
+   
+   	RAISE INFO 'CRUDO DE ID = %, FUE AGREGADO A LA PIEZA ID = % EXITOSAMENTE', id_crudo_base, id_pieza;
+ 
+
+END $$;
+
+
+--CALL REGISTRO_VERIFICACION_PIEZA_INTELIGENCIA( 1 , 'descripcion pieza prueba', 1 );
+
+
+
+-----------------------------===========$$$$$$$$$$///////////////|\\\\\\\\\\\\\\\$$$$$$$$$$===========-------------------------------------------
+
+
+
+--DROP PROCEDURE IF EXISTS AGREGAR_CRUDO_A_PIEZA CASCADE;
+
+CREATE OR REPLACE PROCEDURE AGREGAR_CRUDO_A_PIEZA (id_crudo IN integer, id_pieza IN integer)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	crudo_pieza_reg CRUDO_PIEZA%ROWTYPE;
+    
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO AGREGAR_CRUDO_A_PIEZA ( % ) ------', NOW();
+	
+	-------------///////////--------------	
+
+
+ 
+
+	INSERT INTO CRUDO_PIEZA (fk_pieza_inteligencia, fk_crudo) VALUES (
+   		pieza_reg.id,
+   		crudo_reg.id
+    );
+   
+   	RAISE INFO 'CRUDO DE ID = %, FUE AGREGADO A LA PIEZA ID = % EXITOSAMENTE', id_crudo, id_pieza;
+ 
+
+END $$;
+
+
+COMMIT;
+
+
+
+-----------------------------===========$$$$$$$$$$///////////////|\\\\\\\\\\\\\\\$$$$$$$$$$===========-------------------------------------------
+
+
+
+-- DROP PROCEDURE IF EXISTS CERTIFICAR_PIEZA CASCADE;
+
+
+CREATE OR REPLACE PROCEDURE CERTIFICAR_PIEZA (id_pieza IN integer, precio_base_va IN PIEZA_INTELIGENCIA.precio_base%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	pieza_reg PIEZA_INTELIGENCIA%ROWTYPE;
+	
+	numero_crudos_va integer;
+	nivel_confiabilidad_promedio_va PIEZA_INTELIGENCIA.nivel_confiabilidad%TYPE;
+	
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO CERTIFICAR_PIEZA ( % ) ------', NOW();
+	
+	-------------///////////--------------	
+
+
+	SELECT * INTO pieza_reg FROM PIEZA_INTELIGENCIA WHERE id = id_pieza AND precio_base IS NULL;
+    RAISE INFO 'datos de la pieza de inteligencia %', pieza_reg;
+
+
+	IF (pieza_reg IS NULL) THEN
+   		RAISE INFO 'La pieza que ingresó no esta registrado o no cumple con los requerimientos necesarios';
+  		RAISE EXCEPTION 'La pieza que ingresó no esta registrado o no cumple con los requerimientos necesarios';
+   	END IF;   
+ 
+	IF (precio_base_va < 1) THEN
+   		RAISE INFO 'El precio base no puede negativo ni igual a 0$';
+  		RAISE EXCEPTION 'El precio base no puede negativo ni igual a 0$';
+   	END IF;  
+
+   
+   
+   	SELECT count(*), sum(c.nivel_confiabilidad_final)/count(*) INTO numero_crudos_va, nivel_confiabilidad_promedio_va FROM CRUDO_PIEZA cp, CRUDO c WHERE cp.fk_crudo = c.id AND cp.fk_pieza_inteligencia = id_pieza;
+	RAISE INFO 'numero de crudos en la pieza (id = %): %', id_pieza, numero_crudos_va;
+
+
+   	IF (numero_crudos_va < 1) THEN
+   		RAISE INFO 'La pieza no tiene ningun crudo asociado';
+  		RAISE EXCEPTION 'La pieza no tiene ningun crudo asociado';
+   	END IF;   	
+   
+    IF (nivel_confiabilidad_promedio_va < 85) THEN
+   		RAISE INFO 'No se cumple un nivel de confiabilidad promedio de 85 porciento';
+  		RAISE EXCEPTION 'No se cumple un nivel de confiabilidad promedio de 85 porciento';
+   	END IF;  
+  
+   
+   -------------///////////--------------	
+	
+	UPDATE PIEZA_INTELIGENCIA SET 
+		nivel_confiabilidad = nivel_confiabilidad_promedio_va, 
+		precio_base = precio_base_va
+	;
+   
+   	SELECT * INTO pieza_reg FROM PIEZA_INTELIGENCIA WHERE id = id_pieza; 
+   
+   	RAISE INFO 'PIEZA CERTIFICADA CON EXITO!';
+   	RAISE INFO 'Datos de la pieza certificada: %', pieza_reg ; 
+	
+ 
+
+END $$;
+
+
+
+-- CALL CERTIFICAR_PIEZA( 37, 1 );
+
+-- VALIDAR CON EL ID DEL ANALISTA 
+
+
+
+----------------------------------///////////////////----------------------------
+
+
+-- DROP FUNCTION IF EXISTS VER_DATOS_PIEZA CASCADE;
+
+
+CREATE OR REPLACE FUNCTION VER_DATOS_PIEZA (id_pieza IN integer, id_personal_inteligencia IN integer)
+RETURNS setof PIEZA_INTELIGENCIA
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+	pieza_reg PIEZA_INTELIGENCIA%ROWTYPE;
+   	
+    personal_inteligencia_reg PERSONAL_INTELIGENCIA%ROWTYPE;
+   	hist_cargo_reg HIST_CARGO%ROWTYPE;
+   
+    id_empleado_va integer;
+	
+	fecha_hora_va INTENTO_NO_AUTORIZADO.fecha_hora%TYPE;
+
+BEGIN 
+
+	fecha_hora_va = NOW();
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DE LA FUNCION VER_DATOS_PIEZA ( % ) ------', NOW();
+	
+	-------------///////////--------------	
+
+    SELECT * INTO personal_inteligencia_reg FROM PERSONAL_INTELIGENCIA WHERE id = id_personal_inteligencia;
+    RAISE INFO 'datos de persona inteligencia: %', personal_inteligencia_reg;
+   
+   	SELECT * INTO hist_cargo_reg FROM HIST_CARGO WHERE fk_personal_inteligencia = id_personal_inteligencia AND fecha_fin IS NULL; 
+   	RAISE INFO 'datos de hist_cargo: %', hist_cargo_reg;
+
+   --------
+    
+	SELECT * INTO pieza_reg FROM PIEZA_INTELIGENCIA WHERE id = id_pieza; 
+	-- RAISE INFO 'dato de la pieza: %', pieza_reg ; 
+
+
+
+   	IF (hist_cargo_reg IS NULL OR personal_inteligencia_reg IS NULL) THEN
+   		RAISE INFO 'El personal inteligencia que ingresó no existe o ya no trabaja en AII';
+  		RAISE EXCEPTION 'El personal inteligencia que ingresó no existe o ya no trabaja en AII';
+   	END IF;   	
+
+	IF (pieza_reg IS NULL) THEN
+   		RAISE INFO 'La pieza que ingresó no exite';
+  		RAISE EXCEPTION 'La pieza que ingresó no exite';
+   	END IF;  
+
+	
+    IF (personal_inteligencia_reg.class_seguridad = 'top_secret') THEN 
+        RETURN QUERY 
+			SELECT * FROM PIEZA_INTELIGENCIA WHERE id = id_pieza;
+    END IF;
+
+    IF (personal_inteligencia_reg.class_seguridad = 'confidencial' AND (pieza_reg.class_seguridad = 'confidencial' OR pieza_reg.class_seguridad = 'no_clasificado')) THEN
+       RETURN QUERY 
+			SELECT * FROM PIEZA_INTELIGENCIA WHERE id = id_pieza;
+    END IF;
+
+    IF (personal_inteligencia_reg.class_seguridad = 'no_clasificado' AND pieza_reg.class_seguridad = 'no_clasificado') THEN
+        RETURN QUERY 
+			SELECT * FROM PIEZA_INTELIGENCIA WHERE id = id_pieza;
+    END IF;
+
+   
+ 	------///- 
+   
+   	SELECT fk_empleado_jefe INTO id_empleado_va FROM ESTACION WHERE id = hist_cargo_reg.fk_estacion ; 
+   	RAISE INFO 'id del jefe de la estacion del personal inteligencia: %', id_empleado_va;
+   
+    INSERT INTO INTENTO_NO_AUTORIZADO (
+        fecha_hora,
+        id_pieza,
+        id_empleado,
+        fk_personal_inteligencia
+    ) VALUES (
+        fecha_hora_va,
+        id_pieza,
+        id_empleado_va,
+        hist_cargo_reg.fk_personal_inteligencia
+    );
+	
+	
+   
+END $$;
+
+
+
+-- SELECT VER_DATOS_PIEZA(2,10);
+-- SELECT id_pieza,fk_personal_inteligencia FROM intento_no_autorizado ina order by fecha_hora desc;
+
+
+
+-------------------------///////////////////////////////------------------------------
+
+
+
+-- DROP FUNCTION IF EXISTS VALIDAR_VENTA_EXCLUSIVA CASCADE;
+
+ CREATE OR REPLACE FUNCTION VALIDAR_VENTA_EXCLUSIVA ( id_pieza IN integer ) 
+ RETURNS boolean
+ LANGUAGE PLPGSQL 
+ AS $$
+ DECLARE 
+
+-- 	curdos_en_pieza_int integer;
+-- 	curdos_en_pieza_int integer;
+	
+ 	numero_piezas_compartidas integer := 0;
+ 	numero_veces_pieza_vendida integer := 0;
+ 
+ 
+ BEGIN 
+	 
+	SELECT COUNT(*) INTO numero_veces_pieza_vendida FROM ADQUISICION WHERE fk_pieza_inteligencia = id_pieza;
+
+	RAISE INFO 'Número de veces en las que se ha vendido la pieza a verificar %', numero_veces_pieza_vendida; 
+
+	IF (numero_veces_pieza_vendida != 0) THEN
+ 		RETURN false;
+ 	END IF;
+ 
+    -----------////// 
+	
+	SELECT COUNT( DISTINCT fk_pieza_inteligencia) INTO numero_piezas_compartidas FROM CRUDO_PIEZA WHERE fk_crudo IN (SELECT fk_crudo FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza);
+
+	RAISE INFO 'Número de piezas que contienen los crudos de la pieza a verificar %', numero_piezas_compartidas; 	
+
+ 	IF (numero_piezas_compartidas != 1) THEN
+ 		RETURN false;
+ 	END IF;
+
+ 
+ 	RETURN true;
+	
+ END $$;
+
+
+-------------------------------------///////////////////////----------------------------------
+
+
+
+DROP PROCEDURE IF EXISTS REGISTRO_VENTA CASCADE;
+
+
+CREATE OR REPLACE PROCEDURE REGISTRO_VENTA (id_pieza IN integer, id_cliente IN integer, precio_vendido_va IN ADQUISICION.precio_vendido%TYPE)
+LANGUAGE plpgsql
+AS $$  
+DECLARE
+
+    pieza_reg PIEZA_INTELIGENCIA%ROWTYPE;
+   	cliente_reg CLIENTE%ROWTYPE;
+	
+	adquisicion_reg ADQUISICION%ROWTYPE;
+
+	fecha_hora_venta_va ADQUISICION.fecha_hora_venta%TYPE;
+
+BEGIN 
+
+	fecha_hora_venta_va = NOW();
+
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL PROCEDIMINETO REGISTRO_VENTA ( % ) ------', NOW();
+	
+	-------------///////////--------------	
+
+	SELECT * INTO cliente_reg FROM CLIENTE WHERE id = id_cliente;
+    RAISE INFO 'datos del cliente: %', cliente_reg;
+    
+	SELECT * INTO pieza_reg FROM PIEZA_INTELIGENCIA WHERE id = id_pieza; 
+	RAISE INFO 'dato de la pieza: %', pieza_reg ; 
+
+   --------
+
+   	IF (cliente_reg IS NULL) THEN
+   		RAISE INFO 'El cliente que ingresó no existe';
+  		RAISE EXCEPTION 'El cliente que ingresó no existe';
+   	END IF;   	
+  	
+	IF (pieza_reg IS NULL) THEN
+   		RAISE INFO 'La pieza que ingresó no exite';
+  		RAISE EXCEPTION 'La pieza que ingresó no exite';
+   	END IF;   	
+
+	IF (pieza_reg.precio_base IS NULL OR pieza_reg.nivel_confiabilidad IS NULL) THEN
+   		RAISE INFO 'La pieza que intenta vender no ha sido certificada';
+  		RAISE EXCEPTION 'La pieza que intenta vender no ha sido certificada';
+   	END IF;   	
+
+	IF (precio_vendido_va < 1) THEN
+		RAISE INFO 'El precio de venta no puede negativo ni igual a 0$';
+  		RAISE EXCEPTION 'El precio de venta no puede negativo ni igual a 0$';
+	END IF;
+  
+
+	IF (cliente_reg.exclusivo = TRUE) THEN
+
+		IF ( (precio_vendido_va - pieza_reg.precio_base)/(pieza_reg.precio_base) < 0.45) THEN
+			RAISE INFO 'El precio de venta de una pieza exclusiva tiene un recargo del 45 porciento sobre el precio base de la pieza ( $% ), es decir, $% o más', pieza_reg.precio_base , 1.45*pieza_reg.precio_base ;
+			RAISE EXCEPTION 'El precio de venta de una pieza exclusiva tiene un recargo del 45 porciento sobre el precio base de la pieza ( $% ), es decir, $% o más', pieza_reg.precio_base , 1.45*pieza_reg.precio_base ;
+		END IF;
+
+		
+		IF (VALIDAR_VENTA_EXCLUSIVA(id_pieza) IS TRUE) THEN 
+		
+			INSERT INTO ADQUISICION (fecha_hora_venta,precio_vendido,fk_cliente,fk_pieza_inteligencia) VALUES (
+		
+				fecha_hora_venta_va,
+				precio_vendido_va,
+				cliente_reg.id,
+				pieza_reg.id
+			
+			) RETURNING * INTO adquisicion_reg;
+		
+		
+			RAISE INFO 'VENTA EXCLUSIVA EXITOSA!';
+	  		RAISE INFO 'Datos de la venta: %', adquisicion_reg ; 
+	  	
+	  		CALL REGISTRO_TEMA_VENTA(id_cliente,id_tema);
+
+	  		SELECT ELIMINACION_REGISTROS_VENTA_EXCLUSIVA(pieza_reg.id);	
+			
+		
+		ELSE
+		
+			RAISE INFO 'No es posible la venta de esta pieza de forma exclusiva, debido a que la pieza ya fue vendida; o contiene algun(os) crudo(s) que pertenece(n) a otra(s) pieza(s); o porque la pieza no continene ningun crudo' ;
+			RAISE EXCEPTION 'No es posible la venta de esta pieza de forma exclusiva, debido a que la pieza ya fue vendida; o contiene algun(os) crudo(s) que pertenece(n) a otra(s) pieza(s); o porque la pieza no continene ningun crudo' ;
+		
+		
+		END IF;
+	
+	ELSE
+
+
+		INSERT INTO ADQUISICION (fecha_hora_venta,precio_vendido,fk_cliente,fk_pieza_inteligencia) VALUES (
+		
+			fecha_hora_venta_va,
+			precio_vendido_va,
+			cliente_reg.id,
+			pieza_reg.id
+			
+		) RETURNING * INTO adquisicion_reg;
+	
+		CALL REGISTRO_TEMA_VENTA(id_cliente,id_tema);
+
+		RAISE INFO 'VENTA EXITOSA!';
+   		RAISE INFO 'Datos de la venta: %', adquisicion_reg ; 	
+	
+	END IF;
+ 	
+ 
+
+END $$;
+
+
+--CALL REGISTRO_VENTA( 1,  1, 10000.0 );
+
+-- select * from adquisicion a 
+
+-- select c.id as id_cliente, c.exclusivo, p.id as id_pieza, p.precio_base, a.*, ((a.precio_vendido - p.precio_base)/(p.precio_base))*100 as porcentaje_recargo from adquisicion a, cliente c, PIEZA_INTELIGENCIA p where a.fk_cliente = c.id AND a.fk_pieza_inteligencia = p.id;
 
 
 
@@ -3176,11 +7770,1313 @@ $$ LANGUAGE SQL;
 
 
 
+----------///////////- ------------------------------------------------------------------------------------ ///////////----------
+-----------------//////////////- VALIDACIONES DE TRIGGERS  -- EJECUTAR COMO DEV -//////////////------------------
+----------///////////- ----------------------------------------------------------------------------------- ///////////----------
+
+
+
+
+CREATE OR REPLACE PROCEDURE VALIDAR_JERARQUIA_EMPLEADO_JEFE (id_empleado_sup IN integer, tipo_va IN EMPLEADO_JEFE.tipo%TYPE)
+AS $$
+DECLARE
+
+	jefe_superior_reg EMPLEADO_JEFE%ROWTYPE;
+	
+BEGIN
+
+	SELECT * INTO jefe_superior_reg FROM EMPLEADO_JEFE WHERE id = id_empleado_sup AND tipo = tipo_va;
+	
+	IF (jefe_superior_reg IS NULL) THEN
+		RAISE INFO 'El jefe del empleado que ingresó debe ser de tipo %', tipo_va;
+		RAISE EXCEPTION 'El jefe del empleado que ingresó debe ser de tipo %', tipo_va;
+	END IF;
+		
+END;
+$$ LANGUAGE plpgsql;
+
+
+---------/-///-/-/-/--/---/-/-/-/-/-/-/--/--//---//-/-/-/-/-/-/-/-/-/-/-/-/--/----//////--------------------
+
+
+CREATE OR REPLACE PROCEDURE VALIDAR_TIPO_EMPLEADO_JEFE(id_empleado IN integer, tipo_va IN EMPLEADO_JEFE.tipo%TYPE)
+AS $$
+DECLARE
+
+	empleado_reg EMPLEADO_JEFE%ROWTYPE;
+	
+BEGIN
+
+	select * into empleado_reg from EMPLEADO_JEFE where id = id_empleado AND tipo = tipo_va;
+	
+	IF (empleado_reg IS NULL) THEN
+		RAISE INFO 'El empleado ingresado debe ser de tipo %', tipo_va;
+		RAISE EXCEPTION 'El empleado ingresado debe ser de tipo %', tipo_va;
+	END IF;
+		
+END;
+$$ LANGUAGE plpgsql;
+
+
+---------/-///-/-/-/--/---/-/-/-/-/-/-/--/--//---//-/-/-/-/-/-/-/-/-/-/-/-/--/----//////--------------------
+
+
+CREATE OR REPLACE PROCEDURE VALIDAR_TIPO_LUGAR(id_lugar IN integer, tipo_va IN LUGAR.tipo%TYPE)
+AS $$
+DECLARE
+
+	lugar_reg LUGAR%ROWTYPE;
+	
+BEGIN
+
+	select * into lugar_reg from LUGAR where id = id_lugar AND tipo = tipo_va;
+	
+	IF (lugar_reg IS NULL) THEN
+		RAISE INFO 'El lugar/direccion ingresado debe ser de tipo %', tipo_va;
+		RAISE EXCEPTION 'El lugar/direccion ingresado debe ser de tipo %', tipo_va;
+	END IF;
+		
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+--------------------------///////////////---------------------
+
+
+CREATE OR REPLACE PROCEDURE VALIDAR_ARCO_EXCLUSIVO()
+LANGUAGE PLPGSQL
+AS $$
+DECLARE 
+
+	agente_campo_encargado_reg personal_inteligencia%rowtype; 	
+	hist_agente_encargado_reg hist_cargo%rowtype;
+	
+	personal_confidente_reg personal_inteligencia%rowtype;
+	hist_cargo_personal_inteligencia_reg hist_cargo%rowtype;
+	
+	empleado_jefe_reg empleado_jefe%rowtype;
+	
+BEGIN 
+
+	------------- VALIDACIONES DE LLAVES FORÁNEAS
+	
+	IF (new.fk_empleado_jefe_confidente IS NOT NULL AND (new.fk_personal_inteligencia_confidente IS NOT NULL OR new.fk_estacion_confidente IS NOT NULL OR new.fk_oficina_principal_confidente IS NOT NULL)) THEN
+		RAISE INFO 'Tiene dos confidentes el informante, no puede ocurrir % %', new.fk_empleado_jefe_confidente, new.fk_personal_inteligencia_confidente;
+		RAISE EXCEPTION 'Tiene dos confidentes el informante, no puede ocurrir % %', new.fk_empleado_jefe_confidente, new.fk_personal_inteligencia_confidente;
+	
+	END IF;
+	IF (new.fk_empleado_jefe_confidente IS NULL AND (new.fk_personal_inteligencia_confidente IS NULL OR new.fk_estacion_confidente IS NULL OR new.fk_oficina_principal_confidente IS NULL)) THEN 
+		RAISE INFO 'El informante no tiene confidente, no puede ocurrir % %', new.fk_empleado_jefe_confidente, new.fk_personal_inteligencia_confidente;
+		RAISE EXCEPTION 'El informante no tiene confidente, no puede ocurrir % %', new.fk_empleado_jefe_confidente, new.fk_personal_inteligencia_confidente;
+
+	END IF;
+	IF (new.fk_personal_inteligencia_encargado = new.fk_personal_inteligencia_confidente) THEN
+		RAISE INFO 'EL AGENTE DE CAMPO ENCARGADO Y EL PERSONAL DE INTELIGENCIA CONFIDENTE NO PUEDEN SER EL MISMO';
+		RAISE EXCEPTION 'EL AGENTE DE CAMPO ENCARGADO Y EL PERSONAL DE INTELIGENCIA CONFIDENTE NO PUEDEN SER EL MISMO';
+	
+	END IF;
+
+	
+----- BUSQUEDA AGENTE ENCARGAGO
+
+	SELECT * INTO agente_campo_encargado_reg FROM personal_inteligencia
+	WHERE id = new.fk_personal_inteligencia_encargado;
+	RAISE INFO ' DATOS DEL AGENTE DE CAMPO ENCARGADO: %',agente_campo_encargado_reg;
+	
+	SELECT * INTO hist_agente_encargado_reg FROM hist_cargo 
+	WHERE fk_personal_inteligencia = new.fk_personal_inteligencia_encargado 
+	AND fecha_fin IS NULL;
+	
+	IF (hist_agente_encargado_reg IS NULL) THEN
+		RAISE INFO 'EL AGENTE DE CAMPO QUE INGRESÓ NO EXISTE O YA NO TRABAJA EN AII';
+		RAISE EXCEPTION 'EL AGENTE DE CAMPO QUE INGRESÓ NO EXISTE O YA NO TRABAJA EN AII, ID: %', new.fk_personal_inteligencia_encargado;
+	END IF; 
+	
+	IF (hist_agente_encargado_reg.cargo != 'agente') THEN
+		RAISE INFO 'El agente de campo que ingresó no es un agente de campo en su cargo actual';
+		RAISE EXCEPTION 'El agente de campo que ingresó no es un agente de campo en su cargo actual, en el informante: %', new.nombre_clave;
+
+	END IF;	
+	
+	
+-----VALIDACION DEL CONFIDENTE
+
+
+	IF (new.fk_personal_inteligencia_confidente IS NOT NULL) THEN
+	
+	----- BUSQUEDA DEL PERSONAL CONFIDENTE
+	
+		SELECT * INTO personal_confidente_reg from personal_inteligencia 
+		WHERE id = new.fk_personal_inteligencia_confidente;
+		RAISE INFO 'datos del personal de inteligencia confidente: %', personal_confidente_reg;
+		
+		SELECT * INTO hist_cargo_personal_inteligencia_reg FROM hist_cargo
+		WHERE fk_personal_inteligencia = new.fk_personal_inteligencia_confidente
+		AND fecha_fin IS NULL;
+		RAISE INFO 'datos de hist_cargo del personal de inteligencia confidente: %', hist_cargo_personal_confidente_reg;
+		
+		IF (hist_agente_encargado_reg IS NULL) THEN
+			RAISE INFO 'El confidente personal de inteligencia que ingresó no existe o ya no trabaja en AII';
+	  		RAISE EXCEPTION 'El confidente personal de inteligencia que ingresó no existe o ya no trabaja en AII';
+			
+		END IF; 
+		
+			
+	ELSE 
+
+	-----VALIDACION DEL EMPLEADO_JEFE CONFIDENTE
+
+		SELECT * INTO empleado_jefe_reg FROM empleado_jefe 
+		WHERE id = new.fk_empleado_jefe_confidente;
+
+		IF (empleado_jefe_reg IS NULL) THEN
+			RAISE INFO 'El confidente empleado que ingresó no existe o ya no trabaja en AII';
+	  		RAISE EXCEPTION 'El confidente empleado que ingresó no existe o ya no trabaja en AII';
+			
+		END IF; 
+
+		RAISE INFO 'datos del empleado jefe confidente: %', empleado_jefe_reg;
+
+	END IF;
+
+
+END $$;
+
+
+
+-----------------------/////////////////-----------------------
+
+
+
+CREATE OR REPLACE PROCEDURE VALIDAR_EXIT_TEMA(id_tema IN integer)
+AS $$
+DECLARE
+
+	tema_reg CLAS_TEMA%ROWTYPE;
+	
+BEGIN
+
+	SELECT * INTO tema_reg FROM CLAS_TEMA WHERE id = id_tema;
+
+	RAISE INFO 'DATOS DE TEMA %:', tema_reg;
+	
+	IF (tema_reg IS NULL) THEN
+		RAISE INFO 'El tema que ingresó no se encuetra registrado';
+		RAISE EXCEPTION 'El tema que ingresó no se encuetra registrado';
+	END IF;
+		
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+--DROP FUNCTION IF EXISTS VALIDAR_CANT_ANALISTAS_VERIFICAN_CRUDO CASCADE;
+
+CREATE OR REPLACE FUNCTION VALIDAR_CANT_ANALISTAS_VERIFICAN_CRUDO ( id_crudo IN integer ) 
+RETURNS integer
+LANGUAGE PLPGSQL 
+AS $$
+DECLARE 
+
+	numero_analistas_va integer;	
+
+BEGIN 
+	
+	SELECT count(*) INTO numero_analistas_va FROM ANALISTA_CRUDO WHERE fk_crudo = id_crudo;
+	
+	RETURN numero_analistas_va;
+	
+END $$;
+
+
+
+
 
 
 
 ----------///////////- ------------------------------------------------------------------------------------ ///////////----------
-----------//////////////- ASIGNACION DE PRIVILEGIOS SOBRE OBJETOS A ROLES   -- EJECUTAR COMO ADMINISTRADOR -//////////////----------
+----------//////////////- CREACION DE TRIGGERS pt.1  -- EJECUTAR COMO ADMINISTRADOR -//////////////----------
+----------///////////- ----------------------------------------------------------------------------------- ///////////----------
+
+
+
+-- A. Triggers para validar las jerarquías en empleado_jefe
+
+CREATE OR REPLACE function TRIGGER_EMPLEADO_JEFE()
+RETURNS TRIGGER AS $$
+BEGIN
+	
+	IF (TG_OP = 'DELETE') THEN
+        
+		--/
+		RETURN OLD;
+
+	ELSIF (TG_OP = 'UPDATE') THEN
+		
+		IF (new.tipo = old.tipo ) THEN
+			RAISE INFO 'El cargo nuevo y el cargo viejo son iguales';
+        	RAISE EXCEPTION 'El cargo nuevo y el cargo viejo son iguales';
+		END IF;
+
+		CASE new.tipo
+		
+			WHEN 'director_ejecutivo' THEN 
+
+				IF (new.fk_empleado_jefe IS NOT NULL) THEN
+					
+					RAISE EXCEPTION 'El director ejecutivo no tiene jefe';	
+				END IF;	
+
+			WHEN 'director_area' THEN
+			
+				CALL VALIDAR_JERARQUIA_EMPLEADO_JEFE(new.fk_empleado_jefe,'director_ejecutivo');
+				
+			WHEN 'jefe' THEN
+
+				CALL VALIDAR_JERARQUIA_EMPLEADO_JEFE(new.fk_empleado_jefe,'director_area');
+				
+			ELSE 
+				RETURN null;
+				
+		END CASE;
+
+		-- CALL VALIDAR_TELEFONO_TY(new.telefono);
+
+		RETURN NEW;
+
+	ELSIF (TG_OP = 'INSERT') THEN
+
+		-- IF (new.primer_nombre IS NULL OR new.primer_nombre = '') THEN  
+		-- 	RAISE EXCEPTION 'El primer nombre no puede estar vacio';
+		-- END IF;
+		-- IF (new.primer_apellido IS NULL OR new.primer_apellido = '') THEN  
+		-- 	RAISE EXCEPTION 'El primer apellido no puede estar vacio';
+		-- END IF;
+		-- IF (new.segundo_apellido IS NULL OR new.segundo_apellido = '') THEN  
+		-- 	RAISE EXCEPTION 'El segundo apellido no puede estar vacio';
+		-- END IF;
+
+		CASE new.tipo
+		
+			WHEN 'director_ejecutivo' THEN 
+
+				IF (new.fk_empleado_jefe IS NOT NULL) THEN
+					
+					RAISE EXCEPTION 'El director ejecutivo no tiene jefe';	
+				END IF;	
+
+			WHEN 'director_area' THEN
+			
+				CALL VALIDAR_JERARQUIA_EMPLEADO_JEFE(new.fk_empleado_jefe,'director_ejecutivo');
+				
+			WHEN 'jefe' THEN
+
+				CALL VALIDAR_JERARQUIA_EMPLEADO_JEFE(new.fk_empleado_jefe,'director_area');
+				
+			ELSE 
+				RETURN null;
+				
+		END CASE;
+
+		-- CALL VALIDAR_TELEFONO_TY(new.telefono);
+
+		RETURN NEW;
+
+	END IF;
+    
+
+	RETURN NULL;
+
+
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- DROP TRIGGER IF EXISTS TRIGGER_INSERT_EMPLEADO_JEFE ON EMPLEADO_JEFE CASCADE;	
+-- DROP TRIGGER IF EXISTS TRIGGER_UPDATE_EMPLEADO_JEFE_TIPO_FK_EMPLEADO_JEFE ON EMPLEADO_JEFE CASCADE;
+
+CREATE TRIGGER TRIGGER_EMPLEADO_JEFE 
+BEFORE INSERT OR UPDATE OR DELETE ON EMPLEADO_JEFE 
+FOR EACH ROW
+EXECUTE PROCEDURE TRIGGER_EMPLEADO_JEFE();
+
+
+-- CREATE TRIGGER TRIGGER_DELETE_EMPLEADO_JEFE
+-- BEFORE DELETE EMPLEADO_JEFE
+-- FOR EACH ROW
+-- EXECUTE PROCEDURE TRIGGER_EMPLEADO_JEFE();
+	
+
+-- PRUEBAS
+--
+--INSERT INTO empleado_jefe (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, telefono, tipo,fk_empleado_jefe) VALUES 
+--('Brandon', 'Constantino', 'Razo', 'Casillas', ROW(412,2390021), 'director_ejecutivo', null);
+--
+--INSERT INTO empleado_jefe (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, telefono, tipo,fk_empleado_jefe) VALUES 
+--('Brandon', 'Constantino', 'Razo', 'Casillas', ROW(412,2390021), 'director_area', 1);
+--
+--UPDATE empleado_jefe SET tipo = 'jefe' , fk_empleado_jefe = 2  where id = 42;
+--
+--INSERT INTO empleado_jefe (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, telefono, tipo,fk_empleado_jefe) VALUES 
+--('Brandon', 'Constantino', 'Razo', 'Casillas', ROW(412,2390021), 'jefe', 11);
+--
+--
+--select * from empleado_jefe ej order by id DESC  limit 5;
+--
+--delete from empleado_jefe where id = 1;
+--
+--update empleado_jefe set fk_empleado_jefe=null, tipo='director_ejecutivo' where id=3;
+--
+--select id,tipo,fk_empleado_jefe from empleado_jefe ej where ej.id=3
+
+
+
+-- A. Triggers para validar las jerarquías en lugar (si aplica); para validar tipo ciudad o país si aplica;
+
+CREATE OR REPLACE function TRIGGER_FUNCTION_VERIF_JERARQUIA_LUGAR()
+RETURNS TRIGGER AS $$
+DECLARE  
+
+	fk_lugar_temp_va LUGAR.fk_lugar%type ;
+	lugar_superior_registro LUGAR := NULL ;
+
+BEGIN
+	
+	-- VALIDACION DE JEREAQUIA DE LUGAR
+	
+	raise notice '-------%------', NOW();
+	raise notice 'old.tipo %', old.tipo;
+	raise notice 'new.tipo %', new.tipo;
+	raise notice 'old.region %', old.region;
+	raise notice 'new.region %', new.region;
+	raise notice 'old.fk_lugar %', old.fk_lugar;
+	raise notice 'new.fk_lugar %', new.fk_lugar;
+
+
+	IF (new.fk_lugar is NOT NULL) then
+	
+		fk_lugar_temp_va = new.fk_lugar;
+	
+		select * into lugar_superior_registro from LUGAR where id = fk_lugar_temp_va;
+	END IF;
+	
+
+	case new.tipo
+	
+		when 'pais' then 
+					
+			IF (lugar_superior_registro is null and new.region is not null) then
+				RETURN new;
+			ELSE 
+				RAISE EXCEPTION 'La referencia a la región del país es solo a través del atributo "region"';
+				RETURN null;	
+			END IF;	
+		
+		when 'ciudad' then
+		
+			IF (lugar_superior_registro.tipo = 'pais' and new.region is null) then
+				RETURN new;
+			ELSE 
+				RAISE EXCEPTION 'Las ciudades no tiene región asignada y deben referenciar a un país';
+				RETURN null;	
+				
+			END IF;
+			
+		ELSE 
+			RETURN null;
+	end case;
+
+	
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- DROP TRIGGER IF EXISTS TRIGGER_INSERT_LUGAR ON LUGAR CASCADE;	
+-- DROP TRIGGER IF EXISTS TRIGGER_UPDATE_LUGAR_TIPO_FK_LUGAR_REGION ON LUGAR CASCADE;
+
+
+CREATE TRIGGER TRIGGER_INSERT_LUGAR 
+BEFORE INSERT OR UPDATE ON LUGAR 
+FOR EACH ROW
+EXECUTE PROCEDURE TRIGGER_FUNCTION_VERIF_JERARQUIA_LUGAR();
+
+	
+-- -- PRUEBAS
+
+-- --INSERT INTO LUGAR (nombre,tipo,region,fk_lugar) VALUES ('prueba_pais','pais',null,null);
+-- --INSERT INTO LUGAR (nombre,tipo,region,fk_lugar) VALUES ('prueba_ciudad','ciudad',null,1);
+-- --
+-- --select * from LUGAR;
+
+
+
+CREATE OR REPLACE FUNCTION TRIGGER_OFICINA_PRINCIPAL()
+RETURNS TRIGGER AS $$
+DECLARE
+
+	numero_estaciones_dep integer;
+	
+BEGIN
+	
+
+    IF (TG_OP = 'DELETE') THEN
+        
+		SELECT COUNT(*) INTO numero_estaciones_dep FROM ESTACION WHERE fk_oficina_principal = old.id;
+ 
+		IF (numero_estaciones_dep != 0) THEN 
+			RAISE EXCEPTION 'No se puede eliminar la oficina ya que hay registros que dependen de ella';
+		END IF;
+
+		RETURN old;
+
+
+	ELSIF (TG_OP = 'UPDATE') THEN
+		
+		-- IF (new.nombre IS NULL OR new.nombre = '') THEN  
+		-- 	RAISE EXCEPTION 'El nombre no puede estar vacio';
+		-- END IF;
+
+		CALL VALIDAR_TIPO_LUGAR(new.fk_lugar_ciudad, 'ciudad');
+		
+		IF (new.sede = true) THEN 
+			CALL VALIDAR_TIPO_EMPLEADO_JEFE(new.fk_director_ejecutivo, 'director_ejecutivo');
+
+		ELSIF (new.fk_director_ejecutivo IS NOT NULL) THEN
+			RAISE EXCEPTION 'Solo las oficinas sede pueden tener director ejecutivo';
+			
+		END IF;
+			
+		CALL VALIDAR_TIPO_EMPLEADO_JEFE(new.fk_director_area, 'director_area');
+
+		RETURN new;
+
+
+	ELSIF (TG_OP = 'INSERT') THEN
+
+		-- IF (new.nombre IS NULL OR new.nombre = '') THEN  
+		-- 	RAISE EXCEPTION 'El nombre no puede estar vacio';
+		-- END IF;
+
+		CALL VALIDAR_TIPO_LUGAR(new.fk_lugar_ciudad, 'ciudad');
+		
+		IF (new.sede = true) THEN 
+			CALL VALIDAR_TIPO_EMPLEADO_JEFE(new.fk_director_ejecutivo, 'director_ejecutivo');
+
+		ELSIF (new.fk_director_ejecutivo IS NOT NULL) THEN
+			RAISE EXCEPTION 'Solo las oficinas sede pueden tener director ejecutivo';
+			
+		END IF;
+			
+		CALL VALIDAR_TIPO_EMPLEADO_JEFE(new.fk_director_area, 'director_area');
+	
+		
+		RETURN new;
+
+	END IF;
+    
+
+	RETURN NULL;
+
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+
+
+-- DROP TRIGGER IF EXISTS TRIGGER_OFICINA_PRINCIPAL ON OFICINA_PRINCIPAL CASCADE;	
+-- DROP TRIGGER IF EXISTS TRIGGER_OFICINA_PRINCIPAL ON OFICINA_PRINCIPAL CASCADE;
+
+CREATE TRIGGER TRIGGER_OFICINA_PRINCIPAL
+BEFORE INSERT OR UPDATE OR DELETE ON OFICINA_PRINCIPAL 
+FOR EACH ROW
+EXECUTE PROCEDURE TRIGGER_OFICINA_PRINCIPAL();
+
+	
+---------------------////////////////-----------------------
+
+
+CREATE OR REPLACE FUNCTION TRIGGER_PERSONAL_INTELIGENCIA()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS $$
+DECLARE
+
+	personal_reg personal_inteligencia%rowtype;
+	i integer;
+
+BEGIN
+	
+	----INFORMACION A INSERTAR EN PERSONAL INTELIGENCIA
+	
+	IF (TG_OP = 'DELETE') THEN
+        
+		--/
+		RETURN OLD;
+
+	ELSIF (TG_OP = 'UPDATE') THEN
+
+		IF (new.primer_nombre = '') THEN
+			RAISE EXCEPTION 'NO TIENE PRIMER NOMBRE';
+		END IF;
+		
+		IF ((new.primer_apellido = '') OR (new.segundo_apellido = '')) THEN
+			RAISE EXCEPTION 'NO TIENE LOS DOS APELLIDOS COMPLETOS';
+		END IF;
+
+		IF (new.peso_kg <= 0 OR new.altura_cm <= 0 ) THEN
+			RAISE EXCEPTION 'Ni el peso ni la altura pueden ser negativos ni cero';
+		END IF;
+
+
+		---- VALIDAR LA FECHA DEL PERSONAL DE INTELIGENCIA MAYOR DE 26 AÑOS ------
+		IF (FUNCION_EDAD(new.fecha_nacimiento) = FALSE) THEN
+		---MENOR DE 26 AÑOS
+			RAISE EXCEPTION 'NO ES PERMITIDO LA EDAD DEL PERSONAL';
+			RETURN NULL;		
+		END IF;
+		
+		---MAYOR DE 26 AÑOS		
+		RAISE INFO 'EDAD PERMITIDA PARA INGRESO DE PERSONAL';
+		
+		-----VALIDACION DEL FAMILIAR ---------
+
+		---EL PERSONAL DE INTELIGENCIA DEBE TENER DOS FAMILIARES
+		IF (new.familiares[2] IS NULL OR new.familiares[1] IS NULL ) THEN
+			RAISE EXCEPTION 'DEBE TENER DOS FAMILIARES EL PERSONAL DE INTELIGENCIA A INSERTAR';			
+			RETURN NULL;		
+		END IF;			
+
+
+		-- RAISE INFO 'INFORMACION DEL PERSONAL(NOMBRE COMPLETO Y EDAD): %, %, %, %, %',new.primer_nombre, new.segundo_nombre, new.primer_apellido, new.segundo_apellido, fu_obtener_edad (new.fecha_nacimiento::DATE, NOW()::DATE);
+		
+		-- RAISE INFO 'INFORMACION DEL PRIMER FAMILIAR (NOMBRE COMPLETO, EDAD, PARENTESCO Y TELEFONO): %, %, %, %, %, %, % ',new.familiares[1].primer_nombre, new.familiares[1].segundo_nombre, new.familiares[1].primer_apellido, new.familiares[1].segundo_apellido,fu_obtener_edad (new.familiares[1].fecha_nacimiento::DATE, NOW()::DATE), new.familiares[1].parentesco, new.familiares[1].telefono;
+
+		-- RAISE INFO 'INFORMACION DEL SEGUNDO FAMILIAR (NOMBRE COMPLETO, EDAD, PARENTESCO Y TELEFONO): %, %, %, %, %, %, %',new.familiares[2].primer_nombre, new.familiares[2].segundo_nombre, new.familiares[2].primer_apellido, new.familiares[2].segundo_apellido,fu_obtener_edad (new.familiares[2].fecha_nacimiento::DATE, NOW()::DATE), new.familiares[2].parentesco, new.familiares[2].telefono;
+
+		RETURN NEW;
+
+
+	ELSIF (TG_OP = 'INSERT') THEN
+
+
+		IF (new.primer_nombre = '') THEN
+			RAISE EXCEPTION 'NO TIENE PRIMER NOMBRE';
+		END IF;
+		
+		IF ((new.primer_apellido = '') OR (new.segundo_apellido = '')) THEN
+			RAISE EXCEPTION 'NO TIENE LOS DOS APELLIDOS COMPLETOS';
+		END IF;
+
+		IF (new.peso_kg <= 0 OR new.altura_cm <= 0 ) THEN
+			RAISE EXCEPTION 'Ni el peso ni la altura pueden ser negativos ni cero';
+		END IF;
+
+
+		---- VALIDAR LA FECHA DEL PERSONAL DE INTELIGENCIA MAYOR DE 26 AÑOS ------
+		IF (FUNCION_EDAD(new.fecha_nacimiento) = FALSE) THEN
+		---MENOR DE 26 AÑOS
+			RAISE EXCEPTION 'NO ES PERMITIDO LA EDAD DEL PERSONAL';
+			RETURN NULL;		
+		END IF;
+		
+		---MAYOR DE 26 AÑOS		
+		RAISE INFO 'EDAD PERMITIDA PARA INGRESO DE PERSONAL';
+		
+		-----VALIDACION DEL FAMILIAR ---------
+
+		---EL PERSONAL DE INTELIGENCIA DEBE TENER DOS FAMILIARES
+		IF (new.familiares[2] IS NULL OR new.familiares[1] IS NULL ) THEN
+			RAISE EXCEPTION 'DEBE TENER DOS FAMILIARES EL PERSONAL DE INTELIGENCIA A INSERTAR';			
+			RETURN NULL;		
+		END IF;			
+
+
+		RAISE INFO 'INFORMACION DEL PERSONAL(NOMBRE COMPLETO Y EDAD): %, %, %, %, %',new.primer_nombre, new.segundo_nombre, new.primer_apellido, new.segundo_apellido, fu_obtener_edad (new.fecha_nacimiento::DATE, NOW()::DATE);
+		
+		RAISE INFO 'INFORMACION DEL PRIMER FAMILIAR (NOMBRE COMPLETO, EDAD, PARENTESCO Y TELEFONO): %, %, %, %, %, %, % ',new.familiares[1].primer_nombre, new.familiares[1].segundo_nombre, new.familiares[1].primer_apellido, new.familiares[1].segundo_apellido,fu_obtener_edad (new.familiares[1].fecha_nacimiento::DATE, NOW()::DATE), new.familiares[1].parentesco, new.familiares[1].telefono;
+
+		RAISE INFO 'INFORMACION DEL SEGUNDO FAMILIAR (NOMBRE COMPLETO, EDAD, PARENTESCO Y TELEFONO): %, %, %, %, %, %, %',new.familiares[2].primer_nombre, new.familiares[2].segundo_nombre, new.familiares[2].primer_apellido, new.familiares[2].segundo_apellido,fu_obtener_edad (new.familiares[2].fecha_nacimiento::DATE, NOW()::DATE), new.familiares[2].parentesco, new.familiares[2].telefono;
+
+		RETURN NEW;
+
+
+	END IF;
+
+
+	RETURN NULL;
+
+END
+$$;
+
+
+-- INSERT INTO personal_inteligencia (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, fecha_nacimiento, altura_cm, peso_kg, color_ojos, vision, class_seguridad, fotografia, huella_retina, huella_digital, telefono, licencia_manejo, idiomas, familiares, identificaciones, nivel_educativo, aliases, fk_lugar_ciudad) VALUES
+-- ('Florentina','Mariluz','Landa','Heredia','1993-03-05',189,66,'verde claro','20/25','top_secret','personal_inteligencia_data/foto.png','personal_inteligencia_data/huella_digital.png','personal_inteligencia_data/huella_retina.png',ROW(58,4145866510) ,ROW('75518194','Argentina'),ARRAY['inglés','árabe','portugués','francés']::varchar(50)[], ARRAY[ ROW('Araceli',null,'Alcantara','Candelaria','1960-06-01','tío',ROW(58,4145335249) ), ROW('Calixtrato','Vicente','Quintanilla','Estrada','1960-06-01','hermano',ROW(58,4142583859) )]::familiar_ty[], ARRAY[ ROW('31656053','Irlanda')]::identificacion_ty[], ARRAY[ ROW('Economía','Máster','Finanzas')]::nivel_educativo_ty[],null,'10');
+
+-- DROP FUNCTION TRIGGER_PERSONAL_INTELIGENCIA();
+
+CREATE TRIGGER TRIGGER_INSERT_UPDATE_PERSONAL_INTELIGENCIA
+BEFORE INSERT OR UPDATE ON PERSONAL_INTELIGENCIA
+FOR EACH ROW EXECUTE FUNCTION TRIGGER_PERSONAL_INTELIGENCIA();
+
+
+-- DROP TRIGGER TRIGGER_INSERT_UPDATE_PERSONAL_INTELIGENCIA ON PERSONAL_INTELIGENCIA
+
+
+
+--------------------------------/\/\/\/\/\/\/\/\///\/\/\//\/\//\/\/\\\/-----------------------------
+
+
+
+CREATE OR REPLACE FUNCTION TRIGGER_REGISTRO_TEMAS_CLIENTE_ADQUISICION()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS $$
+DECLARE
+
+	pieza_reg PIEZA_INTELIGENCIA%ROWTYPE;
+	area_interes_reg AREA_INTERES%ROWTYPE;
+	
+BEGIN 
+
+	RAISE INFO ' ';
+	RAISE INFO '------ EJECUCION DEL TRIGGER TRIGGER_REGISTRO_TEMAS_CLEINTE_ADQUISICION ( % ) ------', NOW();
+	
+	-------------///////////--------------	
+
+	RAISE INFO 'datos de la aquisicion: %', new;
+
+	SELECT * INTO pieza_reg FROM PIEZA_INTELIGENCIA WHERE id = new.fk_pieza_inteligencia;
+    RAISE INFO 'datos de la pieza: %', area_interes_reg;
+
+	SELECT * INTO area_interes_reg FROM AREA_INTERES WHERE fk_clas_tema = pieza_reg.fk_clas_tema AND fk_cliente = new.fk_cliente ;
+    RAISE INFO 'datos del AREA_INTERES: %', area_interes_reg;
+
+
+	IF (area_interes_reg IS NULL) THEN
+   
+		INSERT INTO AREA_INTERES (
+			fk_clas_tema, 
+			fk_cliente
+		) VALUES (
+
+			pieza_reg.fk_clas_tema, 
+			new.fk_cliente 
+		
+		) RETURNING * INTO area_interes_reg;
+
+
+		RAISE INFO 'REGISTRO AREA_INTERES!';
+		RAISE INFO 'Datos de area_intereses: %', area_interes_reg ; 
+	  	
+	ELSE
+		RAISE INFO 'AREA_INTERESES YA REGISTRADA';
+	
+
+	END IF;	
+ 
+	RETURN NULL;
+
+END $$;
+
+----DROP PROCEDURE TRIGGER_COPIA_ADQUISICION(integer)
+
+CREATE TRIGGER TRIGGER_REGISTRO_TEMAS_CLIENTE_ADQUISICION
+AFTER INSERT ON ADQUISICION
+FOR EACH ROW EXECUTE FUNCTION TRIGGER_REGISTRO_TEMAS_CLIENTE_ADQUISICION();
+
+
+
+
+
+----------///////////- ------------------------------------------------------------------------------------ ///////////----------
+----------//////////////- CREACION DE TRIGGERS pt.2  -- EJECUTAR COMO ADMINISTRADOR -//////////////----------
+----------///////////- ----------------------------------------------------------------------------------- ///////////----------
+
+
+
+CREATE OR REPLACE FUNCTION TRIGGER_INSERT_UPDATE_INFORMANTE()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS $$
+DECLARE 
+
+	informante_check_reg informante%rowtype;
+	
+BEGIN
+	---SI EL TRIGGER ES DISPARADO POR INSERT ---
+ 	IF (TG_OP = 'INSERT') THEN
+        
+		---- VALIDACIONES DE NOMBRE CLAVE DE INFORMANTE ---
+
+		IF(new.nombre_clave IS NULL OR new.nombre_clave = '') THEN
+			RAISE INFO 'Ingrese un nombre clave para el informante';
+			RAISE EXCEPTION 'Ingrese un nombre clave para el informante';
+			RETURN NULL;
+		END IF;
+		--- BUSQUEDA DE LOS DATOS DEL INFORMANTE CON EL NOMBRE CLAVE ---
+		
+		SELECT * INTO informante_check_reg FROM informante 
+		WHERE nombre_clave = new.nombre_clave;
+
+		RAISE INFO 'DATOS DE INFORMANTE %:', informante_check_reg;
+		--- SI EXISTE EL NOMBRE CLAVE DEL INFORMANTE NO INSERTA ---
+		IF (informante_check_reg.id IS NOT NULL) THEN
+			RAISE INFO 'El nombre clave que ingresó ya se encuentra en uso';
+			RAISE EXCEPTION 'El nombre clave que ingresó ya se encuentra en uso: %', new.nombre_clave;
+			RETURN NULL;
+		END IF;		
+		--- FUNCION VALIDAR ARCO EXCLUSIVO ---
+		CALL VALIDAR_ARCO_EXCLUSIVO();
+		
+		RAISE INFO 'INFORMANTE CREADO CON EXITO!';
+		RAISE INFO 'Datos del informante: %', NEW ; 
+		--- RETURN NEW = INSERTA EL REGISTRO---
+		RETURN NEW;
+
+	--- SI EL TRIGGER ES DISPARADO POR UPDATE ---
+	ELSIF (TG_OP = 'UPDATE') THEN
+		
+		---- VALIDACIONES DE NOMBRE CLAVE DE INFORMANTE ---
+
+		IF(new.nombre_clave IS NULL OR new.nombre_clave = '') THEN
+			RAISE INFO 'Ingrese un nombre clave para el informante';
+			RAISE EXCEPTION 'Ingrese un nombre clave para el informante';
+			RETURN NULL;
+		END IF;
+		
+		
+		SELECT * INTO informante_check_reg FROM informante 
+		WHERE nombre_clave = new.nombre_clave;
+
+		RAISE INFO 'DATOS DE INFORMANTE %:', informante_check_reg;
+		--- SI EXISTE EL NOMBRE CLAVE DEL INFORMANTE NO INSERTA ---
+		IF (informante_check_reg.id IS NOT NULL) THEN
+			RAISE INFO 'El nombre clave que ingresó ya se encuentra en uso';
+			RAISE EXCEPTION 'El nombre clave que ingresó ya se encuentra en uso: %', new.nombre_clave;
+			RETURN NULL;
+		END IF;		
+		--- FUNCION VALIDAR ARCO EXCLUSIVO ---
+		CALL VALIDAR_ARCO_EXCLUSIVO();
+
+
+		RAISE INFO 'INFORMANTE CREADO CON EXITO!';
+		RAISE INFO 'Datos del informante: %', NEW ; 
+		--- RETURN NEW = INSERTA EL REGISTRO---
+		RETURN NEW;
+
+	END IF;
+	
+END
+$$;
+
+
+CREATE TRIGGER TRIGGER_INSERT_UPDATE_INFORMANTE
+BEFORE INSERT OR UPDATE ON INFORMANTE
+FOR EACH ROW 
+EXECUTE FUNCTION TRIGGER_INSERT_UPDATE_INFORMANTE();  --SIEMPRE FOR EACH ROW
+
+
+
+-- DROP TRIGGER trigger_VALIDAR_ARCO_EXCLUSIVO on informante
+-- INSERT INTO informante (nombre_clave, fk_personal_inteligencia_encargado, fk_fecha_inicio_encargado, fk_estacion_encargado, fk_oficina_principal_encargado, fk_empleado_jefe_confidente, fk_personal_inteligencia_confidente, fk_fecha_inicio_confidente, fk_estacion_confidente, fk_oficina_principal_confidente) VALUES
+-- ('Ameamezersalica', 2, '2021-03-09 07:00:00', 1, 1, 11, null, null, null, null)
+
+
+
+
+
+
+-- -/=/- ARCHIVO TRIGGER_INSERT_UPDATE_CRUDO_PIEZA.sql -/=/- 
+
+-- --////-- TABLA CRUDO_PIEZA
+-- -/TRIGGER_INSERT_UPDATE_CRUDO_PIEZA BEFORE INSERT OR UPDATE FOR EACH ROW TRIGGER_CRUDO_PIEZA();
+
+
+CREATE OR REPLACE FUNCTION TRIGGER_UPDATE_INSERT_CRUDO()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS $$
+BEGIN
+	
+	--- SI EL TRIGGER ES DISPARADO POR INSERT ---
+	IF (TG_OP = 'INSERT') THEN
+		--- VALIDACIÓN DE TODOS LOS ATRIBUTOS DEL CRUDO ---
+		IF (new.contenido_va IS NULL OR new.contenido_va = '') THEN
+			RAISE INFO 'Debe ingresar el contenido del crudo que quiere crear';
+			RAISE EXCEPTION 'Debe ingresar el contenido del crudo que quiere crear';
+		END IF;  
+
+		IF (new.tipo_contenido_va != 'texto' AND new.tipo_contenido_va != 'imagen' AND tipo_contenido_va != 'sonido' AND tipo_contenido_va != 'video') THEN
+			RAISE INFO 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video), %', tipo_contenido_va;
+			RAISE EXCEPTION 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video)';
+		END IF;   	
+
+		IF (new.fuente_va != 'abierta' AND new.fuente_va != 'secreta' AND fuente_va != 'tecnica') THEN
+			RAISE INFO 'Debe ingresar un tipo de fuente valido (abierta, secreta, tecnica)';
+			RAISE EXCEPTION 'Debe ingresar un tipo de fuente valido (abierta, secreta, tecnica)';
+		END IF;  
+
+		IF (new.resumen_va IS NULL OR new.resumen_va = '') THEN
+			RAISE INFO 'Debe ingresar el resumen del crudo que quiere crear';
+			RAISE EXCEPTION 'Debe ingresar el resumen del crudo que quiere crear';
+		END IF;   
+
+		IF (new.valor_apreciacion_va IS NOT NULL AND new.valor_apreciacion_va <= 0) THEN
+			RAISE INFO 'El valor de apreciacion del crudo debe ser mayor a 0$';
+			RAISE EXCEPTION 'El valor de apreciacion del crudo debe ser mayor a 0$';
+		END IF; 
+
+		IF (new.nivel_confiabilidad_inicial_va IS NULL OR new.nivel_confiabilidad_inicial_va < 0 OR nivel_confiabilidad_inicial_va > 100 ) THEN
+			RAISE INFO 'El nivel de confiabilidad del crudo debe estar entre el rango de 0 y 100';
+			RAISE EXCEPTION 'El nivel de confiabilidad del crudo debe estar entre el rango de 0 y 100';
+		END IF; 
+		
+		IF (new.cant_analistas_verifican_va IS NULL OR new.cant_analistas_verifican_va < 2) THEN	
+			RAISE INFO 'Debe ingresar un número valido de analistas requeridos para la verificación';
+			RAISE EXCEPTION 'Debe ingresar un número valido de analistas requeridos para la verificación';
+		END IF;   
+		
+			
+		CALL VALIDAR_EXIT_TEMA(id_tema);
+		--- RETURN NEW = INSERTA EL REGISTRO---
+		RETURN NEW;
+
+	
+	ELSIF (TG_OP = 'UPDATE') THEN
+
+
+		IF (new.contenido_va IS NULL OR new.contenido_va = '') THEN
+			RAISE INFO 'Debe ingresar el contenido del crudo que quiere crear';
+			RAISE EXCEPTION 'Debe ingresar el contenido del crudo que quiere crear';
+		END IF;  
+
+		IF (new.tipo_contenido_va != 'texto' AND new.tipo_contenido_va != 'imagen' AND tipo_contenido_va != 'sonido' AND tipo_contenido_va != 'video') THEN
+			RAISE INFO 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video), %', tipo_contenido_va;
+			RAISE EXCEPTION 'Debe ingresar un tipo de contenido valido (texto, imagen, sonido, video)';
+		END IF;   	
+
+		IF (new.fuente_va != 'abierta' AND new.fuente_va != 'secreta' AND fuente_va != 'tecnica') THEN
+			RAISE INFO 'Debe ingresar un tipo de fuente valido (abierta, secreta, tecnica)';
+			RAISE EXCEPTION 'Debe ingresar un tipo de fuente valido (abierta, secreta, tecnica)';
+		END IF;  
+
+		IF (new.resumen_va IS NULL OR new.resumen_va = '') THEN
+			RAISE INFO 'Debe ingresar el resumen del crudo que quiere crear';
+			RAISE EXCEPTION 'Debe ingresar el resumen del crudo que quiere crear';
+		END IF;   
+
+		IF (new.valor_apreciacion_va IS NOT NULL AND new.valor_apreciacion_va <= 0) THEN
+			RAISE INFO 'El valor de apreciacion del crudo debe ser mayor a 0$';
+			RAISE EXCEPTION 'El valor de apreciacion del crudo debe ser mayor a 0$';
+		END IF; 
+
+		IF (new.nivel_confiabilidad_inicial_va IS NULL OR new.nivel_confiabilidad_inicial_va < 0 OR nivel_confiabilidad_inicial_va > 100 ) THEN
+			RAISE INFO 'El nivel de confiabilidad del crudo debe estar entre el rango de 0 y 100';
+			RAISE EXCEPTION 'El nivel de confiabilidad del crudo debe estar entre el rango de 0 y 100';
+		END IF; 
+		
+		IF (new.cant_analistas_verifican_va IS NULL OR new.cant_analistas_verifican_va < 2) THEN	
+			RAISE INFO 'Debe ingresar un número valido de analistas requeridos para la verificación';
+			RAISE EXCEPTION 'Debe ingresar un número valido de analistas requeridos para la verificación';
+		END IF;   
+
+
+		CALL VALIDAR_EXIT_TEMA(id_tema);
+
+		RETURN NEW;
+
+	END IF;
+
+END
+$$;
+
+---DROP FUNCTION TRIGGER_INSERT_CRUDO()
+
+CREATE TRIGGER TRIGGER_UPDATE_INSERT_CRUDO
+BEFORE INSERT OR UPDATE ON CRUDO
+FOR EACH ROW EXECUTE FUNCTION TRIGGER_UPDATE_INSERT_CRUDO();
+
+---DROP TRIGGER TRIGGER_INSERT_CRUDO ON crudo
+
+------SELECT * FROM CRUDO
+----INSERT INTO crudo (contenido, tipo_contenido, resumen, fuente, valor_apreciacion, nivel_confiabilidad_inicial, nivel_confiabilidad_final, fecha_obtencion, fecha_verificacion_final, cant_analistas_verifican, fk_clas_tema, fk_informante, fk_estacion_pertenece, fk_oficina_principal_pertenece, fk_estacion_agente, fk_oficina_principal_agente, fk_fecha_inicio_agente, fk_personal_inteligencia_agente) VALUES
+----('crudo_contenido/texto2.txt', 'texto', 'Conflictos entre paises por poder II', 'abierta', 600, 90, 90 , '2019-03-05 01:00:00', null, 2, 1, null, 1, 1, 1, 1, '2020-01-05 01:00:00', 1);
+
+----SELECT * FROM HIST_CARGO where fecha_inicio='2034-01-05 01:00:00' 
+----	AND fk_personal_inteligencia_agente = 17
+----	AND fk_estacion_agente= 5
+----	AND fk_oficina_principal_agente = 2
+
+
+
+
+----TRIGGER PARA VALIDAR EL INSERT DEL CLIENTE----
+
+CREATE OR REPLACE FUNCTION TRIGGER_CLIENTE ()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS $$
+DECLARE
+	
+	lugar_reg lugar%rowtype;
+	
+BEGIN
+	---VALIDACIONES DE ATRIBUTOS---
+	---TIENE NOMBRE LA EMPRESA----
+	
+	IF (TG_OP = 'DELETE') THEN
+		
+		RETURN OLD;
+	
+	ELSIF (TG_OP = 'UPDATE') THEN
+	
+		IF (new.nombre_empresa IS NULL OR new.nombre_empresa = ' ') THEN
+		RAISE EXCEPTION 'EL NOMBRE DEL CLIENTE ESTA VACIO';
+		END IF;
+	
+		---TIENE PAGINA WEB LA EMPRESA---
+	
+		IF (new.pagina_web IS NULL OR new.pagina_web =' ') THEN
+			RAISE EXCEPTION 'DEBE INSERTAR UNA PAGINA WEB';
+		END IF;
+
+		---VALIDA EL TIPO DE LUGAR (PAIS) DONDE SE REGISTRÓ EL CLIENTE---
+		CALL VALIDAR_TIPO_LUGAR(new.fk_lugar_pais,'pais');
+		
+		RAISE INFO 'MODIFICÓ EL CLIENTE';
+		
+		RETURN new;	
+		
+	ELSIF (TG_OP = 'INSERT') THEN
+	
+		IF (new.nombre_empresa IS NULL OR new.nombre_empresa = ' ') THEN
+		RAISE EXCEPTION 'EL NOMBRE DEL CLIENTE ESTA VACIO';
+		END IF;
+	
+		---TIENE PAGINA WEB LA EMPRESA---
+	
+		IF (new.pagina_web IS NULL OR new.pagina_web =' ') THEN
+			RAISE EXCEPTION 'DEBE INSERTAR UNA PAGINA WEB';
+		END IF;
+
+		---VALIDA EL TIPO DE LUGAR (PAIS) DONDE SE REGISTRÓ EL CLIENTE---
+		CALL VALIDAR_TIPO_LUGAR(new.fk_lugar_pais,'pais');
+		
+		RAISE INFO 'SE INSERTÓ EL CLIENTE';
+		
+		RETURN new;	
+	
+	END IF;
+	
+	RETURN NULL;
+	
+
+END
+
+$$;
+
+--INSERT INTO cliente (nombre_empresa, pagina_web, exclusivo, telefonos, contactos, fk_lugar_pais) VALUES
+--('mexicaso', 'mexicaso.org.ve' ,true, ARRAY[CAST((58,4126909353) as telefono_ty), CAST((58,4165420879)as telefono_ty)],  ARRAY[ ROW('Eloisa', 'Petronila', 'Nolasco', 'White', '91 Sage Ave. Colorado Springs, CO 80911',  ROW(58,4121705701)), ROW('Nicolas', 'Abelardo', 'Tafoya', 'Peralta', '8370 Euclid Lane Harrisburg, PA 17109', ROW(58,4127728311))]::contacto_ty[], 4);
+
+
+-- DROP FUNCTION TRIGGER_CLIENTE()
+
+-- DROP TRIGGER TRIGGER_CLIENTE on cliente
+
+CREATE TRIGGER TRIGGER_CLIENTE
+BEFORE INSERT OR UPDATE OR DELETE on CLIENTE
+FOR EACH ROW EXECUTE FUNCTION TRIGGER_CLIENTE();
+
+
+
+-- -/=/- ARCHIVO TRIGGER_UPDATE_PIEZA_REGISTRADA.sql -/=/- 
+
+-- --////-- TABLA PIEZA_INTELIGENCIA
+-- -/TRIGGER_UPDATE_PIEZA_REGISTRADA BEFORE UPDATE FOR EACH ROW TRIGGER_ACUALIZACION_PIEZA();
+
+
+
+-------------------------------//////////////////------------------------------------
+
+CREATE OR REPLACE FUNCTION TRIGGER_INSERT_UPDATE_CRUDO_PIEZA()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS $$
+DECLARE
+
+	pieza_reg PIEZA_INTELIGENCIA%ROWTYPE;
+	crudo_reg CRUDO%ROWTYPE;
+	crudo_pieza_reg CRUDO_PIEZA%ROWTYPE;
+	
+	-- nivel_confiabilidad_va CRUDO.nivel_confiabilidad_final%ROWTYPE;
+		
+BEGIN
+	---SI EL TRIGGER ES DISPARADO POR INSERT---
+	IF (TG_OP = 'INSERT') THEN
+        
+		SELECT * INTO pieza_reg FROM PIEZA_INTELIGENCIA WHERE id = id_pieza AND precio_base IS NULL;
+		RAISE INFO 'datos de la pieza de inteligencia %', pieza_reg;
+
+		SELECT * INTO crudo_reg FROM CRUDO WHERE id = id_crudo;
+		RAISE INFO 'datos del crudo: %', crudo_reg;
+		
+		SELECT * INTO crudo_pieza_reg FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza AND fk_crudo = id_crudo;
+		RAISE INFO 'datos de crudo_pieza: %', crudo_pieza_reg;
+	
+		--------
+
+		IF (pieza_reg IS NULL) THEN
+			RAISE INFO 'La pieza que ingresó no esta registrado o no cumple con los requerimientos necesarios';
+			RAISE EXCEPTION 'La pieza que ingresó no esta registrado o no cumple con los requerimientos necesarios';
+		END IF;   
+	
+		IF (crudo_reg IS NULL) THEN
+			RAISE INFO 'El crudo que ingresó no esta registrado o no cumple con los requerimientos necesarios';
+			RAISE EXCEPTION 'El crudo que ingresó no esta registrado o no cumple con los requerimientos necesarios';
+		END IF;   	
+	
+		IF (crudo_pieza_reg IS NOT NULL) THEN
+			RAISE INFO 'El crudo que intenta asociar ya está asociado a esta pieza';
+			RAISE EXCEPTION 'El crudo que intenta asociar ya está asociado a esta pieza';
+		END IF;   	
+	
+		IF ( VALIDAR_CANT_ANALISTAS_VERIFICAN_CRUDO(id_crudo) != crudo_reg.cant_analistas_verifican ) THEN
+			RAISE INFO 'El crudo que ingresó no ha sido verificado';
+			RAISE EXCEPTION 'El crudo que ingresó no ha sido verificado';
+		END IF;   	
+
+		IF (crudo_reg.nivel_confiabilidad_final < 85 ) THEN
+			RAISE INFO 'El crudo que ingresó no tiene el nivel de confiabilidad necesario ( > 85 porciento )';
+			RAISE EXCEPTION 'El crudo que ingresó no tiene el nivel de confiabilidad necesario ( > 85 porciento )';
+		END IF;   	
+
+		RETURN NEW;
+
+	---SI EL TRIGGER ES DISPARADO POR UPDATE---
+	ELSIF (TG_OP = 'UPDATE') THEN
+
+		SELECT * INTO pieza_reg FROM PIEZA_INTELIGENCIA WHERE id = id_pieza AND precio_base IS NULL;
+		RAISE INFO 'datos de la pieza de inteligencia %', pieza_reg;
+
+		SELECT * INTO crudo_reg FROM CRUDO WHERE id = id_crudo;
+		RAISE INFO 'datos del crudo: %', crudo_reg;
+		
+		SELECT * INTO crudo_pieza_reg FROM CRUDO_PIEZA WHERE fk_pieza_inteligencia = id_pieza AND fk_crudo = id_crudo;
+		RAISE INFO 'datos de crudo_pieza: %', crudo_pieza_reg;
+	
+		--------
+
+		IF (pieza_reg IS NULL) THEN
+			RAISE INFO 'La pieza que ingresó no esta registrado o no cumple con los requerimientos necesarios';
+			RAISE EXCEPTION 'La pieza que ingresó no esta registrado o no cumple con los requerimientos necesarios';
+		END IF;   
+	
+		IF (crudo_reg IS NULL) THEN
+			RAISE INFO 'El crudo que ingresó no esta registrado o no cumple con los requerimientos necesarios';
+			RAISE EXCEPTION 'El crudo que ingresó no esta registrado o no cumple con los requerimientos necesarios';
+		END IF;   	
+	
+		IF (crudo_pieza_reg IS NOT NULL) THEN
+			RAISE INFO 'El crudo que intenta asociar ya está asociado a esta pieza';
+			RAISE EXCEPTION 'El crudo que intenta asociar ya está asociado a esta pieza';
+		END IF;   	
+	
+		IF ( VALIDAR_CANT_ANALISTAS_VERIFICAN_CRUDO(id_crudo) != crudo_reg.cant_analistas_verifican ) THEN
+			RAISE INFO 'El crudo que ingresó no ha sido verificado';
+			RAISE EXCEPTION 'El crudo que ingresó no ha sido verificado';
+		END IF;   	
+
+		IF (crudo_reg.nivel_confiabilidad_final < 85 ) THEN
+			RAISE INFO 'El crudo que ingresó no tiene el nivel de confiabilidad necesario ( > 85 porciento )';
+			RAISE EXCEPTION 'El crudo que ingresó no tiene el nivel de confiabilidad necesario ( > 85 porciento )';
+		END IF;   	
+
+		RETURN NEW;
+
+
+	END IF;
+
+	
+
+
+END $$;
+---------ELIMINACION DE LA FUNCION------
+---DROP FUNCTION TRIGGER_CRUDO_PIEZA()
+
+---------CREACION DEL TRIGGER-----
+CREATE TRIGGER TRIGGER_INSERT_UPDATE_CRUDO_PIEZA
+BEFORE INSERT OR UPDATE ON CRUDO_PIEZA
+FOR EACH ROW EXECUTE FUNCTION TRIGGER_INSERT_UPDATE_CRUDO_PIEZA();
+
+
+-- DROP TRIGGER TRIGGER_INSERT_UPDATE_CRUDO_PIEZA on crudo_pieza;
+-- DROP TRIGGER trigger_update_pieza ON PIEZA_INTELIGENCIA;
+---------ELIMINACION DEL TRIGGER-----
+---DROP TRIGGER TRIGGER_CRUDO_PIEZA
+
+---PRUEBA ---------------------------
+---INSERT INTO crudo_pieza (fk_pieza_inteligencia, fk_crudo )
+---VALUES (1,19)
+
+
+
+
+
+
+-------------------------------//////////////////------------------------------------
+
+
+
+CREATE OR REPLACE FUNCTION TRIGGER_UPDATE_PIEZA()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS $$
+DECLARE
+	
+	pieza pieza_inteligencia%rowtype;
+	
+BEGIN
+
+	---SELECT PARA BUSCAR LAS PIEZAS VENDIDAS EN LA TABLA ADQUISICION
+	---PUEDE SER VENDIDA VARIAS VECES LA PIEZA
+	
+	SELECT * INTO pieza
+	FROM PIEZA_INTELIGENCIA p, ADQUISICION a
+	WHERE p.id = a.fk_pieza_inteligencia
+	AND p.id = old.id;
+	
+	IF (old.precio_base IS NOT NULL) THEN
+		RAISE INFO 'DATOS DE LA PIEZA DE INTELIGENCIA: %',pieza;
+		RAISE EXCEPTION 'LA PIEZA DE INTELIGENCIA HA SIDO REGISTRADA';	
+		return null;
+	ELSE
+		RAISE INFO 'SE ACTUALIZO LA PIEZA DE INTELIGENCIA';
+		RETURN new;
+	END IF;
+
+
+END
+$$;
+
+
+
+
+
+----------------CREACION DEL TRIGGER --------------------
+CREATE TRIGGER TRIGGER_UPDATE_PIEZA
+BEFORE UPDATE ON PIEZA_INTELIGENCIA
+FOR EACH ROW EXECUTE FUNCTION TRIGGER_UPDATE_PIEZA();
+
+
+
+
+
+
+CREATE OR REPLACE FUNCTION TRIGGER_CLAS_TEMA()
+RETURNS TRIGGER LANGUAGE PLPGSQL
+AS $$
+DECLARE
+	pieza_reg record;
+	crudo_reg record;
+	temas_esp record;
+	area_interes record;
+BEGIN
+	
+	IF(TG_OP = 'INSERT') THEN
+	
+		IF(new.nombre IS NULL OR new.nombre = '')THEN
+			RAISE EXCEPTION 'EL NOMBRE DEL TEMA ESTA VACIO';
+		END IF;
+		IF(new.descripcion IS NULL OR new.descripcion = '') THEN
+			RAISE EXCEPTION 'LA DESCRIPCION DEL TEMA ESTA VACIO';
+		END IF;
+		CASE new.topico
+			WHEN 'paises' THEN 
+				RAISE EXCEPTION 'ERROR EN EL TOPICO (paises, individuos, eventos, empresas)';
+			WHEN 'individuos' THEN
+				RAISE EXCEPTION 'ERROR EN EL TOPICO (paises, individuos, eventos, empresas)';
+			WHEN 'eventos' THEN 
+				RAISE EXCEPTION 'ERROR EN EL TOPICO (paises, individuos, eventos, empresas)';
+			WHEN 'empresas' THEN 
+				RAISE EXCEPTION 'ERROR EN EL TOPICO (paises, individuos, eventos, empresas)';
+		END CASE;
+
+		RETURN NEW; 
+	
+	ELSIF (TG_OP = 'UPDATE') THEN
+		
+		IF(new.nombre IS NULL OR new.nombre = '')THEN
+			RAISE EXCEPTION 'EL NOMBRE DEL TEMA ESTA VACIO';
+		END IF;
+		IF(new.descripcion IS NULL OR new.descripcion = '') THEN
+			RAISE EXCEPTION 'LA DESCRIPCION DEL TEMA ESTA VACIO';
+		END IF;
+		CASE new.topico
+			WHEN 'paises' THEN 
+				RAISE EXCEPTION 'ERROR EN EL TOPICO (paises, individuos, eventos, empresas)';
+			WHEN 'individuos' 
+				THEN RAISE EXCEPTION 'ERROR EN EL TOPICO (paises, individuos, eventos, empresas)';
+			WHEN 'eventos'
+				THEN RAISE EXCEPTION 'ERROR EN EL TOPICO (paises, individuos, eventos, empresas)';
+			WHEN 'empresas'
+				THEN RAISE EXCEPTION 'ERROR EN EL TOPICO (paises, individuos, eventos, empresas)';
+		END CASE;
+
+		RETURN NEW; 
+	ELSIF (TG_OP = 'DELETE') THEN
+		--- VALIDACION RAPIDA DE LOS FK DE LA CLASIFICACION PIEZA EN LAS OTRAS TABLAS ANTES DE ELIMINAR ----
+		--- PERSONAL_INTELIGENCIA, CRUDO, CLAS_TEMA, TEMAS_ESP ---
+		
+		SELECT id INTO  pieza_reg FROM pieza_inteligencia
+		WHERE fk_clas_tema  =  new.id;
+		
+		SELECT id INTO crudo_reg FROM crudo
+		WHERE fk_clas_tema = new.id;
+		
+		SELECT fk_clas_tema INTO temas_esp FROM clas_tema
+		WHERE fk_clas_tema = new.id;
+		
+		SELECT fk_clas_tema INTO area_interes FROM area_interes
+		WHERE fk_clas_tema = new.id;
+		
+		IF (pieza_reg IS NOT NULL) THEN
+			RAISE EXCEPTION 'NO SE PUEDE ELIMINAR EL TEMA, ESTE ESTÁ VINCULADO A UNA PIEZA DE INTELIGENCIA';
+		END IF;
+		
+		IF (crudo_reg IS NOT NULL) THEN
+			RAISE EXCEPTION 'NO SE PUEDE ELIMINAR EL TEMA, ESTE ESTÁ VINCULADO A UN CRUDO';
+		END IF;
+		
+		IF (temas_esp IS NOT NULL) THEN
+			RAISE EXCEPTION 'NO SE PUEDE ELIMINAR EL TEMA, ESTE ESTÁ VINCULADO A UN TEMA ESPECIFICO DE UN PERSONAL DE INTELIGENCIA';
+		END IF;
+		
+		IF (area_interes IS NOT NULL) THEN
+			RAISE EXCEPTION 'NO SE PUEDE ELIMINAR EL TEMA, ESTE ESTÁ VINCULADO A UN AREA DE INTERES DE UN CLIENTE';
+		END IF;
+		
+		RETURN OLD;
+	END IF;	
+END 
+$$;
+
+-- DROP FUNCTION TRIGGER_CLAS_TEMA()
+
+CREATE TRIGGER TRIGGER_CLAS_TEMA
+BEFORE INSERT OR UPDATE ON clas_tema
+FOR EACH ROW EXECUTE FUNCTION TRIGGER_CLAS_TEMA();
+
+
+
+
+
+
+
+
+----------///////////- ------------------------------------------------------------------------------------ ///////////----------
+----------//////////////- ASIGNACION DE PRIVILEGIOS SOBRE OBJETOS A ROLES   -- EJECUTAR COMO DEV -//////////////----------
 ----------///////////- ----------------------------------------------------------------------------------- ///////////----------
 
 
@@ -3326,3 +9222,19 @@ GRANT EXECUTE ON PROCEDURE REGISTRO_VENTA (integer, integer, numeric) TO ROL_ANA
 GRANT EXECUTE ON PROCEDURE CERTIFICAR_PIEZA (integer, numeric) TO ROL_ANALISTA;
 GRANT EXECUTE ON PROCEDURE ELIMINACION_REGISTROS_VENTA_EXCLUSIVA ( integer )  TO ROL_ANALISTA;
 GRANT EXECUTE ON FUNCTION VALIDAR_VENTA_EXCLUSIVA ( integer )  TO ROL_ANALISTA;
+
+
+
+
+
+
+
+
+
+
+
+----------///////////---------------------------------------------------------------------------\\\\\\\\\\\----------
+----------///////////- SCRIPTS DE CREACION DE LA BASES DE DATOS DOS - PROYECTO AII - GRUPO 09  -\\\\\\\\\\\----------
+----------///////////----------- ANTONIO BADILLO - GABRIEL MANRIQUE - MICKEL ARROZ -------------\\\\\\\\\\\----------
+----------///////////---------------------------------------------------------------------------\\\\\\\\\\\-----------
+

@@ -86,13 +86,11 @@ $$ LANGUAGE plpgsql;
 
 
 
-
 ----------------------------------//////////////////////-------------------------
 
 
 
-
-DROP PROCEDURE IF EXISTS CREAR_JEFE_ESTACION CASCADE;
+-- DROP PROCEDURE IF EXISTS CREAR_JEFE_ESTACION CASCADE;
 
 
 CREATE OR REPLACE PROCEDURE CREAR_JEFE_ESTACION (id_empleado_acceso in integer, primer_nombre_va IN EMPLEADO_JEFE.primer_nombre%TYPE, segundo_nombre_va IN EMPLEADO_JEFE.segundo_nombre%TYPE, primer_apellido_va IN EMPLEADO_JEFE.primer_apellido%TYPE, segundo_apellido_va IN EMPLEADO_JEFE.segundo_apellido%TYPE, telefono_va IN EMPLEADO_JEFE.telefono%TYPE)
@@ -268,24 +266,6 @@ END $$;
 
 
 
--------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 -------/-------/-------/-------/-------/-------///////////////-------/-------/-------/-------/-------/-------
 
@@ -383,7 +363,6 @@ END $$;
 
 
 -------------------------//////////////---------------------------------------------//////////////--------------------
-
 
 
 
@@ -647,13 +626,6 @@ END $$;
 
 -- select * from VER_PRESUPUESTO_ESTACION(3,4);
 -- select * from cuenta where fk_estacion = 4;
-
-
-
-
-
-
-------------------------------------------------------//\\/\\\\\/\/\/\/\/\/\\/\/\/\/\/\//\\/\//\/\/\\/\//\/\/\-------------------------------------------
 
 
 
