@@ -6724,8 +6724,8 @@ BEGIN
  
 
 	INSERT INTO CRUDO_PIEZA (fk_pieza_inteligencia, fk_crudo) VALUES (
-   		pieza_reg.id,
-   		crudo_reg.id
+   		iid_pieza,
+   		id_crudo
     );
    
    	RAISE INFO 'CRUDO DE ID = %, FUE AGREGADO A LA PIEZA ID = % EXITOSAMENTE', id_crudo, id_pieza;
