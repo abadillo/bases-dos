@@ -1,4 +1,4 @@
-﻿-- Se crean tablas Dim con los mismos cambos de las tablas iniciales? SE MODIFICAN SEGUND LO NECESARIO
+-- Se crean tablas Dim con los mismos cambos de las tablas iniciales? SE MODIFICAN SEGUND LO NECESARIO
 -- Tabla lugar o region? NUEVA TABLA REGION_OFICINA
 -- fechac en las tablas solo dim? SI
 -- Oficina Principal o Estaciones? OFICINAS PRINCIPALES
@@ -68,7 +68,6 @@ CREATE TABLE DimOFICINA_PRINCIPAL (
     CONSTRAINT OFICINA_PRINCIPAL_fk_empleado_jefe_2 FOREIGN KEY (fk_director_ejecutivo) REFERENCES EMPLEADO_JEFE (id),
     CONSTRAINT OFICINA_PRINCIPAL_LUGAR_FK FOREIGN KEY (fk_lugar_ciudad) REFERENCES LUGAR (id)
 );
-
 
 
 
