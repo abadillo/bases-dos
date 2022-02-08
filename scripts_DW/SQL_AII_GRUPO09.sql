@@ -9503,11 +9503,9 @@ $$;
 ----------///////////- ----------------------------------------------------------------------------------- ///////////----------
 
 
-DROP TABLE IF EXISTS T2_LUGAR CASCADE;
+DROP TABLE IF EXISTS T2_REGION_OFICINA CASCADE;
 DROP TABLE IF EXISTS T2_CLIENTE CASCADE;
 DROP TABLE IF EXISTS T2_CLAS_TEMA CASCADE;
--- DROP TABLE IF EXISTS T2_AREA_INTERES CASCADE;
-DROP TABLE IF EXISTS T2_OFICINA_PRINCIPAL CASCADE; 
 DROP TABLE IF EXISTS T2_ADQUISICION CASCADE;
 DROP TABLE IF EXISTS T2_PIEZA_INTELIGENCIA CASCADE;
 
@@ -9535,7 +9533,7 @@ CREATE TABLE T2_CLIENTE (
     fk_region_oficina integer NOT NULL,
 
 	CONSTRAINT T2_CLIENTE_PK PRIMARY KEY (id),
-    CONSTRAINT T2_CLIENTE_LUGAR_FK FOREIGN KEY (fk_region_oficina) REFERENCES T2_LUGAR (id)
+    CONSTRAINT T2_CLIENTE_LUGAR_FK FOREIGN KEY (fk_region_oficina) REFERENCES T2_REGION_OFICINA (id_oficina)
 );
 
 CREATE TABLE T2_CLAS_TEMA (
@@ -9606,28 +9604,29 @@ BEGIN
 	
 
 	-- T2_REGION_OFICINA
-    -- SELECT COALESCE(max(id_oficina),0) INTO maxid FROM T2_REGION_OFICINA;
+    SELECT COALESCE(max(id_oficina),0) INTO maxid FROM T2_REGION_OFICINA;
 
+	-- - LLENADO / TRANSORMACION EN REGION_OFICINA - 
+	INSERT INTO T2_REGION_OFICINA (id_oficina, nombre_oficina, fechac, nombre_region) 
+	SELECT o.id, o.nombre, NOW(), ( SELECT b.region FROM T1_LUGAR a, T1_LUGAR b WHERE o.fk_lugar_ciudad = a.id AND a.fk_lugar = b.id ) FROM T1_OFICINA_PRINCIPAL o 
+		WHERE o.id > maxid;
+     GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
 
-	- LLENADO / TRANSORMACION EN REGION_OFICINA - 
+	 RAISE NOTICE 'Filas insertadas en T2_REGION_OFICINA: %', n_filas_afect;
+	
+	
 
-    -- INSERT INTO T2_LUGAR (id, nombre, tipo, region, fk_lugar) 
-    -- SELECT id, nombre, tipo, region, fk_lugar FROM LUGAR c
-    --     WHERE c.id > maxid;
-    -- GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
-
-	-- RAISE NOTICE 'Filas insertadas en T2_LUGAR: %', n_filas_afect;
-
-	-- -- T2_CLIENTE
-    -- SELECT COALESCE(max(id),0) INTO maxid FROM T2_CLIENTE;
+	 -- T2_CLIENTE
+     SELECT COALESCE(max(id),0) INTO maxid FROM T2_CLIENTE;
    
-    -- INSERT INTO T2_CLIENTE (id, nombre_empresa, pagina_web, fk_lugar_pais) 
-    -- SELECT id, nombre_empresa, pagina_web, fk_lugar_pais FROM CLIENTE c
-    --     WHERE c.id > maxid;
-    -- GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
+     INSERT INTO T2_CLIENTE (id, nombre_empresa, pagina_web, fk_region_oficina) 
+     SELECT id, nombre_empresa, pagina_web, (SELECT id_oficina FROM T2_REGION_OFICINA oe WHERE oe.nombre_region = ( SELECT region FROM T1_LUGAR WHERE id = c.fk_lugar_pais ) ) FROM T1_CLIENTE c
+         WHERE c.id > maxid;
+     GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
 
-	-- RAISE NOTICE 'Filas insertadas en T2_CLIENTE: %', n_filas_afect;
+	 RAISE NOTICE 'Filas insertadas en T2_CLIENTE: %', n_filas_afect;
 
+	
 
 	-- T2_CLAS_TEMA
 	SELECT COALESCE(max(id), 0) INTO maxid from T2_CLAS_TEMA;
