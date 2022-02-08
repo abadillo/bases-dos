@@ -1,7 +1,7 @@
--- Se crean tablas Dim con los mismos cambos de las tablas iniciales?
--- Tabla lugar o region?
--- fechac en las tablas solo dim?
--- Oficina Principal o Estaciones?
+-- Se crean tablas Dim con los mismos cambos de las tablas iniciales? SE MODIFICAN SEGUND LO NECESARIO
+-- Tabla lugar o region? NUEVA TABLA REGION_OFICINA
+-- fechac en las tablas solo dim? SI
+-- Oficina Principal o Estaciones? OFICINAS PRINCIPALES
 
 ---------------------------------- TABLAS DIMENSION -------------------------------
 
@@ -74,18 +74,18 @@ CREATE TABLE DimOFICINA_PRINCIPAL (
 ------------------------------------------ TABLAS FACT -----------------------------------
 
 
+-- Desempeño AII
+
 -- Sería ideal contar con información sobre los puntos anteriores, como por ejemplo, cuál es el tema con 
 -- mayor demanda (tema en el que la mayor cantidad de clientes ha adquirido piezas de inteligencia), 
 -- cuál es el cliente más activo (que compra más frecuentemente). Esta información se debería 
 -- presentar por región semestral y anualmente. 
 
 
--- Desempeño AII
-
 DROP TABLE IF EXISTS DESEMPEÑO_AII CASCADE;
 
 CREATE TABLE Desempeño_AII (
-    id_tiempo integer,
+    id_tiempo integer NOT NULL,
     id_lugar integer,
     clienteMasActivo_Semestre VARCHAR(50),
     clienteMasActivo_Year VARCHAR(50),
@@ -95,8 +95,135 @@ CREATE TABLE Desempeño_AII (
 )
 
 
+CREATE OR REPLACE PROCEDURE COPIA_T1_DESEMEPÑO_AII ()
+LANGUAGE PLPGSQL
+SECURITY DEFINER
+AS $$
+DECLARE 
+    maxid INTEGER;
+BEGIN
+    maxid := (Select max(id) from T1_CLAS_TEMA);
+    INSERT INTO T1_CLAS_TEMA (id, nombre, descripcion, topico) 
+    SELECT id, nombre, descripcion, topico FROM CLAS_TEMA c
+        WHERE c.id > maxid;
+    maxid := 0;
+    
+
+    maxid := (Select max(id) from T1_CLIENTE);
+    INSERT INTO T1_CLIENTE (id, nombre_empresa, pagina_web, exclusivo, fk_lugar_pais) 
+    SELECT id, nombre_empresa, pagina_web, fk_lugar_pais FROM CLIENTE c
+        WHERE c.id > maxid;
+    maxid := 0;
+    
+    maxid := (Select max(id) from T1_OFICINA_PRINCIPAL);
+    INSERT INTO T1_OFICINA_PRINCIPAL (id, nombre, fk_lugar_ciudad) 
+    SELECT id, nombre, fk_lugar_ciudad FROM OFICINA_PRINCIPAL c
+        WHERE c.id > maxid;
+    maxid := 0;
 
 
+    maxid := (Select max(id) from T1_LUGAR);
+    INSERT INTO T1_LUGAR (id, nombre, tipo, region, fk_lugar) 
+    SELECT id, nombre, tipo, region, fk_lugar FROM LUGAR c
+        WHERE c.id > maxid;
+    maxid := 0;
+
+
+    maxid := (Select max(id) from T1_AREA_INTERES);
+    INSERT INTO T1_AREA_INTERES (id, fk_clas_tema, fk_cliente) 
+    SELECT id, nombre, tipo, region, fk_lugar FROM AREA_INTERES c
+        WHERE c.id > maxid;
+    maxid := 0;
+
+
+
+    maxid := (Select max(id) from T1_PIEZA_INTELIGENCIA); -- T1_PIEZA_INTELIGENCIA = PIEZA_INTELIGENCIA + PIEZA_INTELIGENCIA_ALT
+    INSERT INTO T1_PIEZA_INTELIGENCIA (id, fk_clas_tema) 
+    SELECT id, fk_clas_tema FROM PIEZA_INTELIGENCIA c
+        WHERE c.id > maxid;
+    
+    INSERT INTO T1_PIEZA_INTELIGENCIA (id, fk_clas_tema) 
+    SELECT id, fk_clas_tema FROM PIEZA_INTELIGENCIA_ALT c
+        WHERE c.id > maxid;
+    maxid := 0;
+
+
+
+    maxid := (Select max(id) from T1_ADQUISICION); -- T1_ADQUISICION = ADQUISICION + ADQUISICION_ALT
+    INSERT INTO T1_ADQUISICION (id, fk_cliente, fk_pieza_inteligencia) 
+    SELECT id, fecha_hora_venta, precio_vendido, fk_cliente, fk_pieza_inteligencia FROM ADQUISICION c
+        WHERE c.id > maxid;
+
+    INSERT INTO T1_ADQUISICION (id, fk_cliente, fk_pieza_inteligencia) 
+    SELECT id, fecha_hora_venta, precio_vendido, fk_cliente, fk_pieza_inteligencia FROM ADQUISICION_ALT c
+        WHERE c.id > maxid;
+    maxid := 0;
+
+END
+$$;
+
+-----------------------------
+
+
+CREATE OR REPLACE PROCEDURE COPIA_T2_DESEMEPÑO_AII ()
+LANGUAGE PLPGSQL
+SECURITY DEFINER
+AS $$
+DECLARE 
+    maxid INTEGER;
+BEGIN
+    maxid := (Select max(id) from T2_CLAS_TEMA);
+    INSERT INTO T2_CLAS_TEMA (nombre, descripcion, topico, fechac) 
+    SELECT nombre, descripcion, topico, NOW() FROM T1_CLAS_TEMA c
+        WHERE c.id > maxid;
+    maxid := 0;
+    
+
+    maxid := (Select max(id) from T2_CLIENTE);
+    INSERT INTO T2_CLIENTE (nombre_empresa, pagina_web, exclusivo, fk_lugar_pais, fechac) 
+    SELECT nombre_empresa, pagina_web, exclusivo, fk_lugar_pais, NOW() FROM T1_CLIENTE c
+        WHERE c.id > maxid;
+    maxid := 0;
+    
+
+    maxid := (Select max(id) from T2_LUGAR);
+    INSERT INTO T2_LUGAR (nombre, tipo, region, fk_lugar, fechac) 
+    SELECT nombre, tipo, region, fk_lugar, NOW() FROM T1_LUGAR c
+        WHERE c.id > maxid;
+    maxid := 0;
+
+
+    maxid := (Select max(id) from T2_AREA_INTERES);
+    INSERT INTO T2_LUGAR (fk_clas_tema, fk_cliente, fechac) 
+    SELECT nombre, tipo, region, fk_lugar, NOW() FROM T1_AREA_INTERES c
+        WHERE c.id > maxid;
+    maxid := 0;
+
+
+    maxid := (Select max(id) from T2_PIEZA_INTELIGENCIA); -- T1_PIEZA_INTELIGENCIA = PIEZA_INTELIGENCIA + PIEZA_INTELIGENCIA_ALT
+    INSERT INTO T2_PIEZA_INTELIGENCIA (id, fk_clas_tema, fechac) 
+    SELECT id, fk_clas_tema, NOW() FROM T1_PIEZA_INTELIGENCIA c
+        WHERE c.id > maxid;
+    
+    INSERT INTO T2_PIEZA_INTELIGENCIA (id, fk_clas_tema, fechac) 
+    SELECT id, fk_clas_tema, NOW() FROM T1_PIEZA_INTELIGENCIA_ALT c
+        WHERE c.id > maxid;
+    maxid := 0;
+
+
+
+    maxid := (Select max(id) from T2_ADQUISICION); -- T1_ADQUISICION = ADQUISICION + ADQUISICION_ALT
+    INSERT INTO T2_ADQUISICION (id, fk_cliente, fk_pieza_inteligencia, fechac) 
+    SELECT id, fecha_hora_venta, precio_vendido, fk_cliente, fk_pieza_inteligencia, NOW() FROM T1_ADQUISICION c
+        WHERE c.id > maxid;
+
+    INSERT INTO T2_ADQUISICION (id, fk_cliente, fk_pieza_inteligencia, fechac) 
+    SELECT id, fecha_hora_venta, precio_vendido, fk_cliente, fk_pieza_inteligencia, NOW() FROM T1_ADQUISICION_ALT c
+        WHERE c.id > maxid;
+    maxid := 0;
+
+END
+$$;
 --------------------------------------------------------------------------------
 
 
@@ -113,10 +240,20 @@ CREATE TABLE Desempeño_AII (
 
 -- Productividad_Eficacia
 
+DROP TYPE IF EXISTS contacto_ty CASCADE;
+
+
+CREATE TYPE ProdEmpleado as (
+
+    nombre varchar(200),
+    productividad numeric(6,3)
+);
+
+
 DROP TABLE IF EXISTS PRODUCTIVIDAD_EFICACIA CASCADE;
 
 CREATE TABLE PRODUCTIVIDAD_EFICACIA (
-    id_tiempo integer,
+    id_tiempo integer NOT NULL,
     id_lugar integer,
     id_informante integer,
     id_oficina integer,
@@ -126,6 +263,6 @@ CREATE TABLE PRODUCTIVIDAD_EFICACIA (
     %ProdPromedioAnalistasPais numeric (6,3),
     %ProdPromedioAgentesOficina numeric (6,3),
     %ProdPromedioAnalistasOficina numeric (6,3),
-    %ProdGeneralAgente numeric (6,3),
-    %ProdGeneralAnalista numeric (6,3)
+    %ProdGeneralAgente ProdEmpleado,
+    %ProdGeneralAnalista ProdEmpleado
 )
