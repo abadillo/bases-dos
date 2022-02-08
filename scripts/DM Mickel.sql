@@ -268,3 +268,127 @@ CREATE TABLE PRODUCTIVIDAD_EFICACIA (
     %ProdGeneralAgente ProdEmpleado,
     %ProdGeneralAnalista ProdEmpleado
 )
+
+
+
+
+----------///////////- ------------------------------------------------------------------------------------ ///////////----------
+----------//////////- 			    Create tablas T1 - METRICA 1 y 2  	-- EJECUTAR COMO DEV 		       -//////////----------
+----------///////////- ----------------------------------------------------------------------------------- ///////////----------
+
+DROP TABLE IF EXISTS T1_INFORMANTE CASCADE;
+
+CREATE TABLE T1_INFORMANTE (
+    
+    id serial NOT NULL,
+
+    nombre_clave varchar(100) unique NOT NULL,
+    fk_personal_inteligencia_encargado integer NOT NULL,    
+
+    CONSTRAINT INFORMANTE_PK PRIMARY KEY (id),
+);
+
+----------///////////- ------------------------------------------------------------------------------------ ///////////----------
+----------//////////- 			    Create tablas T2 - METRICA 1 y 2  	-- EJECUTAR COMO DEV 		       -//////////----------
+----------///////////- ----------------------------------------------------------------------------------- ///////////----------
+
+DROP TABLE IF EXISTS T2_PAIS CASCADE;
+
+CREATE TABLE T2_PAIS (
+    id integer NOT NULL,
+    nombre VARCHAR(50) NOT NULL,
+    fechac TIMESTAMP NOT NULL,
+    
+    CONSTRAINT LUGAR_PK PRIMARY KEY (id)
+);
+
+
+
+
+----------///////////- ------------------------------------------------------------------------------------ ///////////----------
+----------//////////- 		    EXTRACCION DE DATOS  - METRICA 3 y 4  	-- EJECUTAR COMO DEV 		     -//////////----------
+----------///////////- ----------------------------------------------------------------------------------- ///////////----------
+
+CREATE OR REPLACE PROCEDURE COPIA_T1_DESEMPEÑO_AII ()
+LANGUAGE PLPGSQL
+SECURITY DEFINER
+AS $$
+DECLARE 
+    maxid INTEGER;
+	n_filas_afect integer;
+BEGIN
+    
+
+
+    INSERT INTO T2_PAIS (id, nombre, fechac)
+    SELECT l.id, l.nombre, NOW() FROM T1_LUGAR l WHERE l.tipo = 'pais' AND l.id > maxid;
+
+
+    INSERT INTO T1_INFORMANTE (id, nombre_clave, fk_personal_inteligencia_encargado)
+    SELECT id, nombre_clave, fk_personal_inteligencia_encargado FROM INFORMANTE
+
+
+	SELECT COALESCE(max(id), 0) INTO maxid from T1_CLAS_TEMA;
+    
+	INSERT INTO T1_CLAS_TEMA (id, nombre, descripcion, topico) 
+    SELECT id, nombre, descripcion, topico FROM CLAS_TEMA c
+        WHERE c.id > maxid;
+	GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
+
+   	RAISE NOTICE 'Filas insertadas en T1_CLAS_TEMA: %', n_filas_afect;
+
+   
+    -- maxid := (Select max(id) from T1_CLIENTE);
+    -- INSERT INTO T1_CLIENTE (id, nombre_empresa, pagina_web, fk_lugar_pais) 
+    -- SELECT id, nombre_empresa, pagina_web, fk_lugar_pais FROM CLIENTE c
+    --     WHERE c.id > maxid;
+    -- maxid := 0;
+    
+    -- maxid := (Select max(id) from T1_OFICINA_PRINCIPAL);
+    -- INSERT INTO T1_OFICINA_PRINCIPAL (id, nombre, fk_lugar_ciudad) 
+    -- SELECT id, nombre, fk_lugar_ciudad FROM OFICINA_PRINCIPAL c
+    --     WHERE c.id > maxid;
+    -- maxid := 0;
+
+
+    -- maxid := (Select max(id) from T1_LUGAR);
+    -- INSERT INTO T1_LUGAR (id, nombre, tipo, region, fk_lugar) 
+    -- SELECT id, nombre, tipo, region, fk_lugar FROM LUGAR c
+    --     WHERE c.id > maxid;
+    -- maxid := 0;
+
+
+    -- maxid := (Select max(id) from T1_AREA_INTERES);
+    -- INSERT INTO T1_AREA_INTERES (id, fk_clas_tema, fk_cliente) 
+    -- SELECT id, fk_clas_tema, fk_cliente FROM AREA_INTERES c
+    --     WHERE c.id > maxid;
+    -- maxid := 0;
+
+
+
+    -- maxid := (Select max(id) from T1_PIEZA_INTELIGENCIA); -- T1_PIEZA_INTELIGENCIA = PIEZA_INTELIGENCIA + PIEZA_INTELIGENCIA_ALT
+    -- INSERT INTO T1_PIEZA_INTELIGENCIA (id, fk_clas_tema) 
+    -- SELECT id, fk_clas_tema FROM PIEZA_INTELIGENCIA c
+    --     WHERE c.id > maxid;
+    
+    -- INSERT INTO T1_PIEZA_INTELIGENCIA (id, fk_clas_tema) 
+    -- SELECT id, fk_clas_tema FROM PIEZA_INTELIGENCIA_ALT c
+    --     WHERE c.id > maxid;
+    -- maxid := 0;
+
+
+
+    -- maxid := (Select max(id) from T1_ADQUISICION); -- T1_ADQUISICION = ADQUISICION + ADQUISICION_ALT
+    -- INSERT INTO T1_ADQUISICION (id, fk_cliente, fk_pieza_inteligencia) 
+    -- SELECT id, fecha_hora_venta, precio_vendido, fk_cliente, fk_pieza_inteligencia FROM ADQUISICION c
+    --     WHERE c.id > maxid;
+
+    -- INSERT INTO T1_ADQUISICION (id, fk_cliente, fk_pieza_inteligencia) 
+    -- SELECT id, fecha_hora_venta, precio_vendido, fk_cliente, fk_pieza_inteligencia FROM ADQUISICION_ALT c
+    --     WHERE c.id > maxid;
+    -- maxid := 0;
+
+END
+$$;
+
+
