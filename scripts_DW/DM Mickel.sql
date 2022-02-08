@@ -70,14 +70,6 @@ CREATE TABLE DimOFICINA_PRINCIPAL (
 );
 
 
-CREATE TABLE DimCLIENTE(
-	id_cliente integer NOT NULL,
-	nombre_empresa VARCHAR(100),
-	pagina_web VARCHAR(100),
-	fechac timestamp,
-	
-	CONSTRAINT CLIENTE_PK KEY (id_cliente)
-)
 
 
 ------------------------------------------ TABLAS FACT -----------------------------------
