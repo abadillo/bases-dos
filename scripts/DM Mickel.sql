@@ -110,7 +110,7 @@ BEGIN
     
 
     maxid := (Select max(id) from T1_CLIENTE);
-    INSERT INTO T1_CLIENTE (id, nombre_empresa, pagina_web, exclusivo, fk_lugar_pais) 
+    INSERT INTO T1_CLIENTE (id, nombre_empresa, pagina_web, fk_lugar_pais) 
     SELECT id, nombre_empresa, pagina_web, fk_lugar_pais FROM CLIENTE c
         WHERE c.id > maxid;
     maxid := 0;
@@ -131,7 +131,7 @@ BEGIN
 
     maxid := (Select max(id) from T1_AREA_INTERES);
     INSERT INTO T1_AREA_INTERES (id, fk_clas_tema, fk_cliente) 
-    SELECT id, nombre, tipo, region, fk_lugar FROM AREA_INTERES c
+    SELECT id, fk_clas_tema, fk_cliente FROM AREA_INTERES c
         WHERE c.id > maxid;
     maxid := 0;
 
@@ -172,30 +172,32 @@ AS $$
 DECLARE 
     maxid INTEGER;
 BEGIN
+    
     maxid := (Select max(id) from T2_CLAS_TEMA);
     INSERT INTO T2_CLAS_TEMA (nombre, descripcion, topico, fechac) 
     SELECT nombre, descripcion, topico, NOW() FROM T1_CLAS_TEMA c
         WHERE c.id > maxid;
     maxid := 0;
     
-
+    -- REVISAR
     maxid := (Select max(id) from T2_CLIENTE);
-    INSERT INTO T2_CLIENTE (nombre_empresa, pagina_web, exclusivo, fk_lugar_pais, fechac) 
+    INSERT INTO T2_CLIENTE (nombre_empresa, pagina_web, fk_lugar_pais, fechac) 
     SELECT nombre_empresa, pagina_web, exclusivo, fk_lugar_pais, NOW() FROM T1_CLIENTE c
         WHERE c.id > maxid;
     maxid := 0;
     
 
+-- REVISAR (REGION)
     maxid := (Select max(id) from T2_LUGAR);
     INSERT INTO T2_LUGAR (nombre, tipo, region, fk_lugar, fechac) 
     SELECT nombre, tipo, region, fk_lugar, NOW() FROM T1_LUGAR c
         WHERE c.id > maxid;
     maxid := 0;
-
+----------------------------------------------------------------------
 
     maxid := (Select max(id) from T2_AREA_INTERES);
     INSERT INTO T2_LUGAR (fk_clas_tema, fk_cliente, fechac) 
-    SELECT nombre, tipo, region, fk_lugar, NOW() FROM T1_AREA_INTERES c
+    SELECT fk_clas_tema, fk_cliente, NOW() FROM T1_AREA_INTERES c
         WHERE c.id > maxid;
     maxid := 0;
 
