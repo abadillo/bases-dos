@@ -1,4 +1,4 @@
-
+﻿
 ----------///////////- ------------------------------------------------------------ ///////////----------
 ----------//////////////////- CREACION DE TABLAS   -- EJECUTAR COMO DEV -///////////////////////----------
 ----------///////////- ------------------------------------------------------------ ///////////----------
@@ -9263,11 +9263,6 @@ GRANT EXECUTE ON PROCEDURE DESPIDO_RENUNCIA_PERSONAL_INTELIGENCIA (integer,integ
 ----------//////////////////////-------------------------------------------------------------------///////////--///////////-----------
 
 
---/ METRICA 3 y 4 - DESEMPENO_AII
---- Sería ideal contar con información sobre los puntos anteriores, como por ejemplo, cuál es el tema con
---- mayor demanda (tema en el que la mayor cantidad de clientes ha adquirido piezas de inteligencia),
---- cuál es el cliente más activo (que compra más frecuentemente). Esta información se debería
---- presentar por región semestral y anualmente
 
 
 ----------///////////- ------------------------------------------------------------------------------------ ///////////----------
@@ -9278,7 +9273,6 @@ GRANT EXECUTE ON PROCEDURE DESPIDO_RENUNCIA_PERSONAL_INTELIGENCIA (integer,integ
 DROP TABLE IF EXISTS T1_LUGAR CASCADE;
 DROP TABLE IF EXISTS T1_CLIENTE CASCADE;
 DROP TABLE IF EXISTS T1_CLAS_TEMA CASCADE;
--- DROP TABLE IF EXISTS T1_AREA_INTERES CASCADE;
 DROP TABLE IF EXISTS T1_OFICINA_PRINCIPAL CASCADE; 
 DROP TABLE IF EXISTS T1_ADQUISICION CASCADE;
 DROP TABLE IF EXISTS T1_PIEZA_INTELIGENCIA CASCADE;
@@ -9335,16 +9329,6 @@ CREATE TABLE T1_CLAS_TEMA (
     CONSTRAINT T1_AREA_INTERES_PK PRIMARY KEY (id),
 	CONSTRAINT CLAS_TEMA_CH_topico CHECK ( topico IN ('paises', 'individuos', 'eventos', 'empresas') )    
 );
-
--- CREATE TABLE T1_AREA_INTERES (
-
---     fk_clas_tema integer NOT NULL,
---     fk_cliente integer NOT NULL,
-
--- 	CONSTRAINT T1_TEMAS_ESP_PK PRIMARY KEY (fk_clas_tema,fk_cliente),
---     CONSTRAINT T1_TEMAS_ESP_CLAS_TEMA_FK FOREIGN KEY (fk_clas_tema) REFERENCES T1_CLAS_TEMA (id),
---     CONSTRAINT T1_TEMAS_ESP_PERSONAL_INTELIGENCIA_FK FOREIGN KEY (fk_cliente) REFERENCES T1_CLIENTE (id)
--- );
 
 
 CREATE TABLE T1_PIEZA_INTELIGENCIA (
@@ -9495,175 +9479,6 @@ $$;
 
 
 
-
-
-
-----------///////////- ------------------------------------------------------------------------------------ ///////////----------
-----------//////////- 			    Create tablas T1 - METRICA 3 y 4  	-- EJECUTAR COMO DEV 		       -//////////----------
-----------///////////- ----------------------------------------------------------------------------------- ///////////----------
-
-
-DROP TABLE IF EXISTS T2_LUGAR CASCADE;
-DROP TABLE IF EXISTS T2_CLIENTE CASCADE;
-DROP TABLE IF EXISTS T2_CLAS_TEMA CASCADE;
--- DROP TABLE IF EXISTS T2_AREA_INTERES CASCADE;
-DROP TABLE IF EXISTS T2_OFICINA_PRINCIPAL CASCADE; 
-DROP TABLE IF EXISTS T2_ADQUISICION CASCADE;
-DROP TABLE IF EXISTS T2_PIEZA_INTELIGENCIA CASCADE;
-
-
-CREATE TABLE T2_REGION_OFICINA(
-
-    id_oficina integer NOT NULL,
-    nombre_oficina varchar(50) NOT NULL,
-	nombre_region varchar(50) NOT NULL,
-	fechac timestamp,
-		
-	CONSTRAINT T2_REGION_OFICINA_PK PRIMARY KEY (id_oficina),
-	CONSTRAINT T2_REGION_OFICINA_CH_region CHECK ( nombre_region IN ('europa', 'africa', 'america_sur', 'america_norte', 'asia', 'oceania') )
-  
-);
-
-
-CREATE TABLE T2_CLIENTE (
-
-    id integer NOT NULL,
-    nombre_empresa varchar(100) NOT NULL,
-    pagina_web varchar(100) NOT NULL,
-	fechac timestamp,   
-
-    fk_region_oficina integer NOT NULL,
-
-	CONSTRAINT T2_CLIENTE_PK PRIMARY KEY (id),
-    CONSTRAINT T2_CLIENTE_LUGAR_FK FOREIGN KEY (fk_region_oficina) REFERENCES T2_LUGAR (id)
-);
-
-CREATE TABLE T2_CLAS_TEMA (
-
-    id integer NOT NULL,
-    nombre varchar(255) NOT NULL,
-    descripcion varchar(500) NOT NULL,
-	topico varchar(50) NOT NULL, -- 'paises, individuos, eventos, empresas' 
-	fechac timestamp,
-
-    CONSTRAINT T2_AREA_INTERES_PK PRIMARY KEY (id),
-	CONSTRAINT CLAS_TEMA_CH_topico CHECK ( topico IN ('paises', 'individuos', 'eventos', 'empresas') )    
-);
-
-
-
-CREATE TABLE T2_PIEZA_INTELIGENCIA (
-
-    id integer NOT NULL,
-	fk_clas_tema integer NOT NULL,
-	fechac timestamp,
-	
-    CONSTRAINT T2_PIEZA_INTELIGENCIA_PK PRIMARY KEY (id),
-	CONSTRAINT T2_PIEZA_INTELIGENCIA_CLAS_TEMA_FK FOREIGN KEY (fk_clas_tema) REFERENCES T2_CLAS_TEMA (id)
-);
-
-CREATE TABLE T2_ADQUISICION (
-
-    id integer NOT NULL,
-
-	fecha_hora_venta timestamp NOT NULL,
-	fechac timestamp,
-
-	fk_cliente integer NOT NULL,
-    fk_pieza_inteligencia integer NOT NULL,
-	
-	CONSTRAINT T2_ADQUISICION_PK PRIMARY KEY (id, fk_cliente, fk_pieza_inteligencia),
-
-    CONSTRAINT T2_ADQUISICION_CLIENTE_FK FOREIGN KEY (fk_cliente) REFERENCES T2_CLIENTE (id),
-    CONSTRAINT T2_ADQUISICION_PIEZA_INTELIGENCIA_FK FOREIGN KEY (fk_pieza_inteligencia) REFERENCES T2_PIEZA_INTELIGENCIA (id)
-	
-);
-
-
-
-
-
-
-
-----------///////////- ------------------------------------------------------------------------------------ ///////////----------
-----------//////////- 		    TRANSFORMACION DE DATOS - METRICA 3 y 4  	-- EJECUTAR COMO DEV 		     -//////////----------
-----------///////////- ----------------------------------------------------------------------------------- ///////////----------
-
-
-CREATE OR REPLACE PROCEDURE TRANSFORMACION_T2_DESEMPENO_AII ()
-LANGUAGE PLPGSQL
-SECURITY DEFINER
-AS $$
-DECLARE 
-    maxid INTEGER;
-	n_filas_afect integer;
-BEGIN
-    
-	RAISE NOTICE ' ';
-	RAISE NOTICE 'PROCEDIMIENTO TRANSFORMACION_T2_DESEMPENO_AII - %', NOW();
-	RAISE NOTICE '-----------------------------------------------------';
-	RAISE NOTICE ' ';
-	
-
-	-- T2_REGION_OFICINA
-    -- SELECT COALESCE(max(id_oficina),0) INTO maxid FROM T2_REGION_OFICINA;
-
-
-	- LLENADO / TRANSORMACION EN REGION_OFICINA - 
-
-    -- INSERT INTO T2_LUGAR (id, nombre, tipo, region, fk_lugar) 
-    -- SELECT id, nombre, tipo, region, fk_lugar FROM LUGAR c
-    --     WHERE c.id > maxid;
-    -- GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
-
-	-- RAISE NOTICE 'Filas insertadas en T2_LUGAR: %', n_filas_afect;
-
-	-- -- T2_CLIENTE
-    -- SELECT COALESCE(max(id),0) INTO maxid FROM T2_CLIENTE;
-   
-    -- INSERT INTO T2_CLIENTE (id, nombre_empresa, pagina_web, fk_lugar_pais) 
-    -- SELECT id, nombre_empresa, pagina_web, fk_lugar_pais FROM CLIENTE c
-    --     WHERE c.id > maxid;
-    -- GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
-
-	-- RAISE NOTICE 'Filas insertadas en T2_CLIENTE: %', n_filas_afect;
-
-
-	-- T2_CLAS_TEMA
-	SELECT COALESCE(max(id), 0) INTO maxid from T2_CLAS_TEMA;
-    
-	INSERT INTO T2_CLAS_TEMA (id, nombre, descripcion, topico, fechac) 
-    SELECT id, nombre, descripcion, topico, NOW() FROM T1_CLAS_TEMA c
-        WHERE c.id > maxid;
-	GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
-
-   	RAISE NOTICE 'Filas insertadas en T2_CLAS_TEMA: %', n_filas_afect;
-
-   
-
-	-- T2_PIEZA_INTELIGENCIA
-    SELECT COALESCE(max(id),0) INTO maxid FROM T2_PIEZA_INTELIGENCIA; -- T2_PIEZA_INTELIGENCIA = PIEZA_INTELIGENCIA + PIEZA_INTELIGENCIA_ALT
-    
-    INSERT INTO T2_PIEZA_INTELIGENCIA (id, fk_clas_tema, fechac) 
-    SELECT id, fk_clas_tema, NOW() FROM T1_PIEZA_INTELIGENCIA c
-        WHERE c.id > maxid;
-	GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
-    
-	RAISE NOTICE 'Filas insertadas en T2_PIEZA_INTELIGENCIA: %', n_filas_afect;
-
-
-	-- T2_ADQUISICION
-    SELECT COALESCE(max(id),0) INTO maxid FROM T2_ADQUISICION; -- T2_ADQUISICION = ADQUISICION + ADQUISICION_ALT
-    
-    INSERT INTO T2_ADQUISICION (id, fecha_hora_venta, fk_cliente, fk_pieza_inteligencia, fechac) 
-    SELECT id, fecha_hora_venta, fk_cliente, fk_pieza_inteligencia, NOW() FROM T1_ADQUISICION c
-        WHERE c.id > maxid;
-	GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
-
-	RAISE NOTICE 'Filas insertadas en T2_ADQUISICION: %', n_filas_afect;
-	
-END
-$$;
 
 
 
