@@ -9273,7 +9273,7 @@ GRANT EXECUTE ON PROCEDURE DESPIDO_RENUNCIA_PERSONAL_INTELIGENCIA (integer,integ
 DROP TABLE IF EXISTS T1_LUGAR CASCADE;
 DROP TABLE IF EXISTS T1_CLIENTE CASCADE;
 DROP TABLE IF EXISTS T1_CLAS_TEMA CASCADE;
-DROP TABLE IF EXISTS T1_AREA_INTERES CASCADE;
+-- DROP TABLE IF EXISTS T1_AREA_INTERES CASCADE;
 DROP TABLE IF EXISTS T1_OFICINA_PRINCIPAL CASCADE; 
 DROP TABLE IF EXISTS T1_ADQUISICION CASCADE;
 DROP TABLE IF EXISTS T1_PIEZA_INTELIGENCIA CASCADE;
@@ -9331,15 +9331,15 @@ CREATE TABLE T1_CLAS_TEMA (
 	CONSTRAINT CLAS_TEMA_CH_topico CHECK ( topico IN ('paises', 'individuos', 'eventos', 'empresas') )    
 );
 
-CREATE TABLE T1_AREA_INTERES (
+-- CREATE TABLE T1_AREA_INTERES (
 
-    fk_clas_tema integer NOT NULL,
-    fk_cliente integer NOT NULL,
+--     fk_clas_tema integer NOT NULL,
+--     fk_cliente integer NOT NULL,
 
-	CONSTRAINT T1_TEMAS_ESP_PK PRIMARY KEY (fk_clas_tema,fk_cliente),
-    CONSTRAINT T1_TEMAS_ESP_CLAS_TEMA_FK FOREIGN KEY (fk_clas_tema) REFERENCES T1_CLAS_TEMA (id),
-    CONSTRAINT T1_TEMAS_ESP_PERSONAL_INTELIGENCIA_FK FOREIGN KEY (fk_cliente) REFERENCES T1_CLIENTE (id)
-);
+-- 	CONSTRAINT T1_TEMAS_ESP_PK PRIMARY KEY (fk_clas_tema,fk_cliente),
+--     CONSTRAINT T1_TEMAS_ESP_CLAS_TEMA_FK FOREIGN KEY (fk_clas_tema) REFERENCES T1_CLAS_TEMA (id),
+--     CONSTRAINT T1_TEMAS_ESP_PERSONAL_INTELIGENCIA_FK FOREIGN KEY (fk_cliente) REFERENCES T1_CLIENTE (id)
+-- );
 
 
 CREATE TABLE T1_PIEZA_INTELIGENCIA (
@@ -9381,12 +9381,7 @@ CREATE TABLE T1_ADQUISICION (
 ----------///////////- ----------------------------------------------------------------------------------- ///////////----------
 
 
-
-
-
-
-
-CREATE OR REPLACE PROCEDURE COPIA_T1_DESEMPEÑO_AII ()
+CREATE OR REPLACE PROCEDURE EXTRACCION_DESEMPENO_AII ()
 LANGUAGE PLPGSQL
 SECURITY DEFINER
 AS $$
@@ -9395,6 +9390,23 @@ DECLARE
 	n_filas_afect integer;
 BEGIN
     
+	RAISE NOTICE ' ';
+	RAISE NOTICE 'PROCEDIMIENTO EXTRACCION_DESEMPENO_AII - %', NOW();
+	RAISE NOTICE '-----------------------------------------------------';
+	RAISE NOTICE ' ';
+	
+	-- T1_LUGAR
+    SELECT COALESCE(max(id),0) INTO maxid FROM T1_LUGAR;
+   
+    INSERT INTO T1_LUGAR (id, nombre, tipo, region, fk_lugar) 
+    SELECT id, nombre, tipo, region, fk_lugar FROM LUGAR c
+        WHERE c.id > maxid;
+    GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
+
+	RAISE NOTICE 'Filas insertadas en T1_LUGAR: %', n_filas_afect;
+	
+
+	-- T1_CLAS_TEMA
 	SELECT COALESCE(max(id), 0) INTO maxid from T1_CLAS_TEMA;
     
 	INSERT INTO T1_CLAS_TEMA (id, nombre, descripcion, topico) 
@@ -9405,55 +9417,70 @@ BEGIN
    	RAISE NOTICE 'Filas insertadas en T1_CLAS_TEMA: %', n_filas_afect;
 
    
-    -- maxid := (Select max(id) from T1_CLIENTE);
-    -- INSERT INTO T1_CLIENTE (id, nombre_empresa, pagina_web, fk_lugar_pais) 
-    -- SELECT id, nombre_empresa, pagina_web, fk_lugar_pais FROM CLIENTE c
-    --     WHERE c.id > maxid;
-    -- maxid := 0;
+   	-- T1_CLIENTE
+    SELECT COALESCE(max(id),0) INTO maxid FROM T1_CLIENTE;
+   
+    INSERT INTO T1_CLIENTE (id, nombre_empresa, pagina_web, fk_lugar_pais) 
+    SELECT id, nombre_empresa, pagina_web, fk_lugar_pais FROM CLIENTE c
+        WHERE c.id > maxid;
+    GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
+
+	RAISE NOTICE 'Filas insertadas en T1_CLIENTE: %', n_filas_afect;
     
-    -- maxid := (Select max(id) from T1_OFICINA_PRINCIPAL);
-    -- INSERT INTO T1_OFICINA_PRINCIPAL (id, nombre, fk_lugar_ciudad) 
-    -- SELECT id, nombre, fk_lugar_ciudad FROM OFICINA_PRINCIPAL c
-    --     WHERE c.id > maxid;
-    -- maxid := 0;
+    SELECT COALESCE(max(id),0) INTO maxid FROM T1_OFICINA_PRINCIPAL;
+    INSERT INTO T1_OFICINA_PRINCIPAL (id, nombre, fk_lugar_ciudad) 
+    SELECT id, nombre, fk_lugar_ciudad FROM OFICINA_PRINCIPAL c
+        WHERE c.id > maxid;
+    GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
 
-
-    -- maxid := (Select max(id) from T1_LUGAR);
-    -- INSERT INTO T1_LUGAR (id, nombre, tipo, region, fk_lugar) 
-    -- SELECT id, nombre, tipo, region, fk_lugar FROM LUGAR c
-    --     WHERE c.id > maxid;
-    -- maxid := 0;
-
-
-    -- maxid := (Select max(id) from T1_AREA_INTERES);
-    -- INSERT INTO T1_AREA_INTERES (id, fk_clas_tema, fk_cliente) 
-    -- SELECT id, fk_clas_tema, fk_cliente FROM AREA_INTERES c
-    --     WHERE c.id > maxid;
-    -- maxid := 0;
+	RAISE NOTICE 'Filas insertadas en T1_OFICINA_PRINCIPAL: %', n_filas_afect;
 
 
 
-    -- maxid := (Select max(id) from T1_PIEZA_INTELIGENCIA); -- T1_PIEZA_INTELIGENCIA = PIEZA_INTELIGENCIA + PIEZA_INTELIGENCIA_ALT
-    -- INSERT INTO T1_PIEZA_INTELIGENCIA (id, fk_clas_tema) 
-    -- SELECT id, fk_clas_tema FROM PIEZA_INTELIGENCIA c
-    --     WHERE c.id > maxid;
+--    SELECT COALESCE(max(id),0) INTO maxid FROM T1_AREA_INTERES;
+--    INSERT INTO T1_AREA_INTERES (id, fk_clas_tema, fk_cliente) 
+--    SELECT id, fk_clas_tema, fk_cliente FROM AREA_INTERES c
+--        WHERE c.id > maxid;
+--    GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
+--
+--	RAISE NOTICE 'Filas insertadas en T1_AREA_INTERES: %', n_filas_afect;
+
+
+	-- T1_PIEZA_INTELIGENCIA
+    SELECT COALESCE(max(id),0) INTO maxid FROM T1_PIEZA_INTELIGENCIA; -- T1_PIEZA_INTELIGENCIA = PIEZA_INTELIGENCIA + PIEZA_INTELIGENCIA_ALT
     
-    -- INSERT INTO T1_PIEZA_INTELIGENCIA (id, fk_clas_tema) 
-    -- SELECT id, fk_clas_tema FROM PIEZA_INTELIGENCIA_ALT c
-    --     WHERE c.id > maxid;
-    -- maxid := 0;
+    INSERT INTO T1_PIEZA_INTELIGENCIA (id, fk_clas_tema) 
+    SELECT id, fk_clas_tema FROM PIEZA_INTELIGENCIA c
+        WHERE c.id > maxid;
+	GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
+    
+	RAISE NOTICE 'Filas insertadas en T1_PIEZA_INTELIGENCIA: %', n_filas_afect;
+
+    INSERT INTO T1_PIEZA_INTELIGENCIA (id, fk_clas_tema) 
+    SELECT id, fk_clas_tema FROM PIEZA_INTELIGENCIA_ALT c
+        WHERE c.id > maxid;
+    GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
+
+	RAISE NOTICE 'Filas insertadas en T1_PIEZA_INTELIGENCIA_ALT: %', n_filas_afect;
 
 
+	-- T1_ADQUISICION
+    SELECT COALESCE(max(id),0) INTO maxid FROM T1_ADQUISICION; -- T1_ADQUISICION = ADQUISICION + ADQUISICION_ALT
+    
+    INSERT INTO T1_ADQUISICION (id, fecha_hora_venta, fk_cliente, fk_pieza_inteligencia) 
+    SELECT id, fecha_hora_venta, fk_cliente, fk_pieza_inteligencia FROM ADQUISICION c
+        WHERE c.id > maxid;
+	GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
 
-    -- maxid := (Select max(id) from T1_ADQUISICION); -- T1_ADQUISICION = ADQUISICION + ADQUISICION_ALT
-    -- INSERT INTO T1_ADQUISICION (id, fk_cliente, fk_pieza_inteligencia) 
-    -- SELECT id, fecha_hora_venta, precio_vendido, fk_cliente, fk_pieza_inteligencia FROM ADQUISICION c
-    --     WHERE c.id > maxid;
+	RAISE NOTICE 'Filas insertadas en T1_ADQUISICION: %', n_filas_afect;
+	
 
-    -- INSERT INTO T1_ADQUISICION (id, fk_cliente, fk_pieza_inteligencia) 
-    -- SELECT id, fecha_hora_venta, precio_vendido, fk_cliente, fk_pieza_inteligencia FROM ADQUISICION_ALT c
-    --     WHERE c.id > maxid;
-    -- maxid := 0;
+    INSERT INTO T1_ADQUISICION (id, fecha_hora_venta, fk_cliente, fk_pieza_inteligencia) 
+    SELECT id, fecha_hora_venta, fk_cliente, fk_pieza_inteligencia FROM ADQUISICION_ALT c
+        WHERE c.id > maxid;
+    GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
+
+	RAISE NOTICE 'Filas insertadas en ADQUISICION_ALT: %', n_filas_afect;
 
 END
 $$;
