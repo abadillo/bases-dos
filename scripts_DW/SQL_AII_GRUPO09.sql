@@ -9015,17 +9015,8 @@ BEGIN
 		IF(new.descripcion IS NULL OR new.descripcion = '') THEN
 			RAISE EXCEPTION 'LA DESCRIPCION DEL TEMA ESTA VACIO';
 		END IF;
-		CASE new.topico
-			WHEN 'paises' THEN 
-				RAISE EXCEPTION 'ERROR EN EL TOPICO (paises, individuos, eventos, empresas)';
-			WHEN 'individuos' THEN
-				RAISE EXCEPTION 'ERROR EN EL TOPICO (paises, individuos, eventos, empresas)';
-			WHEN 'eventos' THEN 
-				RAISE EXCEPTION 'ERROR EN EL TOPICO (paises, individuos, eventos, empresas)';
-			WHEN 'empresas' THEN 
-				RAISE EXCEPTION 'ERROR EN EL TOPICO (paises, individuos, eventos, empresas)';
-		END CASE;
 
+		
 		RETURN NEW; 
 	
 	ELSIF (TG_OP = 'UPDATE') THEN
@@ -9036,17 +9027,7 @@ BEGIN
 		IF(new.descripcion IS NULL OR new.descripcion = '') THEN
 			RAISE EXCEPTION 'LA DESCRIPCION DEL TEMA ESTA VACIO';
 		END IF;
-		CASE new.topico
-			WHEN 'paises' THEN 
-				RAISE EXCEPTION 'ERROR EN EL TOPICO (paises, individuos, eventos, empresas)';
-			WHEN 'individuos' 
-				THEN RAISE EXCEPTION 'ERROR EN EL TOPICO (paises, individuos, eventos, empresas)';
-			WHEN 'eventos'
-				THEN RAISE EXCEPTION 'ERROR EN EL TOPICO (paises, individuos, eventos, empresas)';
-			WHEN 'empresas'
-				THEN RAISE EXCEPTION 'ERROR EN EL TOPICO (paises, individuos, eventos, empresas)';
-		END CASE;
-
+		
 		RETURN NEW; 
 	ELSIF (TG_OP = 'DELETE') THEN
 		--- VALIDACION RAPIDA DE LOS FK DE LA CLASIFICACION PIEZA EN LAS OTRAS TABLAS ANTES DE ELIMINAR ----
@@ -9084,6 +9065,7 @@ BEGIN
 	END IF;	
 END 
 $$;
+
 
 -- DROP FUNCTION TRIGGER_CLAS_TEMA()
 
@@ -9283,6 +9265,108 @@ GRANT EXECUTE ON PROCEDURE DESPIDO_RENUNCIA_PERSONAL_INTELIGENCIA (integer,integ
 
 
 
+----------///////////- ------------------------------------------------------------------------------------ ///////////----------
+----------//////////- 			    Create tablas T1 - METRICA 3 y 4  	-- EJECUTAR COMO DEV 		       -//////////----------
+----------///////////- ----------------------------------------------------------------------------------- ///////////----------
+
+
+DROP TABLE IF EXISTS T1_LUGAR CASCADE;
+DROP TABLE IF EXISTS T1_CLIENTE CASCADE;
+DROP TABLE IF EXISTS T1_CLAS_TEMA CASCADE;
+DROP TABLE IF EXISTS T1_AREA_INTERES CASCADE;
+DROP TABLE IF EXISTS T1_OFICINA_PRINCIPAL CASCADE; 
+DROP TABLE IF EXISTS T1_ADQUISICION CASCADE;
+DROP TABLE IF EXISTS T1_PIEZA_INTELIGENCIA CASCADE;
+
+
+CREATE TABLE T1_LUGAR(
+
+    id integer NOT NULL,
+    nombre varchar(50) NOT NULL,
+    tipo varchar(50) NOT NULL, -- 'pais, ciudad'
+    region varchar(50),
+
+    fk_lugar integer,
+
+	CONSTRAINT T1_LUGAR_PK PRIMARY KEY (id),
+	CONSTRAINT T1_LUGAR_CH_tipo CHECK ( tipo IN ('ciudad', 'pais') ),
+	CONSTRAINT T1_LUGAR_CH_region CHECK ( region IN ('europa', 'africa', 'america_sur', 'america_norte', 'asia', 'oceania') ),
+    CONSTRAINT T1_LUGAR_LUGAR_FK FOREIGN KEY (fk_lugar) REFERENCES T1_LUGAR (id)
+);
+
+
+CREATE TABLE T1_OFICINA_PRINCIPAL (
+
+    id integer NOT NULL,
+
+    nombre varchar(50) NOT NULL,
+
+    fk_lugar_ciudad integer NOT NULL,
+
+    CONSTRAINT T1_OFICINA_PRINCIPAL_PK PRIMARY KEY (id),
+    CONSTRAINT T1_OFICINA_PRINCIPAL_LUGAR_FK FOREIGN KEY (fk_lugar_ciudad) REFERENCES T1_LUGAR (id)
+);
+
+
+CREATE TABLE T1_CLIENTE (
+
+    id integer NOT NULL,
+    nombre_empresa varchar(100) NOT NULL,
+    pagina_web varchar(100) NOT NULL,   
+
+    fk_lugar_pais integer NOT NULL,
+
+	CONSTRAINT T1_CLIENTE_PK PRIMARY KEY (id),
+    CONSTRAINT T1_CLIENTE_LUGAR_FK FOREIGN KEY (fk_lugar_pais) REFERENCES T1_LUGAR (id)
+);
+
+CREATE TABLE T1_CLAS_TEMA (
+
+    id integer NOT NULL,
+    nombre varchar(255) NOT NULL,
+    descripcion varchar(500) NOT NULL,
+	topico varchar(50) NOT NULL, -- 'paises, individuos, eventos, empresas' 
+
+    CONSTRAINT T1_AREA_INTERES_PK PRIMARY KEY (id),
+	CONSTRAINT CLAS_TEMA_CH_topico CHECK ( topico IN ('paises', 'individuos', 'eventos', 'empresas') )    
+);
+
+CREATE TABLE T1_AREA_INTERES (
+
+    fk_clas_tema integer NOT NULL,
+    fk_cliente integer NOT NULL,
+
+	CONSTRAINT T1_TEMAS_ESP_PK PRIMARY KEY (fk_clas_tema,fk_cliente),
+    CONSTRAINT T1_TEMAS_ESP_CLAS_TEMA_FK FOREIGN KEY (fk_clas_tema) REFERENCES T1_CLAS_TEMA (id),
+    CONSTRAINT T1_TEMAS_ESP_PERSONAL_INTELIGENCIA_FK FOREIGN KEY (fk_cliente) REFERENCES T1_CLIENTE (id)
+);
+
+
+CREATE TABLE T1_PIEZA_INTELIGENCIA (
+
+    id integer NOT NULL,
+	fk_clas_tema integer NOT NULL,
+	
+    CONSTRAINT T1_PIEZA_INTELIGENCIA_PK PRIMARY KEY (id),
+	CONSTRAINT T1_PIEZA_INTELIGENCIA_CLAS_TEMA_FK FOREIGN KEY (fk_clas_tema) REFERENCES T1_CLAS_TEMA (id)
+);
+
+CREATE TABLE T1_ADQUISICION (
+
+    id integer NOT NULL,
+
+	fecha_hora_venta timestamp NOT NULL,
+
+	fk_cliente integer NOT NULL,
+    fk_pieza_inteligencia integer NOT NULL,
+	
+	CONSTRAINT T1_ADQUISICION_PK PRIMARY KEY (id, fk_cliente, fk_pieza_inteligencia),
+
+    CONSTRAINT T1_ADQUISICION_CLIENTE_FK FOREIGN KEY (fk_cliente) REFERENCES T1_CLIENTE (id),
+    CONSTRAINT T1_ADQUISICION_PIEZA_INTELIGENCIA_FK FOREIGN KEY (fk_pieza_inteligencia) REFERENCES T1_PIEZA_INTELIGENCIA (id)
+	
+);
+
 
 
 
@@ -9293,168 +9377,104 @@ GRANT EXECUTE ON PROCEDURE DESPIDO_RENUNCIA_PERSONAL_INTELIGENCIA (integer,integ
 
 
 ----------///////////- ------------------------------------------------------------------------------------ ///////////----------
-----------//////////////- Create tablas T1   -- EJECUTAR COMO DEV -//////////////----------
+----------//////////- 		    EXTRACCION DE DATOS - METRICA 3 y 4  	-- EJECUTAR COMO DEV 		     -//////////----------
 ----------///////////- ----------------------------------------------------------------------------------- ///////////----------
 
 
 
---
---
---CREATE TABLE T1_LUGAR(
---
---    id serial NOT NULL,
---
---    nombre varchar(50) NOT NULL,
---    tipo varchar(50) NOT NULL, -- 'pais, ciudad'
---    region varchar(50),
---    fk_lugar integer ,
---	fecha_c date,
---	
---    CONSTRAINT LUGAR_PK PRIMARY KEY (id),
---    CONSTRAINT LUGAR_LUGAR_FK FOREIGN KEY (fk_lugar) REFERENCES LUGAR_TI (id),
---    CONSTRAINT LUGAR_CH_tipo CHECK ( tipo IN ('ciudad', 'pais') ),
---    CONSTRAINT LUGAR_CH_region CHECK ( region IN ('europa', 'africa', 'america_sur', 'america_norte', 'asia', 'oceania') )
---);
---
---
---CREATE TABLE T1_CLIENTE (
---
---    id serial NOT NULL,
---
---    nombre_empresa varchar(100) NOT NULL,
---    pagina_web varchar(100) NOT NULL,
---    
---    fecha_c date,
---    fk_lugar_pais integer NOT NULL,
---    
---    CONSTRAINT CLIENTE_PK PRIMARY KEY (id),
---	CONSTRAINT CLIENTE_LUGAR_FK FOREIGN KEY (fk_lugar_pais) REFERENCES LUGAR (id)
---);
---
---CREATE TABLE T1_CLAS_TEMA (
---
---    id serial NOT NULL,
---
---    nombre varchar(255) NOT NULL,
---    descripcion varchar(500) NOT NULL,
---    topico varchar(50) NOT NULL, -- 'paises, individuos, eventos, empresas' 
---
---    CONSTRAINT CLAS_TEMA_PK PRIMARY KEY (id),
---
---    CONSTRAINT CLAS_TEMA_CH_topico CHECK ( topico IN ('paises', 'individuos', 'eventos', 'empresas') )    
---);
---
---CREATE TABLE T1_AREA_INTERES (
---
---    fk_clas_tema integer NOT NULL,
---    fk_cliente integer NOT NULL,
---
---	CONSTRAINT AREA_INTERES_CLAS_TEMA_FK FOREIGN KEY (fk_clas_tema) REFERENCES T1_CLAS_TEMA (id),
---	CONSTRAINT AREA_INTERES_CLIENTE_FK FOREIGN KEY (fk_cliente) REFERENCES T1_CLIENTE (id),
---	CONSTRAINT AREA_INTERES_PK PRIMARY KEY (fk_clas_tema, fk_cliente)
---);
---
---CREATE TABLE T1_OFICINA_PRINCIPAL (
---
---    id serial NOT NULL,
---
---    nombre varchar(50) NOT NULL,
--- 
-------fk_director_area integer ,
-------fk_director_ejecutivo integer ,
---    fk_lugar_ciudad integer NOT NULL ,
---
---    CONSTRAINT OFICINA_PRINCIPAL_PK PRIMARY KEY (id),
-------CONSTRAINT OFICINA_PRINCIPAL_fk_empleado_jefe FOREIGN KEY (fk_director_area) REFERENCES EMPLEADO_JEFE (id),
-------CONSTRAINT OFICINA_PRINCIPAL_fk_empleado_jefe_2 FOREIGN KEY (fk_director_ejecutivo) REFERENCES EMPLEADO_JEFE (id),
---	CONSTRAINT OFICINA_PRINCIPAL_LUGAR_FK FOREIGN KEY (fk_lugar_ciudad) REFERENCES LUGAR (id)
---);
---
---CREATE TABLE T1_PIEZA_INTELIGENCIA (
---
---    id serial NOT NULL,
---
---   
---    --fks hist_cargo
-------fk_fecha_inicio_analista timestamp NOT NULL,
-------fk_personal_inteligencia_analista integer NOT NULL,
-------fk_estacion_analista integer NOT NULL,
-------fk_oficina_principal_analista integer NOT NULL,
---
---    fk_clas_tema integer NOT NULL,
---
---    CONSTRAINT PIEZA_INTELIGENCIA_PK PRIMARY KEY (id),
---    
-------CONSTRAINT PIEZA_INTELIGENCIA_HIST_CARGO_FK FOREIGN KEY (fk_fecha_inicio_analista, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista) REFERENCES HIST_CARGO (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal),
---
---	CONSTRAINT PIEZA_INTELIGENCIA_CLAS_TEMA_FK FOREIGN KEY (fk_clas_tema) REFERENCES CLAS_TEMA (id)
---    
-------CONSTRAINT PIEZA_INTELIGENCIA_CH_class_seguridad CHECK ( class_seguridad IN ('top_secret', 'confidencial', 'no_clasificado') ),
-------CONSTRAINT PIEZA_INTELIGENCIA_CH_nivel_confiabilidad CHECK ( nivel_confiabilidad >= 0 AND nivel_confiabilidad <= 100 )    
---);
---
---CREATE TABLE T1_ADQUISICION (
---
---    id serial NOT NULL,
---
---    
---    
---    CONSTRAINT ADQUISICION_PK PRIMARY KEY (id, fk_cliente, fk_pieza_inteligencia),
---
---	CONSTRAINT ADQUISICION_CLIENTE_FK FOREIGN KEY (fk_cliente) REFERENCES CLIENTE (id),
---	CONSTRAINT ADQUISICION_PIEZA_INTELIGENCIA_FK FOREIGN KEY (fk_pieza_inteligencia) REFERENCES PIEZA_INTELIGENCIA (id)
---);
---
---
---
---
---
---
---
---
-------------///////////- ------------------------------------------------------------------------------------ ///////////----------
-------------//////////////- Procedimientos de copia tablas base a T1   -- EJECUTAR COMO DEV -//////////////----------
-------------///////////- ----------------------------------------------------------------------------------- ///////////----------
---
---
---
---CREATE OR REPLACE PROCEDURE COPIA_DESEMEPÑO_AII ()
---LANGUAGE PLPGSQL
---SECURITY DEFINER
---AS $$
---DECLARE 
---    maxid INTEGER;
---BEGIN
---    maxid = (Select max(id) from CLAS_TEMA);
---    INSERT INTO T1_CLAS_TEMA (nombre, descripcion, topico, fechac) 
---    SELECT nombre, descripcion, topico, NOW() FROM CLAS_TEMA c
---        WHERE c.id > maxid;
---    
---    
---    
---END
---$$;
---
---
---
---
---
---
---
---
---
---
---
---
---
---
---
---
---
---
---
---
---
+
+
+
+
+CREATE OR REPLACE PROCEDURE COPIA_T1_DESEMPEÑO_AII ()
+LANGUAGE PLPGSQL
+SECURITY DEFINER
+AS $$
+DECLARE 
+    maxid INTEGER;
+	n_filas_afect integer;
+BEGIN
+    
+	SELECT COALESCE(max(id), 0) INTO maxid from T1_CLAS_TEMA;
+    
+	INSERT INTO T1_CLAS_TEMA (id, nombre, descripcion, topico) 
+    SELECT id, nombre, descripcion, topico FROM CLAS_TEMA c
+        WHERE c.id > maxid;
+	GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
+
+   	RAISE NOTICE 'Filas insertadas en T1_CLAS_TEMA: %', n_filas_afect;
+
+   
+    -- maxid := (Select max(id) from T1_CLIENTE);
+    -- INSERT INTO T1_CLIENTE (id, nombre_empresa, pagina_web, fk_lugar_pais) 
+    -- SELECT id, nombre_empresa, pagina_web, fk_lugar_pais FROM CLIENTE c
+    --     WHERE c.id > maxid;
+    -- maxid := 0;
+    
+    -- maxid := (Select max(id) from T1_OFICINA_PRINCIPAL);
+    -- INSERT INTO T1_OFICINA_PRINCIPAL (id, nombre, fk_lugar_ciudad) 
+    -- SELECT id, nombre, fk_lugar_ciudad FROM OFICINA_PRINCIPAL c
+    --     WHERE c.id > maxid;
+    -- maxid := 0;
+
+
+    -- maxid := (Select max(id) from T1_LUGAR);
+    -- INSERT INTO T1_LUGAR (id, nombre, tipo, region, fk_lugar) 
+    -- SELECT id, nombre, tipo, region, fk_lugar FROM LUGAR c
+    --     WHERE c.id > maxid;
+    -- maxid := 0;
+
+
+    -- maxid := (Select max(id) from T1_AREA_INTERES);
+    -- INSERT INTO T1_AREA_INTERES (id, fk_clas_tema, fk_cliente) 
+    -- SELECT id, fk_clas_tema, fk_cliente FROM AREA_INTERES c
+    --     WHERE c.id > maxid;
+    -- maxid := 0;
+
+
+
+    -- maxid := (Select max(id) from T1_PIEZA_INTELIGENCIA); -- T1_PIEZA_INTELIGENCIA = PIEZA_INTELIGENCIA + PIEZA_INTELIGENCIA_ALT
+    -- INSERT INTO T1_PIEZA_INTELIGENCIA (id, fk_clas_tema) 
+    -- SELECT id, fk_clas_tema FROM PIEZA_INTELIGENCIA c
+    --     WHERE c.id > maxid;
+    
+    -- INSERT INTO T1_PIEZA_INTELIGENCIA (id, fk_clas_tema) 
+    -- SELECT id, fk_clas_tema FROM PIEZA_INTELIGENCIA_ALT c
+    --     WHERE c.id > maxid;
+    -- maxid := 0;
+
+
+
+    -- maxid := (Select max(id) from T1_ADQUISICION); -- T1_ADQUISICION = ADQUISICION + ADQUISICION_ALT
+    -- INSERT INTO T1_ADQUISICION (id, fk_cliente, fk_pieza_inteligencia) 
+    -- SELECT id, fecha_hora_venta, precio_vendido, fk_cliente, fk_pieza_inteligencia FROM ADQUISICION c
+    --     WHERE c.id > maxid;
+
+    -- INSERT INTO T1_ADQUISICION (id, fk_cliente, fk_pieza_inteligencia) 
+    -- SELECT id, fecha_hora_venta, precio_vendido, fk_cliente, fk_pieza_inteligencia FROM ADQUISICION_ALT c
+    --     WHERE c.id > maxid;
+    -- maxid := 0;
+
+END
+$$;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

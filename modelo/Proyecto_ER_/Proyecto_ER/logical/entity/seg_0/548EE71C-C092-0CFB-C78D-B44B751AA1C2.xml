@@ -49,6 +49,16 @@
 <use>0</use>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
+<Attribute name="fecha_venta" id="FDBCAD43-7F69-9F50-D849-54A1F4581184">
+<createdBy>alex</createdBy>
+<createdTime>2022-02-08 18:54:09 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
 <identifier id="343DFEBD-089A-42C6-AB4E-1FE4CC27A361" name="COMPRA / ADQUISICION PK">
