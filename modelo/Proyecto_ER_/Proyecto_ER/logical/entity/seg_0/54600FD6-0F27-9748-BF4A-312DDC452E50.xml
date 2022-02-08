@@ -1,0 +1,89 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="54600FD6-0F27-9748-BF4A-312DDC452E50" name="T2_CLAS_TEMA">
+<createdBy>alex</createdBy>
+<createdTime>2022-02-08 04:49:46 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="00347317-0E16-60AA-3162-9076B6E7AAA1">
+<createdBy>alex</createdBy>
+<createdTime>2022-02-08 04:49:46 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="nombre" id="B3B02043-1D23-5FC0-A3FC-60E40AF6D5F9">
+<createdBy>alex</createdBy>
+<createdTime>2022-02-08 04:49:46 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="descripcion" id="524DE479-DAD5-E2EC-4F97-E0463FFC6C9A">
+<createdBy>alex</createdBy>
+<createdTime>2022-02-08 04:49:46 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="topico" id="49DD06B4-B4B4-8547-BAD4-548BB398B78A">
+<createdBy>alex</createdBy>
+<createdTime>2022-02-08 04:49:46 UTC</createdTime>
+<commentInRDBMS><![CDATA[paises
+individuos
+eventos
+empresas]]></commentInRDBMS>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="fechac" id="047725D3-1257-B1B2-018E-AD3A869C61E5">
+<createdBy>alex</createdBy>
+<createdTime>2022-02-08 04:56:49 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="CF37296A-4AA6-BC3E-1CFE-7BAAE62952F6" name="CLAS_TEMA PK">
+<createdBy>alex</createdBy>
+<createdTime>2022-02-08 04:49:46 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>00347317-0E16-60AA-3162-9076B6E7AAA1</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

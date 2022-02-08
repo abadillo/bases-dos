@@ -1,0 +1,81 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="F3061AB9-CE1C-7711-B5CA-7C21FB039067" name="T2_ADQUISICION">
+<createdBy>alex</createdBy>
+<createdTime>2022-02-08 04:49:46 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id" id="32C87C07-E3B5-F2E7-CB5A-2A198875CB82">
+<createdBy>alex</createdBy>
+<createdTime>2022-02-08 04:49:46 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id2" id="522349C1-3C45-F3A4-2C7F-AED201EC1689">
+<createdBy>alex</createdBy>
+<createdTime>2022-02-08 04:49:46 UTC</createdTime>
+<generatorID>CE0FBB82-D6A5-43AB-E98A-C4CDB8403BAB</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>0881E854-2CAC-A2A6-1115-3438E4EF9367</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id1" id="30DA2EC9-02B2-B8EE-774F-25503CB02B8C">
+<createdBy>alex</createdBy>
+<createdTime>2022-02-08 04:49:46 UTC</createdTime>
+<generatorID>62594834-94C6-1B41-2B96-1D5C64AF2B2C</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>FE29D0A0-09C5-6E2A-576B-898998C64073</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="fechac" id="7DD0B44B-9DEF-2263-867C-655374BB8334">
+<createdBy>alex</createdBy>
+<createdTime>2022-02-08 04:57:28 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="A34F8BB5-1E27-8AE9-BAB5-2DE8C832B94B" name="COMPRA / ADQUISICION PK">
+<createdBy>alex</createdBy>
+<createdTime>2022-02-08 04:49:46 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>522349C1-3C45-F3A4-2C7F-AED201EC1689</attributeRef>
+<attributeRef>30DA2EC9-02B2-B8EE-774F-25503CB02B8C</attributeRef>
+<attributeRef>32C87C07-E3B5-F2E7-CB5A-2A198875CB82</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
