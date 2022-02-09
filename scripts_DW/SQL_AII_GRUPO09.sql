@@ -9755,10 +9755,10 @@ DECLARE
 	
 BEGIN
     
-	RAISE NOTICE ' ';
-	RAISE NOTICE 'PROCEDIMIENTO TRANSFORMACION_T3_DESEMPENO_AII_DIMENSIONES - %', NOW();
-	RAISE NOTICE '-----------------------------------------------------';
-	RAISE NOTICE ' ';
+--	RAISE NOTICE ' ';
+--	RAISE NOTICE 'PROCEDIMIENTO TRANSFORMACION_T3_DESEMPENO_AII_DIMENSIONES - %', NOW();
+--	RAISE NOTICE '-----------------------------------------------------';
+--	RAISE NOTICE ' ';
 
 
 	-- T3_CLIENTE
@@ -9785,6 +9785,7 @@ BEGIN
 	GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
 
    	RAISE NOTICE 'Filas insertadas en T3_REGION_OFICINA: %', n_filas_afect;
+   	RAISE NOTICE ' ';
 
 	
    	IF (semestre = 0) THEN
@@ -9826,20 +9827,136 @@ BEGIN
 	
 	año_timestamp_ini := to_timestamp(año, 'YYYY');	
 
-	RAISE NOTICE 'año metrica %', año_timestamp_ini;
+	
+
+	-- METRICAS ANUALES
 
 	IF (semestre = 0) THEN
 	
 		año_timestamp_fin := año_timestamp_ini + interval '1 year';
 		
-   	ELSIF (semestre = 1) THEN
+		RAISE NOTICE ' ';
+		RAISE NOTICE 'METRICAS ANUALES - %', año;
+		RAISE NOTICE '-----------------------------------------------------';
+		RAISE NOTICE ' ';
+		
+		-- metrica cliente mas activo
+	
+		INSERT INTO T3_DESEMPEÑO_AII (id_region_oficina, id_cliente, clienteMasActivo_año, numeroComprasCliente_año, id_tiempo) 
+	  
+			SELECT DISTINCT ON (c.fk_region_oficina) c.fk_region_oficina, c.id, c.nombre_empresa, count(a.id) as numero_compras, (año::INTEGER)*10+semestre 
+			from t2_cliente c, t2_adquisicion a 
+			WHERE c.id = a.fk_cliente 
+			AND a.fecha_hora_venta BETWEEN año_timestamp_ini AND año_timestamp_fin
+			GROUP BY c.id, c.nombre_empresa 
+			ORDER BY c.fk_region_oficina ASC, numero_compras DESC;
+	
+	    GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
+	
+	   
+	   	RAISE NOTICE '--- > Filas insertadas por metrica cliente: %', n_filas_afect;
+	   	RAISE NOTICE '---------------------';
+	  	RAISE NOTICE ' ';
+	   
+	   	IF (n_filas_afect > 0) THEN 
+	   
+	   		CALL transformacion_t3_desempeno_aii_dimensiones(año,semestre);
+	   	
+	   	END IF;
+	   
+	   
+	   -- metrica tema mas popular
+	   
+	   INSERT INTO T3_DESEMPEÑO_AII (id_region_oficina, id_tema, temaMayorDemanda_año, numeroVentasTema_año, id_tiempo) 
+	  
+			SELECT DISTINCT ON (c.fk_region_oficina) c.fk_region_oficina, p.fk_clas_tema, t.nombre , count(p.fk_clas_tema) as numero_tema, (año::INTEGER)*10+semestre   
+			from t2_cliente c, t2_adquisicion a, t2_pieza_inteligencia p, t2_clas_tema t
+			WHERE p.id = a.fk_pieza_inteligencia AND a.fk_cliente = c.id AND p.fk_clas_tema = t.id
+			AND a.fecha_hora_venta BETWEEN año_timestamp_ini AND año_timestamp_fin
+			GROUP BY fk_region_oficina, fk_clas_tema, t.nombre
+			ORDER BY c.fk_region_oficina ASC,  numero_tema DESC;
+	
+	    GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
+	
+	   	RAISE NOTICE '--- > Filas insertadas por metrica tema: %', n_filas_afect;
+	   	RAISE NOTICE '---------------------';
+	  	RAISE NOTICE ' ';
+	   
+	   	IF (n_filas_afect > 0) THEN 
+	   
+	   		CALL transformacion_t3_desempeno_aii_dimensiones(año,semestre);
+	   	
+	   	END IF;
+		
+	   
+	   
+	   --- METRICAS SEMESTRALES 
+	   
+	   
+   	ELSIF (semestre = 1 or semestre = 2 ) THEN
    		
-   		año_timestamp_fin := año_timestamp_ini + interval '6 months';
+   		IF (semestre = 1) THEN
+   			año_timestamp_fin := año_timestamp_ini + interval '6 months';
    	
-   	ELSIF (semestre = 2) THEN
+   		ELSE 
+	   		año_timestamp_fin := año_timestamp_ini + interval '1 year';
+	   		año_timestamp_ini := año_timestamp_ini + interval '6 months';
    		
-   		año_timestamp_fin := año_timestamp_ini + interval '1 year';
-   		año_timestamp_ini := año_timestamp_ini + interval '6 months';
+   		END IF;
+  
+   		RAISE NOTICE ' ';
+		RAISE NOTICE 'METRICAS SEMESTRALES - año % - semestre %', año, semestre;
+		RAISE NOTICE '-----------------------------------------------------';
+		RAISE NOTICE ' ';
+   	
+   		
+		-- metrica cliente mas activo
+	
+		INSERT INTO T3_DESEMPEÑO_AII (id_region_oficina, id_cliente, clienteMasActivo_semestre, numeroComprasCliente_semestre, id_tiempo) 
+	  
+			SELECT DISTINCT ON (c.fk_region_oficina) c.fk_region_oficina, c.id, c.nombre_empresa, count(a.id) as numero_compras, (año::INTEGER)*10+semestre 
+			from t2_cliente c, t2_adquisicion a 
+			WHERE c.id = a.fk_cliente 
+			AND a.fecha_hora_venta BETWEEN año_timestamp_ini AND año_timestamp_fin
+			GROUP BY c.id, c.nombre_empresa 
+			ORDER BY c.fk_region_oficina ASC, numero_compras DESC;
+	
+	    GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
+	
+	   	RAISE NOTICE '--- > Filas insertadas por metrica cliente: %', n_filas_afect;
+	   	RAISE NOTICE '---------------------';
+	  	RAISE NOTICE ' ';
+	   
+	   	IF (n_filas_afect > 0) THEN 
+	   
+	   		CALL transformacion_t3_desempeno_aii_dimensiones(año,semestre);
+	   	
+	   	END IF;
+	   
+	   
+	   -- metrica tema mas popular
+	   
+	   INSERT INTO T3_DESEMPEÑO_AII (id_region_oficina, id_tema, temaMayorDemanda_semestre, numeroVentasTema_semestre, id_tiempo) 
+	  
+			SELECT DISTINCT ON (c.fk_region_oficina) c.fk_region_oficina, p.fk_clas_tema, t.nombre , count(p.fk_clas_tema) as numero_tema, (año::INTEGER)*10+semestre   
+			from t2_cliente c, t2_adquisicion a, t2_pieza_inteligencia p, t2_clas_tema t
+			WHERE p.id = a.fk_pieza_inteligencia AND a.fk_cliente = c.id AND p.fk_clas_tema = t.id
+			AND a.fecha_hora_venta BETWEEN año_timestamp_ini AND año_timestamp_fin
+			GROUP BY fk_region_oficina, fk_clas_tema, t.nombre
+			ORDER BY c.fk_region_oficina ASC,  numero_tema DESC;
+	
+	    GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
+	
+	   	RAISE NOTICE '--- > Filas insertadas por metrica tema: %', n_filas_afect;
+	   	RAISE NOTICE '---------------------';
+	  	RAISE NOTICE ' ';
+	   
+	   	IF (n_filas_afect > 0) THEN 
+	   
+	   		CALL transformacion_t3_desempeno_aii_dimensiones(año,semestre);
+	   	
+	   	END IF;
+   	
    	
    	ELSE 
    	
@@ -9848,47 +9965,7 @@ BEGIN
    	END IF;
    	
 		
-	-- metrica cliente mas activo
-
-	INSERT INTO T3_DESEMPEÑO_AII (id_region_oficina, id_cliente, clienteMasActivo_año, numeroComprasCliente_año, id_tiempo) 
-  
-		SELECT DISTINCT ON (c.fk_region_oficina) c.fk_region_oficina, c.id, c.nombre_empresa, count(a.id) as numero_compras, (año::INTEGER)*10+semestre 
-		from t2_cliente c, t2_adquisicion a 
-		WHERE c.id = a.fk_cliente 
-		AND a.fecha_hora_venta BETWEEN año_timestamp_ini AND año_timestamp_fin
-		GROUP BY c.id, c.nombre_empresa 
-		ORDER BY c.fk_region_oficina ASC, numero_compras DESC;
-
-    GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
-
-   	RAISE NOTICE 'Filas insertadas en T3_DESEMPEÑO_AII - metrica cliente: %', n_filas_afect;
-   
-   	IF (n_filas_afect > 0) THEN 
-   
-   		CALL transformacion_t3_desempeno_aii_dimensiones(año,semestre);
-   	
-   	END IF;
-   
-   -- metrica tema mas popular
-   
-   INSERT INTO T3_DESEMPEÑO_AII (id_region_oficina, id_tema, temaMayorDemanda_año, numeroVentasTema_año, id_tiempo) 
-  
-		SELECT DISTINCT ON (c.fk_region_oficina) c.fk_region_oficina, p.fk_clas_tema, t.nombre , count(p.fk_clas_tema) as numero_tema, (año::INTEGER)*10+semestre   
-		from t2_cliente c, t2_adquisicion a, t2_pieza_inteligencia p, t2_clas_tema t
-		WHERE p.id = a.fk_pieza_inteligencia AND a.fk_cliente = c.id AND p.fk_clas_tema = t.id
-		AND a.fecha_hora_venta BETWEEN año_timestamp_ini AND año_timestamp_fin
-		GROUP BY fk_region_oficina, fk_clas_tema, t.nombre
-		ORDER BY c.fk_region_oficina ASC,  numero_tema DESC;
-
-    GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
-
-   	RAISE NOTICE 'Filas insertadas en T3_DESEMPEÑO_AII - metrica tema: %', n_filas_afect;
-   
-   	IF (n_filas_afect > 0) THEN 
-   
-   		CALL transformacion_t3_desempeno_aii_dimensiones(año,semestre);
-   	
-   	END IF;
+	
 
 
 END

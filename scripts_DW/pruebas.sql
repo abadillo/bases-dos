@@ -27,7 +27,9 @@ CALL transformacion_t3_desempeno_aii_dimensiones('2035',1);
 
 select * from t3_tiempo 
 
-CALL transformacion_t3_desempeno_aii('2035',0)
+CALL transformacion_t3_desempeno_aii('2035',0);
+
+CALL transformacion_t3_desempeno_aii('2035',2);
 
 select * from T3_DESEMPEÑO_AII;
 
