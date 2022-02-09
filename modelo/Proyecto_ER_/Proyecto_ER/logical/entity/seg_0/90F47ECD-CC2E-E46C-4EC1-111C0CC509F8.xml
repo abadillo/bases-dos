@@ -1,0 +1,80 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="90F47ECD-CC2E-E46C-4EC1-111C0CC509F8" name="T1_HIST_CARGO">
+<createdBy>alex</createdBy>
+<createdTime>2022-02-09 15:59:35 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="fecha_inicio" id="982C5B78-5634-3E0C-8067-163DB8B42EAD">
+<createdBy>alex</createdBy>
+<createdTime>2022-02-09 15:59:35 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="fecha_fin" id="5860D3F3-C02D-FFFC-0543-0179C10E502A">
+<createdBy>alex</createdBy>
+<createdTime>2022-02-09 15:59:35 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="cargo" id="F0E91C06-A5E1-6039-6871-D73E1463690E">
+<createdBy>alex</createdBy>
+<createdTime>2022-02-09 15:59:35 UTC</createdTime>
+<commentInRDBMS><![CDATA[analista
+agente]]></commentInRDBMS>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id" id="33B3422E-2BC1-ACA6-15A7-06737ACA8295">
+<createdBy>alex</createdBy>
+<createdTime>2022-02-09 15:59:35 UTC</createdTime>
+<generatorID>16FE8568-CACF-30B8-6346-41C13EFBE73B</generatorID>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="true"/>
+</engineerTo>
+<referedAttribute>3E990A01-0E55-DC45-B2F8-E9AE652F1CBF</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="DA0620E8-7F20-3AA0-FCF7-5BB26C617F74" name="HIST_CARGO PK">
+<createdBy>alex</createdBy>
+<createdTime>2022-02-09 15:59:35 UTC</createdTime>
+<ownerDesignName>Proyecto_ER</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="505C1F6D-5793-1F5E-1614-9AFF517CDB91" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>982C5B78-5634-3E0C-8067-163DB8B42EAD</attributeRef>
+<attributeRef>33B3422E-2BC1-ACA6-15A7-06737ACA8295</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

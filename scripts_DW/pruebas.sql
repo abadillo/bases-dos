@@ -1,3 +1,7 @@
+
+-- Equipo 9 – 2034 a 2036
+
+
 CALL EXTRACCION_DESEMPENO_AII(); -- metricas 3 y 4 - copia de tablas fuente a t1
 
 CALL TRANSFORMACION_T2_DESEMPENO_AII();  -- metricas 3 y 4 - transformacion ( copia y tranformacion de tablas t1 a t2 )
@@ -9,6 +13,7 @@ CALL TRANSFORMACION_T3_DESEMPENO_AII('2035',1);   -- metricas 3 y 4 semestral
 
 
 CALL EXTRACCION_A_T1_PRODUCTIVIDAD_EFICACIA(); -- metricas 1 y 2 - copia de tablas fuente a t1
+
 
 
 select * from T1_CLAS_TEMA;

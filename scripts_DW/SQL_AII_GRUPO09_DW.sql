@@ -852,7 +852,15 @@ CREATE TABLE T1_ANALISTA_CRUDO (
 ----------//////////- 			    Create tablas T2 - METRICA 1 y 2  	-- EJECUTAR COMO DEV 		       -//////////----------
 ----------///////////- ----------------------------------------------------------------------------------- ///////////----------
 
+
+DROP TABLE IF EXISTS T2_INFORMANTE CASCADE;
+DROP TABLE IF EXISTS T2_PERSONAL_INTELIGENCIA CASCADE;
+DROP TABLE IF EXISTS T2_CRUDO_PIEZA CASCADE;
+DROP TABLE IF EXISTS T2_CRUDO CASCADE;
+DROP TABLE IF EXISTS T2_ANALISTA_CRUDO CASCADE;
+DROP TABLE IF EXISTS T2_HIST_CARGO CASCADE;
 DROP TABLE IF EXISTS T2_PAIS CASCADE;
+
 
 CREATE TABLE T2_PAIS (
     id integer NOT NULL,
@@ -864,8 +872,122 @@ CREATE TABLE T2_PAIS (
 
 
 
+CREATE TABLE T2_PERSONAL_INTELIGENCIA( -- 
+
+	id INTEGER NOT NULL,
+
+    primer_nombre varchar(50) NOT NULL,
+    segundo_nombre varchar(50),
+    primer_apellido varchar(50) NOT NULL,
+    segundo_apellido varchar(50) NOT NULL,
+    fechac timestamp,
+--    --foreign keys 
+    fk_lugar_ciudad integer NOT NULL,
+
+    CONSTRAINT T2_PERSONAL_INTELIGENCIA_PK PRIMARY KEY (id),
+
+    CONSTRAINT T2_PERSONAL_INTELIGENCIA_LUGAR_FK FOREIGN KEY (fk_lugar_ciudad) REFERENCES T2_PAIS (id)
+    
+);
+
+
+CREATE TABLE T2_HIST_CARGO (
+    
+    fecha_inicio timestamp NOT NULL,
+    cargo varchar(20) NOT NULL, -- 'analista agente'
+    fk_personal_inteligencia integer NOT NULL,
+    fk_estacion integer NOT NULL,
+    fk_oficina_principal integer NOT NULL,
+
+    --CONSTRAINT T1_HIST_CARGO_PK PRIMARY KEY (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal),
+
+    CONSTRAINT T2_HIST_CARGO_PERSONAL_INTELIGENCIA_FK FOREIGN KEY (fk_personal_inteligencia) REFERENCES T2_PERSONAL_INTELIGENCIA (id),
+
+    CONSTRAINT T2_HIST_CARGO_CH_cargo CHECK ( cargo IN ('analista', 'agente') )    
+);
+
+
+CREATE TABLE T2_INFORMANTE ( -- 
+    
+    id integer NOT NULL,
+
+    nombre_clave varchar(100),
+    fechac timestamp,
+
+    -- agente de campo encargado del informante
+    fk_personal_inteligencia_encargado integer NOT NULL,    
+    fk_fecha_inicio_encargado timestamp NOT NULL,
+    fk_estacion_encargado integer NOT NULL,
+    fk_oficina_principal_encargado integer NOT NULL,
+    
+    CONSTRAINT T2_INFORMANTE_PK PRIMARY KEY (id)
+
+
+    -- CONSTRAINT T1_INFORMANTE_HIST_CARGO_encargado FOREIGN KEY (fk_fecha_inicio_encargado, fk_personal_inteligencia_encargado, fk_estacion_encargado, fk_oficina_principal_encargado) 
+    --     REFERENCES T1_HIST_CARGO (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal)
+
+);
+
+
+CREATE TABLE T2_CRUDO_PIEZA( -- 
+    fechac timestamp,
+    fk_pieza_inteligencia integer NOT NULL,
+    fk_crudo integer NOT NULL,
+	
+	
+    CONSTRAINT T2_CRUDO_PIEZA_ALT_PK PRIMARY KEY (fk_pieza_inteligencia, fk_crudo)
+
+);
+
+
+CREATE TABLE T2_CRUDO ( -- 
+
+ 	id integer NOT NULL,
+	fechac timestamp,
+    fk_informante integer,
+
+    --estacion a donde pertence
+    fk_oficina_principal_pertenece integer NOT NULL,
+
+    --agente encargado
+    fk_estacion_agente integer NOT NULL,
+    fk_oficina_principal_agente integer NOT NULL,
+    fk_fecha_inicio_agente timestamp NOT NULL,
+    fk_personal_inteligencia_agente integer NOT NULL,
+
+    CONSTRAINT T2_CRUDO_PK PRIMARY KEY (id),
+
+    -- CONSTRAINT T1_CRUDO_HIST_CARGO_FK FOREIGN KEY (fk_fecha_inicio_agente, fk_personal_inteligencia_agente, fk_estacion_agente, fk_oficina_principal_agente) REFERENCES T1_HIST_CARGO (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal),
+
+    CONSTRAINT T2_CRUDO_INFORMANTE_FK FOREIGN KEY (fk_informante) REFERENCES T2_INFORMANTE (id)
+
+);
+
+
+CREATE TABLE T2_ANALISTA_CRUDO (
+
+
+    fecha_hora timestamp NOT NULL,
+    fk_crudo integer NOT NULL,
+
+    -- fks de hist_cargo
+    fk_fecha_inicio_analista timestamp NOT NULL,
+    fk_personal_inteligencia_analista integer NOT NULL,
+    fk_estacion_analista integer NOT NULL,
+    fk_oficina_principal_analista integer NOT NULL ,
+
+    CONSTRAINT T2_ANALISTA_CRUDO_PK PRIMARY KEY (fk_crudo, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista),
+
+    CONSTRAINT T2_ANALISTA_CRUDO_CRUDO_FK FOREIGN KEY (fk_crudo) REFERENCES T2_CRUDO (id)
+    -- CONSTRAINT T1_ANALISTA_CRUDO_HIST_CARGO_FK FOREIGN KEY (fk_fecha_inicio_analista, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista) REFERENCES T1_HIST_CARGO (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal)
+
+
+);
+
+
+
 ----------///////////- ------------------------------------------------------------------------------------ ///////////----------
-----------//////////- 	 Create tablas T3 - METRICA 1  PRODUCTIVIDAD_EFICACIA 	-- EJECUTAR COMO DEV 		       -//////////----------
+----------//////////- 	 Create tablas T3 - METRICA 1 y 2  PRODUCTIVIDAD_EFICACIA 	-- EJECUTAR COMO DEV 		       -//////////----------
 ----------///////////- ----------------------------------------------------------------------------------- ///////////----------
 
 DROP TYPE IF EXISTS ProdEmpleado CASCADE;
@@ -880,7 +1002,6 @@ CREATE TYPE ProdEmpleado as (
 DROP TABLE IF EXISTS T3_PERSONAL_INTELIGENCIA_LOOKUP CASCADE;
 DROP TABLE IF EXISTS T3_INFORMANTE CASCADE;
 DROP TABLE IF EXISTS T3_PAIS CASCADE;
--- DROP TABLE IF EXISTS T3_TIEMPO CASCADE;
 DROP TABLE IF EXISTS T3_PRODUCTIVIDAD_EFICACIA CASCADE;
 
 CREATE TABLE T3_PERSONAL_INTELIGENCIA_LOOKUP (
@@ -925,14 +1046,8 @@ CREATE TABLE T3_PRODUCTIVIDAD_EFICACIA (
 );
 
 
----
----
----
----
----
----
----
----
+
+
 ---
 ----------///////////- ------------------------------------------------------------------------------------ ///////////----------
 ----------//////////- 		    EXTRACCION DE DATOS  - METRICA 1 y 2  	-- EJECUTAR COMO DEV 		     -//////////----------
@@ -952,6 +1067,17 @@ BEGIN
 	RAISE NOTICE 'EXTRACCION_A_T1_PRODUCTIVIDAD_EFICACIA - %', NOW();
 	RAISE NOTICE '-----------------------------------------------------';
 	RAISE NOTICE ' ';
+	
+
+	-- T1_LUGAR
+    SELECT COALESCE(max(id),0) INTO maxid FROM T1_LUGAR;
+   
+    INSERT INTO T1_LUGAR (id, nombre, tipo, region, fk_lugar) 
+    SELECT id, nombre, tipo, region, fk_lugar FROM LUGAR c
+        WHERE c.id > maxid;
+    GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
+
+	RAISE NOTICE 'Filas insertadas en T1_LUGAR: %', n_filas_afect;
 	
 	-- T1_PERSONAL_INTELIGENCIA
 
@@ -1000,7 +1126,7 @@ BEGIN
         WHERE c.id > maxid;
     GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
 
-	RAISE NOTICE 'Filas insertadas en T1_INFORMANTE_ALT: %', n_filas_afect;
+	RAISE NOTICE 'Filas insertadas de INFORMANTE_ALT: %', n_filas_afect;
     
     -- T1_CRUDO_PIEZA 
     /*
