@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CLIENTE_SEMESTRAL_DESEMPEÑO_AII" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d3c64af4-41e2-43b4-a410-3b49b576b4a7">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="252"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="738"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DW"/>
+	<parameter name="id_Tiempo" class="java.lang.Integer"/>
+	<parameter name="id_Region_Oficina" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[Select id_tiempo, id_region_oficina, id_cliente, clienteMasActivo_semestre, numeroComprasCliente_semestre 
+FROM T3_DESEMPEÑO_AII 
+WHERE id_tiempo = $P{id_Tiempo} and id_tema IS NULL AND id_region_oficina = $P{id_Region_Oficina} ]]>
+	</queryString>
+	<field name="id_tiempo" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_tiempo"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_tiempo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="t3_desempeÑo_aii"/>
+	</field>
+	<field name="id_region_oficina" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_region_oficina"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_region_oficina"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="t3_desempeÑo_aii"/>
+	</field>
+	<field name="id_cliente" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_cliente"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_cliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="t3_desempeÑo_aii"/>
+	</field>
+	<field name="clientemasactivo_semestre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="clientemasactivo_semestre"/>
+		<property name="com.jaspersoft.studio.field.label" value="clientemasactivo_semestre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="t3_desempeÑo_aii"/>
+	</field>
+	<field name="numerocomprascliente_semestre" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="numerocomprascliente_semestre"/>
+		<property name="com.jaspersoft.studio.field.label" value="numerocomprascliente_semestre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="t3_desempeÑo_aii"/>
+	</field>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{id_tiempo}]]></groupExpression>
+		<groupHeader>
+			<band height="50">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="180" height="50" forecolor="#666666" backcolor="#E6E6E6" uuid="37ffb2a2-d46d-4177-a7f5-36e0559003c5"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Identificador del Tiempo        (Año + Semestre)]]></text>
+				</staticText>
+				<textField>
+					<reportElement mode="Opaque" x="180" y="0" width="375" height="50" forecolor="#006699" backcolor="#E6E6E6" uuid="02c20724-8b6f-4ea0-babc-0907a8c13ef0"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="24" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[   $F{id_tiempo}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Group2">
+		<groupExpression><![CDATA[$F{id_region_oficina}]]></groupExpression>
+		<groupHeader>
+			<band height="45">
+				<textField>
+					<reportElement x="210" y="0" width="345" height="44" forecolor="#006699" uuid="e11ed533-d22a-4d90-b87f-b55aaeafd61d"/>
+					<textElement verticalAlignment="Middle">
+						<font size="22" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{id_region_oficina}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="210" height="45" forecolor="#666666" uuid="07aef1a7-c28b-4e41-80f4-590e28d834aa">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Identificador Region_Oficina]]></text>
+				</staticText>
+				<line>
+					<reportElement x="-20" y="0" width="595" height="1" forecolor="#666666" uuid="e92f41a7-23ef-4af3-aa25-32bb78dc52af"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Group3">
+		<groupExpression><![CDATA[$F{id_cliente}]]></groupExpression>
+		<groupHeader>
+			<band height="45">
+				<textField>
+					<reportElement x="210" y="0" width="345" height="44" forecolor="#006699" uuid="eb7fbc56-42eb-4282-be94-a9aa958f47a6"/>
+					<textElement verticalAlignment="Middle">
+						<font size="20" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[   $F{id_cliente}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="210" height="45" forecolor="#666666" uuid="5ae5f697-3707-4934-adad-7aecaef6d44f">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Identificador Cliente]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Group4">
+		<groupExpression><![CDATA[$F{clientemasactivo_semestre}]]></groupExpression>
+		<groupHeader>
+			<band height="90">
+				<textField>
+					<reportElement x="210" y="0" width="345" height="45" forecolor="#006699" uuid="2993890d-7453-4b50-8ac9-9de9a7ee09c0">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[   $F{clientemasactivo_semestre}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="210" height="45" forecolor="#666666" uuid="bb30210f-29c4-4ccd-864c-f1bf23b92acb">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Nombre del Cliente]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="210" y="45" width="345" height="45" forecolor="#006699" uuid="1894e1a6-3a17-497c-b272-dd3f93acf3f3">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[   $F{numerocomprascliente_semestre}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="45" width="210" height="45" forecolor="#666666" uuid="7eaf01d7-e451-4451-9abb-40d6ae9ef44b">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Cantidad de Compras]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="numerocomprascliente_semestre">
+		<groupExpression><![CDATA[$F{numerocomprascliente_semestre}]]></groupExpression>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="b8a1cf0c-3967-4efe-b6a9-e18d8b66faa7"/>
+				<staticText>
+					<reportElement x="20" y="20" width="410" height="43" forecolor="#FFFFFF" uuid="d93d2e6b-9243-471e-9deb-4c12bb7960a0"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[CLIENTE MAS ACTIVO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="490" y="43" width="84" height="20" forecolor="#FFFFFF" uuid="2f541d1f-cfc7-45b1-a56b-d3fdb646b930"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Semestral]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="505e7033-8f41-4bad-b50e-4bb879b6d67b"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="90db57e1-5eac-4193-bc2c-3f1b367913a8"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="072707a3-1731-4a95-8fcf-1938911edd70"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="5cec2e0d-5e8f-46f0-9c1b-dbfe19ceb468"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13" uuid="34e55b05-10f1-4a88-9afb-d7b3c1d19912"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>
