@@ -299,6 +299,65 @@ CREATE TABLE T2_PAIS (
 
 
 
+----------///////////- ------------------------------------------------------------------------------------ ///////////----------
+----------//////////- 	 Create tablas T3 - METRICA 1  PRODUCTIVIDAD_EFICACIA 	-- EJECUTAR COMO DEV 		       -//////////----------
+----------///////////- ----------------------------------------------------------------------------------- ///////////----------
+
+
+DROP TABLE IF EXISTS T3_PERSONAL_INTELIGENCIA_LOOKUP CASCADE;
+DROP TABLE IF EXISTS T3_INFORMANTE CASCADE;
+DROP TABLE IF EXISTS T3_PAIS CASCADE;
+DROP TABLE IF EXISTS T3_TIEMPO CASCADE;
+DROP TABLE IF EXISTS T3_PRODUCTIVIDAD_EFICACIA CASCADE;
+
+CREATE TABLE T3_PERSONAL_INTELIGENCIA_LOOKUP (
+	
+	id_personal_inteligencia INTEGER,
+	nombre VARCHAR(100),
+	fechac TIMESTAMP
+	
+);
+
+CREATE TABLE T3_INFORMANTE (
+
+	id_informante INTEGER,
+	nombre_clave VARCHAR(50),
+	id_personal_inteligencia INTEGER,
+	fechac TIMESTAMP,
+	fk_personal INTEGER
+		
+);
+
+
+CREATE TABLE T3_TIEMPO (
+
+    id_tiempo INTEGER NOT NULL,
+    semestre SMALLINT,
+    año DATE   
+
+);
+
+CREATE TABLE T3_PAIS (
+
+	id_pais INTEGER,
+	nombre VARCHAR(50),
+	fechac timestamp	
+);
+
+CREATE TABLE T3_PRODUCTIVIDAD_EFICACIA (
+    id_tiempo integer NOT NULL,
+    id_lugar integer,
+    id_informante integer,
+    id_oficina integer,
+    id_personal integer,
+    %EficaciaInformante numeric (6,3),
+    %ProdPromedioAgentesPais numeric (6,3),
+    %ProdPromedioAnalistasPais numeric (6,3),
+    %ProdPromedioAgentesOficina numeric (6,3),
+    %ProdPromedioAnalistasOficina numeric (6,3),
+    %ProdGeneralAgente ProdEmpleado,
+    %ProdGeneralAnalista ProdEmpleado
+)
 
 
 ---
