@@ -45,10 +45,22 @@ CALL transformacion_t3_desempeno_aii('2035',1);
 select * from T3_DESEMPEÑO_AII;
 
 
+
+
+-- SELECTS sin distinct -- metricas 3 y 4
+
 SELECT c.fk_region_oficina, p.fk_clas_tema, t.nombre 
 from t2_cliente c, t2_adquisicion a, t2_pieza_inteligencia p, t2_clas_tema t
 WHERE p.id = a.fk_pieza_inteligencia AND a.fk_cliente = c.id AND p.fk_clas_tema = t.id
 --AND a.fecha_hora_venta BETWEEN año_timestamp_ini AND año_timestamp_fin
 ORDER BY c.fk_region_oficina ASC;
 
+
+SELECT c.fk_region_oficina, c.id, c.nombre_empresa, count(a.id) as numero_compras 
+from t2_cliente c, t2_adquisicion a 
+WHERE c.id = a.fk_cliente 
+-- AND a.fecha_hora_venta BETWEEN año_timestamp_ini AND año_timestamp_fin
+GROUP BY c.id, c.nombre_empresa 
+ORDER BY c.fk_region_oficina ASC, numero_compras DESC;
  
+
