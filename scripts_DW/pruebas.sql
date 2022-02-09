@@ -14,6 +14,14 @@
 -- 3. Visualización de los indicadores o métricas – visualización parametrizada y explicación. La explicación adecuada se deriva del modelo estrella implementado. (6 pts)
 
 
+--EUROPA ('Ofi. Ginebra', true, 2, 1, 38),   -- 1
+--AMERICA_NORTE ('Ofi. Washington', false, 4, null, 40),    --2
+--AMERICA_SUR ('Ofi. Buenos Aires', false, 5, null, 19),  -- 3
+--ASIA ('Ofi. Singapur', false, 6, null, 42),  -- 4
+--AFRICA ('Ofi. El Cairo', false, 8, null, 44),  -- 5
+--OCEANIA ('Ofi. Sidney', false, 10, null, 34), -- 6
+
+
 CALL EXTRACCION_DESEMPENO_AII(); -- metricas 3 y 4 - copia de tablas fuente a t1
 
 CALL TRANSFORMACION_T2_DESEMPENO_AII();  -- metricas 3 y 4 - transformacion ( copia y tranformacion de tablas t1 a t2 )
