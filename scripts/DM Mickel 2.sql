@@ -290,4 +290,4 @@ CREATE TABLE PRODUCTIVIDAD_EFICACIA (
     %ProdPromedioAnalistasOficina numeric (6,3),
     %ProdGeneralAgente ProdEmpleado,
     %ProdGeneralAnalista ProdEmpleado
-)
+);

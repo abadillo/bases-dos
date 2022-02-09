@@ -1,10 +1,6 @@
-﻿-- Se crean tablas Dim con los mismos cambos de las tablas iniciales? SE MODIFICAN SEGUND LO NECESARIO
--- Tabla lugar o region? NUEVA TABLA REGION_OFICINA
--- fechac en las tablas solo dim? SI
--- Oficina Principal o Estaciones? OFICINAS PRINCIPALES
-
+﻿
 ---------------------------------- TABLAS DIMENSION -------------------------------
-
+/*
 DROP TABLE IF EXISTS DimLugar CASCADE;
 
 CREATE TABLE DimLugar (
@@ -69,7 +65,7 @@ CREATE TABLE DimOFICINA_PRINCIPAL (
     CONSTRAINT OFICINA_PRINCIPAL_LUGAR_FK FOREIGN KEY (fk_lugar_ciudad) REFERENCES LUGAR (id)
 );
 
-
+*/
 
 
 ------------------------------------------ TABLAS FACT -----------------------------------
@@ -93,142 +89,26 @@ CREATE TABLE Desempeño_AII (
     temaMayorDemanda_Semestre VARCHAR(50),
     temaMayorDemanda_Year VARCHAR(50)
 
-)
+);
 
-
-CREATE OR REPLACE PROCEDURE COPIA_T1_DESEMEPÑO_AII ()
-LANGUAGE PLPGSQL
-SECURITY DEFINER
-AS $$
-DECLARE 
-    maxid INTEGER;
-BEGIN
-    maxid := (Select max(id) from T1_CLAS_TEMA);
-    INSERT INTO T1_CLAS_TEMA (id, nombre, descripcion, topico) 
-    SELECT id, nombre, descripcion, topico FROM CLAS_TEMA c
-        WHERE c.id > maxid;
-    maxid := 0;
-    
-
-    maxid := (Select max(id) from T1_CLIENTE);
-    INSERT INTO T1_CLIENTE (id, nombre_empresa, pagina_web, fk_lugar_pais) 
-    SELECT id, nombre_empresa, pagina_web, fk_lugar_pais FROM CLIENTE c
-        WHERE c.id > maxid;
-    maxid := 0;
-    
-    maxid := (Select max(id) from T1_OFICINA_PRINCIPAL);
-    INSERT INTO T1_OFICINA_PRINCIPAL (id, nombre, fk_lugar_ciudad) 
-    SELECT id, nombre, fk_lugar_ciudad FROM OFICINA_PRINCIPAL c
-        WHERE c.id > maxid;
-    maxid := 0;
-
-
-    maxid := (Select max(id) from T1_LUGAR);
-    INSERT INTO T1_LUGAR (id, nombre, tipo, region, fk_lugar) 
-    SELECT id, nombre, tipo, region, fk_lugar FROM LUGAR c
-        WHERE c.id > maxid;
-    maxid := 0;
-
-
-    maxid := (Select max(id) from T1_AREA_INTERES);
-    INSERT INTO T1_AREA_INTERES (id, fk_clas_tema, fk_cliente) 
-    SELECT id, fk_clas_tema, fk_cliente FROM AREA_INTERES c
-        WHERE c.id > maxid;
-    maxid := 0;
-
-
-
-    maxid := (Select max(id) from T1_PIEZA_INTELIGENCIA); -- T1_PIEZA_INTELIGENCIA = PIEZA_INTELIGENCIA + PIEZA_INTELIGENCIA_ALT
-    INSERT INTO T1_PIEZA_INTELIGENCIA (id, fk_clas_tema) 
-    SELECT id, fk_clas_tema FROM PIEZA_INTELIGENCIA c
-        WHERE c.id > maxid;
-    
-    INSERT INTO T1_PIEZA_INTELIGENCIA (id, fk_clas_tema) 
-    SELECT id, fk_clas_tema FROM PIEZA_INTELIGENCIA_ALT c
-        WHERE c.id > maxid;
-    maxid := 0;
-
-
-
-    maxid := (Select max(id) from T1_ADQUISICION); -- T1_ADQUISICION = ADQUISICION + ADQUISICION_ALT
-    INSERT INTO T1_ADQUISICION (id, fk_cliente, fk_pieza_inteligencia) 
-    SELECT id, fecha_hora_venta, precio_vendido, fk_cliente, fk_pieza_inteligencia FROM ADQUISICION c
-        WHERE c.id > maxid;
-
-    INSERT INTO T1_ADQUISICION (id, fk_cliente, fk_pieza_inteligencia) 
-    SELECT id, fecha_hora_venta, precio_vendido, fk_cliente, fk_pieza_inteligencia FROM ADQUISICION_ALT c
-        WHERE c.id > maxid;
-    maxid := 0;
-
-END
-$$;
-
------------------------------
-
-
-CREATE OR REPLACE PROCEDURE COPIA_T2_DESEMEPÑO_AII ()
-LANGUAGE PLPGSQL
-SECURITY DEFINER
-AS $$
-DECLARE 
-    maxid INTEGER;
-BEGIN
-    
-    maxid := (Select max(id) from T2_CLAS_TEMA);
-    INSERT INTO T2_CLAS_TEMA (nombre, descripcion, topico, fechac) 
-    SELECT nombre, descripcion, topico, NOW() FROM T1_CLAS_TEMA c
-        WHERE c.id > maxid;
-    maxid := 0;
-    
-    -- REVISAR
-    maxid := (Select max(id) from T2_CLIENTE);
-    INSERT INTO T2_CLIENTE (nombre_empresa, pagina_web, fk_lugar_pais, fechac) 
-    SELECT nombre_empresa, pagina_web, exclusivo, fk_lugar_pais, NOW() FROM T1_CLIENTE c
-        WHERE c.id > maxid;
-    maxid := 0;
-    
-
--- REVISAR (REGION)
-    maxid := (Select max(id) from T2_LUGAR);
-    INSERT INTO T2_LUGAR (nombre, tipo, region, fk_lugar, fechac) 
-    SELECT nombre, tipo, region, fk_lugar, NOW() FROM T1_LUGAR c
-        WHERE c.id > maxid;
-    maxid := 0;
-----------------------------------------------------------------------
-
-    maxid := (Select max(id) from T2_AREA_INTERES);
-    INSERT INTO T2_LUGAR (fk_clas_tema, fk_cliente, fechac) 
-    SELECT fk_clas_tema, fk_cliente, NOW() FROM T1_AREA_INTERES c
-        WHERE c.id > maxid;
-    maxid := 0;
-
-
-    maxid := (Select max(id) from T2_PIEZA_INTELIGENCIA); -- T1_PIEZA_INTELIGENCIA = PIEZA_INTELIGENCIA + PIEZA_INTELIGENCIA_ALT
-    INSERT INTO T2_PIEZA_INTELIGENCIA (id, fk_clas_tema, fechac) 
-    SELECT id, fk_clas_tema, NOW() FROM T1_PIEZA_INTELIGENCIA c
-        WHERE c.id > maxid;
-    
-    INSERT INTO T2_PIEZA_INTELIGENCIA (id, fk_clas_tema, fechac) 
-    SELECT id, fk_clas_tema, NOW() FROM T1_PIEZA_INTELIGENCIA_ALT c
-        WHERE c.id > maxid;
-    maxid := 0;
-
-
-
-    maxid := (Select max(id) from T2_ADQUISICION); -- T1_ADQUISICION = ADQUISICION + ADQUISICION_ALT
-    INSERT INTO T2_ADQUISICION (id, fk_cliente, fk_pieza_inteligencia, fechac) 
-    SELECT id, fecha_hora_venta, precio_vendido, fk_cliente, fk_pieza_inteligencia, NOW() FROM T1_ADQUISICION c
-        WHERE c.id > maxid;
-
-    INSERT INTO T2_ADQUISICION (id, fk_cliente, fk_pieza_inteligencia, fechac) 
-    SELECT id, fecha_hora_venta, precio_vendido, fk_cliente, fk_pieza_inteligencia, NOW() FROM T1_ADQUISICION_ALT c
-        WHERE c.id > maxid;
-    maxid := 0;
-
-END
-$$;
 --------------------------------------------------------------------------------
+--
+-- 
+-- 
+-- 
+-- 
+-- 
+-- 
+-- 
+---
+---
+---
+---
+---
+---
+---
 
+-- Productividad_Eficacia
 
 --Para la AII es importante tener información confiable relacionada con el desempeño de sus 
 --empleados: productividad2 de los analistas y agentes de campo por año, País, Oficina. La medida 
@@ -240,10 +120,14 @@ $$;
 --qué proporción los hechos crudos aportados por tal informante se han convertido en piezas de 
 --inteligencia). Esta medida se genera semestralmente y se usa en combinación con la productividad 
 --de los agentes
+-- La productividad es un porcentaje que representa la efectividad de las piezas de inteligencia que construyen los analistas, si 
+--se lograra la venta de todas las piezas de un analista particular su productividad sería del 100%. En el caso de los agentes si
+--todo hecho crudo que obtienen hace parte de una pieza de inteligencia vendida tendrían 100% de productividad.
 
--- Productividad_Eficacia
 
-DROP TYPE IF EXISTS contacto_ty CASCADE;
+
+
+DROP TYPE IF EXISTS ProdEmpleado CASCADE;
 
 
 CREATE TYPE ProdEmpleado as (
@@ -257,9 +141,9 @@ DROP TABLE IF EXISTS PRODUCTIVIDAD_EFICACIA CASCADE;
 
 CREATE TABLE PRODUCTIVIDAD_EFICACIA (
     id_tiempo integer NOT NULL,
-    id_lugar integer,
+    id_pais integer,
     id_informante integer,
-    id_oficina integer,
+    id_region_oficina integer,
     id_personal integer,
     %EficaciaInformante numeric (6,3),
     %ProdPromedioAgentesPais numeric (6,3),
@@ -268,7 +152,7 @@ CREATE TABLE PRODUCTIVIDAD_EFICACIA (
     %ProdPromedioAnalistasOficina numeric (6,3),
     %ProdGeneralAgente ProdEmpleado,
     %ProdGeneralAnalista ProdEmpleado
-)
+);
 
 
 
@@ -278,16 +162,126 @@ CREATE TABLE PRODUCTIVIDAD_EFICACIA (
 ----------///////////- ----------------------------------------------------------------------------------- ///////////----------
 
 DROP TABLE IF EXISTS T1_INFORMANTE CASCADE;
+DROP TABLE IF EXISTS T1_PERSONAL_INTELIGENCIA CASCADE;
+DROP TABLE IF EXISTS T1_CRUDO_PIEZA CASCADE;
+DROP TABLE IF EXISTS T1_CRUDO CASCADE;
+DROP TABLE IF EXISTS T1_ANALISTA_CRUDO CASCADE;
+DROP TABLE IF EXISTS T1_HIST_CARGO CASCADE;
 
-CREATE TABLE T1_INFORMANTE (
+
+
+CREATE TABLE T1_PERSONAL_INTELIGENCIA( -- 
+
+id INTEGER NOT NULL,
+
+    primer_nombre varchar(50) NOT NULL,
+    segundo_nombre varchar(50),
+    primer_apellido varchar(50) NOT NULL,
+    segundo_apellido varchar(50) NOT NULL,
+
+--    --foreign keys 
+    fk_lugar_ciudad integer NOT NULL,
+
+    CONSTRAINT T1_PERSONAL_INTELIGENCIA_PK PRIMARY KEY (id),
+
+    CONSTRAINT T1_PERSONAL_INTELIGENCIA_LUGAR_FK FOREIGN KEY (fk_lugar_ciudad) REFERENCES T1_LUGAR (id)
     
-    id serial NOT NULL,
-
-    nombre_clave varchar(100) unique NOT NULL,
-    fk_personal_inteligencia_encargado integer NOT NULL,    
-
-    CONSTRAINT INFORMANTE_PK PRIMARY KEY (id),
 );
+
+
+CREATE TABLE T1_HIST_CARGO (
+    
+    fecha_inicio timestamp NOT NULL,
+    cargo varchar(20) NOT NULL, -- 'analista agente'
+    fk_personal_inteligencia integer NOT NULL,
+    fk_estacion integer NOT NULL,
+    fk_oficina_principal integer NOT NULL,
+
+    --CONSTRAINT T1_HIST_CARGO_PK PRIMARY KEY (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal),
+
+    CONSTRAINT T1_HIST_CARGO_PERSONAL_INTELIGENCIA_FK FOREIGN KEY (fk_personal_inteligencia) REFERENCES T1_PERSONAL_INTELIGENCIA (id),
+
+    CONSTRAINT T1_HIST_CARGO_CH_cargo CHECK ( cargo IN ('analista', 'agente') )    
+);
+
+
+CREATE TABLE T1_INFORMANTE ( -- 
+    
+     id integer NOT NULL,
+
+    nombre_clave varchar(100),
+    
+
+    -- agente de campo encargado del informante
+    fk_personal_inteligencia_encargado integer NOT NULL,    
+    fk_fecha_inicio_encargado timestamp NOT NULL,
+    fk_estacion_encargado integer NOT NULL,
+    fk_oficina_principal_encargado integer NOT NULL,
+    
+    CONSTRAINT T1_INFORMANTE_PK PRIMARY KEY (id)
+
+
+    -- CONSTRAINT T1_INFORMANTE_HIST_CARGO_encargado FOREIGN KEY (fk_fecha_inicio_encargado, fk_personal_inteligencia_encargado, fk_estacion_encargado, fk_oficina_principal_encargado) 
+    --     REFERENCES T1_HIST_CARGO (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal)
+
+);
+
+
+CREATE TABLE T1_CRUDO_PIEZA( -- 
+    
+    fk_pieza_inteligencia integer NOT NULL,
+    fk_crudo integer NOT NULL,
+
+    CONSTRAINT T1_CRUDO_PIEZA_ALT_PK PRIMARY KEY (fk_pieza_inteligencia, fk_crudo)
+
+);
+
+
+CREATE TABLE T1_CRUDO ( -- 
+
+ id integer NOT NULL,
+
+    fk_informante integer,
+
+    --estacion a donde pertence
+    fk_oficina_principal_pertenece integer NOT NULL,
+
+    --agente encargado
+    fk_estacion_agente integer NOT NULL,
+    fk_oficina_principal_agente integer NOT NULL,
+    fk_fecha_inicio_agente timestamp NOT NULL,
+    fk_personal_inteligencia_agente integer NOT NULL,
+
+    CONSTRAINT T1_CRUDO_PK PRIMARY KEY (id),
+
+    -- CONSTRAINT T1_CRUDO_HIST_CARGO_FK FOREIGN KEY (fk_fecha_inicio_agente, fk_personal_inteligencia_agente, fk_estacion_agente, fk_oficina_principal_agente) REFERENCES T1_HIST_CARGO (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal),
+
+    CONSTRAINT T1_CRUDO_INFORMANTE_FK FOREIGN KEY (fk_informante) REFERENCES T1_INFORMANTE (id)
+
+);
+
+
+CREATE TABLE T1_ANALISTA_CRUDO (
+
+
+    fecha_hora timestamp NOT NULL,
+    fk_crudo integer NOT NULL,
+
+    -- fks de hist_cargo
+    fk_fecha_inicio_analista timestamp NOT NULL,
+    fk_personal_inteligencia_analista integer NOT NULL,
+    fk_estacion_analista integer NOT NULL,
+    fk_oficina_principal_analista integer NOT NULL ,
+
+    CONSTRAINT T1_ANALISTA_CRUDO_PK PRIMARY KEY (fk_crudo, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista),
+
+    CONSTRAINT T1_ANALISTA_CRUDO_CRUDO_FK FOREIGN KEY (fk_crudo) REFERENCES T1_CRUDO (id)
+    -- CONSTRAINT T1_ANALISTA_CRUDO_HIST_CARGO_FK FOREIGN KEY (fk_fecha_inicio_analista, fk_personal_inteligencia_analista, fk_estacion_analista, fk_oficina_principal_analista) REFERENCES T1_HIST_CARGO (fecha_inicio, fk_personal_inteligencia, fk_estacion, fk_oficina_principal)
+
+
+);
+
+
 
 ----------///////////- ------------------------------------------------------------------------------------ ///////////----------
 ----------//////////- 			    Create tablas T2 - METRICA 1 y 2  	-- EJECUTAR COMO DEV 		       -//////////----------
@@ -300,17 +294,28 @@ CREATE TABLE T2_PAIS (
     nombre VARCHAR(50) NOT NULL,
     fechac TIMESTAMP NOT NULL,
     
-    CONSTRAINT LUGAR_PK PRIMARY KEY (id)
+    CONSTRAINT T2_LUGAR_PK PRIMARY KEY (id)
 );
 
 
 
 
+
+---
+---
+---
+---
+---
+---
+---
+---
+---
 ----------///////////- ------------------------------------------------------------------------------------ ///////////----------
-----------//////////- 		    EXTRACCION DE DATOS  - METRICA 3 y 4  	-- EJECUTAR COMO DEV 		     -//////////----------
+----------//////////- 		    EXTRACCION DE DATOS  - METRICA 1 y 2  	-- EJECUTAR COMO DEV 		     -//////////----------
 ----------///////////- ----------------------------------------------------------------------------------- ///////////----------
 
-CREATE OR REPLACE PROCEDURE COPIA_T1_DESEMPEÑO_AII ()
+
+CREATE OR REPLACE PROCEDURE EXTRACCION_A_T1_PRODUCTIVIDAD_EFICACIA ()
 LANGUAGE PLPGSQL
 SECURITY DEFINER
 AS $$
@@ -318,78 +323,95 @@ DECLARE
     maxid INTEGER;
 	n_filas_afect integer;
 BEGIN
+        
+	RAISE NOTICE ' ';
+	RAISE NOTICE 'EXTRACCION_A_T1_PRODUCTIVIDAD_EFICACIA - %', NOW();
+	RAISE NOTICE '-----------------------------------------------------';
+	RAISE NOTICE ' ';
+	
+	-- T1_PERSONAL_INTELIGENCIA
+
+    SELECT COALESCE(max(id),0) INTO maxid FROM T1_PERSONAL_INTELIGENCIA;
+   
+    INSERT INTO T1_PERSONAL_INTELIGENCIA 
+        (id, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, fk_lugar_ciudad) 
+    SELECT id, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, fk_lugar_ciudad 
+    FROM PERSONAL_INTELIGENCIA c
+        WHERE c.id > maxid;
+    GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
+
+	RAISE NOTICE 'Filas insertadas en T1_PERSONAL_INTELIGENCIA: %', n_filas_afect;
+	
+
+	-- T1_HIST_CARGO
+    /*
+    fecha_inicio, cargo, fk_personal_inteligencia, fk_estacion, fk_oficina_principal
+
+	SELECT COALESCE(max(id), 0) INTO maxid from T1_HIST_CARGO;
     
-
-
-    INSERT INTO T2_PAIS (id, nombre, fechac)
-    SELECT l.id, l.nombre, NOW() FROM T1_LUGAR l WHERE l.tipo = 'pais' AND l.id > maxid;
-
-
-    INSERT INTO T1_INFORMANTE (id, nombre_clave, fk_personal_inteligencia_encargado)
-    SELECT id, nombre_clave, fk_personal_inteligencia_encargado FROM INFORMANTE
-
-
-	SELECT COALESCE(max(id), 0) INTO maxid from T1_CLAS_TEMA;
-    
-	INSERT INTO T1_CLAS_TEMA (id, nombre, descripcion, topico) 
-    SELECT id, nombre, descripcion, topico FROM CLAS_TEMA c
+	INSERT INTO T1_HIST_CARGO (id, nombre, descripcion, topico) 
+    SELECT id, nombre, descripcion, topico FROM HIST_CARGO c
         WHERE c.id > maxid;
 	GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
 
    	RAISE NOTICE 'Filas insertadas en T1_CLAS_TEMA: %', n_filas_afect;
+    */
 
-   
-    -- maxid := (Select max(id) from T1_CLIENTE);
-    -- INSERT INTO T1_CLIENTE (id, nombre_empresa, pagina_web, fk_lugar_pais) 
-    -- SELECT id, nombre_empresa, pagina_web, fk_lugar_pais FROM CLIENTE c
-    --     WHERE c.id > maxid;
-    -- maxid := 0;
+
+   	-- T1_INFORMANTE 
     
-    -- maxid := (Select max(id) from T1_OFICINA_PRINCIPAL);
-    -- INSERT INTO T1_OFICINA_PRINCIPAL (id, nombre, fk_lugar_ciudad) 
-    -- SELECT id, nombre, fk_lugar_ciudad FROM OFICINA_PRINCIPAL c
-    --     WHERE c.id > maxid;
-    -- maxid := 0;
+    SELECT COALESCE(max(id),0) INTO maxid FROM T1_INFORMANTE;
 
+    INSERT INTO T1_INFORMANTE (id, nombre_clave, fk_personal_inteligencia_encargado, fk_fecha_inicio_encargado, fk_estacion_encargado, fk_oficina_principal_encargado) 
+    SELECT id, nombre_clave, fk_personal_inteligencia_encargado, fk_fecha_inicio_encargado, fk_estacion_encargado, fk_oficina_principal_encargado 
+    FROM INFORMANTE c
+        WHERE c.id > maxid;
+    GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
 
-    -- maxid := (Select max(id) from T1_LUGAR);
-    -- INSERT INTO T1_LUGAR (id, nombre, tipo, region, fk_lugar) 
-    -- SELECT id, nombre, tipo, region, fk_lugar FROM LUGAR c
-    --     WHERE c.id > maxid;
-    -- maxid := 0;
+	RAISE NOTICE 'Filas insertadas en T1_INFORMANTE: %', n_filas_afect;
 
+    INSERT INTO T1_INFORMANTE (id, fk_personal_inteligencia_encargado, fk_fecha_inicio_encargado, fk_estacion_encargado, fk_oficina_principal_encargado) 
+    SELECT id, fk_personal_inteligencia_encargado, fk_fecha_inicio_encargado, fk_estacion_encargado, fk_oficina_principal_encargado 
+    FROM INFORMANTE_ALT c
+        WHERE c.id > maxid;
+    GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
 
-    -- maxid := (Select max(id) from T1_AREA_INTERES);
-    -- INSERT INTO T1_AREA_INTERES (id, fk_clas_tema, fk_cliente) 
-    -- SELECT id, fk_clas_tema, fk_cliente FROM AREA_INTERES c
-    --     WHERE c.id > maxid;
-    -- maxid := 0;
-
-
-
-    -- maxid := (Select max(id) from T1_PIEZA_INTELIGENCIA); -- T1_PIEZA_INTELIGENCIA = PIEZA_INTELIGENCIA + PIEZA_INTELIGENCIA_ALT
-    -- INSERT INTO T1_PIEZA_INTELIGENCIA (id, fk_clas_tema) 
-    -- SELECT id, fk_clas_tema FROM PIEZA_INTELIGENCIA c
-    --     WHERE c.id > maxid;
+	RAISE NOTICE 'Filas insertadas en T1_INFORMANTE_ALT: %', n_filas_afect;
     
-    -- INSERT INTO T1_PIEZA_INTELIGENCIA (id, fk_clas_tema) 
-    -- SELECT id, fk_clas_tema FROM PIEZA_INTELIGENCIA_ALT c
-    --     WHERE c.id > maxid;
-    -- maxid := 0;
+    -- T1_CRUDO_PIEZA 
+    /*
+    fk_pieza_inteligencia, fk_crudo
+    SELECT COALESCE(max(id),0) INTO maxid FROM T1_CRUDO_PIEZA;
+    INSERT INTO T1_OFICINA_PRINCIPAL (id, nombre, fk_lugar_ciudad) 
+    SELECT id, nombre, fk_lugar_ciudad FROM T1_CRUDO_PIEZA c
+        WHERE c.id > maxid;
+    GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
+
+	RAISE NOTICE 'Filas insertadas en T1_CRUDO_PIEZA: %', n_filas_afect;
+    */
+
+	-- T1_CRUDO  
 
 
+    SELECT COALESCE(max(id),0) INTO maxid FROM T1_CRUDO;
+    
+    INSERT INTO T1_CRUDO (id, fk_informante, fk_oficina_principal_pertenece, fk_estacion_agente, fk_oficina_principal_agente, fk_fecha_inicio_agente, fk_personal_inteligencia_agente)
+    SELECT id, fk_informante, fk_oficina_principal_pertenece, fk_estacion_agente, fk_oficina_principal_agente, fk_fecha_inicio_agente, fk_personal_inteligencia_agente 
+    FROM CRUDO c
+        WHERE c.id > maxid;
+	GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
+    
+	RAISE NOTICE 'Filas insertadas en T1_CRUDO: %', n_filas_afect;
 
-    -- maxid := (Select max(id) from T1_ADQUISICION); -- T1_ADQUISICION = ADQUISICION + ADQUISICION_ALT
-    -- INSERT INTO T1_ADQUISICION (id, fk_cliente, fk_pieza_inteligencia) 
-    -- SELECT id, fecha_hora_venta, precio_vendido, fk_cliente, fk_pieza_inteligencia FROM ADQUISICION c
-    --     WHERE c.id > maxid;
+    INSERT INTO T1_CRUDO (id, fk_informante, fk_oficina_principal_pertenece, fk_estacion_agente, fk_oficina_principal_agente, fk_fecha_inicio_agente, fk_personal_inteligencia_agente) 
+    SELECT id, fk_informante, fk_oficina_principal_pertenece, fk_estacion_agente, fk_oficina_principal_agente, fk_fecha_inicio_agente, fk_personal_inteligencia_agente 
+    FROM CRUDO_ALT c
+        WHERE c.id > maxid;
+    GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
 
-    -- INSERT INTO T1_ADQUISICION (id, fk_cliente, fk_pieza_inteligencia) 
-    -- SELECT id, fecha_hora_venta, precio_vendido, fk_cliente, fk_pieza_inteligencia FROM ADQUISICION_ALT c
-    --     WHERE c.id > maxid;
-    -- maxid := 0;
+	RAISE NOTICE 'Filas insertadas de CRUDO_ALT: %', n_filas_afect;
+
 
 END
 $$;
-
 
