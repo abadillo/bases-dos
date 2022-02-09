@@ -9898,16 +9898,16 @@ DROP TABLE IF EXISTS T1_HIST_CARGO CASCADE;
 
 
 
-CREATE TABLE T1_PERSONAL_INTELIGENCIA( -- 
+CREATE TABLE T1_PERSONAL_INTELIGENCIA ( 
 
-id INTEGER NOT NULL,
+	id INTEGER NOT NULL,
 
     primer_nombre varchar(50) NOT NULL,
     segundo_nombre varchar(50),
     primer_apellido varchar(50) NOT NULL,
     segundo_apellido varchar(50) NOT NULL,
 
---    --foreign keys 
+    --foreign keys 
     fk_lugar_ciudad integer NOT NULL,
 
     CONSTRAINT T1_PERSONAL_INTELIGENCIA_PK PRIMARY KEY (id),
@@ -10031,6 +10031,14 @@ CREATE TABLE T2_PAIS (
 ----------//////////- 	 Create tablas T3 - METRICA 1  PRODUCTIVIDAD_EFICACIA 	-- EJECUTAR COMO DEV 		       -//////////----------
 ----------///////////- ----------------------------------------------------------------------------------- ///////////----------
 
+DROP TYPE IF EXISTS ProdEmpleado CASCADE;
+
+CREATE TYPE ProdEmpleado as (
+
+    nombre varchar(200),
+    productividad numeric(6,3)
+);
+
 
 DROP TABLE IF EXISTS T3_PERSONAL_INTELIGENCIA_LOOKUP CASCADE;
 DROP TABLE IF EXISTS T3_INFORMANTE CASCADE;
@@ -10056,15 +10064,6 @@ CREATE TABLE T3_INFORMANTE (
 		
 );
 
-
--- CREATE TABLE T3_TIEMPO (
-
---     id_tiempo INTEGER NOT NULL,
---     semestre SMALLINT,
---     año DATE   
-
--- );
-
 CREATE TABLE T3_PAIS (
 
 	id_pais INTEGER,
@@ -10072,20 +10071,21 @@ CREATE TABLE T3_PAIS (
 	fechac timestamp	
 );
 
+
 CREATE TABLE T3_PRODUCTIVIDAD_EFICACIA (
     id_tiempo integer NOT NULL,
     id_lugar integer,
     id_informante integer,
     id_oficina integer,
     id_personal integer,
-    %EficaciaInformante numeric (6,3),
-    %ProdPromedioAgentesPais numeric (6,3),
-    %ProdPromedioAnalistasPais numeric (6,3),
-    %ProdPromedioAgentesOficina numeric (6,3),
-    %ProdPromedioAnalistasOficina numeric (6,3),
-    %ProdGeneralAgente ProdEmpleado,
-    %ProdGeneralAnalista ProdEmpleado
-)
+    proc_EficaciaInformante numeric (6,3),
+    proc_ProdPromedioAgentesPais numeric (6,3),
+    proc_ProdPromedioAnalistasPais numeric (6,3),
+    proc_ProdPromedioAgentesOficina numeric (6,3),
+    proc_ProdPromedioAnalistasOficina numeric (6,3),
+    proc_ProdGeneralAgente ProdEmpleado,
+    proc_ProdGeneralAnalista ProdEmpleado
+);
 
 
 ---
