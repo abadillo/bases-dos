@@ -9375,72 +9375,6 @@ CREATE TABLE T1_ADQUISICION (
 
 
 
-
-----------///////////- ------------------------------------------------------------------------------------ ///////////----------
-----------//////////- 			    Create tablas T3 - METRICA 3 y 4  	-- EJECUTAR COMO DEV 		       -//////////----------
-----------///////////- ----------------------------------------------------------------------------------- ///////////----------
-
-
-CREATE TABLE TE_TIEMPO (
-
-    	id_tiempo INTEGER NOT NULL,
-    	semestre SMALLINT,
-    	año NUMERIC(4),
-
-    	CONSTRAINT SEMESTRE_CHECK CHECK (semestre = 1 or semestre = 2)
-
-);
-
-
-CREATE TABLE T3_CLIENTE(
-
-	id_cliente INTEGER,
-	nombre_empresa VARCHAR(100),
-	pagina_web VARCHAR(100),
-	fechac TIMESTAMP
-);
-
-CREATE TABLE T3_REGION (
-
-	id_region_oficina integer NOT NULL,
-	nombre_region VARCHAR(100) NOT NULL, 
-	fechac TIMESTAMP,
-	nombre_oficina VARCHAR(100),
-	
-	CONSTRAINT T3_REGION_PK KEY (id_region_oficina)	
-);
-
-
-REATE TABLE T3_DESEMPENO_AII (
-
-    	id_tiempo INTEGER NOT NULL,
-    	id_region_oficina INTEGER,
-	id_tema INTEGER,
-	id_cliente INTEGER,
-    	clienteMasActivo_Semestre VARCHAR(50),
-    	clienteMasActivo_año VARCHAR(50),
-	tema_nombre VARCHAR(50),
-    	temaMayorDemanda_Semestre VARCHAR(50),
-    	temaMayorDemanda_año VARCHAR(50),
-	
-	fk_tiempo INTEGER NOT NULL,
-	fk_region INTEGER NOT NULL,
-	fk_cliente INTEGER NOT NULL,
-	
-	CONSTRAINT FK_T3_TIEMPO FOREIGN KEY (fk_tiempo) REFERENCES T3_TIEMPO (id_tiempo),
-	CONSTRAINT FK_T3_REGION FOREIGN KEY (fk_region) REFERENCES T3_REGION (id_region_oficina),
-	CONSTRAINT FK_T3_CLIENTE FOREIGN KEY (fk_cliente) REFERENCES T3_CLIENTE (id_cliente)
-
-);
-
-
-
-
-
-
-
-
-
 ----------///////////- ------------------------------------------------------------------------------------ ///////////----------
 ----------//////////- 		    EXTRACCION DE DATOS - METRICA 3 y 4  	-- EJECUTAR COMO DEV 		     -//////////----------
 ----------///////////- ----------------------------------------------------------------------------------- ///////////----------
@@ -9528,7 +9462,7 @@ BEGIN
         WHERE c.id > maxid;
     GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
 
-	RAISE NOTICE 'Filas insertadas en T1_PIEZA_INTELIGENCIA_ALT: %', n_filas_afect;
+	RAISE NOTICE 'Filas insertadas de PIEZA_INTELIGENCIA_ALT: %', n_filas_afect;
 
 
 	-- T1_ADQUISICION
@@ -9547,7 +9481,7 @@ BEGIN
         WHERE c.id > maxid;
     GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
 
-	RAISE NOTICE 'Filas insertadas en ADQUISICION_ALT: %', n_filas_afect;
+	RAISE NOTICE 'Filas insertadas de ADQUISICION_ALT: %', n_filas_afect;
 
 END
 $$;
@@ -9561,7 +9495,7 @@ $$;
 
 
 ----------///////////- ------------------------------------------------------------------------------------ ///////////----------
-----------//////////- 			    Create tablas T1 - METRICA 3 y 4  	-- EJECUTAR COMO DEV 		       -//////////----------
+----------//////////- 			    Create tablas T2 - METRICA 3 y 4  	-- EJECUTAR COMO DEV 		       -//////////----------
 ----------///////////- ----------------------------------------------------------------------------------- ///////////----------
 
 
@@ -9681,8 +9615,8 @@ BEGIN
 	 -- T2_CLIENTE
      SELECT COALESCE(max(id),0) INTO maxid FROM T2_CLIENTE;
    
-     INSERT INTO T2_CLIENTE (id, nombre_empresa, pagina_web, fk_region_oficina) 
-     SELECT id, nombre_empresa, pagina_web, (SELECT id_oficina FROM T2_REGION_OFICINA oe WHERE oe.nombre_region = ( SELECT region FROM T1_LUGAR WHERE id = c.fk_lugar_pais ) ) FROM T1_CLIENTE c
+     INSERT INTO T2_CLIENTE (id, nombre_empresa, pagina_web, fechac, fk_region_oficina) 
+     SELECT id, nombre_empresa, pagina_web, NOW() ,(SELECT id_oficina FROM T2_REGION_OFICINA oe WHERE oe.nombre_region = ( SELECT region FROM T1_LUGAR WHERE id = c.fk_lugar_pais ) ) FROM T1_CLIENTE c
          WHERE c.id > maxid;
      GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
 
@@ -9742,6 +9676,164 @@ $$;
 
 
 
+----------///////////- ------------------------------------------------------------------------------------ ///////////----------
+----------//////////- 			    Create tablas T3 - METRICA 3 y 4  	-- EJECUTAR COMO DEV 		       -//////////----------
+----------///////////- ----------------------------------------------------------------------------------- ///////////----------
+
+DROP TABLE IF EXISTS T3_CLIENTE CASCADE;
+DROP TABLE IF EXISTS T3_REGION_OFICINA CASCADE;
+DROP TABLE IF EXISTS T3_DESEMPEÑO_AII CASCADE;
+DROP TABLE IF EXISTS T3_TIEMPO CASCADE;
+
+
+CREATE TABLE T3_TIEMPO (
+
+    id_tiempo INTEGER NOT NULL,
+    año DATE,
+   	semestre SMALLINT
+    
+);
+
+CREATE TABLE T3_CLIENTE(
+  	
+	id_cliente INTEGER NOT NULL,
+	nombre_empresa VARCHAR(100),
+	pagina_web VARCHAR(100),
+
+	fechac TIMESTAMP
+	  
+);
+
+CREATE TABLE T3_REGION_OFICINA (
+
+   	id_oficina integer NOT NULL,
+    nombre_oficina varchar(50),
+	nombre_region varchar(50),
+	fechac timestamp
+		
+);
+
+
+CREATE TABLE T3_DESEMPEÑO_AII (
+    
+	id_tiempo INTEGER NOT NULL,
+    id_region_oficina INTEGER,
+    id_tema INTEGER,
+    id_cliente INTEGER,
+
+    clienteMasActivo_semestre VARCHAR(50),
+    clienteMasActivo_año VARCHAR(50),
+  
+	numeroComprasCliente_semestre integer,
+	numeroComprasCliente_año integer,
+
+    temaMayorDemanda_semestre VARCHAR(50),
+    temaMayorDemanda_año VARCHAR(50)
+
+);
+
+
+
+
+
+--/ METRICA 3 y 4 - DESEMPENO_AII
+--- Sería ideal contar con información sobre los puntos anteriores, como por ejemplo, cuál es el tema con
+--- mayor demanda (tema en el que la mayor cantidad de clientes ha adquirido piezas de inteligencia),
+--- cuál es el cliente más activo (que compra más frecuentemente). Esta información se debería
+--- presentar por región semestral y anualmente
+
+
+
+
+CREATE OR REPLACE PROCEDURE TRANSFORMACION_T3_DESEMPENO_AII_DIMENSIONES_ANUAL (año IN varchar,semestre IN smallint)
+LANGUAGE PLPGSQL
+SECURITY DEFINER
+AS $$
+DECLARE 
+    
+	n_filas_afect integer;
+	ultfechac timestamp;
+	
+BEGIN
+    
+	RAISE NOTICE ' ';
+	RAISE NOTICE 'PROCEDIMIENTO TRANSFORMACION_T3_DESEMPENO_AII_DIMENSIONES - %', NOW();
+	RAISE NOTICE '-----------------------------------------------------';
+	RAISE NOTICE ' ';
+
+
+	-- T3_CLIENTE
+	SELECT COALESCE(max(fechac), NOW() - interval '5 years') INTO ultfechac from T3_CLIENTE;
+
+	RAISE NOTICE 'Ultima fecha de actualizacion de T3_CLIENTE: %', ultfechac;
+    
+	INSERT INTO T3_CLIENTE (id_cliente, nombre_empresa, pagina_web, fechac) 
+    SELECT id, nombre_empresa, pagina_web, fechac FROM T2_CLIENTE c
+         WHERE c.fechac > ultfechac;
+	GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
+
+   	RAISE NOTICE 'Filas insertadas en T3_CLIENTE: %', n_filas_afect;
+
+   
+   	-- T3_REGION_OFICINA 
+	SELECT COALESCE(max(fechac), NOW() - interval '5 years') INTO ultfechac from T3_REGION_OFICINA;
+
+	RAISE NOTICE 'Ultima fecha de actualizacion de T3_REGION_OFICINA: %', ultfechac;
+    
+	INSERT INTO T3_REGION_OFICINA (id_oficina, nombre_oficina, nombre_region, fechac) 
+    SELECT id_oficina, nombre_oficina, nombre_region, fechac FROM T2_REGION_OFICINA c
+         WHERE c.fechac > ultfechac;
+	GET DIAGNOSTICS n_filas_afect = ROW_COUNT;
+
+   	RAISE NOTICE 'Filas insertadas en T3_REGION_OFICINA: %', n_filas_afect;
+
+	
+   	IF (semestre = 1) THEN
+   	
+   		INSERT INTO T3_TIEMPO (id_tiempo,semestre,año) VALUES ( to_date(año) . semestre, semestre, to_date(año) );
+   	
+   	ELSIF (semestre = 2) THEN
+   		
+   	ELSE 
+   		RAISE EXCEPTION 'Semestre solo puede ser 1 para el primer semestre y 2 para el segundo';
+   	END IF;
+   
+   	
+   
+    INSERT INTO T3_TIEMPO (id_tiempo,semestre,año) VALUES (,null,);
+   
+END
+$$;
+
+
+
+CREATE TABLE T3_TIEMPO (
+
+    id_tiempo INTEGER NOT NULL,
+    año DATE,
+   	semestre SMALLINT
+    
+);
+
+
+
+
+
+CREATE OR REPLACE PROCEDURE TRANSFORMACION_T3_DESEMPENO_AII_ANUAL (año IN varchar,semestre IN smallint)
+LANGUAGE PLPGSQL
+SECURITY DEFINER
+AS $$
+DECLARE 
+    
+	n_filas_afect integer;
+	
+BEGIN
+    
+	RAISE NOTICE ' ';
+	RAISE NOTICE 'PROCEDIMIENTO TRANSFORMACION_T3_DESEMPENO_AII_ANUAL - %', NOW();
+	RAISE NOTICE '-----------------------------------------------------';
+	RAISE NOTICE ' ';
+	
 
 
 
@@ -9749,9 +9841,8 @@ $$;
 
 
 
-
-
-
+END
+$$;
 
 
 
@@ -9766,9 +9857,5 @@ $$;
 ----------///////////- SCRIPTS DE CREACION DE LA BASES DE DATOS DOS - PROYECTO AII - GRUPO 09  -\\\\\\\\\\\----------
 ----------///////////----------- ANTONIO BADILLO - GABRIEL MANRIQUE - MICKEL ARROZ -------------\\\\\\\\\\\----------
 ----------///////////---------------------------------------------------------------------------\\\\\\\\\\\-----------
-
-
-
-
 
 
