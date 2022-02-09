@@ -23,4 +23,13 @@ select * from t2_cliente tc ;
 
 TRUNCATE t2_cliente CASCADE;
 
-CALL transformacion_t3_desempeno_aii_dimensiones_anual('2000');
+CALL transformacion_t3_desempeno_aii_dimensiones('2035',1);
+
+select * from t3_tiempo 
+
+CALL transformacion_t3_desempeno_aii('2035',0)
+
+select * from T3_DESEMPEÑO_AII;
+
+
+ 
