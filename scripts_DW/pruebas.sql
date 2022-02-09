@@ -1,10 +1,17 @@
 
 -- Equipo 9 – 2034 a 2036
 
+--// METRICAS 
 -- 1.    Desempeño de empleado(s) 
 -- 2.    Control sobre la eficacia
 -- 3.    Clasificación por temas 
 -- 4.    Cliente más activo
+
+--// ASPECTOS RUBRICA
+
+-- 1. Demostración de la extracción de información – llenado del área intermedia. (6 pts)
+-- 2. Demostración de la construcción de los indicadores o métricas – llenado de las tablas de hechos (6 pts)
+-- 3. Visualización de los indicadores o métricas – visualización parametrizada y explicación. La explicación adecuada se deriva del modelo estrella implementado. (6 pts)
 
 
 CALL EXTRACCION_DESEMPENO_AII(); -- metricas 3 y 4 - copia de tablas fuente a t1
