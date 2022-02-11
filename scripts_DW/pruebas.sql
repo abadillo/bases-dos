@@ -13,6 +13,10 @@
 -- 2. Demostración de la construcción de los indicadores o métricas – llenado de las tablas de hechos (6 pts)
 -- 3. Visualización de los indicadores o métricas – visualización parametrizada y explicación. La explicación adecuada se deriva del modelo estrella implementado. (6 pts)
 
+-- La agrupación de las métricas será (en el caso de los equipos de 3 integrantes):
+-- 1 estudiante – todas las referidas a la productividad de analistas
+-- 1 estudiante – todas las referidas a la productividad de un agente más la eficacia de sus informantes
+-- 1 estudiante – todas las referidas al tema de más demanda y al cliente más activo
 
 --EUROPA ('Ofi. Ginebra', true, 2, 1, 38),   -- 1
 --AMERICA_NORTE ('Ofi. Washington', false, 4, null, 40),    --2
@@ -42,7 +46,7 @@ INSERT INTO clas_tema (nombre, descripcion, topico) VALUES
 ('prueba2l', 'prueba2', 'individuos');
 
 
-
+select * from T2_REGION_OFICINA;
 
 
 

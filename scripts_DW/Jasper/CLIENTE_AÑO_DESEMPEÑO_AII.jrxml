@@ -4,7 +4,7 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="252"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="738"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DW"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="aii-local"/>
 	<parameter name="id_Tiempo" class="java.lang.Integer"/>
 	<parameter name="id_Region_Oficina" class="java.lang.Integer"/>
 	<queryString language="SQL">
