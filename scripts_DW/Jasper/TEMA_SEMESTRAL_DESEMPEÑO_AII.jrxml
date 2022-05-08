@@ -4,7 +4,7 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="252"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="738"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DW"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="aii-local"/>
 	<parameter name="id_Tiempo" class="java.lang.Integer"/>
 	<parameter name="id_Region_Oficina" class="java.lang.Integer"/>
 	<queryString language="SQL">
@@ -196,7 +196,7 @@ AND id_region_oficina = $P{id_Region_Oficina}]]>
 			<frame>
 				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="b8a1cf0c-3967-4efe-b6a9-e18d8b66faa7"/>
 				<staticText>
-					<reportElement x="20" y="20" width="410" height="43" forecolor="#FFFFFF" uuid="d93d2e6b-9243-471e-9deb-4c12bb7960a0"/>
+					<reportElement x="20" y="20" width="490" height="43" forecolor="#FFFFFF" uuid="d93d2e6b-9243-471e-9deb-4c12bb7960a0"/>
 					<textElement verticalAlignment="Middle">
 						<font size="30" isBold="true"/>
 					</textElement>

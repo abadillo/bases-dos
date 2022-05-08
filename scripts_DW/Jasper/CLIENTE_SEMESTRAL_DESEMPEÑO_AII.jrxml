@@ -4,13 +4,13 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="252"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="738"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DW"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="aii-local"/>
 	<parameter name="id_Tiempo" class="java.lang.Integer"/>
 	<parameter name="id_Region_Oficina" class="java.lang.Integer"/>
 	<queryString language="SQL">
 		<![CDATA[Select id_tiempo, id_region_oficina, id_cliente, clienteMasActivo_semestre, numeroComprasCliente_semestre 
 FROM T3_DESEMPEÑO_AII 
-WHERE id_tiempo = $P{id_Tiempo} and id_tema IS NULL AND id_region_oficina = $P{id_Region_Oficina} ]]>
+WHERE id_tiempo = $P{id_Tiempo} and id_tema IS NULL AND id_region_oficina = $P{id_Region_Oficina}]]>
 	</queryString>
 	<field name="id_tiempo" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="id_tiempo"/>
@@ -53,7 +53,7 @@ WHERE id_tiempo = $P{id_Tiempo} and id_tema IS NULL AND id_region_oficina = $P{i
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="24" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[   $F{id_tiempo}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{id_tiempo}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
@@ -99,7 +99,7 @@ WHERE id_tiempo = $P{id_Tiempo} and id_tema IS NULL AND id_region_oficina = $P{i
 					<textElement verticalAlignment="Middle">
 						<font size="20" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[   $F{id_cliente}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{id_cliente}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="0" y="0" width="210" height="45" forecolor="#666666" uuid="5ae5f697-3707-4934-adad-7aecaef6d44f">
@@ -127,7 +127,7 @@ WHERE id_tiempo = $P{id_Tiempo} and id_tema IS NULL AND id_region_oficina = $P{i
 					<textElement verticalAlignment="Middle">
 						<font size="16" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[   $F{clientemasactivo_semestre}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{clientemasactivo_semestre}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="0" y="0" width="210" height="45" forecolor="#666666" uuid="bb30210f-29c4-4ccd-864c-f1bf23b92acb">
@@ -145,7 +145,7 @@ WHERE id_tiempo = $P{id_Tiempo} and id_tema IS NULL AND id_region_oficina = $P{i
 					<textElement verticalAlignment="Middle">
 						<font size="16" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[   $F{numerocomprascliente_semestre}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{numerocomprascliente_semestre}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="0" y="45" width="210" height="45" forecolor="#666666" uuid="7eaf01d7-e451-4451-9abb-40d6ae9ef44b">
