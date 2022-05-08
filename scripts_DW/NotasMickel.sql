@@ -20,4 +20,4 @@ CALL TRANSFORMACION_T3_DESEMPENO_AII (año IN varchar, semestre IN integer);
 --
 --
 --
---
+-- FECHAC Fecha Obtencion T2
